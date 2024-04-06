@@ -2,7 +2,11 @@
 #include <exception>
 #include <iostream>
 
-
+/*
+Server - Constructor.
+parameter - has none.
+return value - has none.
+*/
 Server::Server()
 {
 	this->_n = 0;
@@ -17,6 +21,11 @@ Server::Server()
 
 }
 
+/*
+Server - Destructor.
+parameter - has none.
+return value - has none.
+*/
 Server::~Server()
 {
 	try
@@ -36,15 +45,20 @@ Server::~Server()
 	catch (...) {}
 }
 
+/*
+connectClients - Connector, connects you to a client socket using acceptClient.
+parameter - the port to listen to.
+return value - has none.
+*/
 void Server::connectClients(int port)
 {
 	int n = 0; //number of user sockets.
 
 	struct sockaddr_in sa = { 0 };
 	std::cout << "Starting..." << std::endl;
-	sa.sin_port = htons(port);
-	sa.sin_family = AF_INET;
-	sa.sin_addr.s_addr = INADDR_ANY;
+	sa.sin_port = htons(port); // port that server will listen for
+	sa.sin_family = AF_INET;   // must be AF_INET
+	sa.sin_addr.s_addr = INADDR_ANY;    // when there are few ip's for the machine. We will use always "INADDR_ANY"
 	/*
 	accepting client...
 	*/
@@ -75,7 +89,11 @@ void Server::connectClients(int port)
 	}
 }
 
-
+/*
+acceptClient - accepts the new client sockets.
+parameter - has none.
+return value - has none.
+*/
 void Server::acceptClient()
 {
 	while (true)
@@ -96,6 +114,11 @@ void Server::acceptClient()
 	}
 }
 
+/*
+clientHandler - gets the socket of the new client and listens to its messages, and sends the respnse.
+parameter - the port to listen to.
+return value - has none.
+*/
 void Server::clientHandler(SOCKET clientSocket)
 {
 	
