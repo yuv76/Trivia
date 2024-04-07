@@ -8,6 +8,7 @@
 #include <thread>
 #include <queue>
 #include <fstream>
+#include <map>
 
 #include <condition_variable>
 

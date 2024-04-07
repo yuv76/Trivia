@@ -2,6 +2,9 @@
 #include <exception>
 #include <iostream>
 
+#define BYTESNUM 5
+
+
 /*
 Server - Constructor.
 parameter - has none.
@@ -121,5 +124,47 @@ return value - has none.
 */
 void Server::clientHandler(SOCKET clientSocket)
 {
-	
+	std::string message = "Hello";
+
+	try
+	{
+		// sanding the first message - Hello message
+		const char* data = message.c_str();
+
+		if (send(clientSocket, data, message.size(), 0) == INVALID_SOCKET)
+		{
+			throw std::exception("Error while sending message to client");
+		}
+
+		// receive the client message
+		char* clientData = new char[BYTESNUM + 1];
+		int res = recv(clientSocket, clientData, BYTESNUM, 0);
+
+		if (res == INVALID_SOCKET)
+		{
+			std::string s = "Error while recieving from socket: ";
+			s += std::to_string(clientSocket);
+			throw std::exception(s.c_str());
+		}
+
+		clientData[BYTESNUM] = 0;
+
+		std::string clientMessage(clientData);
+
+		// if sent a message thats not Hello
+		if (clientMessage.substr(0, BYTESNUM) != "Hello")
+		{
+			throw("Protocol Exception");
+		}
+		// print the Hello message
+		else
+		{
+			std::cout << clientMessage << std::endl;
+		}
+	}
+	catch (const std::exception& e)
+	{
+		std::cout << "Error - " << e.what() << std::endl;
+		closesocket(clientSocket);
+	}
 }
