@@ -1,9 +1,11 @@
 #include "Server.h"
 #include <exception>
 #include <iostream>
+#include <WinSock2.h>
+
+#pragma comment(lib, "ws2_32.lib")
 
 #define BYTESNUM 5
-
 
 /*
 Server - Constructor.
@@ -13,6 +15,11 @@ return value - has none.
 Server::Server()
 {
 	this->_n = 0;
+
+	WSADATA wsa_data = { };
+	if (WSAStartup(MAKEWORD(2, 2), &wsa_data) != 0)
+		throw std::exception("WSAStartup Failed");
+
 	// this server use TCP. that why SOCK_STREAM & IPPROTO_TCP
 	// if the server use UDP we will use: SOCK_DGRAM & IPPROTO_UDP
 	_listen = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -37,13 +44,14 @@ Server::~Server()
 		// resources that was allocated in the constructor
 		closesocket(this->_listen);
 		auto i = this->_serverSocket.begin();
-		for (i; i != this->_serverSocket.end(); i++)
+		for (; i != this->_serverSocket.end(); ++i)
 		{
 			if (*i != INVALID_SOCKET)
 			{
 				closesocket(*i);
 			}
 		}
+		WSACleanup();
 	}
 	catch (...) {}
 }

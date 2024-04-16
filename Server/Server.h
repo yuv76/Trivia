@@ -10,13 +10,7 @@
 #include <fstream>
 #include <map>
 
-#include <condition_variable>
-
 #define BUFF_SIZE 1024
-
-static std::mutex m;
-static std::mutex messagesMutex;
-static std::mutex userListMutex;
 
 class Server
 {
