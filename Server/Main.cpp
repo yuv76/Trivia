@@ -23,12 +23,12 @@ int main()
 				exit = true; // Exit the loop if the user enters 'EXIT'
 			}
 		}
+		system("PAUSE");
 	}
 	catch (std::exception& e)
 	{
 		std::cout << "An error occured: " << std::endl << e.what() << std::endl;
 	}
-	system("PAUSE");
 
 	return 0;
 }

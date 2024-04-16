@@ -15,6 +15,7 @@ return value - has none.
 Server::Server()
 {
 	this->_n = 0;
+	this->_stopListening.store(false);
 
 	WSADATA wsa_data = { };
 	if (WSAStartup(MAKEWORD(2, 2), &wsa_data) != 0)
@@ -40,17 +41,30 @@ Server::~Server()
 {
 	try
 	{
+		InitializeCriticalSection(&this->_ctSc);
+		
 		// the only use of the destructor should be for freeing 
 		// resources that was allocated in the constructor
-		closesocket(this->_listen);
+		//closesocket(this->_listen);
 		auto i = this->_serverSocket.begin();
-		for (; i != this->_serverSocket.end(); ++i)
+		for (; i != this->_serverSocket.end(); i++)
 		{
 			if (*i != INVALID_SOCKET)
 			{
 				closesocket(*i);
 			}
 		}
+
+		// Enter the critical section
+		EnterCriticalSection(&this->_ctSc);
+
+		this->_stopListening.store(true);
+		closesocket(this->_listen);
+		this->_listen = INVALID_SOCKET;
+
+		// Leave the critical section
+		LeaveCriticalSection(&this->_ctSc);
+		DeleteCriticalSection(&this->_ctSc);
 		WSACleanup();
 	}
 	catch (...) {}
@@ -91,13 +105,10 @@ void Server::connectClients(int port)
 	}
 	std::cout << "listening..." << std::endl;
 
-	while (true)
-	{
-		// the main thread is only accepting clients 
-		// and add then to the list of handlers
-		std::cout << "Waiting for client connection request" << std::endl;
-		acceptClient();
-	}
+	// the main thread is only accepting clients 
+	// and add then to the list of handlers
+	std::cout << "Waiting for client connection request" << std::endl;
+	acceptClient();
 }
 
 /*
@@ -107,21 +118,26 @@ return value - has none.
 */
 void Server::acceptClient()
 {
-	while (true)
+	while (!(this->_stopListening.load()))
 	{
 		// this accepts the client and create a specific socket from server to this client
 		// the process will not continue until a client connects to the server
-		this->_serverSocket.push_back(accept(this->_listen, NULL, NULL));
-		if (this->_listen == INVALID_SOCKET)
+		
+		if (!(this->_stopListening.load()))
 		{
-			throw std::exception(__FUNCTION__);
-		}
+			if (this->_listen == INVALID_SOCKET)
+			{
+				throw std::exception(__FUNCTION__);
+			}
+			this->_serverSocket.push_back(accept(this->_listen, NULL, NULL));
+			
 
-		std::cout << "Client accepted" << std::endl;
-		// the function that handle the conversation with the client
-		std::thread tempThread(&Server::clientHandler, this, this->_serverSocket[this->_n]);
-		tempThread.detach();
-		this->_n++;
+			std::cout << "Client accepted" << std::endl;
+			// the function that handle the conversation with the client
+			std::thread tempThread(&Server::clientHandler, this, this->_serverSocket[this->_n]);
+			tempThread.detach();
+			this->_n++;
+		}
 	}
 }
 

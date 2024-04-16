@@ -28,4 +28,6 @@ private:
 	int _n; //number of sockets.
 	std::vector<SOCKET> _serverSocket;
 	SOCKET _listen;
+	std::atomic<bool> _stopListening;
+	CRITICAL_SECTION _ctSc;
 };
