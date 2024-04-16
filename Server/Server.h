@@ -9,6 +9,7 @@
 #include <queue>
 #include <fstream>
 #include <map>
+#include <mutex>
 
 #define BUFF_SIZE 1024
 
@@ -29,5 +30,5 @@ private:
 	std::vector<SOCKET> _serverSocket;
 	SOCKET _listen;
 	std::atomic<bool> _stopListening;
-	CRITICAL_SECTION _ctSc;
+	std::mutex _ctSc;
 };

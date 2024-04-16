@@ -41,7 +41,7 @@ Server::~Server()
 {
 	try
 	{
-		InitializeCriticalSection(&this->_ctSc);
+		
 		
 		// the only use of the destructor should be for freeing 
 		// resources that was allocated in the constructor
@@ -55,16 +55,15 @@ Server::~Server()
 			}
 		}
 
-		// Enter the critical section
-		EnterCriticalSection(&this->_ctSc);
+
+		std::unique_lock<std::mutex> lck(this->_ctSc);
+		lck.lock();
 
 		this->_stopListening.store(true);
 		closesocket(this->_listen);
 		this->_listen = INVALID_SOCKET;
+		lck.unlock();
 
-		// Leave the critical section
-		LeaveCriticalSection(&this->_ctSc);
-		DeleteCriticalSection(&this->_ctSc);
 		WSACleanup();
 	}
 	catch (...) {}
