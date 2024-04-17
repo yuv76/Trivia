@@ -6,12 +6,48 @@ Communicator::Communicator()
 	this->_stopListening.store(false);
 	WSADATA wsa_data = { };
 	if (WSAStartup(MAKEWORD(2, 2), &wsa_data) != 0)
+	{
 		throw std::exception("WSAStartup Failed");
+	}
+	this->m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+
+	if (this->m_serverSocket == INVALID_SOCKET)
+	{
+		throw std::exception(__FUNCTION__ " - socket");
+	}
 }
 
 Communicator::~Communicator()
 {
-	WSACleanup();
+	try
+	{
+		// the only use of the destructor should be for freeing 
+		// resources that was allocated in the constructor
+		//closesocket(this->_listen);
+		auto i = this->m_clients.begin();
+		for (; i != this->m_clients.end(); i++)
+		{
+			if (i->first != INVALID_SOCKET)
+			{
+				closesocket(i->first);
+			}
+			delete i->second;
+		}
+
+		std::unique_lock<std::mutex> lck(this->_ctSc);
+		lck.lock();
+
+		this->_stopListening.store(true);
+		closesocket(this->m_serverSocket);
+		this->m_serverSocket = INVALID_SOCKET;
+		lck.unlock();
+
+		WSACleanup();
+	}
+	catch (std::exception &e) 
+	{
+		std::cout << "An error occured: " << e.what() << std::endl;
+	}
 }
 
 void Communicator::startHandleRequests()
