@@ -35,7 +35,6 @@ Communicator::~Communicator()
 		}
 
 		std::unique_lock<std::mutex> lck(this->_ctSc);
-		lck.lock();
 
 		this->_stopListening.store(true);
 		closesocket(this->m_serverSocket);
