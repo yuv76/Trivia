@@ -30,11 +30,8 @@ private:
 
 	void acceptClient();
 	void clientHandler(SOCKET clientSocket);
-	int _n; //number of sockets.
-	std::vector<SOCKET> _serverSocket;
-	SOCKET _listen;
-	std::atomic<bool> _stopListening;
-	std::mutex _ctSc;
+
+
 
 	Communicator _communicator;
 };
