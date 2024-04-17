@@ -191,3 +191,36 @@ void Server::clientHandler(SOCKET clientSocket)
 		closesocket(clientSocket);
 	}
 }
+
+
+/*
+Run - runs the Communicators startHandleRequests to connect .
+parameter - has none.
+return value - has none.
+*/
+void Server::Run()
+{
+	try
+	{
+		bool exit = false;
+		std::string input = "";
+
+		std::thread connect_clients_thread(&Communicator::startHandleRequests, &_communicator, 9090);
+		connect_clients_thread.detach();
+
+		while (!exit)
+		{
+			std::cout << "type 'EXIT' to quit" << std::endl;
+			std::getline(std::cin, input);
+
+			if (input == "EXIT")
+			{
+				exit = true; // Exit the loop if the user enters 'EXIT'
+			}
+		}
+	}
+	catch (std::exception& e)
+	{
+		std::cout << "An error occured: " << std::endl << e.what() << std::endl;
+	}
+}

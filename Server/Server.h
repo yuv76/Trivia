@@ -11,6 +11,9 @@
 #include <map>
 #include <mutex>
 
+#include "Communicator.h"
+
+
 #define BUFF_SIZE 1024
 
 class Server
@@ -21,6 +24,7 @@ public:
 	
 	void connectClients(int port);
 	std::set<std::string> _connectedUsers;
+	void Run();
 
 private:
 
@@ -31,4 +35,6 @@ private:
 	SOCKET _listen;
 	std::atomic<bool> _stopListening;
 	std::mutex _ctSc;
+
+	Communicator _communicator;
 };
