@@ -16,9 +16,9 @@ enum msgCodes
 class JsonResponsePacketSerializer
 {
 public:
-	static std::vector<std::string> serializeResponse(ErrorResponse err);
-	static std::vector<std::string> serializeResponse(LoginResponse log);
-	static std::vector<std::string> serializeResponse(SignupResponse sig);
+	static std::vector<std::string> serializeErrorResponse(ErrorResponse err);
+	static std::vector<std::string> serializeLoginResponse(LoginResponse log);
+	static std::vector<std::string> serializeSignUpResponse(SignupResponse sig);
 };
 
 	

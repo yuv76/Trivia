@@ -4,7 +4,7 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
-std::vector<std::string> JsonResponsePacketSerializer::serializeResponse(ErrorResponse err)
+std::vector<std::string> JsonResponsePacketSerializer::serializeErrorResponse(ErrorResponse err)
 {
 	std::vector<std::string> buffer;
 	std::string msg = "";
@@ -38,7 +38,7 @@ std::vector<std::string> JsonResponsePacketSerializer::serializeResponse(ErrorRe
 	return buffer;
 }
 
-std::vector<std::string> JsonResponsePacketSerializer::serializeResponse(LoginResponse log)
+std::vector<std::string> JsonResponsePacketSerializer::serializeLoginResponse(LoginResponse log)
 {
 	std::vector<std::string> buffer;
 	std::string tempBinary = "";
@@ -71,7 +71,7 @@ std::vector<std::string> JsonResponsePacketSerializer::serializeResponse(LoginRe
 	return buffer;
 }
 
-std::vector<std::string> JsonResponsePacketSerializer::serializeResponse(SignupResponse sig)
+std::vector<std::string> JsonResponsePacketSerializer::serializeSignUpResponse(SignupResponse sig)
 {
 	std::vector<std::string> buffer;
 	std::string tempBinary = "";
