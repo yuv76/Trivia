@@ -2,6 +2,10 @@
 #include <iostream>
 #include <sstream>
 
+//temporary include (probably will get removed #TODO)
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
 Communicator::Communicator()
 {
 	this->_stopListening.store(false);
@@ -114,43 +118,65 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET clientSocket)
 {
-	std::string message = "Hello";
-
 	try
 	{
-		// sanding the first message - Hello message
-		const char* data = message.c_str();
-
-		if (send(clientSocket, data, message.size(), 0) == INVALID_SOCKET)
-		{
-			throw std::exception("Error while sending message to client");
-		}
-
+		//will be a loop later on.
 		// receive the client message
-		char* clientData = new char[BYTESNUM + 1];
-		int res = recv(clientSocket, clientData, BYTESNUM, 0);
+		int len = 0, i = 0;
+		char* tempCharRecv = new char[BUFFER_SIZE];
+		//get time of start receiving
+		std::time_t recvTime = time(0);
+		//first get the length of the message about to come.
+		recv(clientSocket, tempCharRecv, MSG_HEADER, 0);
+		len = (tempCharRecv[1] << 24) | (tempCharRecv[2] << 16) | (tempCharRecv[3] << 8) | tempCharRecv[4]; // Index 0 is msg code, next 4 are length.
 
-		if (res == INVALID_SOCKET)
+		std::vector<uint8_t> temp(len);
+		std::vector<uint8_t> buffer(len + MSG_HEADER);
+		//Add header to buffer.
+		for (i = 0; i < MSG_HEADER; i++)
 		{
-			std::string s = "Error while recieving from socket: ";
-			s += std::to_string(clientSocket);
-			throw std::exception(s.c_str());
+			buffer.push_back(tempCharRecv[i]);
+		}
+		//if length is bigger than buffer size, scan it in parts (last scan will be less than 1024 and outside of loop).
+		while (len > BUFFER_SIZE)
+		{
+			std::vector<uint8_t> tempTemp(BUFFER_SIZE); // The temp for the temp
+			recv(clientSocket, tempCharRecv, BUFFER_SIZE, 0);
+			std::copy(tempCharRecv, tempCharRecv + BUFFER_SIZE, tempTemp.begin());
+			temp.insert(temp.end(), tempTemp.begin(), tempTemp.end()); // add tempTemp at end of main temp.
+			len -= BUFFER_SIZE;
+		}
+		if (len > 0) //last scan (or first if length was smaller than 1024 in the first place)
+		{
+			recv(clientSocket, tempCharRecv, len, 0);
+		}
+		buffer.insert(buffer.end(), temp.begin(), temp.end()); // add temp at end of buffer
+		
+		RequestInfo info;
+		info.buffer = buffer;
+		info.receivalTime = recvTime;
+		info.RequestId = (msgCodes)buffer[0];
+		
+		LoginRequestHandler l;
+		RequestResult r;
+		if (l.isRequestRelevant(info))
+		{
+			r = l.handleRequest(info);
+		}
+		else //error
+		{
+			//not supported yet
 		}
 
-		clientData[BYTESNUM] = 0;
+		// sanding the response message to client.
+		const char* data = reinterpret_cast<char*>(r.response.data());//send as char*.
 
-		std::string clientMessage(clientData);
+		send(clientSocket, data, sizeof(data), 0);
 
-		// if sent a message thats not Hello
-		if (clientMessage.substr(0, BYTESNUM) != "Hello")
-		{
-			throw("Protocol Exception");
-		}
-		// print the Hello message
-		else
-		{
-			std::cout << clientMessage << std::endl;
-		}
+		delete[] tempCharRecv;
+
+		//will be a loop and socket will close only after it ended.
+		closesocket(clientSocket);
 	}
 	catch (const std::exception& e)
 	{

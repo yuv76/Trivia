@@ -6,8 +6,6 @@
 
 #pragma comment(lib, "ws2_32.lib")
 
-#define BYTESNUM 5
-
 /*
 Server - Constructor.
 parameter - has none.
