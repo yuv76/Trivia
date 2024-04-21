@@ -2,6 +2,9 @@
 #include "JsonRequestPacketDeserializer.h"
 #include "JsonResponsePacketSerializer.h"
 
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
 
 bool LoginRequestHandler::isRequestRelevant(RequestInfo inf)
 {
@@ -15,20 +18,29 @@ bool LoginRequestHandler::isRequestRelevant(RequestInfo inf)
 
 RequestResult handleRequest(RequestInfo inf)
 {
+	std::vector<std::uint8_t> buffer;
 	RequestResult res;
 	json result;
 	if (inf.RequestId == LOGIN)
 	{
 		LoginRequest log = JsonRequestPacketDeserializer::deserializeLoginRequest(inf.buffer);
-		//check the message i guess
-		result["status"] = 1;
+		LoginResponse l;
+		//check the message i guess, if error should return error, but no way to check now
+		l.status = 1;
+		buffer = JsonResponsePacketSerializer::serializeLoginResponse(l);
+		res.response = buffer;
+		//res.newHandler  - ???
 	}
 	else //sign up
 	{
 		SignupRequest log = JsonRequestPacketDeserializer::deserializeSignUpRequest(inf.buffer);
-		//check the message i guess
-		result["status"] = 1;
+		SignupResponse s;
+		//check the message
+		s.status = 1;
+		buffer = JsonResponsePacketSerializer::serializeSignUpResponse(s);
+		res.response = buffer;
 	}
+	return res;
 }
 
 

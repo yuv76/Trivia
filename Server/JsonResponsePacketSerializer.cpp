@@ -1,5 +1,4 @@
 #include "JsonResponsePacketSerializer.h"
-#include <bitset>
 
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;

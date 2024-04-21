@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "Requests.h"
+#include "Responses.h"
 
 class IRequestHandler
 {

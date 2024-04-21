@@ -1,5 +1,6 @@
 #pragma once
 #include "Responses.h"
+#include "Requests.h"
 #include <vector>
 #include <string>
 
