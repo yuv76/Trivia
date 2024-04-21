@@ -1,23 +1,14 @@
 #pragma once
 #include "IRequestHandler.h"
-#include "Requests.h"
 #include <vector>
 #include <string>
 
-struct RequestInfo
-{
-	int msgCode;
-	int msgTime;
-	std::vector<std::string> msgContant;
-};
-
-
 class LoginRequestHandler : public IRequestHandler
 {
-	static bool isRequestRelevant(int msgCode);
-	static RequestInfo handleRequest(RequestInfo info);
+public:
+	virtual bool isRequestRelevant(RequestInfo inf);
+	virtual RequestResult handleRequest(RequestInfo inf);
 
-
-private:
-	static int binaryToDecimal(int n);
+//private:
+	//static int binaryToDecimal(int n);
 };

@@ -4,38 +4,46 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
-RequestInfo JsonRequestPacketDeserializer::deserializeLoginRequest(LoginRequest log)
+LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<std::uint8_t> buffer)
 {
-	RequestInfo info;
-	std::vector<std::string> buffer;
+	LoginRequest info;
+	json jsonBuf;
+	
+	// remove the code and len from the vector.
+	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER); 
+	// convert the recieved bytes back to a Json.
+	jsonBuf = json::from_ubjson(buffer); 
 
-	//code byte
-	info.msgCode = 2;
-
-	info.msgTime = time(0);
-
-	// the msg is not in the LoginRequest so what are we supposed to put in it?
+	//username
+	info.username = jsonBuf["userame"];
+	//password
+	info.password = jsonBuf["password"];
 
 	return info;
 }
 
-RequestInfo JsonRequestPacketDeserializer::deserializeSignUpRequest(SignupRequest sig)
+SignupRequest JsonRequestPacketDeserializer::deserializeSignUpRequest(std::vector<std::uint8_t> buffer)
 {
-	RequestInfo info;
-	std::vector<std::string> buffer;
+	SignupRequest info;
+	json jsonBuf;
 
-	//code byte
-	info.msgCode = 1;
+	// remove the code and len from the vector.
+	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
+	// convert the recieved bytes back to a vector.
+	jsonBuf = json::from_ubjson(buffer);
 
-	info.msgTime = time(0);
-
-	// same thing the msg is not in the SignupRequest so what are we supposed to put in it?
+	//username
+	info.username = jsonBuf["userame"];
+	//password
+	info.password = jsonBuf["password"];
+	//email
+	info.email = jsonBuf["email"];
 
 	return info;
 }
 
 
-
+/* still needed?
 // Function to convert binary 
 // to decimal 
 int JsonRequestPacketDeserializer::binaryToDecimal(int n)
@@ -56,4 +64,4 @@ int JsonRequestPacketDeserializer::binaryToDecimal(int n)
 	}
 
 	return dec_value;
-}
+}*/

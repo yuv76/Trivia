@@ -2,26 +2,18 @@
 #include "Requests.h"
 #include <vector>
 #include <string>
-#include <ctime>
 
 #define BYTE 8
 #define INT_BYTES 4
 
-struct RequestInfo
-{
-	int msgCode;
-	time_t msgTime;
-	std::vector<std::string> msgContant;
-};
+#define MSG_HEADER 5
 
 class JsonRequestPacketDeserializer
 {
 public:
-	static RequestInfo deserializeLoginRequest(LoginRequest log);
-	static RequestInfo deserializeSignUpRequest(SignupRequest sig);
+	static LoginRequest deserializeLoginRequest(std::vector<std::uint8_t> buffer);
+	static SignupRequest deserializeSignUpRequest(std::vector<std::uint8_t> buffer);
 
-private:
-	static int binaryToDecimal(int n);
+//private:
+	//static int binaryToDecimal(int n);
 };
-
-#pragma once

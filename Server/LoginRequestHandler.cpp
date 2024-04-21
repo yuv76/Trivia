@@ -1,20 +1,38 @@
 #include "LoginRequestHandler.h"
+#include "JsonRequestPacketDeserializer.h"
+#include "JsonResponsePacketSerializer.h"
 
 
- bool LoginRequestHandler::isRequestRelevant(int msgCode)
+bool LoginRequestHandler::isRequestRelevant(RequestInfo inf)
 {
-	 // if the code is not for a login return false.
-	 if (binaryToDecimal(msgCode) != 2)
-		 return false;
-	 return true;
+	bool relevant = false;
+	if (inf.RequestId == LOGIN || inf.RequestId == SIGNUP)
+	{
+		relevant = true;
+	}
+	return relevant;
 }
 
-RequestInfo LoginRequestHandler::handleRequest(RequestInfo info)
+RequestResult handleRequest(RequestInfo inf)
 {
-
+	RequestResult res;
+	json result;
+	if (inf.RequestId == LOGIN)
+	{
+		LoginRequest log = JsonRequestPacketDeserializer::deserializeLoginRequest(inf.buffer);
+		//check the message i guess
+		result["status"] = 1;
+	}
+	else //sign up
+	{
+		SignupRequest log = JsonRequestPacketDeserializer::deserializeSignUpRequest(inf.buffer);
+		//check the message i guess
+		result["status"] = 1;
+	}
 }
 
 
+/*
 // Function to convert binary 
 // to decimal 
 int LoginRequestHandler::binaryToDecimal(int n)
@@ -35,4 +53,4 @@ int LoginRequestHandler::binaryToDecimal(int n)
 	}
 
 	return dec_value;
-}
+}*/
