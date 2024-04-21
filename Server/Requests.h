@@ -1,14 +1,22 @@
 #pragma once
 #include <string>
+#include <ctime>
 
-struct SignupRequest
+enum msgCodes
+{
+	ERR = 0,
+	SIGNUP,
+	LOGIN
+};
+
+struct LoginRequest
 {
 public:
 	std::string username;
 	std::string password;
 }; 
 
-struct LoginRequest
+struct SignupRequest
 {
 public:
 	std::string username;
