@@ -6,7 +6,7 @@
 #include "IRequestHandler.h"
 
 #define PORT 9090
-#define BYTESNUM 5
+#define BUFFER_SIZE 1024
 
 class Communicator
 {
