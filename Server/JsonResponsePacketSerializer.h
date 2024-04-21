@@ -3,13 +3,6 @@
 #include <vector>
 #include <string>
 
-enum msgCodes
-{
-	ERR = 0,
-	SIGNUP,
-	LOGIN
-};
-
 #define BYTE 8
 #define INT_BYTES 4
 
