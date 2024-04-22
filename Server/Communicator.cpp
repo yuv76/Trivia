@@ -132,8 +132,9 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		recv(clientSocket, tempCharRecv, MSG_HEADER, 0);
 		len = (tempCharRecv[1] << 24) | (tempCharRecv[2] << 16) | (tempCharRecv[3] << 8) | tempCharRecv[4]; // Index 0 is msg code, next 4 are length.
 
-		std::vector<uint8_t> temp(len);
-		std::vector<uint8_t> buffer(len + MSG_HEADER);
+		std::vector<uint8_t> temp;// (len);
+		std::vector<uint8_t> buffer;// (len + MSG_HEADER);
+		std::vector<uint8_t> tempTemp(BUFFER_SIZE); // The temp for the temp
 		//Add header to buffer.
 		for (i = 0; i < MSG_HEADER; i++)
 		{
@@ -142,7 +143,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		//if length is bigger than buffer size, scan it in parts (last scan will be less than 1024 and outside of loop).
 		while (len > BUFFER_SIZE)
 		{
-			std::vector<uint8_t> tempTemp(BUFFER_SIZE); // The temp for the temp
+			
 			recv(clientSocket, tempCharRecv, BUFFER_SIZE, 0);
 			std::copy(tempCharRecv, tempCharRecv + BUFFER_SIZE, tempTemp.begin());
 			temp.insert(temp.end(), tempTemp.begin(), tempTemp.end()); // add tempTemp at end of main temp.
@@ -150,7 +151,10 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		}
 		if (len > 0) //last scan (or first if length was smaller than 1024 in the first place)
 		{
+			std::vector<uint8_t> tempInLen(len);
 			recv(clientSocket, tempCharRecv, len, 0);
+			std::copy(tempCharRecv, tempCharRecv + len, tempInLen.begin());
+			temp.insert(temp.end(), tempInLen.begin(), tempInLen.end()); //insert the length to temp so copying will be possible.
 		}
 		buffer.insert(buffer.end(), temp.begin(), temp.end()); // add temp at end of buffer
 		
@@ -171,14 +175,17 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		}
 
 		// sanding the response message to client.
-		const char* data = reinterpret_cast<char*>(r.response.data());//send as char*.
+		//const char* data = reinterpret_cast<char*>(r.response.data()); //have to send as char*.
+		char* data = new char[r.response.size()];
+		std::copy(r.response.begin(), r.response.end(), data);
 
-		send(clientSocket, data, sizeof(data), 0);
+		send(clientSocket, data, r.response.size(), 0);
 
 		delete[] tempCharRecv;
 
 		//will be a loop and socket will close only after it ended.
 		closesocket(clientSocket);
+		std::cout << "client disconnected" << std::endl;
 	}
 	catch (const std::exception& e)
 	{

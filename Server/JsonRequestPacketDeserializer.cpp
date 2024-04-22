@@ -15,7 +15,7 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<
 	jsonBuf = json::from_ubjson(buffer); 
 
 	//username
-	info.username = jsonBuf["userame"];
+	info.username = jsonBuf["username"];
 	//password
 	info.password = jsonBuf["password"];
 
@@ -33,7 +33,7 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignUpRequest(std::vecto
 	jsonBuf = json::from_ubjson(buffer);
 
 	//username
-	info.username = jsonBuf["userame"];
+	info.username = jsonBuf["username"];
 	//password
 	info.password = jsonBuf["password"];
 	//email

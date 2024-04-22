@@ -1,9 +1,11 @@
 import socket
-import binascii
 import struct
+import ubjson
 
 SERVER_IP = "127.0.0.1"
 SERVER_PORT = 9090
+
+HEADER_LEN = 5
 
 
 def menu():
@@ -11,10 +13,11 @@ def menu():
     print("Enter 1 for login, else will sign up")
     choice = str(input())
 
-    if input == "1":
+    if choice == '1':
         signup = False
 
     return signup
+
 
 def main():
     # Create a TCP socket for the client
@@ -29,40 +32,39 @@ def main():
         code = 1
     msg += chr(code)
 
-    json = '{'
     username = input("Enter Username: ")
-    json += '"username"'
-    json += username
     password = input("Enter password: ")
-    json += '"password"'
-    json += password
     mail = ""
+    j = {'username': username, 'password': password}
     if is_signup:
         mail = input("Enter mail: ")
-        json += '"email"'
-        json += mail
-    json += '}'
+        j["email"] = mail
 
-    length = len(json)
-    print(length)
-    bytes_len = struct.pack(">i", length)
+    e = ubjson.dumpb(j)
+
+    length = len(e)
+
+    bytes_len = struct.pack(">i", length)  # convert to 4 bytes
     for i in bytes_len:
         msg += chr(i)
-
-    msg += json
+    for j in e:
+        msg += chr(j)
 
     # send the client message to the server
     try:
         server_sock.sendall(msg.encode())
-        print(msg)
 
     except ConnectionResetError as error:
         print("the connection was cut", error)
 
     # receive the server message
-    server_msg = server_sock.recv(1024)
-    server_msg = server_msg.decode()
-    print(server_msg)
+    server_header = server_sock.recv(5)  # get header
+    server_header = server_header.decode()
+
+    full_msg = server_sock.recv(1024)  # entire message (in a large buffer for now)
+    ans = ubjson.loadb(full_msg)
+    print(ans)
+
     server_sock.close()
 
 

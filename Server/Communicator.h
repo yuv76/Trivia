@@ -5,6 +5,7 @@
 #include <mutex>
 #include <iostream>
 #include <sstream>
+#include <algorithm>
 #include "LoginRequestHandler.h"
 
 #define PORT 9090
