@@ -3,6 +3,8 @@
 #include <Windows.h>
 #include <map>
 #include <mutex>
+#include <iostream>
+#include <sstream>
 #include "LoginRequestHandler.h"
 
 #define PORT 9090

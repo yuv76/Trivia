@@ -4,7 +4,7 @@
 using json = nlohmann::json;
 
 
-bool LoginRequestHandler::isRequestRelevant(RequestInfo inf)
+bool LoginRequestHandler::isRequestRelevant(RequestInfo& inf)
 {
 	bool relevant = false;
 	if (inf.RequestId == LOGIN || inf.RequestId == SIGNUP)
@@ -14,7 +14,7 @@ bool LoginRequestHandler::isRequestRelevant(RequestInfo inf)
 	return relevant;
 }
 
-RequestResult handleRequest(RequestInfo inf)
+RequestResult LoginRequestHandler::handleRequest(RequestInfo& inf)
 {
 	std::vector<std::uint8_t> buffer;
 	RequestResult res;
@@ -27,7 +27,7 @@ RequestResult handleRequest(RequestInfo inf)
 		l.status = 1;
 		buffer = JsonResponsePacketSerializer::serializeLoginResponse(l);
 		res.response = buffer;
-		//res.newHandler  - ???
+		//res.newHandler - ???
 	}
 	else //sign up
 	{

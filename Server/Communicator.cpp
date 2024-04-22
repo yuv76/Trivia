@@ -1,6 +1,6 @@
 #include "Communicator.h"
-#include <iostream>
-#include <sstream>
+
+#pragma comment(lib, "ws2_32.lib")
 
 //temporary include (probably will get removed #TODO)
 #include <nlohmann/json.hpp>
@@ -10,6 +10,7 @@ Communicator::Communicator()
 {
 	this->_stopListening.store(false);
 	WSADATA wsa_data = { };
+	
 	if (WSAStartup(MAKEWORD(2, 2), &wsa_data) != 0)
 	{
 		throw std::exception("WSAStartup Failed");
@@ -105,7 +106,8 @@ void Communicator::bindAndListen()
 				throw std::exception(__FUNCTION__);
 			}
 			tmp = accept(this->m_serverSocket, NULL, NULL);
-			this->m_clients[tmp] = new IRequestHandler();
+			//this->m_clients[tmp] = new IRequestHandler(); //what should happen here?
+			this->m_clients[tmp] = NULL;
 
 
 			std::cout << "Client accepted" << std::endl;
