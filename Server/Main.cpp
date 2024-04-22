@@ -6,6 +6,7 @@ int main()
 {
 	try
 	{
+		//run server.
 		Server server;
 		server.Run();
 	}

@@ -4,6 +4,11 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
+/*
+deserializes a login request.
+in: the bytes vector buffer containing the login message.
+out: LoginRequest struct presenting the request.
+*/
 LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<std::uint8_t> buffer)
 {
 	LoginRequest info;
@@ -22,6 +27,11 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<
 	return info;
 }
 
+/*
+deserializes a signup request.
+in: the bytes vector buffer containing the signup message.
+out: SignupRequest struct presenting the request.
+*/
 SignupRequest JsonRequestPacketDeserializer::deserializeSignUpRequest(std::vector<std::uint8_t> buffer)
 {
 	SignupRequest info;

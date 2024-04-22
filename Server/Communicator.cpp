@@ -6,6 +6,10 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
+/*
+communicator C'tor.
+in: none
+*/
 Communicator::Communicator()
 {
 	this->_stopListening.store(false);
@@ -23,6 +27,9 @@ Communicator::Communicator()
 	}
 }
 
+/*
+communicator D'tor.
+*/
 Communicator::~Communicator()
 {
 	try
@@ -55,6 +62,11 @@ Communicator::~Communicator()
 	}
 }
 
+/*
+starts the listening for clients and binds them.
+in: none.
+out: none.
+*/
 void Communicator::startHandleRequests()
 {
 	int n = 0; //number of user sockets.
@@ -91,6 +103,11 @@ void Communicator::startHandleRequests()
 	this->bindAndListen();
 }
 
+/*
+binds clients that are trying to connect to their thread.
+in: none.
+out: none.
+*/
 void Communicator::bindAndListen()
 {
 	SOCKET tmp;
@@ -118,6 +135,11 @@ void Communicator::bindAndListen()
 	}
 }
 
+/*
+handles a client, gets a message and responds.
+in: the socket with the client.
+out: none.
+*/
 void Communicator::handleNewClient(SOCKET clientSocket)
 {
 	try
@@ -175,15 +197,14 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		}
 
 		// sanding the response message to client.
-		//const char* data = reinterpret_cast<char*>(r.response.data()); //have to send as char*.
-		char* data = new char[r.response.size()];
+		char* data = new char[r.response.size()]; // have to send as char*.
 		std::copy(r.response.begin(), r.response.end(), data);
 
 		send(clientSocket, data, r.response.size(), 0);
 
 		delete[] tempCharRecv;
 
-		//will be a loop and socket will close only after it ended.
+		// will be a loop and socket will close only after it ended.
 		closesocket(clientSocket);
 		std::cout << "client disconnected" << std::endl;
 	}
