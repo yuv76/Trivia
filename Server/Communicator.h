@@ -3,10 +3,13 @@
 #include <Windows.h>
 #include <map>
 #include <mutex>
-#include "IRequestHandler.h"
+#include <iostream>
+#include <sstream>
+#include <algorithm>
+#include "LoginRequestHandler.h"
 
 #define PORT 9090
-#define BYTESNUM 5
+#define BUFFER_SIZE 1024
 
 class Communicator
 {
