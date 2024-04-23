@@ -118,7 +118,7 @@ int SqliteDatabase::addNewUser(std::string username, std::string password, std::
 	//check if user with given name already exists.
 	if (this->doesUserExist(username) == USER_EXIST)
 	{
-		throw std::exception("User with given name already exists.");
+		return USER_NOT_ADDED;
 	}
 	//if not already exists, add it.
 	char* errMessage[100];

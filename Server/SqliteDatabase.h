@@ -14,6 +14,7 @@
 #define PASSWORDS_MATCH 1
 
 #define USER_ADDED 1
+#define USER_NOT_ADDED 0
 
 class SqliteDatabase
 {
