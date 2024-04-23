@@ -1,9 +1,14 @@
 #include "LoginRequestHandler.h"
-#include "JsonRequestPacketDeserializer.h"
-#include "JsonResponsePacketSerializer.h"
 
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
-bool LoginRequestHandler::isRequestRelevant(RequestInfo inf)
+/*
+checks if a given request is relevant for the class (login or signup).//at least i think signup..
+in: a RequestInfo struct containing the type of the request.
+out: true if relevant, false otherwise.
+*/
+bool LoginRequestHandler::isRequestRelevant(RequestInfo& inf)
 {
 	bool relevant = false;
 	if (inf.RequestId == LOGIN || inf.RequestId == SIGNUP)
@@ -13,22 +18,36 @@ bool LoginRequestHandler::isRequestRelevant(RequestInfo inf)
 	return relevant;
 }
 
-RequestResult handleRequest(RequestInfo inf)
+/*
+handles a login or signup request, make the response for it.
+in: a RequestInfo struct containing the request details.
+out: RequestResult struct containing the result details.
+*/
+RequestResult LoginRequestHandler::handleRequest(RequestInfo& inf)
 {
+	std::vector<std::uint8_t> buffer;
 	RequestResult res;
 	json result;
 	if (inf.RequestId == LOGIN)
 	{
 		LoginRequest log = JsonRequestPacketDeserializer::deserializeLoginRequest(inf.buffer);
-		//check the message i guess
-		result["status"] = 1;
+		LoginResponse l;
+		//check the message i guess, if error should return error, but no way to check now
+		l.status = 1;
+		buffer = JsonResponsePacketSerializer::serializeLoginResponse(l);
+		res.response = buffer;
+		//res.newHandler - ???
 	}
 	else //sign up
 	{
 		SignupRequest log = JsonRequestPacketDeserializer::deserializeSignUpRequest(inf.buffer);
-		//check the message i guess
-		result["status"] = 1;
+		SignupResponse s;
+		//check the message
+		s.status = 1;
+		buffer = JsonResponsePacketSerializer::serializeSignUpResponse(s);
+		res.response = buffer;
 	}
+	return res;
 }
 
 

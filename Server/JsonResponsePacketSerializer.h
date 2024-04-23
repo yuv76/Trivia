@@ -1,10 +1,8 @@
 #pragma once
 #include "Responses.h"
+#include "Requests.h"
 #include <vector>
 #include <string>
-
-#define BYTE 8
-#define INT_BYTES 4
 
 class JsonResponsePacketSerializer
 {

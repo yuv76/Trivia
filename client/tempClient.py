@@ -1,19 +1,23 @@
 import socket
-import binascii
+import struct
+import ubjson
 
 SERVER_IP = "127.0.0.1"
 SERVER_PORT = 9090
+
+HEADER_LEN = 5
 
 
 def menu():
     signup = True
     print("Enter 1 for login, else will sign up")
-    choice = input()
-    
-    if input == "1":
+    choice = str(input())
+
+    if choice == '1':
         signup = False
 
     return signup
+
 
 def main():
     # Create a TCP socket for the client
@@ -26,34 +30,42 @@ def main():
     code = 2
     if is_signup:
         code = 1
-    bin_code = binary_string = bin(code)[2:].zfill(8)
-    msg = bin_code
+    msg += chr(code)
 
     username = input("Enter Username: ")
     password = input("Enter password: ")
     mail = ""
+    j = {'username': username, 'password': password}
     if is_signup:
         mail = input("Enter mail: ")
-    hex_string = binascii.hexlify(string_to_convert.encode())
+        j["email"] = mail
 
-    # Convert the hexadecimal string to binary format
-    binary_string = binascii.unhexlify(hex_string)
+    e = ubjson.dumpb(j)
 
-    # receive the server message
-    server_msg = server_sock.recv(1024)
-    server_msg = server_msg.decode()
-    print(server_msg)
+    length = len(e)
 
-    # send the clients message to the server
-    client_msg = "Hello"
+    bytes_len = struct.pack(">i", length)  # convert to 4 bytes
+    for i in bytes_len:
+        msg += chr(i)
+    for j in e:
+        msg += chr(j)
+
+    # send the client message to the server
     try:
-        server_sock.sendall(client_msg.encode())
-        server_sock.close()
+        server_sock.sendall(msg.encode())
 
     except ConnectionResetError as error:
         print("the connection was cut", error)
 
-        return 0
+    # receive the server message
+    server_header = server_sock.recv(5)  # get header
+    server_header = server_header.decode()
+
+    full_msg = server_sock.recv(1024)  # entire message (in a large buffer for now)
+    ans = ubjson.loadb(full_msg)
+    print(ans)
+
+    server_sock.close()
 
 
 if __name__ == "__main__":

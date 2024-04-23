@@ -1,9 +1,13 @@
 #include "JsonResponsePacketSerializer.h"
-#include <bitset>
 
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
+/*
+serializes an error response into a byte vector.
+in: the error response at the form of an ErrorResponse struct.
+out: the bytes vector containing the response.
+*/
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeErrorResponse(ErrorResponse err)
 {
 	std::vector<std::uint8_t> buffer;
@@ -35,6 +39,11 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeErrorResponse(E
 	return buffer;
 }
 
+/*
+serializes a login response into a byte vector.
+in: the signup response at the form of a LoginResponse struct.
+out: the bytes vector containing the response.
+*/
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeLoginResponse(LoginResponse log)
 {
 	std::vector<std::uint8_t> buffer;
@@ -65,6 +74,11 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeLoginResponse(L
 	return buffer;
 }
 
+/*
+serializes a signup response into a byte vector.
+in: the signup response at the form of a SignupResponse struct.
+out: the bytes vector containing the response.
+*/
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeSignUpResponse(SignupResponse sig)
 {
 	std::vector<std::uint8_t> buffer;
