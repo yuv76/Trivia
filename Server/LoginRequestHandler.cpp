@@ -30,24 +30,72 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo& inf)
 	json result;
 	if (inf.RequestId == LOGIN)
 	{
-		LoginRequest log = JsonRequestPacketDeserializer::deserializeLoginRequest(inf.buffer);
-		LoginResponse l;
-		//check the message i guess, if error should return error, but no way to check now
-		l.status = 1;
-		buffer = JsonResponsePacketSerializer::serializeLoginResponse(l);
-		res.response = buffer;
-		//res.newHandler - ???
+		//perform the message
+		res = this->login(inf);
+		res.newHandler; // will be decided in a few minuetes.
 	}
 	else //sign up
 	{
 		SignupRequest log = JsonRequestPacketDeserializer::deserializeSignUpRequest(inf.buffer);
 		SignupResponse s;
-		//check the message
+		
+		//perform the request
+		res = this->signup(inf);
+		res.newHandler; // 
+
 		s.status = 1;
 		buffer = JsonResponsePacketSerializer::serializeSignUpResponse(s);
 		res.response = buffer;
 	}
 	return res;
+}
+
+/*
+Logs in a user according to its request.
+in: request info struct.
+out: request result struct.
+*/
+RequestResult LoginRequestHandler::login(RequestInfo inf)
+{
+	int status = 0;
+	int res = 0;
+	LoginResponse l;
+	RequestResult rqRs;
+	std::vector<std::uint8_t> buffer;
+
+	LoginManager& lgnMgr = this->m_handlerFactory.getLoginManager();
+
+	LoginRequest lgn = JsonRequestPacketDeserializer::deserializeLoginRequest(inf.buffer);
+	status = lgnMgr.login(lgn.username, lgn.password);
+	l.status = status;
+	buffer = JsonResponsePacketSerializer::serializeLoginResponse(l);
+	rqRs.response = buffer;
+
+	return rqRs;
+}
+
+/*
+signs up a new user according to its request.
+in: request info struct containing the signup message.
+out: request result struct.
+*/
+RequestResult LoginRequestHandler::signup(RequestInfo inf)
+{
+	int status = 0;
+	int res = 0;
+	SignupResponse s;
+	RequestResult rqRs;
+	std::vector<std::uint8_t> buffer;
+
+	LoginManager& lgnMgr = this->m_handlerFactory.getLoginManager();
+
+	SignupRequest sig = JsonRequestPacketDeserializer::deserializeSignUpRequest(inf.buffer);
+	status = lgnMgr.signup(sig.username, sig.password, sig.email);
+	s.status = status;
+	buffer = JsonResponsePacketSerializer::serializeSignUpResponse(s);
+	rqRs.response = buffer;
+
+	return rqRs;
 }
 
 
