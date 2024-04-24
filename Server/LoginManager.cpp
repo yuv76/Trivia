@@ -63,7 +63,7 @@ bool LoginManager::logout(std::string username)
 {
 	bool removed = false;
 	auto i = this->m_loggedUsers.begin();
-	for (i; i != this->m_loggedUsers.end(); i++)
+	for (i; i != this->m_loggedUsers.end(); ++i)
 	{
 		if (i->getUsername() == username)
 		{
@@ -71,7 +71,7 @@ bool LoginManager::logout(std::string username)
 			this->m_loggedUsers.erase(i);
 			removed = true;
 			//exit loop.
-			i = m_loggedUsers.end();
+			break;
 		}
 	}
 	return removed;
