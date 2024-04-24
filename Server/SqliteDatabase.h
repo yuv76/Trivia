@@ -12,11 +12,12 @@
 
 #define PASSWORDS_DONT_MATCH 0
 #define PASSWORDS_MATCH 1
+#define USER_NOT_EXIST -1
 
 #define USER_ADDED 1
 #define USER_NOT_ADDED 0
 
-class SqliteDatabase
+class SqliteDatabase : public IDatabase
 {
 public:
 	SqliteDatabase() = default;
