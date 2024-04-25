@@ -4,6 +4,8 @@
 #include "SqliteDatabase.h"
 #include "LoggedUser.h"
 
+#define USER_ALREADY_CONNECTED_CODE 3
+
 class LoginManager
 {
 private:

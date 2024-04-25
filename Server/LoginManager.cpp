@@ -40,16 +40,30 @@ bool LoginManager::signup(std::string username, std::string password, std::strin
 /*
 checks if username and password are correct and if they are adds user to users list.
 in: username and its presumable password.
-out: 1 if logged sucessfuly, -1 if user dosnt exist, 0 otherwise.
+out: 1 if logged sucessfuly, 2 if user dosnt exist, 3 if user already connected, 0 otherwise.
 */
 int LoginManager::login(std::string username, std::string password)
 {
 	int res = this->m_database->doesPasswordMatch(username, password);
 	if (res == PASSWORDS_MATCH)
 	{
-		//add user to logged users list.
-		LoggedUser l = LoggedUser(username);
-		this->m_loggedUsers.push_back(l);
+		//check user is not already connected.
+		auto i = this->m_loggedUsers.begin();
+		for (i; i != this->m_loggedUsers.end(); ++i)
+		{
+			if (i->getUsername() == username)
+			{
+				res = USER_ALREADY_CONNECTED_CODE;
+				//exit loop if found.
+				break;
+			}
+		}
+		if (res == PASSWORDS_MATCH) // if wasnt found in the logged user list.
+		{
+			//add user to logged users list.
+			LoggedUser l = LoggedUser(username);
+			this->m_loggedUsers.push_back(l);
+		}
 	}
 	return res;
 }
