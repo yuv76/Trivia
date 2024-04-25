@@ -4,6 +4,14 @@
 using json = nlohmann::json;
 
 /*
+C'tor for login request handler.
+in: a RequestHandlerFactory reference.
+*/
+LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory& r) :
+	m_handlerFactory(r)
+{}
+
+/*
 checks if a given request is relevant for the class (login or signup).//at least i think signup..
 in: a RequestInfo struct containing the type of the request.
 out: true if relevant, false otherwise.
@@ -32,20 +40,11 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo& inf)
 	{
 		//perform the message
 		res = this->login(inf);
-		res.newHandler; // will be decided in a few minuetes.
 	}
 	else //sign up
 	{
-		SignupRequest log = JsonRequestPacketDeserializer::deserializeSignUpRequest(inf.buffer);
-		SignupResponse s;
-		
 		//perform the request
 		res = this->signup(inf);
-		res.newHandler; // 
-
-		s.status = 1;
-		buffer = JsonResponsePacketSerializer::serializeSignUpResponse(s);
-		res.response = buffer;
 	}
 	return res;
 }
@@ -71,6 +70,16 @@ RequestResult LoginRequestHandler::login(RequestInfo inf)
 	buffer = JsonResponsePacketSerializer::serializeLoginResponse(l);
 	rqRs.response = buffer;
 
+	if (status == PASSWORDS_DONT_MATCH || status == USER_NOT_EXIST)
+	{
+		// failed - stay in login state
+		rqRs.newHandler = this->m_handlerFactory.createLoginRequestHandler();
+	}
+	else // succesfull - move on to menu
+	{
+		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+	}
+
 	return rqRs;
 }
 
@@ -94,6 +103,16 @@ RequestResult LoginRequestHandler::signup(RequestInfo inf)
 	s.status = status;
 	buffer = JsonResponsePacketSerializer::serializeSignUpResponse(s);
 	rqRs.response = buffer;
+
+	if (status)
+	{
+		// failed - stay in login state
+		rqRs.newHandler = this->m_handlerFactory.createLoginRequestHandler();
+	}
+	else // succesfull - move on to menu
+	{
+		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+	}
 
 	return rqRs;
 }

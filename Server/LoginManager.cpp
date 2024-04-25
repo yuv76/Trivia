@@ -2,10 +2,10 @@
 
 /*
 C'tor for LoginManager.
-in: none.
+in: a pointer to the database.
 */
-LoginManager::LoginManager():
-	m_database(new SqliteDatabase())
+LoginManager::LoginManager(IDatabase* db):
+	m_database(db)
 {
 	m_database->open();
 }
