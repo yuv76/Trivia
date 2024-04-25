@@ -1,4 +1,5 @@
 #pragma once
+
 #include "sqlite3.h"
 #include "io.h"
 #include "IDatabase.h"
@@ -12,7 +13,7 @@
 
 #define PASSWORDS_DONT_MATCH 0
 #define PASSWORDS_MATCH 1
-#define USER_NOT_EXIST -1
+#define USER_NOT_EXIST 2
 
 #define USER_ADDED 1
 #define USER_NOT_ADDED 0
@@ -34,3 +35,4 @@ private:
 	//the database
 	sqlite3* database;
 };
+

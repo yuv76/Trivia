@@ -10,7 +10,7 @@ parameter - has none.
 return value - has none.
 */
 Server::Server() :
-	_communicator()
+	m_database(new SqliteDatabase), m_handlerFactory(m_database), _communicator(m_handlerFactory)
 {}
 
 /*
@@ -19,7 +19,9 @@ parameter - has none.
 return value - has none.
 */
 Server::~Server()
-{}
+{
+	delete this->m_database;
+}
 
 /*
 Run - runs the Communicators startHandleRequests to connect .
