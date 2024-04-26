@@ -2,15 +2,13 @@
 
 #pragma comment(lib, "ws2_32.lib")
 
-//temporary include (probably will get removed #TODO)
-#include <nlohmann/json.hpp>
-using json = nlohmann::json;
 
 /*
 communicator C'tor.
-in: none
+in: the request handle factory.
 */
-Communicator::Communicator()
+Communicator::Communicator(RequestHandlerFactory& fact):
+	m_handlerFactory(fact)
 {
 	this->_stopListening.store(false);
 	WSADATA wsa_data = { };
@@ -185,15 +183,16 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		info.receivalTime = recvTime;
 		info.RequestId = (msgCodes)buffer[0];
 		
-		LoginRequestHandler l;
+		LoginRequestHandler* l = this->m_handlerFactory.createLoginRequestHandler();
 		RequestResult r;
-		if (l.isRequestRelevant(info))
+		if (l->isRequestRelevant(info))
 		{
-			r = l.handleRequest(info);
+			r = l->handleRequest(info);
 		}
 		else //error
 		{
 			//not supported yet
+			throw std::exception("Can currently only deal with login messages.");
 		}
 
 		// sanding the response message to client.

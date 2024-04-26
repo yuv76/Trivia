@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 
 struct SignupResponse
@@ -18,3 +19,4 @@ struct ErrorResponse
 public:
 	std::string message;
 };
+

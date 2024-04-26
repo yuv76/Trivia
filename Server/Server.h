@@ -21,17 +21,14 @@ class Server
 public:
 	Server();
 	~Server();
-	
-	void connectClients(int port);
-	std::set<std::string> _connectedUsers;
+
 	void Run();
 
 private:
 
-	void acceptClient();
-	void clientHandler(SOCKET clientSocket);
-
-
+	IDatabase* m_database;
+	RequestHandlerFactory m_handlerFactory;
 
 	Communicator _communicator;
 };
+
