@@ -84,7 +84,7 @@ int SqliteDatabase::doesUserExist(std::string username)
 /*
 checks if user with a given name has given password (if the password is the user's password).
 int: the user's name, the password to check.
-out: 1 if match, 0 otherwise.
+out: 1 if match, 2 if user dosnt exist, 0 otherwise.
 */
 int SqliteDatabase::doesPasswordMatch(std::string username, std::string password)
 {
@@ -93,7 +93,7 @@ int SqliteDatabase::doesPasswordMatch(std::string username, std::string password
 
 	if (this->doesUserExist(username) == USER_DONT_EXIST)
 	{
-		match = PASSWORDS_DONT_MATCH;
+		match = USER_NOT_EXIST;
 	}
 	else
 	{
@@ -111,7 +111,7 @@ int SqliteDatabase::doesPasswordMatch(std::string username, std::string password
 /*
 adds a new user to the database.
 in: username, password and email of the new user.
-out: 1 if added sucessfully.
+out: 1 if added sucessfully, 0 if user not added.
 */
 int SqliteDatabase::addNewUser(std::string username, std::string password, std::string email)
 {

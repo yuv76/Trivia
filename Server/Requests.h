@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 
 enum msgCodes
@@ -22,3 +23,4 @@ public:
 	std::string password;
 	std::string email;
 };
+
