@@ -1,11 +1,18 @@
 #include "Communicator.h"
-#include <iostream>
-#include <sstream>
 
-Communicator::Communicator()
+#pragma comment(lib, "ws2_32.lib")
+
+
+/*
+communicator C'tor.
+in: the request handle factory.
+*/
+Communicator::Communicator(RequestHandlerFactory& fact):
+	m_handlerFactory(fact)
 {
 	this->_stopListening.store(false);
 	WSADATA wsa_data = { };
+	
 	if (WSAStartup(MAKEWORD(2, 2), &wsa_data) != 0)
 	{
 		throw std::exception("WSAStartup Failed");
@@ -18,6 +25,9 @@ Communicator::Communicator()
 	}
 }
 
+/*
+communicator D'tor.
+*/
 Communicator::~Communicator()
 {
 	try
@@ -50,6 +60,11 @@ Communicator::~Communicator()
 	}
 }
 
+/*
+starts the listening for clients and binds them.
+in: none.
+out: none.
+*/
 void Communicator::startHandleRequests()
 {
 	int n = 0; //number of user sockets.
@@ -86,6 +101,11 @@ void Communicator::startHandleRequests()
 	this->bindAndListen();
 }
 
+/*
+binds clients that are trying to connect to their thread.
+in: none.
+out: none.
+*/
 void Communicator::bindAndListen()
 {
 	SOCKET tmp;
@@ -101,7 +121,8 @@ void Communicator::bindAndListen()
 				throw std::exception(__FUNCTION__);
 			}
 			tmp = accept(this->m_serverSocket, NULL, NULL);
-			this->m_clients[tmp] = new IRequestHandler();
+			//this->m_clients[tmp] = new IRequestHandler(); //what should happen here?
+			this->m_clients[tmp] = NULL;
 
 
 			std::cout << "Client accepted" << std::endl;
@@ -112,45 +133,79 @@ void Communicator::bindAndListen()
 	}
 }
 
+/*
+handles a client, gets a message and responds.
+in: the socket with the client.
+out: none.
+*/
 void Communicator::handleNewClient(SOCKET clientSocket)
 {
-	std::string message = "Hello";
-
 	try
 	{
-		// sanding the first message - Hello message
-		const char* data = message.c_str();
-
-		if (send(clientSocket, data, message.size(), 0) == INVALID_SOCKET)
-		{
-			throw std::exception("Error while sending message to client");
-		}
-
+		//will be a loop later on.
 		// receive the client message
-		char* clientData = new char[BYTESNUM + 1];
-		int res = recv(clientSocket, clientData, BYTESNUM, 0);
+		int len = 0, i = 0;
+		char* tempCharRecv = new char[BUFFER_SIZE];
+		//get time of start receiving
+		std::time_t recvTime = time(0);
+		//first get the length of the message about to come.
+		recv(clientSocket, tempCharRecv, MSG_HEADER, 0);
+		len = (tempCharRecv[1] << 24) | (tempCharRecv[2] << 16) | (tempCharRecv[3] << 8) | tempCharRecv[4]; // Index 0 is msg code, next 4 are length.
 
-		if (res == INVALID_SOCKET)
+		std::vector<uint8_t> temp;// (len);
+		std::vector<uint8_t> buffer;// (len + MSG_HEADER);
+		std::vector<uint8_t> tempTemp(BUFFER_SIZE); // The temp for the temp
+		//Add header to buffer.
+		for (i = 0; i < MSG_HEADER; i++)
 		{
-			std::string s = "Error while recieving from socket: ";
-			s += std::to_string(clientSocket);
-			throw std::exception(s.c_str());
+			buffer.push_back(tempCharRecv[i]);
+		}
+		//if length is bigger than buffer size, scan it in parts (last scan will be less than 1024 and outside of loop).
+		while (len > BUFFER_SIZE)
+		{
+			
+			recv(clientSocket, tempCharRecv, BUFFER_SIZE, 0);
+			std::copy(tempCharRecv, tempCharRecv + BUFFER_SIZE, tempTemp.begin());
+			temp.insert(temp.end(), tempTemp.begin(), tempTemp.end()); // add tempTemp at end of main temp.
+			len -= BUFFER_SIZE;
+		}
+		if (len > 0) //last scan (or first if length was smaller than 1024 in the first place)
+		{
+			std::vector<uint8_t> tempInLen(len);
+			recv(clientSocket, tempCharRecv, len, 0);
+			std::copy(tempCharRecv, tempCharRecv + len, tempInLen.begin());
+			temp.insert(temp.end(), tempInLen.begin(), tempInLen.end()); //insert the length to temp so copying will be possible.
+		}
+		buffer.insert(buffer.end(), temp.begin(), temp.end()); // add temp at end of buffer
+		
+		RequestInfo info;
+		info.buffer = buffer;
+		info.receivalTime = recvTime;
+		info.RequestId = (msgCodes)buffer[0];
+		
+		LoginRequestHandler* l = this->m_handlerFactory.createLoginRequestHandler();
+		RequestResult r;
+		if (l->isRequestRelevant(info))
+		{
+			r = l->handleRequest(info);
+		}
+		else //error
+		{
+			//not supported yet
+			throw std::exception("Can currently only deal with login messages.");
 		}
 
-		clientData[BYTESNUM] = 0;
+		// sanding the response message to client.
+		char* data = new char[r.response.size()]; // have to send as char*.
+		std::copy(r.response.begin(), r.response.end(), data);
 
-		std::string clientMessage(clientData);
+		send(clientSocket, data, r.response.size(), 0);
 
-		// if sent a message thats not Hello
-		if (clientMessage.substr(0, BYTESNUM) != "Hello")
-		{
-			throw("Protocol Exception");
-		}
-		// print the Hello message
-		else
-		{
-			std::cout << clientMessage << std::endl;
-		}
+		delete[] tempCharRecv;
+
+		// will be a loop and socket will close only after it ended.
+		closesocket(clientSocket);
+		std::cout << "client disconnected" << std::endl;
 	}
 	catch (const std::exception& e)
 	{

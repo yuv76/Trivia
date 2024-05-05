@@ -1,105 +1,390 @@
 #include "JsonResponsePacketSerializer.h"
-#include <bitset>
 
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
-std::vector<std::string> JsonResponsePacketSerializer::serializeErrorResponse(ErrorResponse err)
+/*
+serializes an error response into a byte vector.
+in: the error response at the form of an ErrorResponse struct.
+out: the bytes vector containing the response.
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(ErrorResponse err)
 {
-	std::vector<std::string> buffer;
-	std::string msg = "";
-	std::string tampBinary = "";
+	std::vector<std::uint8_t> buffer;
+	std::vector<std::uint8_t> tampMsg;
+	std::string msg = err.message;
+	msgCodes code = ERR;
 	int len = 0;
-	int i = 0;
 
 	json errJson;
 
-	//code byte
-	tampBinary = std::bitset<BYTE>(ERR).to_string(); //to binary
-	buffer.push_back(tampBinary);
+	//add code byte to vector
+	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); // only one byte
 
 	//create msg in json format
 	errJson["message"] = err.message;
 	msg = errJson.dump();
 
-	//length to 4 binary bytes
+	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.
 	len = msg.length();
-	tampBinary = std::bitset<BYTE*INT_BYTES>(len).to_string();
-	buffer.push_back(tampBinary);
+	buffer.push_back(static_cast<std::uint8_t>((len >> 24) & 0xFF)); 
+	buffer.push_back(static_cast<std::uint8_t>((len >> 16) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 8) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF)); 
 
-	//the message in bytes
-	tampBinary = "";
-	for (i = 0; i < len; i++) //convert 
-	{
-		tampBinary += std::bitset<BYTE>(msg[i]).to_string();
-	}
-	buffer.push_back(tampBinary);
+	//add message in bytes to the vector
+	tampMsg = json::to_ubjson(errJson);
+	buffer.insert(buffer.end(), tampMsg.begin(), tampMsg.end());
 
 	return buffer;
 }
 
-std::vector<std::string> JsonResponsePacketSerializer::serializeLoginResponse(LoginResponse log)
+/*
+serializes a login response into a byte vector.
+in: the signup response at the form of a LoginResponse struct.
+out: the bytes vector containing the response.
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(LoginResponse log)
 {
-	std::vector<std::string> buffer;
-	std::string tempBinary = "";
+	std::vector<std::uint8_t> buffer;
+	std::vector<std::uint8_t> tempMsg;
 	std::string msg = "";
+	msgCodes code = LOGIN;
 	int len = 0;
-	int i = 0;
 	json loginJson;
 
-	//code byte
-	tempBinary = std::bitset<BYTE>(LOGIN).to_string(); //to binary
-	buffer.push_back(tempBinary);
+	//add code byte to vector
+	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
 
 	//create msg in json format
 	loginJson["status"] = log.status;
 	msg = loginJson.dump();
 
-	//length to 4 binary bytes
+	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.
 	len = msg.length();
-	tempBinary = std::bitset<BYTE * INT_BYTES>(len).to_string();
-	buffer.push_back(tempBinary);
+	buffer.push_back(static_cast<std::uint8_t>((len >> 24) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 16) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 8) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
 
-	//the message in bytes
-	tempBinary = "";
-	for (i = 0; i < len; i++) //convert 
-	{
-		tempBinary += std::bitset<BYTE>(msg[i]).to_string();
-	}
-	buffer.push_back(tempBinary);
+	//add message in bytes to the vector
+	tempMsg = json::to_ubjson(loginJson);
+	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
 
 	return buffer;
 }
 
-std::vector<std::string> JsonResponsePacketSerializer::serializeSignUpResponse(SignupResponse sig)
+/*
+serializes a signup response into a byte vector.
+in: the signup response at the form of a SignupResponse struct.
+out: the bytes vector containing the response.
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(SignupResponse sig)
 {
-	std::vector<std::string> buffer;
-	std::string tempBinary = "";
+	std::vector<std::uint8_t> buffer;
+	std::vector<std::uint8_t> tempMsg;
 	std::string msg = "";
+	msgCodes code = SIGNUP;
 	int len = 0;
-	int i = 0;
 	json signupJson;
 
-	//code byte
-	tempBinary = std::bitset<BYTE>(SIGNUP).to_string(); //to binary
-	buffer.push_back(tempBinary);
+	//add code byte to vector
+	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
 
 	//create msg in json format
 	signupJson["status"] = sig.status;
 	msg = signupJson.dump();
 
-	//length to 4 binary bytes
+	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.
 	len = msg.length();
-	tempBinary = std::bitset<BYTE * INT_BYTES>(len).to_string();
-	buffer.push_back(tempBinary);
+	buffer.push_back(static_cast<std::uint8_t>((len >> 24) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 16) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 8) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
 
-	//the message in bytes
-	tempBinary = "";
-	for (i = 0; i < len; i++) //convert 
+	//add message in bytes to the vector
+	tempMsg = json::to_ubjson(signupJson);
+	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
+
+	return buffer;
+}
+
+/*
+serializes a logout response into a byte vector.
+in: the logout response at the form of a LogoutResponse struct.
+out: the bytes vector containing the response.
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(LogoutResponse log)
+{
+	std::vector<std::uint8_t> buffer;
+	std::vector<std::uint8_t> tempMsg;
+	std::string msg = "";
+	msgCodes code = SIGNOUT;
+	int len = 0;
+	json logoutJson;
+
+	//add code byte to vector
+	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
+
+	//create msg in json format
+	logoutJson["status"] = log.status;
+	msg = logoutJson.dump();
+
+	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.
+	len = msg.length();
+	buffer.push_back(static_cast<std::uint8_t>((len >> 24) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 16) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 8) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
+
+	//add message in bytes to the vector
+	tempMsg = json::to_ubjson(logoutJson);
+	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
+
+	return buffer;
+}
+
+/*
+serializes a get room response into a byte vector.
+in: the get rooms response at the form of a GetRoomsResponse struct.
+out: the bytes vector containing the response.
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse getR)
+{
+	std::vector<std::uint8_t> buffer;
+	std::vector<std::uint8_t> tempMsg;
+	std::string msg = "";
+	std::string rooms = "";
+	msgCodes code = GET_ROOM;
+	int len = 0;
+	json getRoomJson;
+
+	//add code byte to vector
+	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
+
+	auto i = getR.rooms.begin();
+	for (i; i != getR.rooms.end(); i++) // propably will need to contain more info, can be in another json field and each room by its index, see after will be needed. #todo
 	{
-		tempBinary += std::bitset<BYTE>(msg[i]).to_string();
+		rooms += i->id;
+		rooms += ",";
 	}
-	buffer.push_back(tempBinary);
+
+	//create msg in json format
+	getRoomJson["status"] = getR.status;
+	getRoomJson["Rooms"] = rooms;
+	msg = getRoomJson.dump();
+
+	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.
+	len = msg.length();
+	buffer.push_back(static_cast<std::uint8_t>((len >> 24) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 16) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 8) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
+
+	//add message in bytes to the vector
+	tempMsg = json::to_ubjson(getRoomJson);
+	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
+
+	return buffer;
+}
+
+/*
+serializes a get players in room response into a byte vector.
+in: the get players in room response at the form of a GetPlayersInRoomResponse struct.
+out: the bytes vector containing the response.
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse getP)
+{
+	std::vector<std::uint8_t> buffer;
+	std::vector<std::uint8_t> tempMsg;
+	std::string msg = "";
+	std::string players = "";
+	msgCodes code = GET_PLAYERS;
+	int len = 0;
+	json getPlayersJson;
+
+	//add code byte to vector
+	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
+
+	auto i = getP.players.begin();
+	for (i; i != getP.players.end(); i++) 
+	{
+		players += *i;
+		players += ",";
+	}
+
+	//create msg in json format
+	getPlayersJson["Players"] = players;
+	msg = getPlayersJson.dump();
+
+	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.
+	len = msg.length();
+	buffer.push_back(static_cast<std::uint8_t>((len >> 24) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 16) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 8) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
+
+	//add message in bytes to the vector
+	tempMsg = json::to_ubjson(getPlayersJson);
+	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
+
+	return buffer;
+}
+
+/*
+serializes a join room response into a byte vector.
+in: the join room response at the form of a JoinRoomResponse struct.
+out: the bytes vector containing the response.
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse join)
+{	
+	std::vector<std::uint8_t> buffer;
+	std::vector<std::uint8_t> tempMsg;
+	std::string msg = "";
+	msgCodes code = JOIN_ROOM;
+	int len = 0;
+	json joinRoomJson;
+
+	//add code byte to vector
+	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
+
+	//create msg in json format
+	joinRoomJson["status"] = join.status;
+	msg = joinRoomJson.dump();
+
+	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.
+	len = msg.length();
+	buffer.push_back(static_cast<std::uint8_t>((len >> 24) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 16) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 8) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
+
+	//add message in bytes to the vector
+	tempMsg = json::to_ubjson(joinRoomJson);
+	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
+
+	return buffer;
+}
+
+/*
+serializes a create room response into a byte vector.
+in: the create room response at the form of a CreateRoomResponse struct.
+out: the bytes vector containing the response.
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse crea)
+{
+	std::vector<std::uint8_t> buffer;
+	std::vector<std::uint8_t> tempMsg;
+	std::string msg = "";
+	msgCodes code = CREATE_ROOM;
+	int len = 0;
+	json createRoomJson;
+
+	//add code byte to vector
+	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
+
+	//create msg in json format
+	createRoomJson["status"] = crea.status;
+	msg = createRoomJson.dump();
+
+	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.
+	len = msg.length();
+	buffer.push_back(static_cast<std::uint8_t>((len >> 24) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 16) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 8) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
+
+	//add message in bytes to the vector
+	tempMsg = json::to_ubjson(createRoomJson);
+	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
+
+	return buffer;
+}
+
+/*
+serializes a get high score response into a byte vector.
+in: the get high score response at the form of a getHighScoreResponse struct.
+out: the bytes vector containing the response.
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(getHighScoreResponse high)
+{
+	std::vector<std::uint8_t> buffer;
+	std::vector<std::uint8_t> tempMsg;
+	std::string msg = "";
+	std::string stats = "";
+	msgCodes code = HIGH_SCORE;
+	int len = 0;
+	json getPlayersJson;
+
+	//add code byte to vector
+	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
+
+	auto i = high.statistics.begin();
+	for (i; i != high.statistics.end(); i++) //will have to be expanded according to what will be in the statistics part.
+	{
+		stats += *i;
+		stats += ",";
+	}
+
+	//create msg in json format
+	getPlayersJson["status"] = high.status;
+	getPlayersJson["statistics"] = stats;
+	msg = getPlayersJson.dump();
+
+	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.
+	len = msg.length();
+	buffer.push_back(static_cast<std::uint8_t>((len >> 24) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 16) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 8) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
+
+	//add message in bytes to the vector
+	tempMsg = json::to_ubjson(getPlayersJson);
+	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
+
+	return buffer;
+}
+
+/*
+serializes a get get personal stats response into a byte vector.
+in: the get personal stats response at the form of a getPersonalStatsResponse struct.
+out: the bytes vector containing the response.
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(getPersonalStatsResponse pers)
+{
+	std::vector<std::uint8_t> buffer;
+	std::vector<std::uint8_t> tempMsg;
+	std::string msg = "";
+	std::string stats = "";
+	msgCodes code = PERSONAL_STATS;
+	int len = 0;
+	json getPlayersJson;
+
+	//add code byte to vector
+	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
+
+	auto i = pers.statistics.begin();
+	for (i; i != pers.statistics.end(); i++) //will have to be expanded according to what will be in the statistics part.
+	{
+		stats += *i;
+		stats += ",";
+	}
+
+	//create msg in json format
+	getPlayersJson["status"] = pers.status;
+	getPlayersJson["statistics"] = stats;
+	msg = getPlayersJson.dump();
+
+	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.
+	len = msg.length();
+	buffer.push_back(static_cast<std::uint8_t>((len >> 24) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 16) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 8) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
+
+	//add message in bytes to the vector
+	tempMsg = json::to_ubjson(getPlayersJson);
+	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
 
 	return buffer;
 }

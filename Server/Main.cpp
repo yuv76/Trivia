@@ -1,11 +1,13 @@
 #include "Server.h"
 #include <iostream>
+#include "LoginManager.h"
 
 
 int main()
 {
 	try
 	{
+		// run server.
 		Server server;
 		server.Run();
 	}
