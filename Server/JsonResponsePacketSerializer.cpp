@@ -8,7 +8,7 @@ serializes an error response into a byte vector.
 in: the error response at the form of an ErrorResponse struct.
 out: the bytes vector containing the response.
 */
-std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeErrorResponse(ErrorResponse err)
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(ErrorResponse err)
 {
 	std::vector<std::uint8_t> buffer;
 	std::vector<std::uint8_t> tampMsg;
@@ -44,7 +44,7 @@ serializes a login response into a byte vector.
 in: the signup response at the form of a LoginResponse struct.
 out: the bytes vector containing the response.
 */
-std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeLoginResponse(LoginResponse log)
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(LoginResponse log)
 {
 	std::vector<std::uint8_t> buffer;
 	std::vector<std::uint8_t> tempMsg;
@@ -79,7 +79,7 @@ serializes a signup response into a byte vector.
 in: the signup response at the form of a SignupResponse struct.
 out: the bytes vector containing the response.
 */
-std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeSignUpResponse(SignupResponse sig)
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(SignupResponse sig)
 {
 	std::vector<std::uint8_t> buffer;
 	std::vector<std::uint8_t> tempMsg;
@@ -107,4 +107,60 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeSignUpResponse(
 	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
 
 	return buffer;
+}
+
+/*
+
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(LogoutResponse log)
+{
+
+}
+
+/*
+
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse getR)
+{
+
+}
+
+/*
+
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse getP)
+{
+
+}
+
+/*
+
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse join)
+{	
+	
+}
+
+/*
+
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse crea)
+{
+
+}
+
+/*
+
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(getHighScoreResponse high)
+{
+
+}
+
+/*
+
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(getPersonalStatsResponse high)
+{
+
 }
