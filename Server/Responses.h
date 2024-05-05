@@ -1,6 +1,7 @@
 #pragma once
 
-#include <string>
+#include "RoomData.h"
+#include <vector>
 
 struct SignupResponse
 {

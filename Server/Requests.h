@@ -6,7 +6,14 @@ enum msgCodes
 {
 	ERR = 0,
 	SIGNUP,
-	LOGIN
+	LOGIN,
+	SIGNOUT,
+	GET_ROOM,
+	GET_PLAYERS,
+	JOIN_ROOM,
+	CREATE_ROOM,
+	HIGH_SCORE,
+	PERSONAL_STATS
 };
 
 struct LoginRequest

@@ -18,5 +18,5 @@ public:
 	std::vector<std::uint8_t> serializeResponse(JoinRoomResponse join);
 	std::vector<std::uint8_t> serializeResponse(CreateRoomResponse crea);
 	std::vector<std::uint8_t> serializeResponse(getHighScoreResponse high);
-	std::vector<std::uint8_t> serializeResponse(getPersonalStatsResponse high);
+	std::vector<std::uint8_t> serializeResponse(getPersonalStatsResponse pers);
 };
