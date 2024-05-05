@@ -60,7 +60,18 @@ out: GetPlayersInRoomRequest struct presenting the request.
 */
 GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersInRoomRequest(std::vector<std::uint8_t> buffer)
 {
+	GetPlayersInRoomRequest info;
+	json jsonBuf;
+
+	// remove the code and len from the vector.
+	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
+	// convert the recieved bytes back to a vector.
+	jsonBuf = json::from_ubjson(buffer);
+
+	//roomId
+	info.roomId = jsonBuf["roomId"];
 	
+	return info;
 }
 
 /*
@@ -70,7 +81,18 @@ out: JoinRoomRequest struct presenting the request.
 */
 JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(std::vector<std::uint8_t> buffer)
 {
-	
+	JoinRoomRequest info;
+	json jsonBuf;
+
+	// remove the code and len from the vector.
+	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
+	// convert the recieved bytes back to a vector.
+	jsonBuf = json::from_ubjson(buffer);
+
+	//roomId
+	info.roomId = jsonBuf["roomId"];
+
+	return info;
 }
 
 /*
@@ -80,5 +102,22 @@ out: CreateRoomRequest struct presenting the request.
 */
 CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(std::vector<std::uint8_t> buffer)
 {
-	
+	CreateRoomRequest info;
+	json jsonBuf;
+
+	// remove the code and len from the vector.
+	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
+	// convert the recieved bytes back to a vector.
+	jsonBuf = json::from_ubjson(buffer);
+
+	//roomName
+	info.roomName = jsonBuf["roomName"];
+	//maxUsers
+	info.maxUsers = jsonBuf["maxUsers"];
+	//questionCount
+	info.questionCount = jsonBuf["questionCount"];
+	//anwerTimeout
+	info.anwerTimeout = jsonBuf["anwerTimeout"];
+
+	return info;
 }
