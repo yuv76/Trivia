@@ -24,3 +24,20 @@ public:
 	std::string email;
 };
 
+struct GetPlayersInRoomRequest
+{
+public:
+	
+};
+
+struct JoinRoomRequest
+{
+public:
+	
+};
+
+struct CreateRoomRequest
+{
+public:
+	
+};

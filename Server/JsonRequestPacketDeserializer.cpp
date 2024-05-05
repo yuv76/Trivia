@@ -53,25 +53,32 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignUpRequest(std::vecto
 }
 
 
-/* still needed?
-// Function to convert binary 
-// to decimal 
-int JsonRequestPacketDeserializer::binaryToDecimal(int n)
+/*
+deserializes a get players in room request.
+in: the bytes vector buffer containing the get players in room message.
+out: GetPlayersInRoomRequest struct presenting the request.
+*/
+GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersInRoomRequest(std::vector<std::uint8_t> buffer)
 {
-	int num = n;
-	int dec_value = 0;
+	
+}
 
-	// Initializing base value to 
-	// 1, i.e 2^0 
-	int base = 1;
+/*
+deserializes a join room request.
+in: the bytes vector buffer containing the join room message.
+out: JoinRoomRequest struct presenting the request.
+*/
+JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(std::vector<std::uint8_t> buffer)
+{
+	
+}
 
-	int temp = num;
-	while (temp) {
-		int last_digit = temp % 10;
-		temp = temp / 10;
-		dec_value += last_digit * base;
-		base = base * 2;
-	}
-
-	return dec_value;
-}*/
+/*
+deserializes a create room request.
+in: the bytes vector buffer containing the create room message.
+out: CreateRoomRequest struct presenting the request.
+*/
+CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(std::vector<std::uint8_t> buffer)
+{
+	
+}

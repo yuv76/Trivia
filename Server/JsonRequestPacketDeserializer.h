@@ -12,6 +12,7 @@ public:
 	static LoginRequest deserializeLoginRequest(std::vector<std::uint8_t> buffer);
 	static SignupRequest deserializeSignUpRequest(std::vector<std::uint8_t> buffer);
 
-//private:
-	//static int binaryToDecimal(int n);
+	static GetPlayersInRoomRequest deserializeGetPlayersInRoomRequest(std::vector<std::uint8_t> buffer);
+	static JoinRoomRequest deserializeJoinRoomRequest(std::vector<std::uint8_t> buffer);
+	static CreateRoomRequest deserializeCreateRoomRequest(std::vector<std::uint8_t> buffer);
 };
