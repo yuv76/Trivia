@@ -67,7 +67,7 @@ RequestResult LoginRequestHandler::login(RequestInfo inf)
 	LoginRequest lgn = JsonRequestPacketDeserializer::deserializeLoginRequest(inf.buffer);
 	status = lgnMgr.login(lgn.username, lgn.password);
 	l.status = status;
-	buffer = JsonResponsePacketSerializer::serializeLoginResponse(l);
+	buffer = JsonResponsePacketSerializer::serializeResponse(l);
 	rqRs.response = buffer;
 
 	if (status == PASSWORDS_DONT_MATCH || status == USER_NOT_EXIST)
@@ -101,7 +101,7 @@ RequestResult LoginRequestHandler::signup(RequestInfo inf)
 	SignupRequest sig = JsonRequestPacketDeserializer::deserializeSignUpRequest(inf.buffer);
 	status = lgnMgr.signup(sig.username, sig.password, sig.email);
 	s.status = status;
-	buffer = JsonResponsePacketSerializer::serializeSignUpResponse(s);
+	buffer = JsonResponsePacketSerializer::serializeResponse(s);
 	rqRs.response = buffer;
 
 	if (status)
