@@ -31,3 +31,23 @@ public:
 	std::string email;
 };
 
+struct GetPlayersInRoomRequest
+{
+public:
+	unsigned int roomId;
+};
+
+struct JoinRoomRequest
+{
+public:
+	unsigned int roomId;
+};
+
+struct CreateRoomRequest
+{
+public:
+	std::string roomName;
+	unsigned int maxUsers;
+	unsigned int questionCount;
+	unsigned int anwerTimeout;
+};

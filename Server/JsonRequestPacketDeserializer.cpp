@@ -53,25 +53,71 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignUpRequest(std::vecto
 }
 
 
-/* still needed?
-// Function to convert binary 
-// to decimal 
-int JsonRequestPacketDeserializer::binaryToDecimal(int n)
+/*
+deserializes a get players in room request.
+in: the bytes vector buffer containing the get players in room message.
+out: GetPlayersInRoomRequest struct presenting the request.
+*/
+GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersInRoomRequest(std::vector<std::uint8_t> buffer)
 {
-	int num = n;
-	int dec_value = 0;
+	GetPlayersInRoomRequest info;
+	json jsonBuf;
 
-	// Initializing base value to 
-	// 1, i.e 2^0 
-	int base = 1;
+	// remove the code and len from the vector.
+	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
+	// convert the recieved bytes back to a vector.
+	jsonBuf = json::from_ubjson(buffer);
 
-	int temp = num;
-	while (temp) {
-		int last_digit = temp % 10;
-		temp = temp / 10;
-		dec_value += last_digit * base;
-		base = base * 2;
-	}
+	//roomId
+	info.roomId = jsonBuf["roomId"];
+	
+	return info;
+}
 
-	return dec_value;
-}*/
+/*
+deserializes a join room request.
+in: the bytes vector buffer containing the join room message.
+out: JoinRoomRequest struct presenting the request.
+*/
+JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(std::vector<std::uint8_t> buffer)
+{
+	JoinRoomRequest info;
+	json jsonBuf;
+
+	// remove the code and len from the vector.
+	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
+	// convert the recieved bytes back to a vector.
+	jsonBuf = json::from_ubjson(buffer);
+
+	//roomId
+	info.roomId = jsonBuf["roomId"];
+
+	return info;
+}
+
+/*
+deserializes a create room request.
+in: the bytes vector buffer containing the create room message.
+out: CreateRoomRequest struct presenting the request.
+*/
+CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(std::vector<std::uint8_t> buffer)
+{
+	CreateRoomRequest info;
+	json jsonBuf;
+
+	// remove the code and len from the vector.
+	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
+	// convert the recieved bytes back to a vector.
+	jsonBuf = json::from_ubjson(buffer);
+
+	//roomName
+	info.roomName = jsonBuf["roomName"];
+	//maxUsers
+	info.maxUsers = jsonBuf["maxUsers"];
+	//questionCount
+	info.questionCount = jsonBuf["questionCount"];
+	//anwerTimeout
+	info.anwerTimeout = jsonBuf["anwerTimeout"];
+
+	return info;
+}
