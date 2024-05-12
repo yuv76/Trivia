@@ -9,7 +9,6 @@ public:
 	std::string getUsername();
 	bool operator==(LoggedUser& l);
 
-
 private: 
 	std::string m_username;
 };
