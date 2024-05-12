@@ -1,5 +1,11 @@
 #include "SqliteDatabase.h"
 
+#include <bitset>
+
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
+
 /*
 opens a database file. if not exists creates it.
 in: none.
@@ -19,6 +25,7 @@ bool SqliteDatabase::open()
 	if (fileExist == FILE_DOES_NOT_EXIST) //else (if already exists), do nothing.
 	{
 		const char* createUsersTableSQL = "CREATE TABLE IF NOT EXISTS USERS (USERNAME TEXT PRIMARY KEY NOT NULL , PASSWORD TEXT NOT NULL, EMAIL TEXT NOT NULL);";
+		const char* createQuestionsTableSQL = "CREATE TABLE IF NOT EXISTS QUESTIONS (id INTEGER, [right answer] TEXT NOT NULL, [1 wrong answer] TEXT NOT NULL, [2 wrong answer] TEXT NOT NULL, [3 wrong answer] TEXT NOT NULL, question TEXT NOT NULL, PRIMARY KEY(id AUTOINCREMENT)); ";
 
 		char* errMessage[100];
 		//create users table
@@ -27,6 +34,14 @@ bool SqliteDatabase::open()
 		{
 			throw std::exception(*errMessage);
 		}
+
+		//create questions table
+		res = sqlite3_exec(this->database, createQuestionsTableSQL, nullptr, nullptr, errMessage);
+		if (res != SQLITE_OK)
+		{
+			throw std::exception(*errMessage);
+		}
+
 	}
 
 	return true;
@@ -130,4 +145,46 @@ int SqliteDatabase::addNewUser(std::string username, std::string password, std::
 		throw std::exception(*errMessage);
 	}
 	return USER_ADDED;
+}
+
+/*
+adds new questions from the trivia api.
+in: the bytes vector buffer containing the trivia message.
+out: 1 if the questions are added.
+*/
+int SqliteDatabase::addQuestions(std::vector<std::uint8_t> buffer)
+{
+	json jsonBuf;
+	json jsonBuf_temp;
+
+	std::string right;
+	std::string wrong1;
+	std::string wrong2;
+	std::string wrong3;
+	std::string question;
+	std::string incorrect;
+
+	// remove the code and len from the vector.
+	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
+	// convert the recieved bytes back to a Json.
+	jsonBuf = json::from_ubjson(buffer);
+
+	right = jsonBuf["correct_answer"];
+	incorrect = jsonBuf["incorrect_answers"];
+	wrong1 = jsonBuf[""];
+	wrong2 = jsonBuf[""];
+	wrong3 = jsonBuf[""];
+	question = jsonBuf["question"];
+
+
+	char* errMessage[100];
+	std::string addUserSQL = "";
+	addUserSQL = "INSERT INTO questions VALUES(\"" + right + "\", \"" + wrong1 + "\", \"" + wrong2 + "\", \"" + wrong3 + "\", \"" + question + "\"); ";
+	int res = sqlite3_exec(this->database, addUserSQL.c_str(), nullptr, nullptr, errMessage);
+	if (res != SQLITE_OK)
+	{
+		throw std::exception(*errMessage);
+	}
+
+	return QUESTIONS_ADDED;
 }
