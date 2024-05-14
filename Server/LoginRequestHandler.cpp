@@ -77,7 +77,7 @@ RequestResult LoginRequestHandler::login(RequestInfo inf)
 	}
 	else // succesfull - move on to menu
 	{
-		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(LoggedUser(lgn.username));
 	}
 
 	return rqRs;
@@ -111,32 +111,8 @@ RequestResult LoginRequestHandler::signup(RequestInfo inf)
 	}
 	else // succesfull - move on to menu
 	{
-		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(LoggedUser(sig.username));
 	}
 
 	return rqRs;
 }
-
-
-/*
-// Function to convert binary 
-// to decimal 
-int LoginRequestHandler::binaryToDecimal(int n)
-{
-	int num = n;
-	int dec_value = 0;
-
-	// Initializing base value to 
-	// 1, i.e 2^0 
-	int base = 1;
-
-	int temp = num;
-	while (temp) {
-		int last_digit = temp % 10;
-		temp = temp / 10;
-		dec_value += last_digit * base;
-		base = base * 2;
-	}
-
-	return dec_value;
-}*/

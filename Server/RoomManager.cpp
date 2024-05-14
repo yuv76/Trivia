@@ -30,7 +30,7 @@ unsigned int RoomManager::getRoomState(int ID)
 {
 	if (this->m_rooms.find(ID) != this->m_rooms.end())
 	{
-		return this->m_rooms[ID].isActive();
+		return this->m_rooms.at(ID).isActive();
 	}
 	return NO_STATE;
 
@@ -63,7 +63,21 @@ Room& RoomManager::getRoom(int ID)
 {
 	if (this->m_rooms.find(ID) != this->m_rooms.end()) // if key exists.
 	{
-		return this->m_rooms[ID];
+		return this->m_rooms.at(ID);
 	}
 	throw std::exception("Invalid Room ID.");
+}
+
+/*
+gets the next available room id.
+in: none.
+out: the unused id.
+*/
+int RoomManager::nextId()
+{
+	//the map is sorted by increased oredr, so its last position will be its biggest key.
+	int id = this->m_rooms.rbegin()->first; 
+	//increase id by one to get the next unused id.
+	id++;
+	return id;
 }
