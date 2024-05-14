@@ -10,7 +10,9 @@ private:
 	RoomData m_metadata;
 	std::vector<LoggedUser> m_users;
 public:
+	//C'tor
 	Room(RoomData data, LoggedUser creator);
+
 	void addUser(LoggedUser newMember);
 	void removeUser(LoggedUser toKick);
 	std::vector<std::string> getAllUsers();

@@ -77,7 +77,7 @@ RequestResult LoginRequestHandler::login(RequestInfo inf)
 	}
 	else // succesfull - move on to menu
 	{
-		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(LoggedUser(lgn.username));
 	}
 
 	return rqRs;
@@ -111,7 +111,7 @@ RequestResult LoginRequestHandler::signup(RequestInfo inf)
 	}
 	else // succesfull - move on to menu
 	{
-		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(LoggedUser(sig.username));
 	}
 
 	return rqRs;

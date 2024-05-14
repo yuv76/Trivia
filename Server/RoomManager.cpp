@@ -30,7 +30,7 @@ unsigned int RoomManager::getRoomState(int ID)
 {
 	if (this->m_rooms.find(ID) != this->m_rooms.end())
 	{
-		return this->m_rooms[ID].isActive();
+		return this->m_rooms.at(ID).isActive();
 	}
 	return NO_STATE;
 
@@ -63,7 +63,7 @@ Room& RoomManager::getRoom(int ID)
 {
 	if (this->m_rooms.find(ID) != this->m_rooms.end()) // if key exists.
 	{
-		return this->m_rooms[ID];
+		return this->m_rooms.at(ID);
 	}
 	throw std::exception("Invalid Room ID.");
 }

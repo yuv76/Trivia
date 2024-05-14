@@ -58,9 +58,9 @@ RequestResult MenuRequestHandler::signout(RequestInfo inf)
 	if (status)
 	{
 		// failed - stay in menu state
-		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+		rqRs.newHandler = this;
 	}
-	else // succesfull - move on to login (?)
+	else // succesfull - move on to login (?) #TODO
 	{
 		rqRs.newHandler = this->m_handlerFactory.createLoginRequestHandler();
 	}
@@ -98,7 +98,7 @@ RequestResult MenuRequestHandler::getRooms(RequestInfo info)
 	rqRs.response = buffer;
 
 	// stay in menu state
-	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+	rqRs.newHandler = this;
 
 	return rqRs;
 }
@@ -126,7 +126,7 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 	rqRs.response = buffer;
 
 	// stay in menu state
-	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+	rqRs.newHandler = this;
 
 	return rqRs;
 }
@@ -137,6 +137,8 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 {
 	// ---
+	RequestResult rr;
+	return rr;
 }
 
 /*
@@ -144,6 +146,8 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 */
 RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
 {
+	RequestResult rr;
+	return rr;
 	// ---
 }
 
@@ -177,7 +181,7 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 	rqRs.response = buffer;
 
 	// stay in menu state
-	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+	rqRs.newHandler = this;
 
 	return rqRs;
 }
@@ -222,7 +226,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	rqRs.response = buffer;
 
 	// stay in menu state
-	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+	rqRs.newHandler = this;
 
 	return rqRs;
 }
