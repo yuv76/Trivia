@@ -67,3 +67,17 @@ Room& RoomManager::getRoom(int ID)
 	}
 	throw std::exception("Invalid Room ID.");
 }
+
+/*
+gets the next available room id.
+in: none.
+out: the unused id.
+*/
+int RoomManager::nextId()
+{
+	//the map is sorted by increased oredr, so its last position will be its biggest key.
+	int id = this->m_rooms.rbegin()->first; 
+	//increase id by one to get the next unused id.
+	id++;
+	return id;
+}

@@ -16,4 +16,5 @@ public:
 	std::vector<std::string> getAllUsers();
 	unsigned int isActive();
 	RoomData getRoomData();
+	std::vector<std::string> getPlayersInRoomNames();
 };

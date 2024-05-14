@@ -74,3 +74,21 @@ RoomData Room::getRoomData()
 {
 	return this->m_metadata;
 }
+
+/*
+returns an std vector with the names of the users logged to the room.
+in: none.
+out: the vector with the names.
+*/
+std::vector<std::string> Room::getPlayersInRoomNames()
+{
+	std::vector<std::string> players;
+
+	auto i = this->m_users.begin();
+	for (i; i != this->m_users.end(); i++)
+	{
+		players.push_back(i->getUsername());
+	}
+
+	return players;
+}

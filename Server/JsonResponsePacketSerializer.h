@@ -12,11 +12,11 @@ public:
 	static std::vector<std::uint8_t> serializeResponse(LoginResponse log);
 	static std::vector<std::uint8_t> serializeResponse(SignupResponse sig);
 
-	std::vector<std::uint8_t> serializeResponse(LogoutResponse log);
-	std::vector<std::uint8_t> serializeResponse(GetRoomsResponse getR);
-	std::vector<std::uint8_t> serializeResponse(GetPlayersInRoomResponse getP);
-	std::vector<std::uint8_t> serializeResponse(JoinRoomResponse join);
-	std::vector<std::uint8_t> serializeResponse(CreateRoomResponse crea);
-	std::vector<std::uint8_t> serializeResponse(getHighScoreResponse high);
-	std::vector<std::uint8_t> serializeResponse(getPersonalStatsResponse pers);
+	static std::vector<std::uint8_t> serializeResponse(LogoutResponse log);
+	static std::vector<std::uint8_t> serializeResponse(GetRoomsResponse getR);
+	static std::vector<std::uint8_t> serializeResponse(GetPlayersInRoomResponse getP);
+	static std::vector<std::uint8_t> serializeResponse(JoinRoomResponse join);
+	static std::vector<std::uint8_t> serializeResponse(CreateRoomResponse crea);
+	static std::vector<std::uint8_t> serializeResponse(getHighScoreResponse high);
+	static std::vector<std::uint8_t> serializeResponse(getPersonalStatsResponse pers);
 };
