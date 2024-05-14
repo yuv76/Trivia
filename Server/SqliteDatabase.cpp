@@ -146,3 +146,63 @@ int SqliteDatabase::addNewUser(std::string username, std::string password, std::
 	}
 	return USER_ADDED;
 }
+
+/*
+gets a question from the db.
+in: the data(QuestionData pointer), number of fields in column, the field contents, the field names.
+out: 0 upon sucess.
+*/
+int SqliteDatabase::callbackGetQuestion(void* data, int argc, char** argv, char** azColName)
+{
+	QuestionData* temp = static_cast<QuestionData*>(data);
+	if (argc != 0)
+	{
+		for (int i = 0; i < argc; i++) {
+			if (std::string(azColName[i]) == "id") {
+				temp->id = atoi(argv[i]);
+			}
+			else if (std::string(azColName[i]) == "[right answer]") {
+				temp->rightAnswer = argv[i];
+			}
+			else if (std::string(azColName[i]) == "[1 wrong answer]") {
+				temp->wrongAnswer1 = argv[i];
+			}
+			else if (std::string(azColName[i]) == "[2 wrong answer]") {
+				temp->wrongAnswer1 = argv[i];
+			}
+			else if (std::string(azColName[i]) == "[3 wrong answer]") {
+				temp->wrongAnswer1 = argv[i];
+			}
+			else if (std::string(azColName[i]) == "question") {
+				temp->question = argv[i];
+			}
+		}
+	}
+	return 0;
+}
+
+/*
+gets questions from the db.
+in: the number of questions to get.
+out: a vector of questions.
+*/
+std::vector<QuestionData> SqliteDatabase::getQuestions(int questionNum)
+{
+	char* errMessage[100];
+	QuestionData temp;
+	std::vector<QuestionData> questionDatas;
+
+	for (int i = 0; i <= questionNum; i++)
+	{
+		std::string getQuestionSQL = "select * from questions WHERE id == \"" + std::to_string((i + 1)) + "\";";
+		int res = sqlite3_exec(this->database, getQuestionSQL.c_str(), callbackGetQuestion, &temp, errMessage);
+		if (res != SQLITE_OK)
+		{
+			throw std::exception(*errMessage);
+		}
+
+		questionDatas.push_back(temp);
+	}
+
+	return questionDatas;
+}

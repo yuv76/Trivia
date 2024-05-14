@@ -23,5 +23,4 @@ private:
 	RequestResult login(RequestInfo inf);
 	RequestResult signup(RequestInfo inf);
 
-	//static int binaryToDecimal(int n);
 };

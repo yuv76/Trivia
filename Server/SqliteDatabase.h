@@ -27,6 +27,7 @@
 #define QUESTIONS_ADDED 1
 
 
+
 class SqliteDatabase : public IDatabase
 {
 public:
@@ -39,10 +40,12 @@ public:
 	virtual int doesPasswordMatch(std::string username, std::string password);
 	virtual int addNewUser(std::string username, std::string password, std::string email);
 
+	virtual std::vector<QuestionData> getQuestions(int questionNum);
 	//virtual int addQuestions(std::vector<std::uint8_t> buffer);
 
 private:
 	static int callbackCheckExistance(void* data, int argc, char** argv, char** azColName);
+	static int callbackGetQuestion(void* data, int argc, char** argv, char** azColName);
 
 
 	//the database
