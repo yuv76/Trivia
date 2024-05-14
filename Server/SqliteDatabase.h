@@ -39,7 +39,7 @@ public:
 	virtual int doesPasswordMatch(std::string username, std::string password);
 	virtual int addNewUser(std::string username, std::string password, std::string email);
 
-	virtual int addQuestions(std::vector<std::uint8_t> buffer);
+	//virtual int addQuestions(std::vector<std::uint8_t> buffer);
 
 private:
 	static int callbackCheckExistance(void* data, int argc, char** argv, char** azColName);
