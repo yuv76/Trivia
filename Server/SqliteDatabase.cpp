@@ -1,5 +1,11 @@
 #include "SqliteDatabase.h"
 
+#include <bitset>
+
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
+
 /*
 opens a database file. if not exists creates it.
 in: none.
@@ -19,6 +25,7 @@ bool SqliteDatabase::open()
 	if (fileExist == FILE_DOES_NOT_EXIST) //else (if already exists), do nothing.
 	{
 		const char* createUsersTableSQL = "CREATE TABLE IF NOT EXISTS USERS (USERNAME TEXT PRIMARY KEY NOT NULL , PASSWORD TEXT NOT NULL, EMAIL TEXT NOT NULL);";
+		const char* createQuestionsTableSQL = "CREATE TABLE IF NOT EXISTS QUESTIONS (id INTEGER, [right answer] TEXT NOT NULL, [1 wrong answer] TEXT NOT NULL, [2 wrong answer] TEXT NOT NULL, [3 wrong answer] TEXT NOT NULL, question TEXT NOT NULL, PRIMARY KEY(id AUTOINCREMENT)); ";
 
 		char* errMessage[100];
 		//create users table
@@ -27,6 +34,14 @@ bool SqliteDatabase::open()
 		{
 			throw std::exception(*errMessage);
 		}
+
+		//create questions table
+		res = sqlite3_exec(this->database, createQuestionsTableSQL, nullptr, nullptr, errMessage);
+		if (res != SQLITE_OK)
+		{
+			throw std::exception(*errMessage);
+		}
+
 	}
 
 	return true;
