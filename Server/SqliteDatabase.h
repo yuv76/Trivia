@@ -43,9 +43,18 @@ public:
 	virtual std::vector<QuestionData> getQuestions(int questionNum);
 	//virtual int addQuestions(std::vector<std::uint8_t> buffer);
 
+	virtual float getPlayerAverageAnswerTime(std::string username);
+	virtual int getNumOfCorrectAnswers(std::string username);
+	virtual int getNumOfTotalAnswers(std::string username);
+	virtual int getNumOfPlayerGames(std::string username);
+
 private:
 	static int callbackCheckExistance(void* data, int argc, char** argv, char** azColName);
 	static int callbackGetQuestion(void* data, int argc, char** argv, char** azColName);
+	static int callbackGetAverageAnswerTime(void* data, int argc, char** argv, char** azColName);
+	static int callbackGetNumOfCorrectAnswers(void* data, int argc, char** argv, char** azColName);
+	static int callbackGetNumOfTotalAnswers(void* data, int argc, char** argv, char** azColName);
+	static int callbackGetNumOfPlayerGames(void* data, int argc, char** argv, char** azColName);
 
 
 	//the database

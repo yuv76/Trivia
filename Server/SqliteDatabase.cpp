@@ -26,6 +26,7 @@ bool SqliteDatabase::open()
 	{
 		const char* createUsersTableSQL = "CREATE TABLE IF NOT EXISTS USERS (USERNAME TEXT PRIMARY KEY NOT NULL , PASSWORD TEXT NOT NULL, EMAIL TEXT NOT NULL);";
 		const char* createQuestionsTableSQL = "CREATE TABLE IF NOT EXISTS QUESTIONS (id INTEGER, [right answer] TEXT NOT NULL, [1 wrong answer] TEXT NOT NULL, [2 wrong answer] TEXT NOT NULL, [3 wrong answer] TEXT NOT NULL, question TEXT NOT NULL, PRIMARY KEY(id AUTOINCREMENT)); ";
+		const char* createStatisticsTableSQL = "CREATE TABLE IF NOT EXISTS STATISTICS (username TEXT PRIMARY KEY NOT NULL, [average time] REAL NOT NULL, [correct answers] INTEGER NOT NULL, [total answers] INTEGER NOT NULL, [player games] INTEGER NOT NULL); ";
 
 		char* errMessage[100];
 		//create users table
@@ -42,6 +43,12 @@ bool SqliteDatabase::open()
 			throw std::exception(*errMessage);
 		}
 
+		//create statistics table
+		res = sqlite3_exec(this->database, createStatisticsTableSQL, nullptr, nullptr, errMessage);
+		if (res != SQLITE_OK)
+		{
+			throw std::exception(*errMessage);
+		}
 	}
 
 	return true;
@@ -205,4 +212,154 @@ std::vector<QuestionData> SqliteDatabase::getQuestions(int questionNum)
 	}
 
 	return questionDatas;
+}
+
+
+/*
+gets a the players average answer time from the db.
+in: the data(QuestionData pointer), number of fields in column, the field contents, the field names.
+out: 0 upon sucess.
+*/
+int SqliteDatabase::callbackGetAverageAnswerTime(void* data, int argc, char** argv, char** azColName)
+{
+	float* answerTime = static_cast<float*>(data);
+	
+	if (argc != 0)
+	{
+		for (int i = 0; i < argc; i++) {
+			if (std::string(azColName[i]) == "[average time]") 
+			{
+				*answerTime = atoi(argv[i]);
+			}
+		}
+	}
+	return 0;
+}
+
+float SqliteDatabase::getPlayerAverageAnswerTime(std::string username)
+{
+	float answerTime;
+
+	char* errMessage[100];
+	
+	std::string getStatisticsSQL = "select * from statistics WHERE USERNAME == \"" + username + "\";";
+	int res = sqlite3_exec(this->database, getStatisticsSQL.c_str(), callbackGetAverageAnswerTime, &answerTime, errMessage);
+	if (res != SQLITE_OK)
+	{
+		throw std::exception(*errMessage);
+	}
+
+	return answerTime;
+}
+
+/*
+gets a the players num of correct answers from the db.
+in: the data(QuestionData pointer), number of fields in column, the field contents, the field names.
+out: 0 upon sucess.
+*/
+int SqliteDatabase::callbackGetNumOfCorrectAnswers(void* data, int argc, char** argv, char** azColName)
+{
+	int* num = static_cast<int*>(data);
+
+	if (argc != 0)
+	{
+		for (int i = 0; i < argc; i++) {
+			if (std::string(azColName[i]) == "[correct answers]")
+			{
+				*num = atoi(argv[i]);
+			}
+		}
+	}
+	return 0;
+}
+
+int SqliteDatabase::getNumOfCorrectAnswers(std::string username)
+{
+	int num;
+
+	char* errMessage[100];
+
+	std::string getStatisticsSQL = "select * from statistics WHERE USERNAME == \"" + username + "\";";
+	int res = sqlite3_exec(this->database, getStatisticsSQL.c_str(), callbackGetNumOfCorrectAnswers, &num, errMessage);
+	if (res != SQLITE_OK)
+	{
+		throw std::exception(*errMessage);
+	}
+
+	return num;
+}
+
+
+/*
+gets a the players num of total answers from the db.
+in: the data(QuestionData pointer), number of fields in column, the field contents, the field names.
+out: 0 upon sucess.
+*/
+int SqliteDatabase::callbackGetNumOfTotalAnswers(void* data, int argc, char** argv, char** azColName)
+{
+	int* num = static_cast<int*>(data);
+
+	if (argc != 0)
+	{
+		for (int i = 0; i < argc; i++) {
+			if (std::string(azColName[i]) == "[total answers]")
+			{
+				*num = atoi(argv[i]);
+			}
+		}
+	}
+	return 0;
+}
+
+int SqliteDatabase::getNumOfTotalAnswers(std::string username)
+{
+	int num;
+
+	char* errMessage[100];
+
+	std::string getStatisticsSQL = "select * from statistics WHERE USERNAME == \"" + username + "\";";
+	int res = sqlite3_exec(this->database, getStatisticsSQL.c_str(), callbackGetNumOfTotalAnswers, &num, errMessage);
+	if (res != SQLITE_OK)
+	{
+		throw std::exception(*errMessage);
+	}
+
+	return num;
+}
+
+/*
+gets a the players num of players games from the db.
+in: the data(QuestionData pointer), number of fields in column, the field contents, the field names.
+out: 0 upon sucess.
+*/
+int SqliteDatabase::callbackGetNumOfPlayerGames(void* data, int argc, char** argv, char** azColName)
+{
+	int* num = static_cast<int*>(data);
+
+	if (argc != 0)
+	{
+		for (int i = 0; i < argc; i++) {
+			if (std::string(azColName[i]) == "[player games]")
+			{
+				*num = atoi(argv[i]);
+			}
+		}
+	}
+	return 0;
+}
+
+int SqliteDatabase::getNumOfPlayerGames(std::string username)
+{
+	int num;
+
+	char* errMessage[100];
+
+	std::string getStatisticsSQL = "select * from statistics WHERE USERNAME == \"" + username + "\";";
+	int res = sqlite3_exec(this->database, getStatisticsSQL.c_str(), callbackGetNumOfPlayerGames, &num, errMessage);
+	if (res != SQLITE_OK)
+	{
+		throw std::exception(*errMessage);
+	}
+
+	return num;
 }
