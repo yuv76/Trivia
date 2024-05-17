@@ -15,6 +15,9 @@
 #define ROOM_CREATED_SUCESSFULLY 1
 #define ROOM_CREATION_ERROR 0
 
+#define STATS_SUCCESS 1
+#define STATS_ERROR 0
+
 class RequestHandlerFactory;
 
 class MenuRequestHandler : public IRequestHandler

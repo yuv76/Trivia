@@ -49,3 +49,13 @@ RoomManager& RequestHandlerFactory::getRoomManager()
 {
 	return this->m_roomManager;
 }
+
+/*
+returns the statistics manager.
+in: none.
+out: a reference to a StatisticsManager object.
+*/
+StatisticsManager& RequestHandlerFactory::getStatisticsManager()
+{
+	return this->m_statisticsManager;
+}

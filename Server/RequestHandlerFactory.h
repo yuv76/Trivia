@@ -3,6 +3,7 @@
 #include "SqliteDatabase.h"
 #include "LoginManager.h"
 #include "RoomManager.h"
+#include "StatisticsManager.h"
 #include "LoginRequestHandler.h"
 #include "MenuRequestHandler.h"
 
@@ -17,10 +18,12 @@ public:
 	MenuRequestHandler* createMenuRequestHandler(LoggedUser user);
 	LoginManager& getLoginManager();
 	RoomManager& getRoomManager();
+	StatisticsManager& getStatisticsManager();
 
 private:
 	LoginManager m_loginManager;
 	RoomManager m_roomManager;
+	StatisticsManager m_statisticsManager;
 
 	IDatabase* m_database;
 
