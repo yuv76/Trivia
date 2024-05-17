@@ -48,6 +48,8 @@ public:
 	virtual int getNumOfTotalAnswers(std::string username);
 	virtual int getNumOfPlayerGames(std::string username);
 
+	virtual void addNewQuestionsToDb(int numOfQuestions);
+
 private:
 	static int callbackCheckExistance(void* data, int argc, char** argv, char** azColName);
 	static int callbackGetQuestion(void* data, int argc, char** argv, char** azColName);
@@ -55,7 +57,6 @@ private:
 	static int callbackGetNumOfCorrectAnswers(void* data, int argc, char** argv, char** azColName);
 	static int callbackGetNumOfTotalAnswers(void* data, int argc, char** argv, char** azColName);
 	static int callbackGetNumOfPlayerGames(void* data, int argc, char** argv, char** azColName);
-
 
 	//the database
 	sqlite3* database;

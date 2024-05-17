@@ -132,23 +132,67 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 }
 
 /*
-
+gets a get personal stats request and returns its response.
+in: the request's information, a RequestInfo object.
+out: the requests's result, a RequestResult object.
 */
 RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 {
-	// ---
 	RequestResult rr;
+	getPersonalStatsResponse gp;
+	std::vector<std::uint8_t> buffer;
+
+	StatisticsManager& stats = this->m_handlerFactory.getStatisticsManager();
+
+	gp.statistics = stats.getUserStatistics(this->m_user.getUsername());
+	if (gp.statistics.empty())
+	{
+		gp.status = STATS_ERROR;
+	}
+	else
+	{
+		gp.status = STATS_SUCCESS;
+	}
+	
+	buffer = JsonResponsePacketSerializer::serializeResponse(gp);
+	rr.response = buffer;
+
+	//stay in menu state.
+	rr.newHandler = this;
+
 	return rr;
 }
 
 /*
-
+gets a get high score request and returns its response.
+in: the request's information, a RequestInfo object.
+out: the requests's result, a RequestResult object.
 */
 RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
 {
 	RequestResult rr;
+	getHighScoreResponse gh;
+	std::vector<std::uint8_t> buffer;
+
+	StatisticsManager& stats = this->m_handlerFactory.getStatisticsManager();
+
+	gh.statistics = stats.getHighScore();
+	if (gh.statistics.empty())
+	{
+		gh.status = STATS_ERROR;
+	}
+	else
+	{
+		gh.status = STATS_SUCCESS;
+	}
+
+	buffer = JsonResponsePacketSerializer::serializeResponse(gh);
+	rr.response = buffer;
+
+	//stay in menu state.
+	rr.newHandler = this;
+
 	return rr;
-	// ---
 }
 
 /*
