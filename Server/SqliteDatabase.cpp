@@ -409,3 +409,40 @@ void SqliteDatabase::addNewQuestionsToDb(int numOfQuestions)
 	std::string command = "python " + filename + " " + std::to_string(numOfQuestions);
 	system(command.c_str());
 }
+
+
+/*
+gets the users from the db.
+in: the data(QuestionData pointer), number of fields in column, the field contents, the field names.
+out: 0 upon sucess.
+*/
+int SqliteDatabase::callbackGetUsers(void* data, int argc, char** argv, char** azColName)
+{
+	std::vector<std::string>* temp = static_cast<std::vector<std::string>*>(data);
+	if (argc != 0)
+	{
+		for (int i = 0; i < argc; i++) {
+			if (std::string(azColName[i]) == "USERNAME") {
+				temp->push_back(argv[i]);
+			}
+		}
+	}
+	return 0;
+}
+
+
+std::vector<std::string> SqliteDatabase::getUsers()
+{
+	char* errMessage[100];
+	std::string temp;
+	std::vector<std::string> users;
+
+	std::string getQuestionSQL = "select * from users;";
+	int res = sqlite3_exec(this->database, getQuestionSQL.c_str(), callbackGetUsers, &users, errMessage);
+	if (res != SQLITE_OK)
+	{
+		throw std::exception(*errMessage);
+	}
+
+	return users;
+}

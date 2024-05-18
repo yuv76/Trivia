@@ -41,7 +41,6 @@ public:
 	virtual int addNewUser(std::string username, std::string password, std::string email);
 
 	virtual std::vector<QuestionData> getQuestions(int questionNum);
-	//virtual int addQuestions(std::vector<std::uint8_t> buffer);
 
 	virtual float getPlayerAverageAnswerTime(std::string username);
 	virtual int getNumOfCorrectAnswers(std::string username);
@@ -50,6 +49,8 @@ public:
 
 	virtual void addNewQuestionsToDb(int numOfQuestions);
 
+	virtual std::vector<std::string> getUsers();
+
 private:
 	static int callbackCheckExistance(void* data, int argc, char** argv, char** azColName);
 	static int callbackGetQuestion(void* data, int argc, char** argv, char** azColName);
@@ -57,6 +58,8 @@ private:
 	static int callbackGetNumOfCorrectAnswers(void* data, int argc, char** argv, char** azColName);
 	static int callbackGetNumOfTotalAnswers(void* data, int argc, char** argv, char** azColName);
 	static int callbackGetNumOfPlayerGames(void* data, int argc, char** argv, char** azColName);
+
+	static int callbackGetUsers(void* data, int argc, char** argv, char** azColName);
 
 	//the database
 	sqlite3* database;
