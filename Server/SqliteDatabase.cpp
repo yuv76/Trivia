@@ -25,7 +25,7 @@ bool SqliteDatabase::open()
 	if (fileExist == FILE_DOES_NOT_EXIST) //else (if already exists), do nothing.
 	{
 		const char* createUsersTableSQL = "CREATE TABLE IF NOT EXISTS USERS (USERNAME TEXT PRIMARY KEY NOT NULL , PASSWORD TEXT NOT NULL, EMAIL TEXT NOT NULL);";
-		const char* createQuestionsTableSQL = "CREATE TABLE IF NOT EXISTS QUESTIONS (id INTEGER, [right answer] TEXT NOT NULL, [1 wrong answer] TEXT NOT NULL, [2 wrong answer] TEXT NOT NULL, [3 wrong answer] TEXT NOT NULL, question TEXT NOT NULL, PRIMARY KEY(id AUTOINCREMENT)); ";
+		const char* createQuestionsTableSQL = "CREATE TABLE IF NOT EXISTS QUESTIONS (id INTEGER, [right answer] TEXT NOT NULL, [1 wrong answer] TEXT NOT NULL, [2 wrong answer] TEXT NOT NULL, [3 wrong answer] TEXT NOT NULL, question TEXT NOT NULL, difficulty TEXT NOT NULL, PRIMARY KEY(id AUTOINCREMENT)); ";
 		const char* createStatisticsTableSQL = "CREATE TABLE IF NOT EXISTS STATISTICS (username TEXT PRIMARY KEY NOT NULL, [average time] REAL NOT NULL, [correct answers] INTEGER NOT NULL, [total answers] INTEGER NOT NULL, [player games] INTEGER NOT NULL); ";
 
 		char* errMessage[100];
@@ -183,6 +183,20 @@ int SqliteDatabase::callbackGetQuestion(void* data, int argc, char** argv, char*
 			else if (std::string(azColName[i]) == "question") {
 				temp->question = argv[i];
 			}
+			else if (std::string(azColName[i]) == "difficulty") {
+				if (argv[i] == "hard")
+				{
+					temp->difficulty = hard;
+				}
+				else if (argv[i] == "medium")
+				{
+					temp->difficulty = medium;
+				}
+				else
+				{
+					temp->difficulty = easy;
+				}
+			}
 		}
 	}
 	return 0;
@@ -236,6 +250,11 @@ int SqliteDatabase::callbackGetAverageAnswerTime(void* data, int argc, char** ar
 	return 0;
 }
 
+/*
+gets the average answer time for a specific player.
+in: the player's username.
+out: the average (float).
+*/
 float SqliteDatabase::getPlayerAverageAnswerTime(std::string username)
 {
 	float answerTime;
@@ -273,6 +292,11 @@ int SqliteDatabase::callbackGetNumOfCorrectAnswers(void* data, int argc, char** 
 	return 0;
 }
 
+/*
+gets number of user's correct answers.
+in: the user's username.
+out: the number of correct answers.
+*/
 int SqliteDatabase::getNumOfCorrectAnswers(std::string username)
 {
 	int num;
@@ -311,6 +335,11 @@ int SqliteDatabase::callbackGetNumOfTotalAnswers(void* data, int argc, char** ar
 	return 0;
 }
 
+/*
+gets player's number of questions answers.
+in: the player's username.
+out: the number of questions answered.
+*/
 int SqliteDatabase::getNumOfTotalAnswers(std::string username)
 {
 	int num;
@@ -348,6 +377,11 @@ int SqliteDatabase::callbackGetNumOfPlayerGames(void* data, int argc, char** arg
 	return 0;
 }
 
+/*
+gets the number of player's games played from database, given the player's username.
+in: the username of the player to get its questions.
+out: the number of games.
+*/
 int SqliteDatabase::getNumOfPlayerGames(std::string username)
 {
 	int num;
@@ -362,4 +396,16 @@ int SqliteDatabase::getNumOfPlayerGames(std::string username)
 	}
 
 	return num;
+}
+
+/*
+adds n new questions to the database from opentdb.com.
+in: the number of questions to get.
+out: none.
+*/
+void SqliteDatabase::addNewQuestionsToDb(int numOfQuestions)
+{
+	std::string filename = "get_n_questions_from_online_db.py";
+	std::string command = "python " + filename + " " + std::to_string(numOfQuestions);
+	system(command.c_str());
 }

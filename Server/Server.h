@@ -16,6 +16,8 @@
 
 #define BUFF_SIZE 1024
 
+#define NUM_OF_QUESTIONS_TO_ADD 10
+
 class Server
 {
 public:
