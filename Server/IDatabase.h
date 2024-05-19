@@ -38,5 +38,7 @@ public:
 	virtual int getNumOfPlayerGames(std::string username) = 0;
 
 	virtual void addNewQuestionsToDb(int numOfQuestions) = 0;
+
+	virtual std::vector<std::string> getUsers() = 0;
 };
 
