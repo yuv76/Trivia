@@ -430,7 +430,11 @@ int SqliteDatabase::callbackGetUsers(void* data, int argc, char** argv, char** a
 	return 0;
 }
 
-
+/*
+gets all of the users.
+in: none.
+out: a vector with the user names.
+*/
 std::vector<std::string> SqliteDatabase::getUsers()
 {
 	char* errMessage[100];
