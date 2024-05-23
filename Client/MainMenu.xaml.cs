@@ -23,5 +23,31 @@ namespace Client
         {
             InitializeComponent();
         }
+
+        private void moveToCreateRoom_click(object sender, RoutedEventArgs e)
+        {
+            CreateRoom sigi = new CreateRoom();
+            sigi.Show();
+            this.Close();
+        }
+
+        private void moveToJoinRoom_click(object sender, RoutedEventArgs e)
+        {
+            JoinRoom sigi = new JoinRoom();
+            sigi.Show();
+            this.Close();
+        }
+
+        private void moveToWindow1_click(object sender, RoutedEventArgs e)
+        {
+            Window1 sigi = new Window1();
+            sigi.Show();
+            this.Close();
+        }
+
+        private void exit_click(object sender, RoutedEventArgs e)
+        {
+            System.Environment.Exit(1);
+        }
     }
 }

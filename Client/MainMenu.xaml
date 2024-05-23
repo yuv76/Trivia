@@ -9,5 +9,10 @@
         Background="AliceBlue">
     <Grid>
         
+        <Button x:Name="EXIT" Click="exit_click" Margin="479,269,221,130" Height="35" Width="100">Exit</Button>
+        <Button x:Name="CREATE_ROOM" Click="moveToCreateRoom_click" Margin="220,120,480,280" Width="100">Create Room</Button>
+        <Button x:Name="JOIN_ROOM" Click="moveToJoinRoom_click" Margin="479,120,221,280" Width="100">Join Room</Button>
+        <Button x:Name="STATISTICS" Click="moveToWindow1_click" Margin="220,270,480,130" Width="100" RenderTransformOrigin="0.505,4.647">Statistics</Button>
+        
     </Grid>
 </Window>
