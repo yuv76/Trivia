@@ -20,5 +20,19 @@ namespace Client
         {
             InitializeComponent();
         }
+
+        private void moveToSignUp_click(object sender, RoutedEventArgs e)
+        {
+            Signup sigi = new Signup();
+            sigi.Show();
+            this.Close();
+        }
+        
+        private void enterUsername_click(object sender, RoutedEventArgs e)
+        {
+            PasswordWindow pass = new PasswordWindow(USERNAME.Text);
+            pass.Show();
+            this.Close();
+        }
     }
 }

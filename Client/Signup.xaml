@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="Signup" Height="450" Width="800">
+        Title="Signup" Height="450" Width="800"
+        Background="AliceBlue">
     <Grid>
-        
+        <TextBlock Margin="200,200,199,136" FontSize="30">signup</TextBlock>
     </Grid>
 </Window>

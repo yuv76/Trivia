@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Background="AliceBlue">
     <Grid>
-
+        <StackPanel Margin="-5,118,0,89" RenderTransformOrigin="0.5,0.5">
+            <TextBlock Height="28" Width="115" FontSize="16">Enter username</TextBlock>
+            <TextBox x:Name="USERNAME" Width="500" Height="35"></TextBox>
+            <Button x:Name="ENTER_USERNAME" Click="enterUsername_click" Margin="20" Height="35" Width="100">Enter</Button>
+            <Button x:Name="SIGNUP" Click="moveToSignUp_click" Margin="30" Width="50">sign up</Button>
+        </StackPanel> 
     </Grid>
 </Window>
