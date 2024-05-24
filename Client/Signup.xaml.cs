@@ -18,10 +18,40 @@ namespace Client
     /// Interaction logic for Signup.xaml
     /// </summary>
     public partial class Signup : Window
-    {
+    {        
+        const string USERNAME_TAKEN = "This Username is already taken.\n";
+        const string PASSWORDS_NOT_MATCH = "Passwords dont match.\n";
+        const string INVALID_MAIL = "Invalid mail.\n";
+
         public Signup()
         {
             InitializeComponent();
+        }
+
+        private void signupEnter_click(object sender, RoutedEventArgs e)
+        {
+            string errors = "";
+            //check username existance with the server.
+            
+            if(NEWPASS.Text != REPASS.Text)
+            {
+                errors += PASSWORDS_NOT_MATCH;
+            }
+            if(!NEWMAIL.Text.Contains('@'))
+            {
+                errors += INVALID_MAIL; // will add better check further on.
+            }
+
+            if(errors != "")
+            {
+                ERRORS.Text = errors;
+            }
+            else
+            {
+                MainMenu men = new MainMenu();
+                men.Show();
+                this.Close();
+            }
         }
     }
 }
