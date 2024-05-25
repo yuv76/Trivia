@@ -5,8 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="CreateRoom" Height="450" Width="800">
+        Title="CreateRoom" Height="450" Width="800"
+        Background="AliceBlue">
     <Grid>
-        
+        <StackPanel Margin="10,80,10,6">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="16" Width="188">Enter Room Name:</TextBlock>
+                    <TextBox x:Name="ROOMNAME" Height="26" Width="577"/>
+                </StackPanel>
+                <StackPanel Margin="0,20" Orientation="Horizontal">
+                    <TextBlock FontSize="16" Width="188">Number Of Players:</TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Height="30" Width="30" Click="Inc_click">+</Button>
+                        <TextBox x:Name="PLAYERS_NUM" Height="30" Width="30" Text="0"></TextBox>
+                        <Button Height="30" Width="30" Click="Dec_click">-</Button>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="16" Width="188">Re-Enter Password:</TextBlock>
+                    <TextBox x:Name="REPASS" Height="26" Width="577"></TextBox>
+                </StackPanel>
+                <StackPanel Margin="0,20" Orientation="Horizontal">
+                    <TextBlock FontSize="16" Width="188">Enter Email:</TextBlock>
+                    <TextBox x:Name="NEWMAIL" Height="26" Width="577"></TextBox>
+
+                </StackPanel>
+            </StackPanel>
+
     </Grid>
 </Window>

@@ -17,11 +17,22 @@ namespace Client
     /// <summary>
     /// Interaction logic for CreateRoom.xaml
     /// </summary>
+    /// 
     public partial class CreateRoom : Window
     {
         public CreateRoom()
         {
             InitializeComponent();
+        }
+
+        private void Inc_click(object sender, RoutedEventArgs e)
+        {
+            PLAYERS_NUM.Text = (int.Parse(PLAYERS_NUM.Text) + 1).ToString();
+        }
+
+        private void Dec_click(object sender, RoutedEventArgs e)
+        {
+            PLAYERS_NUM.Text = (int.Parse(PLAYERS_NUM.Text) - 1).ToString();
         }
     }
 }

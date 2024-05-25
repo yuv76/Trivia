@@ -18,11 +18,11 @@
                 <TextBox x:Name="NEWPASS" Height="26" Width="577"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock FontSize="16" Width="188">Re-Enter Password</TextBlock>
+                <TextBlock FontSize="16" Width="188">Re-Enter Password:</TextBlock>
                 <TextBox x:Name="REPASS" Height="26" Width="577"></TextBox>
             </StackPanel>
             <StackPanel Margin="0,20" Orientation="Horizontal">
-                <TextBlock FontSize="16" Width="188">Enter Email</TextBlock>
+                <TextBlock FontSize="16" Width="188">Enter Email:</TextBlock>
                 <TextBox x:Name="NEWMAIL" Height="26" Width="577"></TextBox>
             </StackPanel>
             
