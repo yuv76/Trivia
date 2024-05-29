@@ -27,12 +27,63 @@ namespace Client
 
         private void Inc_click(object sender, RoutedEventArgs e)
         {
-            PLAYERS_NUM.Text = (int.Parse(PLAYERS_NUM.Text) + 1).ToString();
+            if (sender is Button)
+            {
+                Button button = sender as Button;
+
+                if (button.Name == "PlayersInc")
+                {
+                    PLAYERS_NUM.Text = (int.Parse(PLAYERS_NUM.Text) + 1).ToString();
+                }
+                else if(button.Name == "QuestionsInc")
+                {
+                    QUESTION_NUM.Text = (int.Parse(QUESTION_NUM.Text) + 1).ToString();
+                }
+                else if (button.Name == "TimeInc")
+                {
+                    QUESTION_TIME.Text = (Double.Parse(QUESTION_TIME.Text) + 0.5).ToString();
+                }
+
+            }
         }
 
         private void Dec_click(object sender, RoutedEventArgs e)
         {
-            PLAYERS_NUM.Text = (int.Parse(PLAYERS_NUM.Text) - 1).ToString();
+            if (sender is Button)
+            {
+                Button button = sender as Button;
+
+                if (button.Name == "PlayersDec")
+                {
+                    if (int.Parse(PLAYERS_NUM.Text) > 0)
+                    {
+                        PLAYERS_NUM.Text = (int.Parse(PLAYERS_NUM.Text) - 1).ToString();
+                    }
+                }
+                else if (button.Name == "QuestionsDec")
+                {
+                    if (int.Parse(QUESTION_NUM.Text) > 0)
+                    {
+                        QUESTION_NUM.Text = (int.Parse(QUESTION_NUM.Text) - 1).ToString();
+                    }
+                }
+                else if( button.Name == "TimeDec")
+                {
+                    if (Double.Parse(QUESTION_TIME.Text) > 0)
+                    {
+                        QUESTION_TIME.Text = (Double.Parse(QUESTION_TIME.Text) - 0.5).ToString();
+                    }
+                }
+
+            }
+        }
+
+        private void Create_Click(object sender, RoutedEventArgs e)
+        {
+            //send data to server, check it is ok.
+            MainMenu men = new MainMenu();
+            men.Show();
+            this.Close();
         }
     }
 }

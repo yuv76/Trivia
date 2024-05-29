@@ -5,10 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="JoinRoom" Height="450" Width="800">
+        Title="JoinRoom" Height="450" Width="800"
+        Background="AliceBlue">
     <Grid>
+        <StackPanel>
+            <TextBlock FontSize="17" Margin="57,40,65,-60">Choose a Room To Join:</TextBlock>
+            <ListBox x:Name="LST_ROOMS" Height="250"  Margin="57,90,65,20" FontSize="25"/>
+            <Button x:Name="JOIN_ROOM" Height="44" Width="388" Content="Join" FontSize="20" Click="Join_Click"/>
+        </StackPanel>
         
-        
-        
+
     </Grid>
 </Window>
