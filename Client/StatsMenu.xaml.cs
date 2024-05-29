@@ -23,5 +23,19 @@ namespace Client
         {
             InitializeComponent();
         }
+
+        private void top_click(object sender, RoutedEventArgs e)
+        {
+            HighScores sigi = new HighScores();
+            sigi.Show();
+            this.Close();
+        }
+
+        private void personal_click(object sender, RoutedEventArgs e)
+        {
+            PersonalStats sigi = new PersonalStats();
+            sigi.Show();
+            this.Close();
+        }
     }
 }

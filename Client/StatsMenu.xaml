@@ -5,8 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="Window1" Height="450" Width="800">
+        Title="Window1" Height="450" Width="800"
+        Background="AliceBlue">
     <Grid>
-        
+
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Button x:Name="PERSONAL" Click="personal_click" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,200,200,0" Width="130">Personal Statistics</Button>
+        <Button x:Name="TOP" Click="top_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,200,150,0" Width="130" RenderTransformOrigin="0.445,1.399">Top Statistics</Button>
     </Grid>
 </Window>
