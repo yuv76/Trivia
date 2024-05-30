@@ -183,7 +183,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		info.receivalTime = recvTime;
 		info.RequestId = (msgCodes)buffer[0];
 		
-		LoginRequestHandler* l = this->m_handlerFactory.createLoginRequestHandler();
+		IRequestHandler* l = this->m_handlerFactory.createLoginRequestHandler();
 		RequestResult r;
 		if (l->isRequestRelevant(info))
 		{
@@ -200,6 +200,25 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		std::copy(r.response.begin(), r.response.end(), data);
 
 		send(clientSocket, data, r.response.size(), 0);
+
+		while (m_clients[clientSocket] != nullptr)
+		{
+			info = { (msgCodes)buffer[0], recvTime,  buffer };
+			if (m_clients[clientSocket]->isRequestRelevant(info))
+			{
+				RequestResult result = m_clients[clientSocket]->handleRequest(info);
+
+				std::string response(result.response.begin(), result.response.end());
+				// sanding the response message to client.
+				char* data = new char[r.response.size()]; // have to send as char*.
+				std::copy(r.response.begin(), r.response.end(), data);
+				send(clientSocket, data, r.response.size(), 0);
+
+				delete m_clients[clientSocket];
+
+				m_clients[clientSocket] = result.newHandler;
+			}
+		}
 
 		delete[] tempCharRecv;
 
