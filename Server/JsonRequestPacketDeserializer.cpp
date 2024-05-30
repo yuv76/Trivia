@@ -16,9 +16,10 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<
 	
 	// remove the code and len from the vector.
 	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER); 
-	// convert the recieved bytes back to a Json.
-	jsonBuf = json::from_ubjson(buffer); 
+	// convert the recieved bytes back to a string.
+	std::string jsonStr(buffer.begin(), buffer.end());
 
+	jsonBuf = json::parse(jsonStr); 
 	//username
 	info.username = jsonBuf["username"];
 	//password
