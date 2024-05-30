@@ -16,9 +16,12 @@ namespace Client
     /// </summary>
     public partial class MainWindow : Window
     {
+        Communicator communicator;
+
         public MainWindow()
         {
             InitializeComponent();
+            communicator = new Communicator();
         }
 
         private void moveToSignUp_click(object sender, RoutedEventArgs e)
@@ -30,9 +33,18 @@ namespace Client
         
         private void enterUsername_click(object sender, RoutedEventArgs e)
         {
-            PasswordWindow pass = new PasswordWindow(USERNAME.Text);
-            pass.Show();
-            this.Close();
+            bool ok = communicator.login(USERNAME.Text, PASSWORD.Text);
+            if (ok)
+            {
+                MainMenu men = new MainMenu();
+                men.Show();
+                this.Close();
+            }
+            else
+            {
+                USERNAME.Clear();
+                PASSWORD.Clear();
+            }
         }
     }
 }
