@@ -163,7 +163,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		//if length is bigger than buffer size, scan it in parts (last scan will be less than 1024 and outside of loop).
 		while (len > BUFFER_SIZE)
 		{
-			
+
 			recv(clientSocket, tempCharRecv, BUFFER_SIZE, 0);
 			std::copy(tempCharRecv, tempCharRecv + BUFFER_SIZE, tempTemp.begin());
 			temp.insert(temp.end(), tempTemp.begin(), tempTemp.end()); // add tempTemp at end of main temp.
@@ -177,13 +177,13 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			temp.insert(temp.end(), tempInLen.begin(), tempInLen.end()); //insert the length to temp so copying will be possible.
 		}
 		buffer.insert(buffer.end(), temp.begin(), temp.end()); // add temp at end of buffer
-		
+
 		RequestInfo info;
 		info.buffer = buffer;
 		info.receivalTime = recvTime;
 		info.RequestId = (msgCodes)buffer[0];
-		
-		IRequestHandler* l = this->m_handlerFactory.createLoginRequestHandler();
+
+		LoginRequestHandler* l = this->m_handlerFactory.createLoginRequestHandler();
 		RequestResult r;
 		if (l->isRequestRelevant(info))
 		{
@@ -200,25 +200,6 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 		std::copy(r.response.begin(), r.response.end(), data);
 
 		send(clientSocket, data, r.response.size(), 0);
-
-		while (m_clients[clientSocket] != nullptr)
-		{
-			info = { (msgCodes)buffer[0], recvTime,  buffer };
-			if (m_clients[clientSocket]->isRequestRelevant(info))
-			{
-				RequestResult result = m_clients[clientSocket]->handleRequest(info);
-
-				std::string response(result.response.begin(), result.response.end());
-				// sanding the response message to client.
-				char* data = new char[r.response.size()]; // have to send as char*.
-				std::copy(r.response.begin(), r.response.end(), data);
-				send(clientSocket, data, r.response.size(), 0);
-
-				delete m_clients[clientSocket];
-
-				m_clients[clientSocket] = result.newHandler;
-			}
-		}
 
 		delete[] tempCharRecv;
 
