@@ -26,22 +26,22 @@ namespace Client
 
         private void moveToCreateRoom_click(object sender, RoutedEventArgs e)
         {
-            CreateRoom sigi = new CreateRoom();
-            sigi.Show();
+            CreateRoom crRoom = new CreateRoom();
+            crRoom.Show();
             this.Close();
         }
 
         private void moveToJoinRoom_click(object sender, RoutedEventArgs e)
         {
-            JoinRoom sigi = new JoinRoom();
-            sigi.Show();
+            JoinRoom jnRoom = new JoinRoom();
+            jnRoom.Show();
             this.Close();
         }
 
-        private void moveToWindow1_click(object sender, RoutedEventArgs e)
+        private void moveToStatsMenu_click(object sender, RoutedEventArgs e)
         {
-            Window1 sigi = new Window1();
-            sigi.Show();
+            statsMenu statsMen = new statsMenu();
+            statsMen.Show();
             this.Close();
         }
 

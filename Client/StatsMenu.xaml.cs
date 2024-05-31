@@ -17,9 +17,9 @@ namespace Client
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class statsMenu : Window
     {
-        public Window1()
+        public statsMenu()
         {
             InitializeComponent();
         }

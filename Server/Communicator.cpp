@@ -186,7 +186,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			info.receivalTime = recvTime;
 			info.RequestId = (msgCodes)buffer[0];
 
-			LoginRequestHandler* l = this->m_handlerFactory.createLoginRequestHandler();
+			IRequestHandler* l = this->m_handlerFactory.createLoginRequestHandler();
 			RequestResult r;
 			if (l->isRequestRelevant(info))
 			{
@@ -207,67 +207,29 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			send(clientSocket, dataHeader, 5, 0);
 			send(clientSocket, data, r.response.size()-5, 0);
 
+			while (m_clients[clientSocket] != nullptr)
+			{
+				info = { (msgCodes)buffer[0], recvTime,  buffer };
+				if (m_clients[clientSocket]->isRequestRelevant(info))
+				{
+					RequestResult result = m_clients[clientSocket]->handleRequest(info);
+
+					std::string response(result.response.begin(), result.response.end());
+					// sanding the response message to client.
+					char* data = new char[r.response.size()]; // have to send as char*.
+					std::copy(r.response.begin(), r.response.end(), data);
+					send(clientSocket, data, r.response.size(), 0);
+
+					delete m_clients[clientSocket];
+
+					m_clients[clientSocket] = result.newHandler;
+				}
+			}
+
 			delete[] tempCharRecv;
 
 			
 		}
-<<<<<<< HEAD
-=======
-		if (len > 0) //last scan (or first if length was smaller than 1024 in the first place)
-		{
-			std::vector<uint8_t> tempInLen(len);
-			recv(clientSocket, tempCharRecv, len, 0);
-			std::copy(tempCharRecv, tempCharRecv + len, tempInLen.begin());
-			temp.insert(temp.end(), tempInLen.begin(), tempInLen.end()); //insert the length to temp so copying will be possible.
-		}
-		buffer.insert(buffer.end(), temp.begin(), temp.end()); // add temp at end of buffer
-		
-		RequestInfo info;
-		info.buffer = buffer;
-		info.receivalTime = recvTime;
-		info.RequestId = (msgCodes)buffer[0];
-		
-		IRequestHandler* l = this->m_handlerFactory.createLoginRequestHandler();
-		RequestResult r;
-		if (l->isRequestRelevant(info))
-		{
-			r = l->handleRequest(info);
-		}
-		else //error
-		{
-			//not supported yet
-			throw std::exception("Can currently only deal with login messages.");
-		}
-
-		// sanding the response message to client.
-		char* data = new char[r.response.size()]; // have to send as char*.
-		std::copy(r.response.begin(), r.response.end(), data);
-
-		send(clientSocket, data, r.response.size(), 0);
-
-		while (m_clients[clientSocket] != nullptr)
-		{
-			info = { (msgCodes)buffer[0], recvTime,  buffer };
-			if (m_clients[clientSocket]->isRequestRelevant(info))
-			{
-				RequestResult result = m_clients[clientSocket]->handleRequest(info);
-
-				std::string response(result.response.begin(), result.response.end());
-				// sanding the response message to client.
-				char* data = new char[r.response.size()]; // have to send as char*.
-				std::copy(r.response.begin(), r.response.end(), data);
-				send(clientSocket, data, r.response.size(), 0);
-
-				delete m_clients[clientSocket];
-
-				m_clients[clientSocket] = result.newHandler;
-			}
-		}
-
-		delete[] tempCharRecv;
-
->>>>>>> 57d7eaa583e2d1b40edc00f0d7f4dfcaeb36fc54
-		// will be a loop and socket will close only after it ended.
 		closesocket(clientSocket);
 		std::cout << "client disconnected" << std::endl;
 	}
