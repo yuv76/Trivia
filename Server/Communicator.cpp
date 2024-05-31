@@ -7,12 +7,12 @@
 communicator C'tor.
 in: the request handle factory.
 */
-Communicator::Communicator(RequestHandlerFactory& fact):
+Communicator::Communicator(RequestHandlerFactory& fact) :
 	m_handlerFactory(fact)
 {
 	this->_stopListening.store(false);
 	WSADATA wsa_data = { };
-	
+
 	if (WSAStartup(MAKEWORD(2, 2), &wsa_data) != 0)
 	{
 		throw std::exception("WSAStartup Failed");
@@ -54,7 +54,7 @@ Communicator::~Communicator()
 
 		WSACleanup();
 	}
-	catch (std::exception &e) 
+	catch (std::exception& e)
 	{
 		std::cout << "An error occured: " << e.what() << std::endl;
 	}
@@ -200,12 +200,12 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 
 			// sanding the response message to client.
 			char* dataHeader = new char[5]; // have to send as char*.
-			char* data = new char[r.response.size() -5];
-			std::copy(r.response.begin()+5, r.response.end(), data);
+			char* data = new char[r.response.size() - 5];
+			std::copy(r.response.begin() + 5, r.response.end(), data);
 			std::copy(r.response.begin(), r.response.begin() + 5, dataHeader);
 
 			send(clientSocket, dataHeader, 5, 0);
-			send(clientSocket, data, r.response.size()-5, 0);
+			send(clientSocket, data, r.response.size() - 5, 0);
 
 			while (m_clients[clientSocket] != nullptr)
 			{
@@ -228,7 +228,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 
 			delete[] tempCharRecv;
 
-			
+
 		}
 		closesocket(clientSocket);
 		std::cout << "client disconnected" << std::endl;
