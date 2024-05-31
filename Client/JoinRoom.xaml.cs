@@ -49,8 +49,9 @@ namespace Client
             {
                 var selected = LST_ROOMS.SelectedItems[0];
                 //move selection to server
-                MainMenu men = new MainMenu();
-                men.Show();
+
+                Room room = new Room(selected.ToString());
+                room.Show();
                 _isClosedByX = false;
                 this.Close();
             }
