@@ -9,11 +9,14 @@
         Background="AliceBlue">
     <Grid>
         <StackPanel>
-            <TextBlock FontSize="17" Margin="57,40,65,-60">Choose a Room To Join:</TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="17" Margin="57,40,65,-60">Choose a Room To Join:</TextBlock>
+                <Button Margin="360,40,65,-60" Click="refresh_Click" Height="28" Width="57" Content="refresh"/>
+            </StackPanel>
             <ListBox x:Name="LST_ROOMS" Height="250"  Margin="57,90,65,20" FontSize="25"/>
             <Button x:Name="JOIN_ROOM" Height="44" Width="388" Content="Join" FontSize="20" Click="Join_Click"/>
         </StackPanel>
-        
+
 
     </Grid>
 </Window>
