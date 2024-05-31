@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Responses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,8 +29,9 @@ namespace Client
             InitializeComponent();
         }
 
-        private void signupEnter_click(object sender, RoutedEventArgs e)
+        private async void signupEnter_click(object sender, RoutedEventArgs e)
         {
+            uint ok = 0;
             string errors = "";
             //check username existance with the server.
             
@@ -39,7 +41,7 @@ namespace Client
             }
             if(!NEWMAIL.Text.Contains('@'))
             {
-                errors += INVALID_MAIL; // will add better check further on.
+                errors += INVALID_MAIL; // will maybe add better check further on.
             }
 
             if(errors != "")
@@ -48,9 +50,17 @@ namespace Client
             }
             else
             {
-                MainMenu men = new MainMenu();
-                men.Show();
-                this.Close();
+                ok = await Communicator.signupAsync(NEWSERNAME.Text, NEWPASS.Text, NEWMAIL.Text);
+                if(ok == SignupResponse.SIGNUP_SUCCESS)
+                {
+                    MainMenu men = new MainMenu();
+                    men.Show();
+                    this.Close();
+                }
+                else
+                {
+                    ERRORS.Text = "Username already taken";
+                }
             }
         }
     }

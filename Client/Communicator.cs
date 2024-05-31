@@ -13,41 +13,59 @@ using Responses;
 using Newtonsoft.Json;
 using System.Reflection.PortableExecutable;
 using Newtonsoft.Json.Linq;
+using System.Windows.Interop;
 
 namespace Client
 {
-    internal class Communicator
-    {
+    public class Communicator
+    { 
         const int HEADER_SIZE = 5;
         const int HEADER_LEN_SIZE = 4;
 
         const int PORT = 9090;
         const string IP = "127.0.0.1";
 
-        TcpClient _socket;
-        StreamReader _in;
-        StreamWriter _out;
+        public static bool _isConnected;
 
-        string username;
+        private  static TcpClient _socket;
+        private static IPEndPoint _serverEndPoint;
+        private static StreamReader _in;
+        private static StreamWriter _out;
+        //BinaryReader _reader;
+        private static NetworkStream _stream;
+
+        private static string? username;
 
         public Communicator() 
         {
-            _socket = new TcpClient();
-            IAsyncResult result = _socket.BeginConnect("127.0.0.1", 9090, null, null);
-
-            // Wait 5 seconds for the connection attempt to complete
-            result.AsyncWaitHandle.WaitOne(5000);
-
-            if (!_socket.Connected)
+            try
             {
-                
+                _socket = new TcpClient();
+                _serverEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 4242);
+                IAsyncResult result = _socket.BeginConnect("127.0.0.1", 9090, null, null);
+                //_socket.Connect(_serverEndPoint);
+                // Wait 5 seconds for the connection attempt to complete
+                result.AsyncWaitHandle.WaitOne(5000);
+
+                if (!_socket.Connected)
+                {
+
+                }
+                else
+                {
+                    _stream = _socket.GetStream();
+                    // Set up streams for reading and writing
+                    _in = new StreamReader(_socket.GetStream());
+                    _out = new StreamWriter(_socket.GetStream());
+                    _out.AutoFlush = true;
+                    _isConnected = true;
+
+                    // _reader = new BinaryReader(_stream, Encoding.UTF8, true);
+                }
             }
-            else
+            catch(Exception ex)
             {
-                // Set up streams for reading and writing
-                _in = new StreamReader(_socket.GetStream());
-                _out = new StreamWriter(_socket.GetStream());
-                _out.AutoFlush = true;
+                _isConnected = false;
             }
         }
 
@@ -57,29 +75,22 @@ namespace Client
             {
                 _in.Close();
                 _out.Close();
+                //_reader.Close();
+                _stream.Close();
                 _socket.Close();
             }
         }
 
-        public bool login(string username, string password)
+        public static async Task<uint> sendToServer(string jsonMsg, msgCodes code)
         {
             int jsonLen = 0;
-            string jsonStr = "";
-            byte[] ubjsonBytes;
+            byte[] jsonBytes;
             byte[] lenHeader;
             byte[] fullMsg;
-            byte[] resp;
-            msgCodes code = msgCodes.LOGIN;
 
-            LoginRequest loginRequest = new LoginRequest()
-            {
-                username = username,
-                password = password
-            };
-            jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(loginRequest);
-            jsonLen = jsonStr.Length;
+            jsonLen = jsonMsg.Length;
 
-            ubjsonBytes = Encoding.UTF8.GetBytes(jsonStr); // Convert json string to byte array.
+            jsonBytes = Encoding.UTF8.GetBytes(jsonMsg); // Convert json string to byte array.
 
             //len of json into 4 bytes
             lenHeader = new byte[4];
@@ -91,47 +102,135 @@ namespace Client
             //create the full msg
             fullMsg = new byte[jsonLen + HEADER_SIZE];
             fullMsg[0] = (byte)code;
-            Array.Copy(lenHeader, fullMsg, HEADER_LEN_SIZE);
-            Array.Copy(ubjsonBytes, fullMsg, jsonLen);
-
-            //send to server
-            _out.Write(fullMsg);
-            _out.Flush();
-
-            //create the stream and reader.
-            NetworkStream stream = _socket.GetStream();
-            BinaryReader reader = new BinaryReader(stream);
-
-            //receve header.
-            byte[] receivedHeader = reader.ReadBytes(HEADER_SIZE);
-
-            //get length from header
-            int respLen = BitConverter.ToInt32(receivedHeader, 1);
-
-            //get entire msg
-            byte[] rcvdMsg = reader.ReadBytes(respLen);
-
-            reader.Close();
-            stream.Close();
-
-            string recvJson = Encoding.UTF8.GetString(rcvdMsg);
-            LoginResponse logResp = new LoginResponse();
-            logResp = Newtonsoft.Json.JsonConvert.DeserializeObject<LoginResponse>(recvJson);
-            if (logResp.status == LoginResponse.LOGIN_SUCCESS)
+            Array.Copy(lenHeader, 0, fullMsg, 1, HEADER_LEN_SIZE);
+            Array.Copy(jsonBytes, 0, fullMsg, HEADER_SIZE, jsonLen);
+            try
             {
-                //connected successfully
-                this.username = username;
-                return true;
+                _stream.Write(fullMsg, 0, fullMsg.Length);
+                _stream.Flush();
+                return LoginResponse.LOGIN_SUCCESS;
             }
-            else
+            catch
             {
-                return false;
+                return LoginResponse.LOGIN_F_CONNECTION_ERROR;
             }
         }
 
-        public void signup(string username, string password, string mail)
+        public static async Task<JObject> recieveFromServer()
         {
+            try
+            {
+                //receve header.
+                byte[] receivedHeader = new byte[HEADER_SIZE];
+                _stream.Read(receivedHeader, 0, HEADER_SIZE);
 
+                //put the length part from the header in an array so it will be able to be converted to int, used by little endian so has to reverse order.
+                byte[] respLen = new byte[HEADER_LEN_SIZE];
+                respLen[0] = (receivedHeader[4]);
+                respLen[1] = (receivedHeader[3]);
+                respLen[2] = (receivedHeader[2]);
+                respLen[3] = (receivedHeader[1]);
+
+                //get length from header
+                int respLenInt = BitConverter.ToInt32(respLen, 0);
+
+                //get entire msg
+                byte[] rcvdMsg = new byte[respLenInt];
+                _stream.Read(rcvdMsg, 0, respLenInt);
+                _stream.Flush();
+
+                string recvJson = Encoding.UTF8.GetString(rcvdMsg);
+                JObject resp = new JObject();
+                resp = Newtonsoft.Json.JsonConvert.DeserializeObject<JObject>(recvJson);
+
+                resp.Add("server_resp_code", Convert.ToInt32(receivedHeader[0]));
+                return resp;
+            }
+            catch
+            {
+                JObject err = new JObject();
+                err.Add("server_resp_code", LoginResponse.LOGIN_F_CONNECTION_ERROR);
+                return err;
+            }
+        }
+
+        public static async Task<uint> loginAsync(string username, string password)
+        {
+            string jsonStr = "";
+
+            uint sentSuccesfully = 0;
+            JObject recvdJson;
+
+            LoginRequest loginRequest = new LoginRequest()
+            {
+                username = username,
+                password = password
+            };
+
+            jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(loginRequest);
+            sentSuccesfully = await sendToServer(jsonStr, msgCodes.LOGIN);
+            if(sentSuccesfully == LoginResponse.LOGIN_SUCCESS)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.LOGIN))
+                {
+                    if (recvdJson.ContainsKey("status"))
+                    {
+                        if (recvdJson.Value<int>("status") == LoginResponse.LOGIN_SUCCESS)
+                        {
+                            //connected successfully
+                            Communicator.username = username;
+                        }
+                        return recvdJson.Value<uint>("status");
+                    }
+                    else
+                    {
+                        return recvdJson.Value<uint>("server_resp_code");
+                    }
+                }
+            }
+            //else, return unseccess.
+            return sentSuccesfully;
+        }
+
+        public static async Task<uint> signupAsync(string username, string password, string mail)
+        {
+            string jsonStr = "";
+            uint sentSuccesfully = 0;
+            uint rcvdSuccesfully = 0;
+            JObject recvdJson;
+
+            SignupRequest signupRequest = new SignupRequest()
+            {
+                username = username,
+                password = password,
+                email = mail
+            };
+            jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(signupRequest);
+            sentSuccesfully = await sendToServer(jsonStr, msgCodes.SIGNUP);
+
+            if (sentSuccesfully == SignupResponse.SIGNUP_SUCCESS)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.SIGNUP))
+                {
+                    if (recvdJson.ContainsKey("status"))
+                    {
+                        if (recvdJson.Value<int>("status") == SignupResponse.SIGNUP_SUCCESS)
+                        {
+                            //connected successfully
+                            Communicator.username = username;
+                        }
+                        return recvdJson.Value<uint>("status");
+                    }
+                    else
+                    {
+                        return recvdJson.Value<uint>("server_resp_code");
+                    }
+                }
+            }
+            //else, return unseccess.
+            return sentSuccesfully;
         }
 
         public void createRoom(string roomName, uint maxPlayers, uint questionsNum, double timeForQuestion)

@@ -8,12 +8,18 @@ namespace Responses
 {
     public class SignupResponse
     {
+        public const uint SIGNUP_FAIL = 0;
+        public const uint SIGNUP_SUCCESS = 1;
         public uint status;
     };
 
     public class LoginResponse
-    {
-        public const int LOGIN_SUCCESS = 1;
+    {   
+        public const uint LOGIN_F_WRONG_PASS = 0;
+        public const uint LOGIN_SUCCESS = 1;
+        public const uint LOGIN_F_NO_USER = 2;
+        public const uint LOGIN_F_CONNECTED_ALREADY = 3;
+        public const uint LOGIN_F_CONNECTION_ERROR = 4;
         public uint status;
     };
 

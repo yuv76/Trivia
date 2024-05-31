@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using Requests;
+using Responses;
+using System.ComponentModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -31,10 +34,10 @@ namespace Client
             this.Close();
         }
         
-        private void enterUsername_click(object sender, RoutedEventArgs e)
+        private async void enterLogin_clickAsync(object sender, RoutedEventArgs e)
         {
-            bool ok = communicator.login(USERNAME.Text, PASSWORD.Text);
-            if (ok)
+            uint ok = await Communicator.loginAsync(USERNAME.Text, PASSWORD.Text);
+            if (ok == LoginResponse.LOGIN_SUCCESS)
             {
                 MainMenu men = new MainMenu();
                 men.Show();
@@ -42,6 +45,22 @@ namespace Client
             }
             else
             {
+                if(ok == LoginResponse.LOGIN_F_WRONG_PASS)
+                {
+                    LOGIN_ERORR.Text = "Wrong Password";
+                }
+                else if (ok == LoginResponse.LOGIN_F_NO_USER) 
+                {
+                    LOGIN_ERORR.Text = "No user with given name exists, log in insted?";
+                }
+                else if(ok == LoginResponse.LOGIN_F_CONNECTED_ALREADY)
+                {
+                    LOGIN_ERORR.Text = "User already connected";
+                }
+                else
+                {
+                    LOGIN_ERORR.Text = "Connection error";
+                }
                 USERNAME.Clear();
                 PASSWORD.Clear();
             }

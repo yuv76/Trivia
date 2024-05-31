@@ -16,7 +16,7 @@ LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<
 	
 	// remove the code and len from the vector.
 	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER); 
-	// convert the recieved bytes back to a string.
+	// convert the recieved bytes to a string.
 	std::string jsonStr(buffer.begin(), buffer.end());
 
 	jsonBuf = json::parse(jsonStr); 
@@ -40,8 +40,10 @@ SignupRequest JsonRequestPacketDeserializer::deserializeSignUpRequest(std::vecto
 
 	// remove the code and len from the vector.
 	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
-	// convert the recieved bytes back to a vector.
-	jsonBuf = json::from_ubjson(buffer);
+	// convert the recieved bytes to a string.
+	std::string jsonStr(buffer.begin(), buffer.end());
+	//convert the string to json.
+	jsonBuf = json::parse(jsonStr);
 
 	//username
 	info.username = jsonBuf["username"];

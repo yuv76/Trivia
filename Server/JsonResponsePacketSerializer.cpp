@@ -47,7 +47,6 @@ out: the bytes vector containing the response.
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(LoginResponse log)
 {
 	std::vector<std::uint8_t> buffer;
-	std::vector<std::uint8_t> tempMsg;
 	std::string msg = "";
 	msgCodes code = LOGIN;
 	int len = 0;
@@ -68,7 +67,8 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(LoginR
 	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
 
 	//add message in bytes to the vector
-	tempMsg = json::to_ubjson(loginJson);
+	std::vector<std::uint8_t> tempMsg(msg.begin(), msg.end());
+
 	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
 
 	return buffer;
@@ -82,7 +82,6 @@ out: the bytes vector containing the response.
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(SignupResponse sig)
 {
 	std::vector<std::uint8_t> buffer;
-	std::vector<std::uint8_t> tempMsg;
 	std::string msg = "";
 	msgCodes code = SIGNUP;
 	int len = 0;
@@ -103,7 +102,8 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(Signup
 	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
 
 	//add message in bytes to the vector
-	tempMsg = json::to_ubjson(signupJson);
+	std::vector<std::uint8_t> tempMsg(msg.begin(), msg.end());
+
 	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
 
 	return buffer;
@@ -117,7 +117,6 @@ out: the bytes vector containing the response.
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(LogoutResponse log)
 {
 	std::vector<std::uint8_t> buffer;
-	std::vector<std::uint8_t> tempMsg;
 	std::string msg = "";
 	msgCodes code = SIGNOUT;
 	int len = 0;
@@ -138,7 +137,8 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(Logout
 	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
 
 	//add message in bytes to the vector
-	tempMsg = json::to_ubjson(logoutJson);
+	std::vector<std::uint8_t> tempMsg(msg.begin(), msg.end());
+
 	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
 
 	return buffer;
