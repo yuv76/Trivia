@@ -45,8 +45,17 @@ namespace Client
             this.Close();
         }
 
-        private void exit_click(object sender, RoutedEventArgs e)
+        private async void exit_clickAsync(object sender, RoutedEventArgs e)
         {
+            uint ok = await Communicator.signoutAsync();
+            MainWindow log = new MainWindow();
+            log.Show();
+            this.Close();
+        }
+
+        protected override async void OnClosed(EventArgs e)
+        {
+            uint ok = await Communicator.signoutAsync();
             System.Environment.Exit(1);
         }
     }

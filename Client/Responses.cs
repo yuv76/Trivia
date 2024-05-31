@@ -30,6 +30,8 @@ namespace Responses
 
     public struct LogoutResponse
     {
+        public const uint LOGOUT_FAIL = 0;
+        public const uint LOGOUT_SUCCESS = 1;
         uint status;
     };
 
@@ -52,6 +54,8 @@ namespace Responses
 
     public struct getPersonalStatsResponse
     {
+        public const uint PERSONAL_STATS_FAIL = 0;
+        public const uint PERSONAL_STATS_SUCESS = 1;
         uint status;
         //std::vector<std::string> statistics;
     };

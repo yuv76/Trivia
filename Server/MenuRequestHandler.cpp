@@ -96,12 +96,13 @@ RequestResult MenuRequestHandler::signout(RequestInfo inf)
 
 	if (status)
 	{
-		// failed - stay in menu state
-		rqRs.newHandler = this;
+		// succesfull - move to no state.
+		rqRs.newHandler = nullptr;
 	}
-	else // succesfull - move on to login (?) #TODO
+	else 
 	{
-		rqRs.newHandler = this->m_handlerFactory.createLoginRequestHandler();
+		// failed - stay in menu state
+		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
 	}
 
 	return rqRs;
@@ -137,7 +138,7 @@ RequestResult MenuRequestHandler::getRooms(RequestInfo info)
 	rqRs.response = buffer;
 
 	// stay in menu state
-	rqRs.newHandler = this;
+	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
 
 	return rqRs;
 }
@@ -165,7 +166,7 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 	rqRs.response = buffer;
 
 	// stay in menu state
-	rqRs.newHandler = this;
+	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
 
 	return rqRs;
 }
@@ -197,7 +198,7 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 	rr.response = buffer;
 
 	//stay in menu state.
-	rr.newHandler = this;
+	rr.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
 
 	return rr;
 }
@@ -229,7 +230,7 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
 	rr.response = buffer;
 
 	//stay in menu state.
-	rr.newHandler = this;
+	rr.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
 
 	return rr;
 }
@@ -264,7 +265,7 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 	rqRs.response = buffer;
 
 	// stay in menu state
-	rqRs.newHandler = this;
+	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
 
 	return rqRs;
 }
@@ -309,7 +310,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	rqRs.response = buffer;
 
 	// stay in menu state
-	rqRs.newHandler = this;
+	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
 
 	return rqRs;
 }

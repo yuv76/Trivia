@@ -197,7 +197,6 @@ namespace Client
         {
             string jsonStr = "";
             uint sentSuccesfully = 0;
-            uint rcvdSuccesfully = 0;
             JObject recvdJson;
 
             SignupRequest signupRequest = new SignupRequest()
@@ -233,6 +232,32 @@ namespace Client
             return sentSuccesfully;
         }
 
+        public static async Task<uint> signoutAsync()
+        {
+            uint sentSuccesfully = 0;
+            JObject recvdJson;
+
+            sentSuccesfully = await sendToServer("", msgCodes.SIGNOUT);
+
+            if (sentSuccesfully == LogoutResponse.LOGOUT_SUCCESS)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.SIGNOUT))
+                {
+                    if (recvdJson.ContainsKey("status"))
+                    {
+                        return recvdJson.Value<uint>("status");
+                    }
+                    else
+                    {
+                        return recvdJson.Value<uint>("server_resp_code");
+                    }
+                }
+            }
+            //else, return unseccess.
+            return sentSuccesfully;
+        }
+
         public void createRoom(string roomName, uint maxPlayers, uint questionsNum, double timeForQuestion)
         {
 
@@ -243,15 +268,87 @@ namespace Client
 
         }
 
-        public void personalStats(string roomIdentifier)
+        public static async Task<uint> personalStatsAsync(string roomIdentifier)
         {
+            uint sentSuccesfully = 0;
+            JObject recvdJson;
 
+            sentSuccesfully = await sendToServer("", msgCodes.PERSONAL_STATS);
+
+            if (sentSuccesfully == getPersonalStatsResponse.PERSONAL_STATS_SUCESS)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.PERSONAL_STATS))
+                {
+                    if (recvdJson.ContainsKey("status"))
+                    {
+                        //get data.
+                        return recvdJson.Value<uint>("status");
+                    }
+                    else
+                    {
+                        return recvdJson.Value<uint>("server_resp_code");
+                    }
+                }
+            }
+            //else, return unseccess.
+            return sentSuccesfully;
         }
 
-        public void topStats(string roomIdentifier)
+        public static async Task<uint> topStatsAsync(string roomIdentifier)
         {
+            uint sentSuccesfully = 0;
+            JObject recvdJson;
 
+            sentSuccesfully = await sendToServer("", msgCodes.HIGH_SCORE);
+
+            if (sentSuccesfully == LogoutResponse.LOGOUT_SUCCESS)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.HIGH_SCORE))
+                {
+                    if (recvdJson.ContainsKey("status"))
+                    {
+                        return recvdJson.Value<uint>("status");
+                    }
+                    else
+                    {
+                        return recvdJson.Value<uint>("server_resp_code");
+                    }
+                }
+            }
+            //else, return unseccess.
+            return sentSuccesfully;
         }
+
+        /*public static async Task<List<string>> getRooms()
+        {
+            
+            uint sentSuccesfully = 0;
+            JObject recvdJson;
+
+            sentSuccesfully = await sendToServer("", msgCodes.PERSONAL_STATS);
+
+            if (sentSuccesfully == getPersonalStatsResponse.PERSONAL_STATS_SUCESS)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.PERSONAL_STATS))
+                {
+                    if (recvdJson.ContainsKey("status"))
+                    {
+                        //get data.
+                        return recvdJson.Value<uint>("status");
+                    }
+                    else
+                    {
+                        return recvdJson.Value<uint>("server_resp_code");
+                    }
+                }
+            }
+            //else, return unseccess.
+            return sentSuccesfully;
+            
+        }*/
 
     }
 }

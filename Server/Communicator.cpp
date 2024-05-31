@@ -121,8 +121,7 @@ void Communicator::bindAndListen()
 				throw std::exception(__FUNCTION__);
 			}
 			tmp = accept(this->m_serverSocket, NULL, NULL);
-			//this->m_clients[tmp] = new IRequestHandler(); //what should happen here?
-			this->m_clients[tmp] = NULL;
+			this->m_clients[tmp] = new LoginRequestHandler(m_handlerFactory);
 
 
 			std::cout << "Client accepted" << std::endl;
@@ -143,7 +142,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 	bool connected = true;
 	try
 	{
-		while (connected)
+		while (m_clients[clientSocket] != nullptr)
 		{
 			//will be a loop later on.
 			// receive the client message
@@ -186,16 +185,21 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			info.receivalTime = recvTime;
 			info.RequestId = (msgCodes)buffer[0];
 
-			IRequestHandler* l = this->m_handlerFactory.createLoginRequestHandler();
+			//IRequestHandler* l = this->m_handlerFactory.createLoginRequestHandler();
+			
 			RequestResult r;
-			if (l->isRequestRelevant(info))
+			if (m_clients[clientSocket]->isRequestRelevant(info))
 			{
-				r = l->handleRequest(info);
+				r = m_clients[clientSocket]->handleRequest(info);
+
+				delete m_clients[clientSocket];
+
+				m_clients[clientSocket] = r.newHandler;
 			}
 			else //error
 			{
-				//not supported yet
-				throw std::exception("Can currently only deal with login messages.");
+				
+				
 			}
 
 			// sanding the response message to client.
@@ -206,7 +210,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 
 			send(clientSocket, dataHeader, 5, 0);
 			send(clientSocket, data, r.response.size() - 5, 0);
-
+			/*
 			while (m_clients[clientSocket] != nullptr)
 			{
 				info = { (msgCodes)buffer[0], recvTime,  buffer };
@@ -220,11 +224,9 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 					std::copy(r.response.begin(), r.response.end(), data);
 					send(clientSocket, data, r.response.size(), 0);
 
-					delete m_clients[clientSocket];
-
-					m_clients[clientSocket] = result.newHandler;
+					
 				}
-			}
+			}*/
 
 			delete[] tempCharRecv;
 
