@@ -28,12 +28,51 @@ bool MenuRequestHandler::isRequestRelevant(RequestInfo& inf)
 }
 
 /*
-
+handles the request, make the response for it.
+in: a RequestInfo struct containing the request details.
+out: RequestResult struct containing the result details.
 */
 RequestResult MenuRequestHandler::handleRequest(RequestInfo& inf)
 {
-	RequestResult r;
-	return r;
+	std::vector<std::uint8_t> buffer;
+	RequestResult res;
+
+	if (inf.RequestId == SIGNOUT)
+	{
+		//perform the request
+		res = this->signout(inf);
+	}
+	else if (inf.RequestId == GET_ROOM)
+	{
+		//perform the request
+		res = this->getRooms(inf);
+	}
+	else if (inf.RequestId == GET_PLAYERS)
+	{
+		//perform the request
+		res = this->getPlayersInRoom(inf);
+	}
+	else if (inf.RequestId == JOIN_ROOM)
+	{
+		//perform the request
+		res = this->joinRoom(inf);
+	}
+	else if (inf.RequestId == CREATE_ROOM)
+	{
+		//perform the request
+		res = this->createRoom(inf);
+	}
+	else if (inf.RequestId == HIGH_SCORE)
+	{
+		//perform the request
+		res = this->getHighScore(inf);
+	}
+	else if (inf.RequestId == PERSONAL_STATS)
+	{
+		//perform the request
+		res = this->getPersonalStats(inf);
+	}
+	return res;
 }
 
 /*
