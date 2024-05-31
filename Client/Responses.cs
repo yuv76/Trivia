@@ -37,6 +37,8 @@ namespace Responses
 
     public struct GetRoomsResponse
     {
+        public const uint GET_ROOMS_FAIL = 0;
+        public const uint GET_ROOMS_SUCCESS = 1;
         uint status;
         //std::vector<RoomData> rooms;
     };

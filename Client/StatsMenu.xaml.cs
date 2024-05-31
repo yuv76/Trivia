@@ -19,6 +19,7 @@ namespace Client
     /// </summary>
     public partial class statsMenu : Window
     {
+        public bool _isClosedByX = true;
         public statsMenu()
         {
             InitializeComponent();
@@ -36,6 +37,13 @@ namespace Client
             PersonalStats sigi = new PersonalStats();
             sigi.Show();
             this.Close();
+        }
+    }
+    protected override async void OnClosed(EventArgs e)
+    {
+        if (_isClosedByX)
+        {
+            uint ok = await Communicator.signoutAsync(); //wrong - was to close connection and not sign out since no one is signed out. #todo
         }
     }
 }

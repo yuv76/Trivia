@@ -21,6 +21,8 @@ namespace Client
     /// </summary>
     public partial class PersonalStats : Window
     {
+        bool _isClosedByX = true;
+
         private string _time;
         private string _correct;
         private string _games;
@@ -37,6 +39,13 @@ namespace Client
             correct.Text = _correct;
             games.Text = _games;
             total.Text = _total;
+        }
+        protected override async void OnClosed(EventArgs e)
+        {
+            if (_isClosedByX)
+            {
+                uint ok = await Communicator.signoutAsync();
+            }
         }
     }
 }

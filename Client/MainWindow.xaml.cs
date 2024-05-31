@@ -20,7 +20,7 @@ namespace Client
     public partial class MainWindow : Window
     {
         Communicator communicator;
-
+        private bool _isClosedByX = true; // we cant know if it will be closed by x, so start value assumes it was.
         public MainWindow()
         {
             InitializeComponent();
@@ -31,6 +31,7 @@ namespace Client
         {
             Signup sigi = new Signup();
             sigi.Show();
+            _isClosedByX = false;
             this.Close();
         }
         
@@ -41,6 +42,7 @@ namespace Client
             {
                 MainMenu men = new MainMenu();
                 men.Show();
+                _isClosedByX = false;
                 this.Close();
             }
             else
@@ -63,6 +65,13 @@ namespace Client
                 }
                 USERNAME.Clear();
                 PASSWORD.Clear();
+            }
+        }
+        protected override async void OnClosed(EventArgs e)
+        {
+            if (_isClosedByX)
+            {
+                uint ok = await Communicator.signoutAsync(); //wrong - we want to only close connection no one is connected, fix later.
             }
         }
     }

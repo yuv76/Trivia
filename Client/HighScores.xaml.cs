@@ -19,6 +19,8 @@ namespace Client
     /// </summary>
     public partial class HighScores : Window
     {
+        private bool _isClosedByX = true;
+
         private string name_1;
         private string name_2;
         private string name_3;
@@ -58,5 +60,13 @@ namespace Client
             score4.Text = score_4;
             score5.Text = score_5;
         }
+        protected override async void OnClosed(EventArgs e)
+        {
+            if (_isClosedByX)
+            {
+                uint ok = await Communicator.signoutAsync();
+            }
+        }
     }
+    
 }

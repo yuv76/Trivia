@@ -19,7 +19,9 @@ namespace Client
     /// Interaction logic for Signup.xaml
     /// </summary>
     public partial class Signup : Window
-    {        
+    {
+        public bool _isClosedByX = true;
+
         const string USERNAME_TAKEN = "This Username is already taken.\n";
         const string PASSWORDS_NOT_MATCH = "Passwords dont match.\n";
         const string INVALID_MAIL = "Invalid mail.\n";
@@ -61,6 +63,13 @@ namespace Client
                 {
                     ERRORS.Text = "Username already taken";
                 }
+            }
+        }
+        protected override async void OnClosed(EventArgs e)
+        {
+            if (_isClosedByX)
+            {
+                uint ok = await Communicator.signoutAsync(); //wrong - was to close connection and not sign out since no one is signed out. #todo
             }
         }
     }

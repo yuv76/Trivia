@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using System.Reflection.PortableExecutable;
 using Newtonsoft.Json.Linq;
 using System.Windows.Interop;
+using System.Text.Json.Nodes;
 
 namespace Client
 {
@@ -321,34 +322,31 @@ namespace Client
             return sentSuccesfully;
         }
 
-        /*public static async Task<List<string>> getRooms()
+        public static async Task<List<string>> getRooms()
         {
-            
+            List<string> rooms = new List<string>();
             uint sentSuccesfully = 0;
             JObject recvdJson;
 
-            sentSuccesfully = await sendToServer("", msgCodes.PERSONAL_STATS);
+            sentSuccesfully = await sendToServer("", msgCodes.GET_ROOM);
 
-            if (sentSuccesfully == getPersonalStatsResponse.PERSONAL_STATS_SUCESS)
+            if (sentSuccesfully == GetRoomsResponse.GET_ROOMS_SUCCESS)
             {
                 recvdJson = await recieveFromServer();
-                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.PERSONAL_STATS))
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.GET_ROOM))
                 {
-                    if (recvdJson.ContainsKey("status"))
+                    if (recvdJson.ContainsKey("Rooms"))
                     {
                         //get data.
-                        return recvdJson.Value<uint>("status");
-                    }
-                    else
-                    {
-                        return recvdJson.Value<uint>("server_resp_code");
+                        foreach (string room in recvdJson.Value<JToken>("Rooms"))
+                        {
+                            rooms.Add(room);
+                        }
                     }
                 }
             }
             //else, return unseccess.
-            return sentSuccesfully;
-            
-        }*/
-
+            return rooms;
+        }
     }
 }

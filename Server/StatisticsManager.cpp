@@ -1,6 +1,14 @@
 #include "StatisticsManager.h"
 
 /*
+C'tor for statistics manager.
+in: pointer to the database object.
+*/
+StatisticsManager::StatisticsManager(IDatabase* db):
+	m_database(db)
+{}
+
+/*
 gets the top 5 users.
 in: none.
 out: a vector of the top five users user names.

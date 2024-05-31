@@ -19,6 +19,8 @@ namespace Client
     /// </summary>
     public partial class MainMenu : Window
     {
+        private bool _isClosedByX = true; // we cant know.
+
         public MainMenu()
         {
             InitializeComponent();
@@ -28,6 +30,7 @@ namespace Client
         {
             CreateRoom crRoom = new CreateRoom();
             crRoom.Show();
+            _isClosedByX = false;
             this.Close();
         }
 
@@ -35,6 +38,7 @@ namespace Client
         {
             JoinRoom jnRoom = new JoinRoom();
             jnRoom.Show();
+            _isClosedByX = false;
             this.Close();
         }
 
@@ -42,6 +46,7 @@ namespace Client
         {
             statsMenu statsMen = new statsMenu();
             statsMen.Show();
+            _isClosedByX = false;
             this.Close();
         }
 
@@ -50,13 +55,16 @@ namespace Client
             uint ok = await Communicator.signoutAsync();
             MainWindow log = new MainWindow();
             log.Show();
+            _isClosedByX = false;
             this.Close();
         }
 
         protected override async void OnClosed(EventArgs e)
         {
-            uint ok = await Communicator.signoutAsync();
-            System.Environment.Exit(1);
+            if(_isClosedByX)
+            {
+                uint ok = await Communicator.signoutAsync();
+            }
         }
     }
 }

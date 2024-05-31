@@ -68,8 +68,10 @@ GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersInRo
 
 	// remove the code and len from the vector.
 	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
-	// convert the recieved bytes back to a vector.
-	jsonBuf = json::from_ubjson(buffer);
+	// convert the recieved bytes to a string.
+	std::string jsonStr(buffer.begin(), buffer.end());
+	//convert the string to json.
+	jsonBuf = json::parse(jsonStr);
 
 	//roomId
 	info.roomId = jsonBuf["roomId"];
@@ -89,8 +91,10 @@ JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(std::v
 
 	// remove the code and len from the vector.
 	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
-	// convert the recieved bytes back to a vector.
-	jsonBuf = json::from_ubjson(buffer);
+	// convert the recieved bytes to a string.
+	std::string jsonStr(buffer.begin(), buffer.end());
+	//convert the string to json.
+	jsonBuf = json::parse(jsonStr);
 
 	//roomId
 	info.roomId = jsonBuf["roomId"];
@@ -110,8 +114,10 @@ CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(st
 
 	// remove the code and len from the vector.
 	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
-	// convert the recieved bytes back to a vector.
-	jsonBuf = json::from_ubjson(buffer);
+	// convert the recieved bytes to a string.
+	std::string jsonStr(buffer.begin(), buffer.end());
+	//convert the string to json.
+	jsonBuf = json::parse(jsonStr);
 
 	//roomName
 	info.roomName = jsonBuf["roomName"];
