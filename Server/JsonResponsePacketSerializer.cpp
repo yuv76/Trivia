@@ -152,7 +152,7 @@ out: the bytes vector containing the response.
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse getR)
 {
 	std::vector<std::uint8_t> buffer;
-	std::vector<std::string> rooms;
+	std::vector<std::pair<std::string, std::string>> rooms;
 	std::string msg = "";
 	msgCodes code = GET_ROOM;
 	int len = 0;
@@ -164,11 +164,11 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetRoo
 	auto i = getR.rooms.begin();
 	for (i; i != getR.rooms.end(); i++) // propably will need to contain more info, can be in another json field and each room by its index, see after will be needed. #todo
 	{
-		rooms.push_back(i->name);
+		rooms.push_back(std::make_pair(std::to_string(i->id), i->name));
 	}
 	//just for now #TODO
-	rooms.push_back("eli's room");
-	rooms.push_back("room for fun");
+	rooms.push_back(std::make_pair("9", "eli's room"));
+	rooms.push_back(std::make_pair("5", "room for fun"));
 
 	//create msg in json format
 	getRoomJson["status"] = getR.status;

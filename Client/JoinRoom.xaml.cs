@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Pair;
 
 namespace Client
 {
@@ -21,6 +22,8 @@ namespace Client
     public partial class JoinRoom : Window
     {
         private bool _isClosedByX = true; // we cant know.
+        List<Pair<string, string>> _rooms;
+
         public JoinRoom()
         {
             InitializeComponent();
@@ -31,11 +34,12 @@ namespace Client
 
         private async void refresh()
         {
-            List<string> rooms = await Communicator.getRooms();
-            foreach (string room in rooms)
+            List<Pair<string, string>> rooms = await Communicator.getRooms();
+            foreach (Pair<string, string> room in rooms)
             {
-                LST_ROOMS.Items.Add(room);
+                LST_ROOMS.Items.Add(room.Second);
             }
+            _rooms = rooms;
         }
 
         private async void refresh_Click(object sender, RoutedEventArgs e)

@@ -15,6 +15,7 @@ using System.Reflection.PortableExecutable;
 using Newtonsoft.Json.Linq;
 using System.Windows.Interop;
 using System.Text.Json.Nodes;
+using Pair;
 
 namespace Client
 {
@@ -334,9 +335,9 @@ namespace Client
             return topStats;
         }
 
-        public static async Task<List<string>> getRooms()
+        public static async Task<List<Pair<string, string>>> getRooms()
         {
-            List<string> rooms = new List<string>();
+            List<Pair<string, string>> rooms = new List<Pair<string, string>>();
             uint sentSuccesfully = 0;
             JObject recvdJson;
 
@@ -350,9 +351,9 @@ namespace Client
                     if (recvdJson.ContainsKey("Rooms"))
                     {
                         //get data.
-                        foreach (string room in recvdJson.Value<JToken>("Rooms"))
+                        foreach (JArray room in recvdJson.Value<JToken>("Rooms"))
                         {
-                            rooms.Add(room);
+                            rooms.Add(new Pair<string, string>(room[0].ToString(),room[1].ToString()));
                         }
                     }
                 }
