@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using Pair;
 using Responses;
 using System;
 using System.Collections.Generic;
@@ -63,25 +64,36 @@ namespace Client
                 {
                     case 0:
                         name1.Text = stat;
-                        //score1.Text = score;
                         break;
                     case 1:
-                        name2.Text = stat;
-                        //score2.Text = score;
+                        score1.Text = stat;
                         break;
                     case 2:
-                        name3.Text = stat;
-                        //score3.Text = score;
+                        name2.Text = stat;
                         break;
                     case 3:
-                        name4.Text = stat;
-                        //score4.Text = score;
+                        score2.Text = stat;
                         break;
                     case 4:
+                        name3.Text = stat;
+                        break;
+                    case 5:
+                        score3.Text = stat;
+                        break;
+                    case 6:
+                        name4.Text = stat;
+                        break;
+                    case 7:
+                        score4.Text = stat;
+                        break;
+                    case 8:
                         name5.Text = stat;
-                        //score5.Text = score;
+                        break;
+                    case 9:
+                        score5.Text = stat;
                         break;
                 }
+
                 i++;
             }
         }
