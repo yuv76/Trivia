@@ -15,6 +15,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <Button x:Name="BACK" Click="back_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,50,300,0" Width="70">Go Back</Button>
         <TextBlock FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,90,0,0" Width="100">average time:</TextBlock>
         <TextBlock x:Name="time" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,125,0,0" Width="100"/>
 

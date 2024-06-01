@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using Responses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +13,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Formats.Asn1.AsnWriter;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Client
 {
@@ -35,31 +39,62 @@ namespace Client
         public HighScores()
         {
             InitializeComponent();
-
-            this.name_1 = "temp1";
-            this.name_2 = "temp2";
-            this.name_3 = "temp3";
-            this.name_4 = "temp4";
-            this.name_5 = "temp5";
-
-            this.score_1 = "temp1.2";
-            this.score_2 = "temp2.2";
-            this.score_3 = "temp3.2";
-            this.score_4 = "temp4.2";
-            this.score_5 = "temp5.2";
-
-            name1.Text = name_1;
-            name2.Text = name_2;
-            name3.Text = name_3;
-            name4.Text = name_4;
-            name5.Text = name_5;
-
-            score1.Text = score_1;
-            score2.Text = score_2;
-            score3.Text = score_3;
-            score4.Text = score_4;
-            score5.Text = score_5;
+            
+            PutHighScores();
         }
+
+        private async void PutHighScores()
+        {
+            JObject recvdJson = await Communicator.topStatsAsync();
+            if (recvdJson.ContainsKey("status"))
+            {
+                statsMenu sigi = new statsMenu();
+                sigi.Show();
+                this.Close();
+            }
+            else
+            {
+                int i = 0;
+                JArray statisticsArray = (JArray)recvdJson["statistics"];
+                foreach (var stat in statisticsArray)
+                {
+                    string username = (string)stat[0].ToString();
+                    string score = (string)stat[1].ToString();
+                    switch (i)
+                    {
+                        case 0:
+                            name1.Text = username;
+                            score1.Text = score;
+                            break;
+                        case 1:
+                            name2.Text = username;
+                            score2.Text = score;
+                            break;
+                        case 2:
+                            name3.Text = username;
+                            score3.Text = score;
+                            break;
+                        case 3:
+                            name4.Text = username;
+                            score4.Text = score;
+                            break;
+                        case 4:
+                            name5.Text = username;
+                            score5.Text = score;
+                            break;
+                    }
+                    i++;
+                }
+            }
+        }
+
+        private void back_click(object sender, RoutedEventArgs e)
+        {
+            statsMenu sigi = new statsMenu();
+            sigi.Show();
+            this.Close();
+        }
+
         protected override async void OnClosed(EventArgs e)
         {
             if (_isClosedByX)

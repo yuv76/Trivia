@@ -48,13 +48,15 @@ namespace Responses
         //std::vector<std::string> players;
     };
 
-    public struct getHighScoreResponse
+    public struct GetHighScoreResponse
     {
+        public const uint HIGH_SCORES_FAIL = 0;
+        public const uint HIGH_SCORES_SUCCESS = 1;
         uint status;
         //std::vector<std::string> statistics;
     };
 
-    public struct getPersonalStatsResponse
+    public struct GetPersonalStatsResponse
     {
         public const uint PERSONAL_STATS_FAIL = 0;
         public const uint PERSONAL_STATS_SUCESS = 1;

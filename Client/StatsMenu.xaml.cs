@@ -45,5 +45,12 @@ namespace Client
                 uint ok = await Communicator.signoutAsync(); //wrong - was to close connection and not sign out since no one is signed out. #todo
             }
         }
+
+        private void back_click(object sender, RoutedEventArgs e)
+        {
+            MainMenu sigi = new MainMenu();
+            sigi.Show();
+            this.Close();
+        }
     }
 }

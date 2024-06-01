@@ -57,4 +57,9 @@ namespace Requests
         public string password { get; set; }
         public string email { get; set; }
     }
+
+    public class PersonalStatsRequest
+    {
+        public string username { get; set; }
+    }
 }

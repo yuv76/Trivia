@@ -210,10 +210,12 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 
 			send(clientSocket, dataHeader, 5, 0);
 			send(clientSocket, data, r.response.size() - 5, 0);
+			
+			delete[] tempCharRecv;
 			/*
 			while (m_clients[clientSocket] != nullptr)
 			{
-				info = { (msgCodes)buffer[0], recvTime,  buffer };
+				info = { (msgCodes)buffer[0], time(0),  buffer};
 				if (m_clients[clientSocket]->isRequestRelevant(info))
 				{
 					RequestResult result = m_clients[clientSocket]->handleRequest(info);
@@ -227,10 +229,6 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 					
 				}
 			}*/
-
-			delete[] tempCharRecv;
-
-
 		}
 		closesocket(clientSocket);
 		std::cout << "client disconnected" << std::endl;

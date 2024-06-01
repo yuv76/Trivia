@@ -47,5 +47,12 @@ namespace Client
                 uint ok = await Communicator.signoutAsync();
             }
         }
+
+        private void back_click(object sender, RoutedEventArgs e)
+        {
+            statsMenu sigi = new statsMenu();
+            sigi.Show();
+            this.Close();
+        }
     }
 }

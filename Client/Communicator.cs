@@ -271,12 +271,19 @@ namespace Client
 
         public static async Task<uint> personalStatsAsync(string roomIdentifier)
         {
+            string jsonStr = "";
             uint sentSuccesfully = 0;
             JObject recvdJson;
 
-            sentSuccesfully = await sendToServer("", msgCodes.PERSONAL_STATS);
+            PersonalStatsRequest personalStatsRequest = new PersonalStatsRequest()
+            {
+                username = Communicator.username
+            };
+            jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(personalStatsRequest);
+            
+            sentSuccesfully = await sendToServer(jsonStr, msgCodes.PERSONAL_STATS);
 
-            if (sentSuccesfully == getPersonalStatsResponse.PERSONAL_STATS_SUCESS)
+            if (sentSuccesfully == GetPersonalStatsResponse.PERSONAL_STATS_SUCESS)
             {
                 recvdJson = await recieveFromServer();
                 if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.PERSONAL_STATS))
@@ -296,30 +303,29 @@ namespace Client
             return sentSuccesfully;
         }
 
-        public static async Task<uint> topStatsAsync(string roomIdentifier)
+        public static async Task<JObject> topStatsAsync()
         {
             uint sentSuccesfully = 0;
             JObject recvdJson;
-
+            recvdJson = await recieveFromServer();
             sentSuccesfully = await sendToServer("", msgCodes.HIGH_SCORE);
 
-            if (sentSuccesfully == LogoutResponse.LOGOUT_SUCCESS)
+            if (sentSuccesfully == GetHighScoreResponse.HIGH_SCORES_SUCCESS)
             {
                 recvdJson = await recieveFromServer();
                 if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.HIGH_SCORE))
                 {
-                    if (recvdJson.ContainsKey("status"))
+                    if (recvdJson.Value<uint>("status") == GetHighScoreResponse.HIGH_SCORES_SUCCESS)
                     {
-                        return recvdJson.Value<uint>("status");
-                    }
-                    else
-                    {
-                        return recvdJson.Value<uint>("server_resp_code");
+                        if (recvdJson.ContainsKey("statistics"))
+                        {
+                            return recvdJson;
+                        }
                     }
                 }
             }
             //else, return unseccess.
-            return sentSuccesfully;
+            return recvdJson;
         }
 
         public static async Task<List<string>> getRooms()

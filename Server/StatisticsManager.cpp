@@ -63,10 +63,14 @@ std::vector<std::string> StatisticsManager::getUserStatistics(std::string userna
 
 	int correct = m_database->getNumOfCorrectAnswers(username);
 	int total = m_database->getNumOfTotalAnswers(username);
+	int games = m_database->getNumOfPlayerGames(username);
+	float average = m_database->getPlayerAverageAnswerTime(username);
 
 	s.push_back(username);
 	s.push_back(std::to_string(correct));
 	s.push_back(std::to_string(total));
+	s.push_back(std::to_string(games));
+	s.push_back(std::to_string(average));
 
 	return s;
 }
