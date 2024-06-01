@@ -303,11 +303,12 @@ namespace Client
             return sentSuccesfully;
         }
 
-        public static async Task<JObject> topStatsAsync()
+        public static async Task<List<string>> topStatsAsync()
         {
             uint sentSuccesfully = 0;
             JObject recvdJson;
-            recvdJson = await recieveFromServer();
+            List<string> topStats = new List<string>();
+            //recvdJson = await recieveFromServer();
             sentSuccesfully = await sendToServer("", msgCodes.HIGH_SCORE);
 
             if (sentSuccesfully == GetHighScoreResponse.HIGH_SCORES_SUCCESS)
@@ -319,13 +320,18 @@ namespace Client
                     {
                         if (recvdJson.ContainsKey("statistics"))
                         {
-                            return recvdJson;
+                            //get data.
+                            foreach (string stat in recvdJson.Value<JToken>("statistics"))
+                            {
+                                topStats.Add(stat);
+                            }
+                            return topStats;
                         }
                     }
                 }
             }
-            //else, return unseccess.
-            return recvdJson;
+            //else, return empty
+            return topStats;
         }
 
         public static async Task<List<string>> getRooms()
@@ -351,7 +357,7 @@ namespace Client
                     }
                 }
             }
-            //else, return unseccess.
+            //else, return empty.
             return rooms;
         }
     }

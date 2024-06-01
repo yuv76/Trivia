@@ -166,6 +166,7 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetRoo
 	{
 		rooms.push_back(i->name);
 	}
+	//just for now #TODO
 	rooms.push_back("eli's room");
 	rooms.push_back("room for fun");
 
@@ -310,8 +311,8 @@ out: the bytes vector containing the response.
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(getHighScoreResponse high)
 {
 	std::vector<std::uint8_t> buffer;
+	std::vector<std::string> stats;
 	std::string msg = "";
-	std::string stats = "";
 	msgCodes code = HIGH_SCORE;
 	int len = 0;
 	json getPlayersJson;
@@ -322,8 +323,7 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(getHig
 	auto i = high.statistics.begin();
 	for (i; i != high.statistics.end(); i++) //will have to be expanded according to what will be in the statistics part.
 	{
-		stats += *i;
-		stats += ",";
+		stats.push_back(*i);
 	}
 
 	//create msg in json format

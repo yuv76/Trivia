@@ -45,46 +45,44 @@ namespace Client
 
         private async void PutHighScores()
         {
-            JObject recvdJson = await Communicator.topStatsAsync();
+            List<string> recvdJson = await Communicator.topStatsAsync();
+            /*
             if (recvdJson.ContainsKey("status"))
             {
                 statsMenu sigi = new statsMenu();
                 sigi.Show();
+                _isClosedByX = false;
                 this.Close();
             }
             else
+            {*/
+            int i = 0;
+            foreach (var stat in recvdJson)
             {
-                int i = 0;
-                JArray statisticsArray = (JArray)recvdJson["statistics"];
-                foreach (var stat in statisticsArray)
+                switch (i)
                 {
-                    string username = (string)stat[0].ToString();
-                    string score = (string)stat[1].ToString();
-                    switch (i)
-                    {
-                        case 0:
-                            name1.Text = username;
-                            score1.Text = score;
-                            break;
-                        case 1:
-                            name2.Text = username;
-                            score2.Text = score;
-                            break;
-                        case 2:
-                            name3.Text = username;
-                            score3.Text = score;
-                            break;
-                        case 3:
-                            name4.Text = username;
-                            score4.Text = score;
-                            break;
-                        case 4:
-                            name5.Text = username;
-                            score5.Text = score;
-                            break;
-                    }
-                    i++;
+                    case 0:
+                        name1.Text = stat;
+                        //score1.Text = score;
+                        break;
+                    case 1:
+                        name2.Text = stat;
+                        //score2.Text = score;
+                        break;
+                    case 2:
+                        name3.Text = stat;
+                        //score3.Text = score;
+                        break;
+                    case 3:
+                        name4.Text = stat;
+                        //score4.Text = score;
+                        break;
+                    case 4:
+                        name5.Text = stat;
+                        //score5.Text = score;
+                        break;
                 }
+                i++;
             }
         }
 
@@ -92,6 +90,7 @@ namespace Client
         {
             statsMenu sigi = new statsMenu();
             sigi.Show();
+            _isClosedByX = false;
             this.Close();
         }
 
