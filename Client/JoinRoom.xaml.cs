@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Pair;
+using Responses;
 
 namespace Client
 {
@@ -47,17 +48,43 @@ namespace Client
             refresh();
         }
 
-        private void Join_Click(object sender, RoutedEventArgs e)
+        private string getRoomIdByName(string roomName)
+        {
+            foreach(Pair<string, string> room in _rooms)
+            {
+                if(room.Second == roomName)
+                {
+                    return room.First;
+                }
+            }
+            return "-1";
+        }
+
+        private async void Join_Click(object sender, RoutedEventArgs e)
         {
             if (LST_ROOMS.SelectedItems.Count > 0)
             {
-                var selected = LST_ROOMS.SelectedItems[0];
-                //move selection to server
-
-                Room room = new Room(selected.ToString());
-                room.Show();
-                _isClosedByX = false;
-                this.Close();
+                string selected = LST_ROOMS.SelectedItems[0].ToString();
+                string roomId = getRoomIdByName(selected);
+                if(roomId == "-1")
+                {
+                    //unexisting room, shouldnt happen, do nothing.
+                }
+                else
+                {
+                    uint ok = await Communicator.joinRoom(roomId);
+                    if(ok == JoinRoomResponse.JOIN_ROOM_SUCCESS)
+                    {
+                        Room room = new Room(selected.ToString());
+                        room.Show();
+                        _isClosedByX = false;
+                        this.Close();
+                    }
+                    else
+                    {
+                        //error joining room
+                    }
+                }
             }
             else
             {

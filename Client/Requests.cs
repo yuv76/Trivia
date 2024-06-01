@@ -12,20 +12,8 @@ public:
 	unsigned int roomId;
 };
 
-struct JoinRoomRequest
-{
-public:
-	unsigned int roomId;
-};
 
-struct CreateRoomRequest
-{
-public:
-	std::string roomName;
-	unsigned int maxUsers;
-	unsigned int questionCount;
-	unsigned int anwerTimeout;
-};
+
 
  */
 
@@ -62,4 +50,17 @@ namespace Requests
     {
         public string username { get; set; }
     }
+
+    struct JoinRoomRequest
+    {
+        public string roomId { get; set; }
+    };
+
+    struct CreateRoomRequest
+    {
+        public string roomName { get; set; }
+        public uint maxUsers { get; set; }
+        public uint questionCount { get; set; }
+        public double anwerTimeout { get; set; }
+    };
 }

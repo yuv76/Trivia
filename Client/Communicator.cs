@@ -260,14 +260,72 @@ namespace Client
             return sentSuccesfully;
         }
 
-        public void createRoom(string roomName, uint maxPlayers, uint questionsNum, double timeForQuestion)
+        public static async Task<uint> createRoom(string roomName, uint maxPlayers, uint questionsNum, double timeForQuestion)
         {
+            string jsonStr = "";
+            uint sentSuccesfully = 0;
+            JObject recvdJson;
+            CreateRoomRequest createRoomRequest = new CreateRoomRequest()
+            {
+                roomName = roomName,
+                maxUsers = maxPlayers,
+                questionCount = questionsNum,
+                anwerTimeout = timeForQuestion
+            };
+           
+            jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(createRoomRequest);
 
+            sentSuccesfully = await sendToServer(jsonStr, msgCodes.CREATE_ROOM);
+
+            if (sentSuccesfully == LogoutResponse.LOGOUT_SUCCESS)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.SIGNOUT))
+                {
+                    if (recvdJson.ContainsKey("status"))
+                    {
+                        return recvdJson.Value<uint>("status");
+                    }
+                    else
+                    {
+                        return recvdJson.Value<uint>("server_resp_code");
+                    }
+                }
+            }
+            //else, return unseccess.
+            return sentSuccesfully;
         }
 
-        public void joinRoom(string roomIdentifier)
+        public static async Task<uint> joinRoom(string roomIdentifier)
         {
+            string jsonStr = "";
+            uint sentSuccesfully = 0;
+            JObject recvdJson;
+            JoinRoomRequest joinRoomRequest = new JoinRoomRequest()
+            {
+                roomId = roomIdentifier
+            };
+            jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(joinRoomRequest);
 
+            sentSuccesfully = await sendToServer(jsonStr, msgCodes.JOIN_ROOM);
+
+            if (sentSuccesfully == LogoutResponse.LOGOUT_SUCCESS)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.SIGNOUT))
+                {
+                    if (recvdJson.ContainsKey("status"))
+                    {
+                        return recvdJson.Value<uint>("status");
+                    }
+                    else
+                    {
+                        return recvdJson.Value<uint>("server_resp_code");
+                    }
+                }
+            }
+            //else, return unseccess.
+            return sentSuccesfully;
         }
 
         public static async Task<uint> personalStatsAsync(string roomIdentifier)

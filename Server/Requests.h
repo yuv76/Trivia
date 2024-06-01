@@ -49,5 +49,5 @@ public:
 	std::string roomName;
 	unsigned int maxUsers;
 	unsigned int questionCount;
-	unsigned int anwerTimeout;
+	double anwerTimeout;
 };

@@ -88,6 +88,7 @@ JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(std::v
 {
 	JoinRoomRequest info;
 	json jsonBuf;
+	unsigned int id = 0;
 
 	// remove the code and len from the vector.
 	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
@@ -97,7 +98,8 @@ JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(std::v
 	jsonBuf = json::parse(jsonStr);
 
 	//roomId
-	info.roomId = jsonBuf["roomId"];
+	id = unsigned int(jsonBuf["roomId"]);
+	info.roomId = id;
 
 	return info;
 }

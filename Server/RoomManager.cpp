@@ -75,9 +75,18 @@ out: the unused id.
 */
 int RoomManager::nextId()
 {
-	//the map is sorted by increased oredr, so its last position will be its biggest key.
-	int id = this->m_rooms.rbegin()->first; 
-	//increase id by one to get the next unused id.
-	id++;
+	int id = 0;
+	if (this->m_rooms.empty())
+	{ 
+		//first room.
+		id = 1;
+	}
+	else
+	{
+		//the map is sorted by increased oredr, so its last position will be its biggest key.
+		int id = this->m_rooms.rbegin()->first;
+		//increase id by one to get the next unused id.
+		id++;
+	}
 	return id;
 }

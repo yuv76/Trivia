@@ -134,6 +134,7 @@ RequestResult MenuRequestHandler::getRooms(RequestInfo info)
 	}
 
 	r.status = status;
+	r.rooms = rooms;
 	buffer = JsonResponsePacketSerializer::serializeResponse(r);
 	rqRs.response = buffer;
 

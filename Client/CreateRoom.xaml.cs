@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Responses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -72,20 +73,27 @@ namespace Client
                 {
                     if (Double.Parse(QUESTION_TIME.Text) > 0)
                     {
-                        QUESTION_TIME.Text = (Double.Parse(QUESTION_TIME.Text) - 0.5).ToString();
+                        QUESTION_TIME.Text = (double.Parse(QUESTION_TIME.Text) - 0.5).ToString();
                     }
                 }
 
             }
         }
 
-        private void Create_Click(object sender, RoutedEventArgs e)
+        private async void Create_Click(object sender, RoutedEventArgs e)
         {
-            //send data to server, check it is ok.
-            MainMenu men = new MainMenu();
-            men.Show();
-            _isClosedByX = false;
-            this.Close();
+            uint ok = await Communicator.createRoom(ROOMNAME.Text, uint.Parse(PLAYERS_NUM.Text), uint.Parse(QUESTION_NUM.Text), double.Parse(QUESTION_TIME.Text));
+            if(ok == CreateRoomResponse.CREATE_ROOM_SUCESS)
+            {
+                MainMenu men = new MainMenu();
+                men.Show();
+                _isClosedByX = false;
+                this.Close();
+            }
+            else
+            {
+                //error
+            }
         }
 
         protected override async void OnClosed(EventArgs e)

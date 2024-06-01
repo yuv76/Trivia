@@ -66,11 +66,15 @@ namespace Responses
 
     public struct JoinRoomResponse
     {
+        public const uint JOIN_ROOM_FAIL = 0;
+        public const uint JOIN_ROOM_SUCCESS = 1;
         uint status;
     };
 
     public struct CreateRoomResponse
     {
+        public const uint CREATE_ROOM_FAIL = 0;
+        public const uint CREATE_ROOM_SUCESS = 1;
         uint status;
     };
 
