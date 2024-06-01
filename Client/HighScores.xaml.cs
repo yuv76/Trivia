@@ -45,46 +45,44 @@ namespace Client
 
         private async void PutHighScores()
         {
-            JObject recvdJson = await Communicator.topStatsAsync();
-            if (recvdJson.ContainsKey("status"))
+            int i = 0;
+            List<string> scores = await Communicator.topStatsAsync();
+            foreach (string stat in scores)
             {
-                statsMenu sigi = new statsMenu();
-                sigi.Show();
-                this.Close();
-            }
-            else
-            {
-                int i = 0;
-                JArray statisticsArray = (JArray)recvdJson["statistics"];
-                foreach (var stat in statisticsArray)
+                switch (i)
                 {
-                    string username = (string)stat[0].ToString();
-                    string score = (string)stat[1].ToString();
-                    switch (i)
-                    {
-                        case 0:
-                            name1.Text = username;
-                            score1.Text = score;
-                            break;
-                        case 1:
-                            name2.Text = username;
-                            score2.Text = score;
-                            break;
-                        case 2:
-                            name3.Text = username;
-                            score3.Text = score;
-                            break;
-                        case 3:
-                            name4.Text = username;
-                            score4.Text = score;
-                            break;
-                        case 4:
-                            name5.Text = username;
-                            score5.Text = score;
-                            break;
-                    }
-                    i++;
+                    case 0:
+                        name1.Text = stat;
+                        break;
+                    case 1:
+                        score1.Text = stat;
+                        break;
+                    case 2:
+                        name2.Text = stat;
+                        break;
+                    case 3:
+                        score2.Text = stat;
+                        break;
+                    case 4:
+                        name3.Text = stat;
+                        break;
+                    case 5:
+                        score3.Text = stat;
+                        break;
+                    case 6:
+                        name4.Text = stat;
+                        break;
+                    case 7:
+                        score4.Text = stat;
+                        break;
+                    case 8:
+                        name5.Text = stat;
+                        break;
+                    case 9:
+                        score5.Text = stat;
+                        break;
                 }
+                i++;
             }
         }
 
