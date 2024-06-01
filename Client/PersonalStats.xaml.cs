@@ -50,8 +50,9 @@ namespace Client
 
         private void back_click(object sender, RoutedEventArgs e)
         {
-            statsMenu sigi = new statsMenu();
-            sigi.Show();
+            statsMenu sttMen = new statsMenu();
+            sttMen.Show();
+            _isClosedByX = false;
             this.Close();
         }
     }
