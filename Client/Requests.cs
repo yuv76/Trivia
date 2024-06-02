@@ -34,11 +34,6 @@ namespace Requests
         public string email { get; set; }
     }
 
-    public class PersonalStatsRequest
-    {
-        public string username { get; set; }
-    }
-
     struct JoinRoomRequest
     {
         public string roomId { get; set; }

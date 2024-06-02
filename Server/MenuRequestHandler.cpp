@@ -198,7 +198,7 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 	{
 		gp.status = STATS_SUCCESS;
 	}
-	
+
 	buffer = JsonResponsePacketSerializer::serializeResponse(gp);
 	rr.response = buffer;
 
