@@ -21,14 +21,19 @@ namespace Client
     {
         private bool _isClosedByX = true; // we cant know.
 
-        public MainMenu()
+        public MainMenu(double left, double top, double width, double height, WindowState windowstate)
         {
             InitializeComponent();
+            Left = left;
+            Top = top;
+            Width = width;
+            Height = height;
+            WindowState = windowstate;
         }
 
         private void moveToCreateRoom_click(object sender, RoutedEventArgs e)
         {
-            CreateRoom crRoom = new CreateRoom();
+            CreateRoom crRoom = new CreateRoom(Left, Top, Width, Height, WindowState);
             crRoom.Show();
             _isClosedByX = false;
             this.Close();
@@ -36,7 +41,7 @@ namespace Client
 
         private void moveToJoinRoom_click(object sender, RoutedEventArgs e)
         {
-            JoinRoom jnRoom = new JoinRoom();
+            JoinRoom jnRoom = new JoinRoom(Left, Top, Width, Height, WindowState);
             jnRoom.Show();
             _isClosedByX = false;
             this.Close();
@@ -44,7 +49,7 @@ namespace Client
 
         private void moveToStatsMenu_click(object sender, RoutedEventArgs e)
         {
-            statsMenu statsMen = new statsMenu();
+            statsMenu statsMen = new statsMenu(Left, Top, Width, Height, WindowState);
             statsMen.Show();
             _isClosedByX = false;
             this.Close();
@@ -53,7 +58,7 @@ namespace Client
         private async void exit_clickAsync(object sender, RoutedEventArgs e)
         {
             uint ok = await Communicator.signoutAsync();
-            MainWindow log = new MainWindow();
+            MainWindow log = new MainWindow(Left, Top, Width, Height, WindowState);
             log.Show();
             _isClosedByX = false;
             this.Close();

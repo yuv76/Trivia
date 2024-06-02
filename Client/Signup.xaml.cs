@@ -26,9 +26,14 @@ namespace Client
         const string PASSWORDS_NOT_MATCH = "Passwords dont match.\n";
         const string INVALID_MAIL = "Invalid mail.\n";
 
-        public Signup()
+        public Signup(double left, double top, double width, double height, WindowState windowstate)
         {
             InitializeComponent();
+            Left = left;
+            Top = top;
+            Width = width; 
+            Height = height;
+            WindowState = windowstate;
         }
 
         private async void signupEnter_click(object sender, RoutedEventArgs e)
@@ -55,7 +60,7 @@ namespace Client
                 ok = await Communicator.signupAsync(NEWSERNAME.Text, NEWPASS.Text, NEWMAIL.Text);
                 if(ok == SignupResponse.SIGNUP_SUCCESS)
                 {
-                    MainMenu men = new MainMenu();
+                    MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
                     men.Show();
                     this.Close();
                 }
@@ -69,7 +74,7 @@ namespace Client
         {
             if (_isClosedByX)
             {
-                uint ok = await Communicator.signoutAsync(); //wrong - was to close connection and not sign out since no one is signed out. #todo
+                uint ok = await Communicator.closeConnectionAsync();
             }
         }
     }

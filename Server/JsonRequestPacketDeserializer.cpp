@@ -65,6 +65,7 @@ GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersInRo
 {
 	GetPlayersInRoomRequest info;
 	json jsonBuf;
+	std::string id = "";
 
 	// remove the code and len from the vector.
 	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
@@ -74,7 +75,8 @@ GetPlayersInRoomRequest JsonRequestPacketDeserializer::deserializeGetPlayersInRo
 	jsonBuf = json::parse(jsonStr);
 
 	//roomId
-	info.roomId = jsonBuf["roomId"];
+	id = (jsonBuf["roomId"]);
+	info.roomId = std::stoi(id);
 	
 	return info;
 }
@@ -88,6 +90,7 @@ JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(std::v
 {
 	JoinRoomRequest info;
 	json jsonBuf;
+	std::string id = "";
 
 	// remove the code and len from the vector.
 	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
@@ -97,7 +100,8 @@ JoinRoomRequest JsonRequestPacketDeserializer::deserializeJoinRoomRequest(std::v
 	jsonBuf = json::parse(jsonStr);
 
 	//roomId
-	info.roomId = jsonBuf["roomId"];
+	id = (jsonBuf["roomId"]);
+	info.roomId = std::stoi(id);
 
 	return info;
 }

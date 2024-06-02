@@ -4,8 +4,6 @@
 
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
-#include <iostream>
-
 
 
 /*
@@ -170,16 +168,16 @@ int SqliteDatabase::callbackGetQuestion(void* data, int argc, char** argv, char*
 			if (std::string(azColName[i]) == "id") {
 				temp->id = atoi(argv[i]);
 			}
-			else if (std::string(azColName[i]) == "right answer") {
+			else if (std::string(azColName[i]) == "[right answer]") {
 				temp->rightAnswer = argv[i];
 			}
-			else if (std::string(azColName[i]) == "1 wrong answer") {
+			else if (std::string(azColName[i]) == "[1 wrong answer]") {
 				temp->wrongAnswer1 = argv[i];
 			}
-			else if (std::string(azColName[i]) == "2 wrong answer") {
+			else if (std::string(azColName[i]) == "[2 wrong answer]") {
 				temp->wrongAnswer1 = argv[i];
 			}
-			else if (std::string(azColName[i]) == "3 wrong answer") {
+			else if (std::string(azColName[i]) == "[3 wrong answer]") {
 				temp->wrongAnswer1 = argv[i];
 			}
 			else if (std::string(azColName[i]) == "question") {
@@ -243,7 +241,7 @@ int SqliteDatabase::callbackGetAverageAnswerTime(void* data, int argc, char** ar
 	if (argc != 0)
 	{
 		for (int i = 0; i < argc; i++) {
-			if (std::string(azColName[i]) == "average time") 
+			if (std::string(azColName[i]) == "[average time]") 
 			{
 				*answerTime = atoi(argv[i]);
 			}
@@ -285,7 +283,7 @@ int SqliteDatabase::callbackGetNumOfCorrectAnswers(void* data, int argc, char** 
 	if (argc != 0)
 	{
 		for (int i = 0; i < argc; i++) {
-			if (std::string(azColName[i]) == "correct answers")
+			if (std::string(azColName[i]) == "[correct answers]")
 			{
 				*num = atoi(argv[i]);
 			}
@@ -328,7 +326,7 @@ int SqliteDatabase::callbackGetNumOfTotalAnswers(void* data, int argc, char** ar
 	if (argc != 0)
 	{
 		for (int i = 0; i < argc; i++) {
-			if (std::string(azColName[i]) == "total answers")
+			if (std::string(azColName[i]) == "[total answers]")
 			{
 				*num = atoi(argv[i]);
 			}
@@ -370,7 +368,7 @@ int SqliteDatabase::callbackGetNumOfPlayerGames(void* data, int argc, char** arg
 	if (argc != 0)
 	{
 		for (int i = 0; i < argc; i++) {
-			if (std::string(azColName[i]) == "player games")
+			if (std::string(azColName[i]) == "[player games]")
 			{
 				*num = atoi(argv[i]);
 			}

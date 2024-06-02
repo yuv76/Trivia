@@ -29,7 +29,7 @@ namespace Client
         }
         private void enterPassword_click(object sender, RoutedEventArgs e)
         {
-            MainMenu men = new MainMenu();
+            MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
             men.Show();
             this.Close();
         }

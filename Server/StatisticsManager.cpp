@@ -45,7 +45,6 @@ std::vector<std::string> StatisticsManager::getHighScore()
 			currentMax = entry.second;
 		}
 		s.push_back(topUser);// push it into the vector in order.
-		s.push_back(std::to_string(currentMax));// push it into the vector in order.
 		score.erase(topUser);// remove it from the original scores vector.
 
 	}

@@ -4,31 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-/*
-
-struct GetPlayersInRoomRequest
-{
-public:
-	unsigned int roomId;
-};
-
-struct JoinRoomRequest
-{
-public:
-	unsigned int roomId;
-};
-
-struct CreateRoomRequest
-{
-public:
-	std::string roomName;
-	unsigned int maxUsers;
-	unsigned int questionCount;
-	unsigned int anwerTimeout;
-};
-
- */
-
 namespace Requests
 {
     public enum msgCodes
@@ -42,7 +17,8 @@ namespace Requests
         JOIN_ROOM,
         CREATE_ROOM,
         HIGH_SCORE,
-        PERSONAL_STATS
+        PERSONAL_STATS,
+        DISCONNECT
     };
 
     public class LoginRequest
@@ -57,4 +33,27 @@ namespace Requests
         public string password { get; set; }
         public string email { get; set; }
     }
+
+    public class PersonalStatsRequest
+    {
+        public string username { get; set; }
+    }
+
+    struct JoinRoomRequest
+    {
+        public string roomId { get; set; }
+    };
+
+    struct CreateRoomRequest
+    {
+        public string roomName { get; set; }
+        public uint maxUsers { get; set; }
+        public uint questionCount { get; set; }
+        public double anwerTimeout { get; set; }
+    };
+
+    struct GetPlayersInRoomRequest
+    {
+        public string roomId { get; set; }
+    };
 }

@@ -22,37 +22,29 @@ namespace Client
     public partial class PersonalStats : Window
     {
         bool _isClosedByX = true;
-        public PersonalStats()
+
+        private string _time;
+        private string _correct;
+        private string _games;
+        private string _total;
+        public PersonalStats(double left, double top, double width, double height, WindowState windowstate)
         {
             InitializeComponent();
+            Left = left;
+            Top = top;
+            Width = width;
+            Height = height;
+            WindowState = windowstate;
+
+            this._time = "temp1";
+            this._correct = "temp2";
+            this._games = "temp3";
+            this._total = "temp4";
             
-            PutPersonalScores();
-        }
-
-        private async void PutPersonalScores()
-        {
-            List<string> recvdJson = await Communicator.personalStatsAsync();
-            int i = 0;
-            foreach (var stat in recvdJson)
-            {
-                switch (i)
-                {
-                    case 1:
-                        correct.Text = stat;
-                        break;
-                    case 2:
-                        total.Text = stat;
-                        break;
-                    case 3:
-                        games.Text = stat;
-                        break;
-                    case 4:
-                        time.Text = stat;
-                        break;
-                }
-
-                i++;
-            }
+            time.Text = _time;
+            correct.Text = _correct;
+            games.Text = _games;
+            total.Text = _total;
         }
         protected override async void OnClosed(EventArgs e)
         {
@@ -64,7 +56,7 @@ namespace Client
 
         private void back_click(object sender, RoutedEventArgs e)
         {
-            statsMenu sttMen = new statsMenu();
+            statsMenu sttMen = new statsMenu(Left, Top, Width, Height, WindowState);
             sttMen.Show();
             _isClosedByX = false;
             this.Close();

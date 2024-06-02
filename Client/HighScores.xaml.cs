@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using Pair;
 using Responses;
 using System;
 using System.Collections.Generic;
@@ -25,10 +24,27 @@ namespace Client
     public partial class HighScores : Window
     {
         private bool _isClosedByX = true;
-        public HighScores()
+
+        private string name_1;
+        private string name_2;
+        private string name_3;
+        private string name_4;
+        private string name_5;
+
+        private string score_1;
+        private string score_2;
+        private string score_3;
+        private string score_4;
+        private string score_5;
+        public HighScores(double left, double top, double width, double height, WindowState windowstate)
         {
             InitializeComponent();
-            
+            Left = left;
+            Top = top;
+            Width = width;
+            Height = height;
+            WindowState = windowstate;
+
             PutHighScores();
         }
 
@@ -52,43 +68,32 @@ namespace Client
                 {
                     case 0:
                         name1.Text = stat;
+                        //score1.Text = score;
                         break;
                     case 1:
-                        score1.Text = stat;
+                        name2.Text = stat;
+                        //score2.Text = score;
                         break;
                     case 2:
-                        name2.Text = stat;
+                        name3.Text = stat;
+                        //score3.Text = score;
                         break;
                     case 3:
-                        score2.Text = stat;
+                        name4.Text = stat;
+                        //score4.Text = score;
                         break;
                     case 4:
-                        name3.Text = stat;
-                        break;
-                    case 5:
-                        score3.Text = stat;
-                        break;
-                    case 6:
-                        name4.Text = stat;
-                        break;
-                    case 7:
-                        score4.Text = stat;
-                        break;
-                    case 8:
                         name5.Text = stat;
-                        break;
-                    case 9:
-                        score5.Text = stat;
+                        //score5.Text = score;
                         break;
                 }
-
                 i++;
             }
         }
 
         private void back_click(object sender, RoutedEventArgs e)
         {
-            statsMenu sigi = new statsMenu();
+            statsMenu sigi = new statsMenu(Left, Top, Width, Height, WindowState);
             sigi.Show();
             _isClosedByX = false;
             this.Close();

@@ -14,7 +14,10 @@
                 <Button Margin="360,40,65,-60" Click="refresh_Click" Height="28" Width="57" Content="refresh"/>
             </StackPanel>
             <ListBox x:Name="LST_ROOMS" Height="250"  Margin="57,90,65,20" FontSize="25"/>
-            <Button x:Name="JOIN_ROOM" Height="44" Width="388" Content="Join" FontSize="20" Click="Join_Click"/>
+            <StackPanel Orientation="Horizontal" Width="637">
+                <Button x:Name="JOIN_ROOM" Height="44" Width="437" Content="Join" FontSize="20" Click="Join_Click"/>
+                <Button x:Name="BACK" Width="70" Height="32" Margin="80,0,0,0" Click="back_click" Content="back"/>
+            </StackPanel>
         </StackPanel>
 
 
