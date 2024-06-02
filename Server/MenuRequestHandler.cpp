@@ -192,14 +192,16 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 	gp.statistics = stats.getUserStatistics(this->m_user.getUsername());
 	if (gp.statistics.empty())
 	{
-		gp.status = STATS_ERROR;
+		ErrorResponse e;
+		e.message = "No stats found for user.";
+		buffer = JsonResponsePacketSerializer::serializeResponse(e);
 	}
 	else
 	{
 		gp.status = STATS_SUCCESS;
+		buffer = JsonResponsePacketSerializer::serializeResponse(gp);
 	}
-
-	buffer = JsonResponsePacketSerializer::serializeResponse(gp);
+	
 	rr.response = buffer;
 
 	//stay in menu state.
@@ -224,14 +226,16 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
 	gh.statistics = stats.getHighScore();
 	if (gh.statistics.empty())
 	{
-		gh.status = STATS_ERROR;
+		ErrorResponse e;
+		e.message = "No top statistics found";
+		buffer = JsonResponsePacketSerializer::serializeResponse(e);
 	}
 	else
 	{
 		gh.status = STATS_SUCCESS;
+		buffer = JsonResponsePacketSerializer::serializeResponse(gh);
 	}
 
-	buffer = JsonResponsePacketSerializer::serializeResponse(gh);
 	rr.response = buffer;
 
 	//stay in menu state.
@@ -258,15 +262,27 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 	try
 	{
 		Room& addTo = roomMngr.getRoom(joinRqst.roomId);
-		addTo.addUser(this->m_user);
-		j.status = USER_ADDED_SUCESSFULLY;
+		if (addTo.getRoomData().maxPlayers > addTo.getAllUsers().size())
+		{
+			//the amount of users is ok.
+			addTo.addUser(this->m_user);
+			j.status = USER_ADDED_SUCESSFULLY;
+			buffer = JsonResponsePacketSerializer::serializeResponse(j);
+		}
+		else
+		{
+			ErrorResponse e;
+			e.message = "Room already full.";
+			buffer = JsonResponsePacketSerializer::serializeResponse(e);
+		}
+		
 	}
 	catch (std::exception& e)
 	{
 		j.status = USER_NOT_ADDED;
+		buffer = JsonResponsePacketSerializer::serializeResponse(j);
 	}
 
-	buffer = JsonResponsePacketSerializer::serializeResponse(j);
 	rqRs.response = buffer;
 
 	// stay in menu state
@@ -309,19 +325,22 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 
 			c.status = ROOM_CREATED_SUCESSFULLY;
 			c.id = lastId;
+			buffer = JsonResponsePacketSerializer::serializeResponse(c);
 		}
 		else
 		{
 			//error
-			c.status = ROOM_CREATION_ERROR;
+			ErrorResponse e;
+			e.message = "Room with same name already exists.";
+			buffer = JsonResponsePacketSerializer::serializeResponse(e);
 		}
 	}
 	catch (...)
 	{
 		c.status = ROOM_CREATION_ERROR;
+		buffer = JsonResponsePacketSerializer::serializeResponse(c);
 	}
 
-	buffer = JsonResponsePacketSerializer::serializeResponse(c);
 	rqRs.response = buffer;
 
 	// stay in menu state
