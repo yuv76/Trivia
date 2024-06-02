@@ -62,21 +62,21 @@ namespace Client
 
                 if (button.Name == "PlayersDec")
                 {
-                    if (int.Parse(PLAYERS_NUM.Text) > 0)
+                    if (int.Parse(PLAYERS_NUM.Text) > 1)
                     {
                         PLAYERS_NUM.Text = (int.Parse(PLAYERS_NUM.Text) - 1).ToString();
                     }
                 }
                 else if (button.Name == "QuestionsDec")
                 {
-                    if (int.Parse(QUESTION_NUM.Text) > 0)
+                    if (int.Parse(QUESTION_NUM.Text) > 1)
                     {
                         QUESTION_NUM.Text = (int.Parse(QUESTION_NUM.Text) - 1).ToString();
                     }
                 }
                 else if( button.Name == "TimeDec")
                 {
-                    if (Double.Parse(QUESTION_TIME.Text) > 0)
+                    if (Double.Parse(QUESTION_TIME.Text) > 0.5)
                     {
                         QUESTION_TIME.Text = (double.Parse(QUESTION_TIME.Text) - 0.5).ToString();
                     }

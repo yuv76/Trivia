@@ -17,13 +17,13 @@
                 <TextBlock FontSize="16" Width="228">Maximum Number Of Players:</TextBlock>
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="PlayersInc"  Height="30" Width="30" Click="Inc_click">+</Button>
-                    <TextBox x:Name="PLAYERS_NUM" Height="30" Width="30" Text="0" TextAlignment="Center"></TextBox>
+                    <TextBox x:Name="PLAYERS_NUM" Height="30" Width="30" Text="1" TextAlignment="Center"></TextBox>
                     <Button x:Name="PlayersDec" Height="30" Width="30" Click="Dec_click">-</Button>
                 </StackPanel>
                 <TextBlock Margin="30,0,0,0" FontSize="16" Width="241">Number Of Questions per game:</TextBlock>
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="QuestionsInc" Height="30" Width="30" Click="Inc_click">+</Button>
-                    <TextBox x:Name="QUESTION_NUM" Height="30" Width="30" Text="0" TextAlignment="Center"></TextBox>
+                    <TextBox x:Name="QUESTION_NUM" Height="30" Width="30" Text="1" TextAlignment="Center"></TextBox>
                     <Button x:Name="QuestionsDec" Height="30" Width="30" Click="Dec_click">-</Button>
                 </StackPanel>
             </StackPanel>
@@ -31,7 +31,7 @@
                 <TextBlock FontSize="16" Width="144">Time for question:</TextBlock>
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="TimeInc" Height="30" Width="30" Click="Inc_click" Content="+"/>
-                    <TextBox x:Name="QUESTION_TIME" Height="30" Width="30" Text="0" TextAlignment="Center"/>
+                    <TextBox x:Name="QUESTION_TIME" Height="30" Width="30" Text="20" TextAlignment="Center"/>
                     <Button x:Name="TimeDec" Height="30" Width="30" Click="Dec_click" Content="-"/>
                 </StackPanel>
             </StackPanel>

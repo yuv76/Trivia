@@ -12,7 +12,7 @@
             <TextBlock x:Name="YOU_ARE_IN_ROOM_XXX" FontSize="20" Height="111"></TextBlock>
             <StackPanel Orientation="Horizontal">
                 <TextBlock x:Name="OWNER" FontSize="16"></TextBlock>
-                <ListBox x:Name="PLAYERS" Height="100" Width="338" Margin="240,0,0,0"></ListBox>
+                <ListBox x:Name="PLAYERS" Height="100" Width="338" Margin="130,0,0,0"></ListBox>
             </StackPanel>
             <Button Height="48" Width="122" Click="back_click" Margin="0,20,0,0">back</Button>
         </StackPanel>
