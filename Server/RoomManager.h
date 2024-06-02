@@ -15,4 +15,5 @@ public:
 	std::vector<RoomData> getRooms();
 	Room& getRoom(int ID);
 	int nextId();
+	bool roomExists(std::string name);
 };

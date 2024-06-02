@@ -293,20 +293,27 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	RoomManager& roomMngr = this->m_handlerFactory.getRoomManager();
 	try
 	{
-		newRoom.maxPlayers = createRqst.maxUsers;
-		newRoom.name = createRqst.roomName;
-		newRoom.numOfQuestionsInGame = createRqst.questionCount;
-		newRoom.timePerQuestion = createRqst.anwerTimeout;
-		newRoom.isActive = 1; //couldnt find any declaration of active options #TODO
-		newRoom.owner = this->m_user.getUsername();
-		
-		lastId = this->m_handlerFactory.getRoomManager().nextId();
-		newRoom.id = lastId;
+		if (!roomMngr.roomExists())
+		{
+			newRoom.maxPlayers = createRqst.maxUsers;
+			newRoom.name = createRqst.roomName;
+			newRoom.numOfQuestionsInGame = createRqst.questionCount;
+			newRoom.timePerQuestion = createRqst.anwerTimeout;
+			newRoom.isActive = 1; //couldnt find any declaration of active options #TODO
+			newRoom.owner = this->m_user.getUsername();
 
-		roomMngr.createRoom(this->m_user, newRoom);
+			lastId = this->m_handlerFactory.getRoomManager().nextId();
+			newRoom.id = lastId;
 
-		c.status = ROOM_CREATED_SUCESSFULLY;
-		c.id = lastId;
+			roomMngr.createRoom(this->m_user, newRoom);
+
+			c.status = ROOM_CREATED_SUCESSFULLY;
+			c.id = lastId;
+		}
+		else
+		{
+			//error
+		}
 	}
 	catch (...)
 	{
