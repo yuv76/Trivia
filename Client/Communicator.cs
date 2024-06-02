@@ -325,38 +325,35 @@ namespace Client
             return sentSuccesfully;
         }
 
-        public static async Task<uint> personalStatsAsync(string roomIdentifier)
+        public static async Task<List<string>> personalStatsAsync()
         {
             string jsonStr = "";
             uint sentSuccesfully = 0;
             JObject recvdJson;
+            List<string> userStats = new List<string>();
 
-            PersonalStatsRequest personalStatsRequest = new PersonalStatsRequest()
-            {
-                username = Communicator.username
-            };
-            jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(personalStatsRequest);
-            
-            sentSuccesfully = await sendToServer(jsonStr, msgCodes.PERSONAL_STATS);
+            sentSuccesfully = await sendToServer("", msgCodes.PERSONAL_STATS);
 
             if (sentSuccesfully == GetPersonalStatsResponse.PERSONAL_STATS_SUCESS)
             {
                 recvdJson = await recieveFromServer();
                 if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.PERSONAL_STATS))
                 {
-                    if (recvdJson.ContainsKey("status"))
+                    if (recvdJson.Value<uint>("status") == GetPersonalStatsResponse.PERSONAL_STATS_SUCESS)
                     {
-                        //get data.
-                        return recvdJson.Value<uint>("status");
-                    }
-                    else
-                    {
-                        return recvdJson.Value<uint>("server_resp_code");
+                        if (recvdJson.ContainsKey("statistics"))
+                        {
+                            //get data.
+                            string[] temp = recvdJson.Value<JToken>("statistics").ToString().Split(',');
+                            userStats = temp.ToList();
+
+                            return userStats;
+                        }
                     }
                 }
             }
             //else, return unseccess.
-            return sentSuccesfully;
+            return userStats;
         }
 
         public static async Task<List<string>> topStatsAsync()

@@ -23,10 +23,6 @@ namespace Client
     {
         bool _isClosedByX = true;
 
-        private string _time;
-        private string _correct;
-        private string _games;
-        private string _total;
         public PersonalStats(double left, double top, double width, double height, WindowState windowstate)
         {
             InitializeComponent();
@@ -36,16 +32,35 @@ namespace Client
             Height = height;
             WindowState = windowstate;
 
-            this._time = "temp1";
-            this._correct = "temp2";
-            this._games = "temp3";
-            this._total = "temp4";
-            
-            time.Text = _time;
-            correct.Text = _correct;
-            games.Text = _games;
-            total.Text = _total;
+            PutPersonalScores();
         }
+
+        private async void PutPersonalScores()
+        {
+            List<string> recvdJson = await Communicator.personalStatsAsync();
+            int i = 0;
+            foreach (var stat in recvdJson)
+            {
+                switch (i)
+                {
+                    case 1:
+                        correct.Text = stat;
+                        break;
+                    case 2:
+                        total.Text = stat;
+                        break;
+                    case 3:
+                        games.Text = stat;
+                        break;
+                    case 4:
+                        time.Text = stat;
+                        break;
+                }
+
+                i++;
+            }
+        }
+
         protected override async void OnClosed(EventArgs e)
         {
             if (_isClosedByX)
