@@ -22,11 +22,6 @@ namespace Client
     public partial class PersonalStats : Window
     {
         bool _isClosedByX = true;
-
-        private string _time;
-        private string _correct;
-        private string _games;
-        private string _total;
         public PersonalStats()
         {
             InitializeComponent();
@@ -37,16 +32,6 @@ namespace Client
         private async void PutPersonalScores()
         {
             List<string> recvdJson = await Communicator.personalStatsAsync();
-            /*
-            if (recvdJson.ContainsKey("status"))
-            {
-                statsMenu sigi = new statsMenu();
-                sigi.Show();
-                _isClosedByX = false;
-                this.Close();
-            }
-            else
-            {*/
             int i = 0;
             foreach (var stat in recvdJson)
             {

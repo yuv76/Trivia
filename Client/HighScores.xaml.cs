@@ -25,18 +25,6 @@ namespace Client
     public partial class HighScores : Window
     {
         private bool _isClosedByX = true;
-
-        private string name_1;
-        private string name_2;
-        private string name_3;
-        private string name_4;
-        private string name_5;
-
-        private string score_1;
-        private string score_2;
-        private string score_3;
-        private string score_4;
-        private string score_5;
         public HighScores()
         {
             InitializeComponent();
