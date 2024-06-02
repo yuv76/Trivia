@@ -17,8 +17,8 @@
 
         <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,260,0" Width="100"/>
         <Button x:Name="EXIT" Click="exit_clickAsync" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,250,250,0" Width="45">Exit</Button>
-        <Button x:Name="CREATE_ROOM" Click="moveToCreateRoom_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,150,116,0" Width="90" RenderTransformOrigin="0.445,1.399">Create Room</Button>
-        <Button x:Name="JOIN_ROOM" Click="moveToJoinRoom_click" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="98,150,0,0" Width="70">Join Room</Button>
+        <Button x:Name="CREATE_ROOM" Click="moveToCreateRoom_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,150,115,0" Width="90" RenderTransformOrigin="0.445,1.399">Create Room</Button>
+        <Button x:Name="JOIN_ROOM" Click="moveToJoinRoom_click" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="100,150,0,0" Width="70">Join Room</Button>
         <Button x:Name="STATISTICS" Click="moveToStatsMenu_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,250,136,0">Statistics</Button>
     </Grid>
 </Window>
