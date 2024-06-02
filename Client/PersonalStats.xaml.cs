@@ -53,16 +53,16 @@ namespace Client
                 switch (i)
                 {
                     case 1:
-                        time.Text = stat;
+                        correct.Text = stat;
                         break;
                     case 2:
-                        correct.Text = stat;
+                        total.Text = stat;
                         break;
                     case 3:
                         games.Text = stat;
                         break;
                     case 4:
-                        total.Text = stat;
+                        time.Text = stat;
                         break;
                 }
 
