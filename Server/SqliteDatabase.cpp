@@ -151,6 +151,14 @@ int SqliteDatabase::addNewUser(std::string username, std::string password, std::
 	{
 		throw std::exception(*errMessage);
 	}
+
+
+	addUserSQL = "INSERT INTO statistics  VALUES(\"" + username + "\", \"" + "0.00" + "\", \"" + '0' + "\", \"" + '0' + "\", \"" + '0' + "\"); ";
+	res = sqlite3_exec(this->database, addUserSQL.c_str(), nullptr, nullptr, errMessage);
+	if (res != SQLITE_OK)
+	{
+		throw std::exception(*errMessage);
+	}
 	return USER_ADDED;
 }
 
