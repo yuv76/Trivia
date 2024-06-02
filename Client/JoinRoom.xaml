@@ -8,6 +8,7 @@
         Title="JoinRoom" Height="450" Width="800"
         Background="AliceBlue">
     <Grid>
+        <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,15,660,0" Width="100"/>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock FontSize="17" Margin="57,40,65,-60">Choose a Room To Join:</TextBlock>

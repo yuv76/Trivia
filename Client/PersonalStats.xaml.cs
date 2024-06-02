@@ -32,6 +32,7 @@ namespace Client
             Height = height;
             WindowState = windowstate;
 
+            PutName();
             PutPersonalScores();
         }
 
@@ -75,6 +76,12 @@ namespace Client
             sttMen.Show();
             _isClosedByX = false;
             this.Close();
+        }
+
+        private void PutName()
+        {
+            string temp = Communicator.getName();
+            name.Text = temp;
         }
     }
 }

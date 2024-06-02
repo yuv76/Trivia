@@ -34,6 +34,7 @@ namespace Client
             Height = height;
             WindowState = windowstate;
 
+            PutName();
             //contact server to get rooms.
             refresh();
         }
@@ -112,6 +113,12 @@ namespace Client
             {
                 uint ok = await Communicator.signoutAsync();
             }
+        }
+
+        private void PutName()
+        {
+            string temp = Communicator.getName();
+            name.Text = temp;
         }
     }
 }

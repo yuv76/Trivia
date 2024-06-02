@@ -28,6 +28,8 @@ namespace Client
             Width = width; 
             Height = height;
             WindowState = windowstate;
+
+            PutName();
         }
 
         private void top_click(object sender, RoutedEventArgs e)
@@ -59,6 +61,12 @@ namespace Client
             sigi.Show();
             _isClosedByX = false;
             this.Close();
+        }
+
+        private void PutName()
+        {
+            string temp = Communicator.getName();
+            name.Text = temp;
         }
     }
 }

@@ -34,6 +34,7 @@ namespace Client
             Height = height;
             WindowState = windowstate;
 
+            PutName();
             PutHighScores();
         }
 
@@ -96,6 +97,12 @@ namespace Client
             {
                 uint ok = await Communicator.signoutAsync();
             }
+        }
+
+        private void PutName()
+        {
+            string temp = Communicator.getName();
+            name.Text = temp;
         }
     }
     

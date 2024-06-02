@@ -76,7 +76,6 @@ namespace Client
             }
         }
 
-
         private void PutName()
         {
             string temp = Communicator.getName();

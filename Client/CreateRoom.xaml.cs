@@ -30,6 +30,8 @@ namespace Client
             Width = width; 
             Height = height;
             WindowState = windowstate;
+
+            PutName();
         }
 
         private void Inc_click(object sender, RoutedEventArgs e)
@@ -115,6 +117,12 @@ namespace Client
             {
                 uint ok = await Communicator.signoutAsync();
             }
+        }
+
+        private void PutName()
+        {
+            string temp = Communicator.getName();
+            name.Text = temp;
         }
     }
 }
