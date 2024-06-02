@@ -22,9 +22,14 @@ namespace Client
     public partial class CreateRoom : Window
     {
         private bool _isClosedByX = true;
-        public CreateRoom()
+        public CreateRoom(double left, double top, double width, double height, WindowState windowstate)
         {
             InitializeComponent();
+            Left = left;
+            Top = top;
+            Width = width; 
+            Height = height;
+            WindowState = windowstate;
         }
 
         private void Inc_click(object sender, RoutedEventArgs e)
@@ -85,7 +90,7 @@ namespace Client
             uint id = await Communicator.createRoom(ROOMNAME.Text, uint.Parse(PLAYERS_NUM.Text), uint.Parse(QUESTION_NUM.Text), double.Parse(QUESTION_TIME.Text));
             if(id != CreateRoomResponse.CREATE_ROOM_FAIL)
             {
-                Room room = new Room(ROOMNAME.Text, id.ToString());
+                Room room = new Room(Left, Top, Width, Height, WindowState, ROOMNAME.Text, id.ToString());
                 room.Show();
                 _isClosedByX = false;
                 this.Close();
@@ -98,7 +103,7 @@ namespace Client
 
         private void back_click(object sender, RoutedEventArgs e)
         {
-            MainMenu menu = new MainMenu();
+            MainMenu menu = new MainMenu(Left, Top, Width, Height, WindowState);
             menu.Show();
             _isClosedByX = false;
             this.Close();

@@ -25,9 +25,14 @@ namespace Client
         private bool _isClosedByX = true; // we cant know.
         List<Pair<string, string>> _rooms;
 
-        public JoinRoom()
+        public JoinRoom(double left, double top, double width, double height, WindowState windowstate)
         {
             InitializeComponent();
+            Left = left;
+            Top = top;   
+            Width = width;
+            Height = height;
+            WindowState = windowstate;
 
             //contact server to get rooms.
             refresh();
@@ -76,7 +81,7 @@ namespace Client
                     uint ok = await Communicator.joinRoom(roomId);
                     if(ok == JoinRoomResponse.JOIN_ROOM_SUCCESS)
                     {
-                        Room room = new Room(selected.ToString(), getRoomIdByName(selected.ToString()));
+                        Room room = new Room(Left, Top, Width, Height, WindowState, selected.ToString(), getRoomIdByName(selected.ToString()));
                         room.Show();
                         _isClosedByX = false;
                         this.Close();
@@ -95,7 +100,7 @@ namespace Client
 
         private void back_click(object sender, RoutedEventArgs e)
         {
-            MainMenu mainMenu = new MainMenu();
+            MainMenu mainMenu = new MainMenu(Left, Top, Width, Height, WindowState);
             mainMenu.Show();
             _isClosedByX = false;
             this.Close();

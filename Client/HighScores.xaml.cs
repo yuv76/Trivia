@@ -36,10 +36,15 @@ namespace Client
         private string score_3;
         private string score_4;
         private string score_5;
-        public HighScores()
+        public HighScores(double left, double top, double width, double height, WindowState windowstate)
         {
             InitializeComponent();
-            
+            Left = left;
+            Top = top;
+            Width = width;
+            Height = height;
+            WindowState = windowstate;
+
             PutHighScores();
         }
 
@@ -88,7 +93,7 @@ namespace Client
 
         private void back_click(object sender, RoutedEventArgs e)
         {
-            statsMenu sigi = new statsMenu();
+            statsMenu sigi = new statsMenu(Left, Top, Width, Height, WindowState);
             sigi.Show();
             _isClosedByX = false;
             this.Close();

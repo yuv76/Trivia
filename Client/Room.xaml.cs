@@ -23,9 +23,15 @@ namespace Client
     {
         private bool _isClosedByX = true;
 
-        public Room(string roomName, string id)
+        public Room(double left, double top, double width, double height, WindowState windowstate, string roomName, string id)
         {
             InitializeComponent();
+            Left = left;
+            Top = top;
+            Width = width;
+            Height = height;
+            WindowState = windowstate;
+
             YOU_ARE_IN_ROOM_XXX.Text = "You are in room " + roomName; //can add list of players in the room for now, this might be the wait for game screen.
             getPlayers(id);
         }
@@ -45,7 +51,7 @@ namespace Client
 
         private void back_click(object sender, RoutedEventArgs e)
         {
-            MainMenu men = new MainMenu();
+            MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
             men.Show();
             _isClosedByX = false;
             this.Close();

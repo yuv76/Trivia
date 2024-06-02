@@ -27,9 +27,15 @@ namespace Client
         private string _correct;
         private string _games;
         private string _total;
-        public PersonalStats()
+        public PersonalStats(double left, double top, double width, double height, WindowState windowstate)
         {
             InitializeComponent();
+            Left = left;
+            Top = top;
+            Width = width;
+            Height = height;
+            WindowState = windowstate;
+
             this._time = "temp1";
             this._correct = "temp2";
             this._games = "temp3";
@@ -50,7 +56,7 @@ namespace Client
 
         private void back_click(object sender, RoutedEventArgs e)
         {
-            statsMenu sttMen = new statsMenu();
+            statsMenu sttMen = new statsMenu(Left, Top, Width, Height, WindowState);
             sttMen.Show();
             _isClosedByX = false;
             this.Close();

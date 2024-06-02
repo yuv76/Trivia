@@ -26,10 +26,20 @@ namespace Client
             InitializeComponent();
             communicator = new Communicator();
         }
+        public MainWindow(double left, double top, double width, double height, WindowState windowstate)
+        {
+            InitializeComponent();
+            Left = left;
+            Top = top;
+            Width = width; 
+            Height = height;
+            WindowState = windowstate;
+            communicator = new Communicator();
+        }
 
         private void moveToSignUp_click(object sender, RoutedEventArgs e)
         {
-            Signup sigi = new Signup();
+            Signup sigi = new Signup(Left, Top, Width, Height, WindowState);
             sigi.Show();
             _isClosedByX = false;
             this.Close();
@@ -40,7 +50,7 @@ namespace Client
             uint ok = await Communicator.loginAsync(USERNAME.Text, PASSWORD.Text);
             if (ok == LoginResponse.LOGIN_SUCCESS)
             {
-                MainMenu men = new MainMenu();
+                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
                 men.Show();
                 _isClosedByX = false;
                 this.Close();
