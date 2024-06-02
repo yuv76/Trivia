@@ -13,7 +13,8 @@ enum msgCodes
 	JOIN_ROOM,
 	CREATE_ROOM,
 	HIGH_SCORE,
-	PERSONAL_STATS
+	PERSONAL_STATS,
+	DISCONNECT
 };
 
 struct LoginRequest

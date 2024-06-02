@@ -196,8 +196,12 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			}
 			else //error
 			{
-				
-				
+				if (info.buffer[0] == DISCONNECT)
+				{
+					closesocket(clientSocket);
+					std::cout << "client disconnected" << std::endl;
+					return;
+				}
 			}
 
 			// sanding the response message to client.

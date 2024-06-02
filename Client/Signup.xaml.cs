@@ -69,7 +69,7 @@ namespace Client
         {
             if (_isClosedByX)
             {
-                uint ok = await Communicator.signoutAsync(); //wrong - was to close connection and not sign out since no one is signed out. #todo
+                uint ok = await Communicator.closeConnectionAsync();
             }
         }
     }

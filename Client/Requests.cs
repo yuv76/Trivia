@@ -17,7 +17,8 @@ namespace Requests
         JOIN_ROOM,
         CREATE_ROOM,
         HIGH_SCORE,
-        PERSONAL_STATS
+        PERSONAL_STATS,
+        DISCONNECT
     };
 
     public class LoginRequest

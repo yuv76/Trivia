@@ -42,9 +42,8 @@ namespace Client
             try
             {
                 _socket = new TcpClient();
-                _serverEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 4242);
+                //_serverEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 4242);
                 IAsyncResult result = _socket.BeginConnect("127.0.0.1", 9090, null, null);
-                //_socket.Connect(_serverEndPoint);
                 // Wait 5 seconds for the connection attempt to complete
                 result.AsyncWaitHandle.WaitOne(5000);
 
@@ -76,7 +75,6 @@ namespace Client
             {
                 _in.Close();
                 _out.Close();
-                //_reader.Close();
                 _stream.Close();
                 _socket.Close();
             }
@@ -456,6 +454,12 @@ namespace Client
             }
             //else, return the empty list.
             return players;
+        }
+
+        public static async Task<uint> closeConnectionAsync()
+        {
+            uint sentSuccessfully = await sendToServer("", msgCodes.DISCONNECT);
+            return sentSuccessfully;
         }
     }
 }
