@@ -15,6 +15,8 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+        <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,50,250,0" Width="100"/>
+        <Button x:Name="BACK" Click="back_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,50,150,0" Width="70">Go Back</Button>
         <TextBlock FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,333" Width="100">username:</TextBlock>
         <TextBlock FontSize="20" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,200,333" Width="70" Height="27" VerticalAlignment="Bottom">score:</TextBlock>
 

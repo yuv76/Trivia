@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Responses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,18 +19,26 @@ namespace Client
     /// Interaction logic for Signup.xaml
     /// </summary>
     public partial class Signup : Window
-    {        
+    {
+        public bool _isClosedByX = true;
+
         const string USERNAME_TAKEN = "This Username is already taken.\n";
         const string PASSWORDS_NOT_MATCH = "Passwords dont match.\n";
         const string INVALID_MAIL = "Invalid mail.\n";
 
-        public Signup()
+        public Signup(double left, double top, double width, double height, WindowState windowstate)
         {
             InitializeComponent();
+            Left = left;
+            Top = top;
+            Width = width; 
+            Height = height;
+            WindowState = windowstate;
         }
 
-        private void signupEnter_click(object sender, RoutedEventArgs e)
+        private async void signupEnter_click(object sender, RoutedEventArgs e)
         {
+            uint ok = 0;
             string errors = "";
             //check username existance with the server.
             
@@ -39,7 +48,7 @@ namespace Client
             }
             if(!NEWMAIL.Text.Contains('@'))
             {
-                errors += INVALID_MAIL; // will add better check further on.
+                errors += INVALID_MAIL; // will maybe add better check further on.
             }
 
             if(errors != "")
@@ -48,9 +57,25 @@ namespace Client
             }
             else
             {
-                MainMenu men = new MainMenu();
-                men.Show();
-                this.Close();
+                ok = await Communicator.signupAsync(NEWSERNAME.Text, NEWPASS.Text, NEWMAIL.Text);
+                if(ok == SignupResponse.SIGNUP_SUCCESS)
+                {
+                    MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                    men.Show();
+                    _isClosedByX = false;
+                    this.Close();
+                }
+                else
+                {
+                    ERRORS.Text = "Username already taken";
+                }
+            }
+        }
+        protected override async void OnClosed(EventArgs e)
+        {
+            if (_isClosedByX)
+            {
+                uint ok = await Communicator.closeConnectionAsync();
             }
         }
     }

@@ -11,7 +11,6 @@ out: the bytes vector containing the response.
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(ErrorResponse err)
 {
 	std::vector<std::uint8_t> buffer;
-	std::vector<std::uint8_t> tampMsg;
 	std::string msg = err.message;
 	msgCodes code = ERR;
 	int len = 0;
@@ -33,8 +32,9 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(ErrorR
 	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF)); 
 
 	//add message in bytes to the vector
-	tampMsg = json::to_ubjson(errJson);
-	buffer.insert(buffer.end(), tampMsg.begin(), tampMsg.end());
+	std::vector<std::uint8_t> tempMsg(msg.begin(), msg.end());
+
+	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
 
 	return buffer;
 }
@@ -47,7 +47,6 @@ out: the bytes vector containing the response.
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(LoginResponse log)
 {
 	std::vector<std::uint8_t> buffer;
-	std::vector<std::uint8_t> tempMsg;
 	std::string msg = "";
 	msgCodes code = LOGIN;
 	int len = 0;
@@ -68,7 +67,8 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(LoginR
 	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
 
 	//add message in bytes to the vector
-	tempMsg = json::to_ubjson(loginJson);
+	std::vector<std::uint8_t> tempMsg(msg.begin(), msg.end());
+
 	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
 
 	return buffer;
@@ -82,7 +82,6 @@ out: the bytes vector containing the response.
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(SignupResponse sig)
 {
 	std::vector<std::uint8_t> buffer;
-	std::vector<std::uint8_t> tempMsg;
 	std::string msg = "";
 	msgCodes code = SIGNUP;
 	int len = 0;
@@ -103,7 +102,8 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(Signup
 	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
 
 	//add message in bytes to the vector
-	tempMsg = json::to_ubjson(signupJson);
+	std::vector<std::uint8_t> tempMsg(msg.begin(), msg.end());
+
 	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
 
 	return buffer;
@@ -117,7 +117,6 @@ out: the bytes vector containing the response.
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(LogoutResponse log)
 {
 	std::vector<std::uint8_t> buffer;
-	std::vector<std::uint8_t> tempMsg;
 	std::string msg = "";
 	msgCodes code = SIGNOUT;
 	int len = 0;
@@ -138,7 +137,8 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(Logout
 	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
 
 	//add message in bytes to the vector
-	tempMsg = json::to_ubjson(logoutJson);
+	std::vector<std::uint8_t> tempMsg(msg.begin(), msg.end());
+
 	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
 
 	return buffer;
@@ -152,9 +152,8 @@ out: the bytes vector containing the response.
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse getR)
 {
 	std::vector<std::uint8_t> buffer;
-	std::vector<std::uint8_t> tempMsg;
+	std::vector<std::pair<std::string, std::string>> rooms;
 	std::string msg = "";
-	std::string rooms = "";
 	msgCodes code = GET_ROOM;
 	int len = 0;
 	json getRoomJson;
@@ -165,8 +164,7 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetRoo
 	auto i = getR.rooms.begin();
 	for (i; i != getR.rooms.end(); i++) // propably will need to contain more info, can be in another json field and each room by its index, see after will be needed. #todo
 	{
-		rooms += i->id;
-		rooms += ",";
+		rooms.push_back(std::make_pair(std::to_string(i->id), i->name));
 	}
 
 	//create msg in json format
@@ -182,7 +180,8 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetRoo
 	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
 
 	//add message in bytes to the vector
-	tempMsg = json::to_ubjson(getRoomJson);
+	std::vector<std::uint8_t> tempMsg(msg.begin(), msg.end());
+
 	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
 
 	return buffer;
@@ -196,9 +195,8 @@ out: the bytes vector containing the response.
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse getP)
 {
 	std::vector<std::uint8_t> buffer;
-	std::vector<std::uint8_t> tempMsg;
 	std::string msg = "";
-	std::string players = "";
+	std::vector<std::string> players;
 	msgCodes code = GET_PLAYERS;
 	int len = 0;
 	json getPlayersJson;
@@ -206,15 +204,9 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetPla
 	//add code byte to vector
 	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
 
-	auto i = getP.players.begin();
-	for (i; i != getP.players.end(); i++) 
-	{
-		players += *i;
-		players += ",";
-	}
-
 	//create msg in json format
-	getPlayersJson["Players"] = players;
+	getPlayersJson["Players"] = getP.players;
+	getPlayersJson["Admin"] = getP.roomAdmin;
 	msg = getPlayersJson.dump();
 
 	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.
@@ -225,7 +217,8 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetPla
 	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
 
 	//add message in bytes to the vector
-	tempMsg = json::to_ubjson(getPlayersJson);
+	std::vector<std::uint8_t> tempMsg(msg.begin(), msg.end());
+
 	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
 
 	return buffer;
@@ -239,7 +232,6 @@ out: the bytes vector containing the response.
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse join)
 {	
 	std::vector<std::uint8_t> buffer;
-	std::vector<std::uint8_t> tempMsg;
 	std::string msg = "";
 	msgCodes code = JOIN_ROOM;
 	int len = 0;
@@ -260,7 +252,8 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(JoinRo
 	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
 
 	//add message in bytes to the vector
-	tempMsg = json::to_ubjson(joinRoomJson);
+	std::vector<std::uint8_t> tempMsg(msg.begin(), msg.end());
+
 	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
 
 	return buffer;
@@ -274,7 +267,6 @@ out: the bytes vector containing the response.
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse crea)
 {
 	std::vector<std::uint8_t> buffer;
-	std::vector<std::uint8_t> tempMsg;
 	std::string msg = "";
 	msgCodes code = CREATE_ROOM;
 	int len = 0;
@@ -284,6 +276,7 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(Create
 	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
 
 	//create msg in json format
+	createRoomJson["id"] = crea.id;
 	createRoomJson["status"] = crea.status;
 	msg = createRoomJson.dump();
 
@@ -295,7 +288,8 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(Create
 	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
 
 	//add message in bytes to the vector
-	tempMsg = json::to_ubjson(createRoomJson);
+	std::vector<std::uint8_t> tempMsg(msg.begin(), msg.end());
+
 	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
 
 	return buffer;
@@ -309,9 +303,8 @@ out: the bytes vector containing the response.
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(getHighScoreResponse high)
 {
 	std::vector<std::uint8_t> buffer;
-	std::vector<std::uint8_t> tempMsg;
+	std::vector<std::string> stats;
 	std::string msg = "";
-	std::string stats = "";
 	msgCodes code = HIGH_SCORE;
 	int len = 0;
 	json getPlayersJson;
@@ -322,8 +315,7 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(getHig
 	auto i = high.statistics.begin();
 	for (i; i != high.statistics.end(); i++) //will have to be expanded according to what will be in the statistics part.
 	{
-		stats += *i;
-		stats += ",";
+		stats.push_back(*i);
 	}
 
 	//create msg in json format
@@ -339,7 +331,8 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(getHig
 	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
 
 	//add message in bytes to the vector
-	tempMsg = json::to_ubjson(getPlayersJson);
+	std::vector<std::uint8_t> tempMsg(msg.begin(), msg.end());
+
 	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
 
 	return buffer;
@@ -353,7 +346,6 @@ out: the bytes vector containing the response.
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(getPersonalStatsResponse pers)
 {
 	std::vector<std::uint8_t> buffer;
-	std::vector<std::uint8_t> tempMsg;
 	std::string msg = "";
 	std::string stats = "";
 	msgCodes code = PERSONAL_STATS;
@@ -383,7 +375,8 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(getPer
 	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
 
 	//add message in bytes to the vector
-	tempMsg = json::to_ubjson(getPlayersJson);
+	std::vector<std::uint8_t> tempMsg(msg.begin(), msg.end());
+
 	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
 
 	return buffer;

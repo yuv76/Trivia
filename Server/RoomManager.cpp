@@ -63,7 +63,7 @@ Room& RoomManager::getRoom(int ID)
 {
 	if (this->m_rooms.find(ID) != this->m_rooms.end()) // if key exists.
 	{
-		return this->m_rooms.at(ID);
+		return this->m_rooms.find(ID)->second;
 	}
 	throw std::exception("Invalid Room ID.");
 }
@@ -75,9 +75,36 @@ out: the unused id.
 */
 int RoomManager::nextId()
 {
-	//the map is sorted by increased oredr, so its last position will be its biggest key.
-	int id = this->m_rooms.rbegin()->first; 
-	//increase id by one to get the next unused id.
-	id++;
+	int id = 0;
+	if (this->m_rooms.empty())
+	{ 
+		//first room.
+		id = 1;
+	}
+	else
+	{
+		//the map is sorted by increased oredr, so its last position will be its biggest key.
+		id = this->m_rooms.rbegin()->first;
+		//increase id by one to get the next unused id.
+		id++;
+	}
 	return id;
+}
+
+/*
+checks if a room with a given name exists.
+in: the name to check.
+out: true if exists, false otherwise.
+*/
+bool RoomManager::roomExists(std::string name)
+{
+	auto i = this->m_rooms.begin();
+	for (i; i != this->m_rooms.end(); i++)
+	{
+		if (i->second.getRoomData().name == name)
+		{
+			return true;
+		}
+	}
+	return false;
 }

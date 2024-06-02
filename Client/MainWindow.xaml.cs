@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using Requests;
+using Responses;
+using System.ComponentModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,23 +19,70 @@ namespace Client
     /// </summary>
     public partial class MainWindow : Window
     {
+        Communicator communicator;
+        private bool _isClosedByX = true; // we cant know if it will be closed by x, so start value assumes it was.
         public MainWindow()
         {
             InitializeComponent();
+            communicator = new Communicator();
+        }
+        public MainWindow(double left, double top, double width, double height, WindowState windowstate)
+        {
+            InitializeComponent();
+            Left = left;
+            Top = top;
+            Width = width; 
+            Height = height;
+            WindowState = windowstate;
+            communicator = new Communicator();
         }
 
         private void moveToSignUp_click(object sender, RoutedEventArgs e)
         {
-            Signup sigi = new Signup();
+            Signup sigi = new Signup(Left, Top, Width, Height, WindowState);
             sigi.Show();
+            _isClosedByX = false;
             this.Close();
         }
         
-        private void enterUsername_click(object sender, RoutedEventArgs e)
+        private async void enterLogin_clickAsync(object sender, RoutedEventArgs e)
         {
-            PasswordWindow pass = new PasswordWindow(USERNAME.Text);
-            pass.Show();
-            this.Close();
+            uint ok = await Communicator.loginAsync(USERNAME.Text, PASSWORD.Text);
+            if (ok == LoginResponse.LOGIN_SUCCESS)
+            {
+                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                men.Show();
+                _isClosedByX = false;
+                this.Close();
+            }
+            else
+            {
+                if(ok == LoginResponse.LOGIN_F_WRONG_PASS)
+                {
+                    LOGIN_ERORR.Text = "Wrong Password";
+                }
+                else if (ok == LoginResponse.LOGIN_F_NO_USER) 
+                {
+                    LOGIN_ERORR.Text = "No user with given name exists, log in insted?";
+                }
+                else if(ok == LoginResponse.LOGIN_F_CONNECTED_ALREADY)
+                {
+                    LOGIN_ERORR.Text = "User already connected";
+                }
+                else
+                {
+                    LOGIN_ERORR.Text = "Connection error";
+                }
+                USERNAME.Clear();
+                PASSWORD.Clear();
+            }
+        }
+        protected override async void OnClosed(EventArgs e)
+        {
+            if (_isClosedByX)
+            {
+                uint ok = await Communicator.closeConnectionAsync(); 
+            }
         }
     }
 }

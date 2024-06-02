@@ -21,22 +21,67 @@ namespace Client
     /// </summary>
     public partial class PersonalStats : Window
     {
-        private string _time;
-        private string _correct;
-        private string _games;
-        private string _total;
-        public PersonalStats()
+        bool _isClosedByX = true;
+
+        public PersonalStats(double left, double top, double width, double height, WindowState windowstate)
         {
             InitializeComponent();
-            this._time = "temp1";
-            this._correct = "temp2";
-            this._games = "temp3";
-            this._total = "temp4";
-            
-            time.Text = _time;
-            correct.Text = _correct;
-            games.Text = _games;
-            total.Text = _total;
+            Left = left;
+            Top = top;
+            Width = width;
+            Height = height;
+            WindowState = windowstate;
+
+            PutName();
+            PutPersonalScores();
+        }
+
+        private async void PutPersonalScores()
+        {
+            List<string> recvdJson = await Communicator.personalStatsAsync();
+            int i = 0;
+            foreach (var stat in recvdJson)
+            {
+                switch (i)
+                {
+                    case 1:
+                        correct.Text = stat;
+                        break;
+                    case 2:
+                        total.Text = stat;
+                        break;
+                    case 3:
+                        games.Text = stat;
+                        break;
+                    case 4:
+                        time.Text = stat;
+                        break;
+                }
+
+                i++;
+            }
+        }
+
+        protected override async void OnClosed(EventArgs e)
+        {
+            if (_isClosedByX)
+            {
+                uint ok = await Communicator.signoutAsync();
+            }
+        }
+
+        private void back_click(object sender, RoutedEventArgs e)
+        {
+            statsMenu sttMen = new statsMenu(Left, Top, Width, Height, WindowState);
+            sttMen.Show();
+            _isClosedByX = false;
+            this.Close();
+        }
+
+        private void PutName()
+        {
+            string temp = Communicator.getName();
+            name.Text = temp;
         }
     }
 }

@@ -8,11 +8,14 @@
         Title="MainWindow" Height="450" Width="800"
         Background="AliceBlue">
     <Grid>
-        <StackPanel Margin="-5,118,0,89" RenderTransformOrigin="0.5,0.5">
-            <TextBlock Height="28" Width="115" FontSize="16">Enter username</TextBlock>
+        <StackPanel Margin="-5,118,0,11" RenderTransformOrigin="0.5,0.5">
+            <TextBlock Height="28" Width="115" FontSize="16">Enter Username</TextBlock>
             <TextBox x:Name="USERNAME" Width="500" Height="35"></TextBox>
-            <Button x:Name="ENTER_USERNAME" Click="enterUsername_click" Margin="20" Height="35" Width="100">Enter</Button>
-            <Button x:Name="SIGNUP" Click="moveToSignUp_click" Margin="30" Width="50">sign up</Button>
+            <TextBlock Height="28" Width="115" FontSize="16">Enter Password</TextBlock>
+            <TextBox x:Name="PASSWORD" Width="500" Height="35"></TextBox>
+            <Button x:Name="ENTER_USERNAME" Click="enterLogin_clickAsync" Margin="20" Height="35" Width="100">Enter</Button>
+            <Button x:Name="SIGNUP" Click="moveToSignUp_click" Margin="10" Width="50">sign up</Button>
+            <TextBlock x:Name="LOGIN_ERORR" FontSize="15" Height="45" Width="624" Foreground="DarkRed"></TextBlock>
         </StackPanel> 
     </Grid>
 </Window>
