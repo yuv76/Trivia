@@ -325,22 +325,21 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 
 			c.status = ROOM_CREATED_SUCESSFULLY;
 			c.id = lastId;
-			buffer = JsonResponsePacketSerializer::serializeResponse(c);
 		}
 		else
 		{
 			//error
-			ErrorResponse e;
-			e.message = "Room with same name already exists.";
-			buffer = JsonResponsePacketSerializer::serializeResponse(e);
+			c.id = 0;
 		}
 	}
 	catch (...)
 	{
 		c.status = ROOM_CREATION_ERROR;
-		buffer = JsonResponsePacketSerializer::serializeResponse(c);
+		c.id = 0;
+		
 	}
 
+	buffer = JsonResponsePacketSerializer::serializeResponse(c);
 	rqRs.response = buffer;
 
 	// stay in menu state

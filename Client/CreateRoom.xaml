@@ -36,8 +36,9 @@
                     <Button x:Name="TimeDec" Height="30" Width="30" Click="Dec_click" Content="-"/>
                 </StackPanel>
             </StackPanel>
-            <Button x:Name="CREATE_BTN" Margin="45" Height="58" Width="248" FontSize="17" Click="Create_Click">Create</Button>
+            <Button x:Name="CREATE_BTN" Margin="45,20" Height="58" Width="248" FontSize="17" Click="Create_Click">Create</Button>
             <Button x:Name="BACK" Width="78" Height="25" Click="back_click">Back</Button>
+            <TextBlock x:Name="ERRORS" Foreground="DarkRed" FontSize="16" Margin="10" Height="55" Width="730"></TextBlock>
         </StackPanel>
 
     </Grid>

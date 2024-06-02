@@ -78,7 +78,7 @@ int RoomManager::nextId()
 	int id = 0;
 	if (this->m_rooms.empty())
 	{ 
-		//first room.
+		//first room
 		id = 1;
 	}
 	else

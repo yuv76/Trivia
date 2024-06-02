@@ -100,6 +100,7 @@ namespace Client
             else
             {
                 //error
+                ERRORS.Text = "Error creating room.";
             }
         }
 
