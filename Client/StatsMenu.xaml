@@ -15,8 +15,8 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,50,250,0" Width="100"/>
-        <Button x:Name="BACK" Click="back_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,50,150,0" Width="70">Go Back</Button>
+        <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,260,0" Width="100"/>
+        <Button x:Name="BACK" Click="back_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,200,0" Width="70">Go Back</Button>
         <Button x:Name="PERSONAL" Click="personal_click" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,200,200,0" Width="130">Personal Statistics</Button>
         <Button x:Name="TOP" Click="top_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,200,150,0" Width="130" RenderTransformOrigin="0.445,1.399">Top Statistics</Button>
     </Grid>
