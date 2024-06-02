@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Formats.Asn1.AsnWriter;
+using System.Xml.Linq;
 
 namespace Client
 {
@@ -29,6 +31,8 @@ namespace Client
             Width = width;
             Height = height;
             WindowState = windowstate;
+
+            PutName();
         }
 
         private void moveToCreateRoom_click(object sender, RoutedEventArgs e)
@@ -70,6 +74,13 @@ namespace Client
             {
                 uint ok = await Communicator.signoutAsync();
             }
+        }
+
+
+        private void PutName()
+        {
+            string temp = Communicator.getName();
+            name.Text = temp;
         }
     }
 }

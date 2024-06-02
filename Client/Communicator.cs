@@ -456,5 +456,11 @@ namespace Client
             uint sentSuccessfully = await sendToServer("", msgCodes.DISCONNECT);
             return sentSuccessfully;
         }
+
+        public static string getName()
+        {
+            string name = Communicator.username;
+            return name;
+        }
     }
 }
