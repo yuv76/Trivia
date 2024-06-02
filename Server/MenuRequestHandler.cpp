@@ -155,13 +155,17 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 	RequestResult rqRs;
 	std::vector<std::string> players;
 	std::vector<std::uint8_t> buffer;
+	std::string admin = "";
 
 	GetPlayersInRoomRequest plyrRqst = JsonRequestPacketDeserializer::deserializeGetPlayersInRoomRequest(info.buffer);
 
 	RoomManager& roomMngr = this->m_handlerFactory.getRoomManager();
 
-	players = roomMngr.getRoom(plyrRqst.roomId).getPlayersInRoomNames();
+	Room r = roomMngr.getRoom(plyrRqst.roomId);
+	players = r.getPlayersInRoomNames();
+	admin = r.getRoomData().owner;
 	p.players = players;
+	p.roomAdmin = admin;
 
 	buffer = JsonResponsePacketSerializer::serializeResponse(p);
 	rqRs.response = buffer;
@@ -253,7 +257,7 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 
 	try
 	{
-		Room addTo = roomMngr.getRoom(joinRqst.roomId);
+		Room& addTo = roomMngr.getRoom(joinRqst.roomId);
 		addTo.addUser(this->m_user);
 		j.status = USER_ADDED_SUCESSFULLY;
 	}
@@ -294,6 +298,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 		newRoom.numOfQuestionsInGame = createRqst.questionCount;
 		newRoom.timePerQuestion = createRqst.anwerTimeout;
 		newRoom.isActive = 1; //couldnt find any declaration of active options #TODO
+		newRoom.owner = this->m_user.getUsername();
 		
 		lastId = this->m_handlerFactory.getRoomManager().nextId();
 		newRoom.id = lastId;
@@ -301,6 +306,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 		roomMngr.createRoom(this->m_user, newRoom);
 
 		c.status = ROOM_CREATED_SUCESSFULLY;
+		c.id = lastId;
 	}
 	catch (...)
 	{

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pair;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,10 +23,24 @@ namespace Client
     {
         private bool _isClosedByX = true;
 
-        public Room(string roomName)
+        public Room(string roomName, string id)
         {
             InitializeComponent();
             YOU_ARE_IN_ROOM_XXX.Text = "You are in room " + roomName; //can add list of players in the room for now, this might be the wait for game screen.
+            getPlayers(id);
+        }
+
+        private async void getPlayers(string id)
+        {
+            List<string> players = await Communicator.getPlayersInRoom(id);
+
+            OWNER.Text = "room owner: " + players[0];
+            players.RemoveAt(0);
+            foreach (string player in players)
+            {
+                PLAYERS.Items.Add(player);
+            }
+            
         }
 
         private void back_click(object sender, RoutedEventArgs e)

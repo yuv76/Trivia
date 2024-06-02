@@ -33,7 +33,6 @@ namespace Client
         private static IPEndPoint _serverEndPoint;
         private static StreamReader _in;
         private static StreamWriter _out;
-        //BinaryReader _reader;
         private static NetworkStream _stream;
 
         private static string? username;
@@ -277,14 +276,14 @@ namespace Client
 
             sentSuccesfully = await sendToServer(jsonStr, msgCodes.CREATE_ROOM);
 
-            if (sentSuccesfully == LogoutResponse.LOGOUT_SUCCESS)
+            if (sentSuccesfully == CreateRoomResponse.CREATE_ROOM_SUCESS)
             {
                 recvdJson = await recieveFromServer();
-                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.SIGNOUT))
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.CREATE_ROOM))
                 {
-                    if (recvdJson.ContainsKey("status"))
+                    if (recvdJson.ContainsKey("id"))
                     {
-                        return recvdJson.Value<uint>("status");
+                        return recvdJson.Value<uint>("id");
                     }
                     else
                     {
@@ -309,10 +308,10 @@ namespace Client
 
             sentSuccesfully = await sendToServer(jsonStr, msgCodes.JOIN_ROOM);
 
-            if (sentSuccesfully == LogoutResponse.LOGOUT_SUCCESS)
+            if (sentSuccesfully == JoinRoomResponse.JOIN_ROOM_SUCCESS)
             {
                 recvdJson = await recieveFromServer();
-                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.SIGNOUT))
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.JOIN_ROOM))
                 {
                     if (recvdJson.ContainsKey("status"))
                     {
@@ -418,6 +417,45 @@ namespace Client
             }
             //else, return empty.
             return rooms;
+        }
+
+        public static async Task<List<string>> getPlayersInRoom(string roomIdentifier)
+        {
+            List<string> players = new List<string>();
+            string jsonStr = "";
+            uint sentSuccesfully = 0;
+            JObject recvdJson;
+            GetPlayersInRoomRequest GetPlayersInRoomRequest = new GetPlayersInRoomRequest()
+            {
+                roomId = roomIdentifier
+            };
+            jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(GetPlayersInRoomRequest);
+
+            sentSuccesfully = await sendToServer(jsonStr, msgCodes.GET_PLAYERS);
+
+            if (sentSuccesfully == GetPlayersInRoomResponse.GET_PLAYERS_SUCCESS)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.GET_PLAYERS))
+                {
+                    if (recvdJson.ContainsKey("Players") && recvdJson.ContainsKey("Admin"))
+                    {
+                        //get data, first player is the admin.
+                        players.Add(recvdJson.Value<string>("Admin"));
+                        foreach (string player in recvdJson.Value<JToken>("Players"))
+                        {
+                            players.Add(player.ToString());
+                        }
+                        return players;
+                    }
+                    else
+                    {
+                        return players;
+                    }
+                }
+            }
+            //else, return the empty list.
+            return players;
         }
     }
 }

@@ -82,11 +82,11 @@ namespace Client
 
         private async void Create_Click(object sender, RoutedEventArgs e)
         {
-            uint ok = await Communicator.createRoom(ROOMNAME.Text, uint.Parse(PLAYERS_NUM.Text), uint.Parse(QUESTION_NUM.Text), double.Parse(QUESTION_TIME.Text));
-            if(ok == CreateRoomResponse.CREATE_ROOM_SUCESS)
+            uint id = await Communicator.createRoom(ROOMNAME.Text, uint.Parse(PLAYERS_NUM.Text), uint.Parse(QUESTION_NUM.Text), double.Parse(QUESTION_TIME.Text));
+            if(id != CreateRoomResponse.CREATE_ROOM_FAIL)
             {
-                MainMenu men = new MainMenu();
-                men.Show();
+                Room room = new Room(ROOMNAME.Text, id.ToString());
+                room.Show();
                 _isClosedByX = false;
                 this.Close();
             }
@@ -94,6 +94,14 @@ namespace Client
             {
                 //error
             }
+        }
+
+        private void back_click(object sender, RoutedEventArgs e)
+        {
+            MainMenu menu = new MainMenu();
+            menu.Show();
+            _isClosedByX = false;
+            this.Close();
         }
 
         protected override async void OnClosed(EventArgs e)

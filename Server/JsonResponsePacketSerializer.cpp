@@ -166,9 +166,6 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetRoo
 	{
 		rooms.push_back(std::make_pair(std::to_string(i->id), i->name));
 	}
-	//just for now #TODO
-	rooms.push_back(std::make_pair("9", "eli's room"));
-	rooms.push_back(std::make_pair("5", "room for fun"));
 
 	//create msg in json format
 	getRoomJson["status"] = getR.status;
@@ -199,7 +196,7 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetPla
 {
 	std::vector<std::uint8_t> buffer;
 	std::string msg = "";
-	std::string players = "";
+	std::vector<std::string> players;
 	msgCodes code = GET_PLAYERS;
 	int len = 0;
 	json getPlayersJson;
@@ -207,15 +204,9 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetPla
 	//add code byte to vector
 	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
 
-	auto i = getP.players.begin();
-	for (i; i != getP.players.end(); i++) 
-	{
-		players += *i;
-		players += ",";
-	}
-
 	//create msg in json format
-	getPlayersJson["Players"] = players;
+	getPlayersJson["Players"] = getP.players;
+	getPlayersJson["Admin"] = getP.roomAdmin;
 	msg = getPlayersJson.dump();
 
 	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.
@@ -285,6 +276,7 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(Create
 	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
 
 	//create msg in json format
+	createRoomJson["id"] = crea.id;
 	createRoomJson["status"] = crea.status;
 	msg = createRoomJson.dump();
 

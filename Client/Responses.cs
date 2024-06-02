@@ -45,6 +45,8 @@ namespace Responses
 
     public struct GetPlayersInRoomResponse
     {
+        public const uint GET_PLAYERS_SUCCESS = 1;
+        public const uint GET_PLAYERS_FAIL = 0;
         //std::vector<std::string> players;
     };
 

@@ -184,8 +184,6 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			info.buffer = buffer;
 			info.receivalTime = recvTime;
 			info.RequestId = (msgCodes)buffer[0];
-
-			//IRequestHandler* l = this->m_handlerFactory.createLoginRequestHandler();
 			
 			RequestResult r;
 			if (m_clients[clientSocket]->isRequestRelevant(info))
@@ -212,23 +210,6 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			send(clientSocket, data, r.response.size() - 5, 0);
 			
 			delete[] tempCharRecv;
-			/*
-			while (m_clients[clientSocket] != nullptr)
-			{
-				info = { (msgCodes)buffer[0], time(0),  buffer};
-				if (m_clients[clientSocket]->isRequestRelevant(info))
-				{
-					RequestResult result = m_clients[clientSocket]->handleRequest(info);
-
-					std::string response(result.response.begin(), result.response.end());
-					// sanding the response message to client.
-					char* data = new char[r.response.size()]; // have to send as char*.
-					std::copy(r.response.begin(), r.response.end(), data);
-					send(clientSocket, data, r.response.size(), 0);
-
-					
-				}
-			}*/
 		}
 		closesocket(clientSocket);
 		std::cout << "client disconnected" << std::endl;

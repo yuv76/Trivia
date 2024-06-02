@@ -36,6 +36,7 @@
                 </StackPanel>
             </StackPanel>
             <Button x:Name="CREATE_BTN" Margin="45" Height="58" Width="248" FontSize="17" Click="Create_Click">Create</Button>
+            <Button x:Name="BACK" Width="78" Height="25" Click="back_click">Back</Button>
         </StackPanel>
 
     </Grid>

@@ -4,19 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-/*
-
-struct GetPlayersInRoomRequest
-{
-public:
-	unsigned int roomId;
-};
-
-
-
-
- */
-
 namespace Requests
 {
     public enum msgCodes
@@ -62,5 +49,10 @@ namespace Requests
         public uint maxUsers { get; set; }
         public uint questionCount { get; set; }
         public double anwerTimeout { get; set; }
+    };
+
+    struct GetPlayersInRoomRequest
+    {
+        public string roomId { get; set; }
     };
 }

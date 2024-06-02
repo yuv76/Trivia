@@ -36,6 +36,7 @@ namespace Client
         private async void refresh()
         {
             List<Pair<string, string>> rooms = await Communicator.getRooms();
+            LST_ROOMS.Items.Clear();
             foreach (Pair<string, string> room in rooms)
             {
                 LST_ROOMS.Items.Add(room.Second);
@@ -75,7 +76,7 @@ namespace Client
                     uint ok = await Communicator.joinRoom(roomId);
                     if(ok == JoinRoomResponse.JOIN_ROOM_SUCCESS)
                     {
-                        Room room = new Room(selected.ToString());
+                        Room room = new Room(selected.ToString(), getRoomIdByName(selected.ToString()));
                         room.Show();
                         _isClosedByX = false;
                         this.Close();
@@ -91,6 +92,15 @@ namespace Client
                 //stay here, nothing selected.
             }
         }
+
+        private void back_click(object sender, RoutedEventArgs e)
+        {
+            MainMenu mainMenu = new MainMenu();
+            mainMenu.Show();
+            _isClosedByX = false;
+            this.Close();
+        }
+
         protected override async void OnClosed(EventArgs e)
         {
             if (_isClosedByX)

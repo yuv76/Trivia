@@ -63,7 +63,7 @@ Room& RoomManager::getRoom(int ID)
 {
 	if (this->m_rooms.find(ID) != this->m_rooms.end()) // if key exists.
 	{
-		return this->m_rooms.at(ID);
+		return this->m_rooms.find(ID)->second;
 	}
 	throw std::exception("Invalid Room ID.");
 }
@@ -84,7 +84,7 @@ int RoomManager::nextId()
 	else
 	{
 		//the map is sorted by increased oredr, so its last position will be its biggest key.
-		int id = this->m_rooms.rbegin()->first;
+		id = this->m_rooms.rbegin()->first;
 		//increase id by one to get the next unused id.
 		id++;
 	}
