@@ -49,8 +49,6 @@ public:
 
 	virtual void addNewQuestionsToDb(int numOfQuestions);
 
-	virtual void addUsersStats(std::string username);
-
 	virtual std::vector<std::string> getUsers();
 
 private:
