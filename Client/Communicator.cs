@@ -30,7 +30,6 @@ namespace Client
         public static bool _isConnected;
 
         private  static TcpClient _socket;
-        private static IPEndPoint _serverEndPoint;
         private static StreamReader _in;
         private static StreamWriter _out;
         private static NetworkStream _stream;
@@ -42,7 +41,6 @@ namespace Client
             try
             {
                 _socket = new TcpClient();
-                //_serverEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 4242);
                 IAsyncResult result = _socket.BeginConnect("127.0.0.1", 9090, null, null);
                 // Wait 5 seconds for the connection attempt to complete
                 result.AsyncWaitHandle.WaitOne(5000);
