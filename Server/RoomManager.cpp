@@ -90,3 +90,21 @@ int RoomManager::nextId()
 	}
 	return id;
 }
+
+/*
+checks if a room with a given name exists.
+in: the name to check.
+out: true if exists, false otherwise.
+*/
+bool RoomManager::roomExists(std::string name)
+{
+	auto i = this->m_rooms.begin();
+	for (i; i != this->m_rooms.end(); i++)
+	{
+		if (i->second.getRoomData().name == name)
+		{
+			return true;
+		}
+	}
+	return false;
+}

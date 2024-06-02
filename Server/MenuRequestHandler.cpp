@@ -293,13 +293,13 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	RoomManager& roomMngr = this->m_handlerFactory.getRoomManager();
 	try
 	{
-		if (!roomMngr.roomExists())
+		if (!roomMngr.roomExists(createRqst.roomName))
 		{
 			newRoom.maxPlayers = createRqst.maxUsers;
 			newRoom.name = createRqst.roomName;
 			newRoom.numOfQuestionsInGame = createRqst.questionCount;
 			newRoom.timePerQuestion = createRqst.anwerTimeout;
-			newRoom.isActive = 1; //couldnt find any declaration of active options #TODO
+			newRoom.isActive = 1; //couldnt find any declaration of active options #TODO - seems like v3
 			newRoom.owner = this->m_user.getUsername();
 
 			lastId = this->m_handlerFactory.getRoomManager().nextId();
@@ -313,6 +313,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 		else
 		{
 			//error
+			c.status = ROOM_CREATION_ERROR;
 		}
 	}
 	catch (...)
