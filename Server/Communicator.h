@@ -27,6 +27,7 @@ private:
 	std::map<SOCKET, IRequestHandler*> m_clients;
 	void bindAndListen();
 	void handleNewClient(SOCKET clientSocket);
+	void sendToClient(SOCKET clientSocket, RequestResult r);
 	std::atomic<bool> _stopListening;
 	std::mutex _ctSc;
 	RequestHandlerFactory& m_handlerFactory;
