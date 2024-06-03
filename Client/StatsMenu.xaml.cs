@@ -52,7 +52,7 @@ namespace Client
         {
             if (_isClosedByX)
             {
-                uint ok = await Communicator.signoutAsync();
+                int ok = await Communicator.signoutAsync();
             }
         }
 

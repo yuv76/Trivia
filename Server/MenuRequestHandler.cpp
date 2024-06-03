@@ -226,15 +226,14 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
 	gh.statistics = stats.getHighScore();
 	if (gh.statistics.empty())
 	{
-		ErrorResponse e;
-		e.message = "No top statistics found";
-		buffer = JsonResponsePacketSerializer::serializeResponse(e);
+		gh.status = STATS_ERROR;
 	}
 	else
 	{
 		gh.status = STATS_SUCCESS;
-		buffer = JsonResponsePacketSerializer::serializeResponse(gh);
+		
 	}
+	buffer = JsonResponsePacketSerializer::serializeResponse(gh);
 
 	rr.response = buffer;
 
@@ -267,22 +266,19 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 			//the amount of users is ok.
 			addTo.addUser(this->m_user);
 			j.status = USER_ADDED_SUCESSFULLY;
-			buffer = JsonResponsePacketSerializer::serializeResponse(j);
 		}
 		else
 		{
-			ErrorResponse e;
-			e.message = "Room already full.";
-			buffer = JsonResponsePacketSerializer::serializeResponse(e);
+			j.status = ROOM_FULL;
 		}
 		
 	}
 	catch (std::exception& e)
 	{
 		j.status = USER_NOT_ADDED;
-		buffer = JsonResponsePacketSerializer::serializeResponse(j);
 	}
 
+	buffer = JsonResponsePacketSerializer::serializeResponse(j);
 	rqRs.response = buffer;
 
 	// stay in menu state
@@ -329,13 +325,14 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 		else
 		{
 			//error
-			c.id = 0;
+			c.status = ROOM_CREATION_ERROR;
+			c.id = ROOM_ALREADY_EXISTS;
 		}
 	}
 	catch (...)
 	{
 		c.status = ROOM_CREATION_ERROR;
-		c.id = 0;
+		c.id = ROOM_CREATION_ERROR;
 		
 	}
 

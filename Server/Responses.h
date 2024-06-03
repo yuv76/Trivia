@@ -52,11 +52,11 @@ struct getPersonalStatsResponse
 
 struct JoinRoomResponse
 {
-	unsigned int status;
+	int status;
 };
 
 struct CreateRoomResponse
 {
-	unsigned int id;
+	int id;
 	unsigned int status;
 };

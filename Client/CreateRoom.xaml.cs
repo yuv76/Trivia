@@ -89,18 +89,26 @@ namespace Client
 
         private async void Create_Click(object sender, RoutedEventArgs e)
         {
-            uint id = await Communicator.createRoom(ROOMNAME.Text, uint.Parse(PLAYERS_NUM.Text), uint.Parse(QUESTION_NUM.Text), double.Parse(QUESTION_TIME.Text));
-            if(id != CreateRoomResponse.CREATE_ROOM_FAIL)
+            int id = await Communicator.createRoom(ROOMNAME.Text, uint.Parse(PLAYERS_NUM.Text), uint.Parse(QUESTION_NUM.Text), double.Parse(QUESTION_TIME.Text));
+            if (id >= CreateRoomResponse.CREATE_ROOM_SUCESS_ID)
             {
                 Room room = new Room(Left, Top, Width, Height, WindowState, ROOMNAME.Text, id.ToString());
                 room.Show();
                 _isClosedByX = false;
                 this.Close();
             }
-            else
+            else if (id == CreateRoomResponse.ROOM_EXISTS)
+            {
+                ERRORS.Text = "Room with same name already exists.";
+            }
+            else if(id == CreateRoomResponse.CREATE_ROOM_FAIL)
             {
                 //error
                 ERRORS.Text = "Error creating room.";
+            }
+            else
+            {
+                ERRORS.Text = "Connection Error.";
             }
         }
 
@@ -116,7 +124,7 @@ namespace Client
         {
             if (_isClosedByX)
             {
-                uint ok = await Communicator.signoutAsync();
+                int ok = await Communicator.signoutAsync();
             }
         }
 

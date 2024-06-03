@@ -47,7 +47,7 @@ namespace Client
         
         private async void enterLogin_clickAsync(object sender, RoutedEventArgs e)
         {
-            uint ok = await Communicator.loginAsync(USERNAME.Text, PASSWORD.Text);
+            int ok = await Communicator.loginAsync(USERNAME.Text, PASSWORD.Text);
             if (ok == LoginResponse.LOGIN_SUCCESS)
             {
                 MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
@@ -81,7 +81,7 @@ namespace Client
         {
             if (_isClosedByX)
             {
-                uint ok = await Communicator.closeConnectionAsync(); 
+                int ok = await Communicator.closeConnectionAsync(); 
             }
         }
     }

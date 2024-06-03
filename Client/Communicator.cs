@@ -57,8 +57,6 @@ namespace Client
                     _out = new StreamWriter(_socket.GetStream());
                     _out.AutoFlush = true;
                     _isConnected = true;
-
-                    // _reader = new BinaryReader(_stream, Encoding.UTF8, true);
                 }
             }
             catch(Exception ex)
@@ -78,7 +76,7 @@ namespace Client
             }
         }
 
-        public static async Task<uint> sendToServer(string jsonMsg, msgCodes code)
+        public static async Task<int> sendToServer(string jsonMsg, msgCodes code)
         {
             int jsonLen = 0;
             byte[] jsonBytes;
@@ -151,11 +149,11 @@ namespace Client
             }
         }
 
-        public static async Task<uint> loginAsync(string username, string password)
+        public static async Task<int> loginAsync(string username, string password)
         {
             string jsonStr = "";
 
-            uint sentSuccesfully = 0;
+            int sentSuccesfully = 0;
             JObject recvdJson;
 
             LoginRequest loginRequest = new LoginRequest()
@@ -178,11 +176,11 @@ namespace Client
                             //connected successfully
                             Communicator.username = username;
                         }
-                        return recvdJson.Value<uint>("status");
+                        return recvdJson.Value<int>("status");
                     }
                     else
                     {
-                        return recvdJson.Value<uint>("server_resp_code");
+                        return recvdJson.Value<int>("server_resp_code");
                     }
                 }
             }
@@ -190,10 +188,10 @@ namespace Client
             return sentSuccesfully;
         }
 
-        public static async Task<uint> signupAsync(string username, string password, string mail)
+        public static async Task<int> signupAsync(string username, string password, string mail)
         {
             string jsonStr = "";
-            uint sentSuccesfully = 0;
+            int sentSuccesfully = 0;
             JObject recvdJson;
 
             SignupRequest signupRequest = new SignupRequest()
@@ -217,11 +215,11 @@ namespace Client
                             //connected successfully
                             Communicator.username = username;
                         }
-                        return recvdJson.Value<uint>("status");
+                        return recvdJson.Value<int>("status");
                     }
                     else
                     {
-                        return recvdJson.Value<uint>("server_resp_code");
+                        return recvdJson.Value<int>("server_resp_code");
                     }
                 }
             }
@@ -229,9 +227,9 @@ namespace Client
             return sentSuccesfully;
         }
 
-        public static async Task<uint> signoutAsync()
+        public static async Task<int> signoutAsync()
         {
-            uint sentSuccesfully = 0;
+            int sentSuccesfully = 0;
             JObject recvdJson;
 
             sentSuccesfully = await sendToServer("", msgCodes.SIGNOUT);
@@ -243,11 +241,11 @@ namespace Client
                 {
                     if (recvdJson.ContainsKey("status"))
                     {
-                        return recvdJson.Value<uint>("status");
+                        return recvdJson.Value<int>("status");
                     }
                     else
                     {
-                        return recvdJson.Value<uint>("server_resp_code");
+                        return recvdJson.Value<int>("server_resp_code");
                     }
                 }
             }
@@ -255,10 +253,10 @@ namespace Client
             return sentSuccesfully;
         }
 
-        public static async Task<uint> createRoom(string roomName, uint maxPlayers, uint questionsNum, double timeForQuestion)
+        public static async Task<int> createRoom(string roomName, uint maxPlayers, uint questionsNum, double timeForQuestion)
         {
             string jsonStr = "";
-            uint sentSuccesfully = 0;
+            int sentSuccesfully = 0;
             JObject recvdJson;
             CreateRoomRequest createRoomRequest = new CreateRoomRequest()
             {
@@ -272,18 +270,18 @@ namespace Client
 
             sentSuccesfully = await sendToServer(jsonStr, msgCodes.CREATE_ROOM);
 
-            if (sentSuccesfully == CreateRoomResponse.CREATE_ROOM_SUCESS)
+            if (sentSuccesfully == CreateRoomResponse.CREATE_ROOM_SUCESS_ID)
             {
                 recvdJson = await recieveFromServer();
                 if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.CREATE_ROOM))
                 {
                     if (recvdJson.ContainsKey("id"))
                     {
-                        return recvdJson.Value<uint>("id");
+                        return recvdJson.Value<int>("id");
                     }
                     else
                     {
-                        return recvdJson.Value<uint>("server_resp_code");
+                        return recvdJson.Value<int>("server_resp_code");
                     }
                 }
             }
@@ -291,10 +289,10 @@ namespace Client
             return sentSuccesfully;
         }
 
-        public static async Task<uint> joinRoom(string roomIdentifier)
+        public static async Task<int> joinRoom(string roomIdentifier)
         {
             string jsonStr = "";
-            uint sentSuccesfully = 0;
+            int sentSuccesfully = 0;
             JObject recvdJson;
             JoinRoomRequest joinRoomRequest = new JoinRoomRequest()
             {
@@ -311,11 +309,11 @@ namespace Client
                 {
                     if (recvdJson.ContainsKey("status"))
                     {
-                        return recvdJson.Value<uint>("status");
+                        return recvdJson.Value<int>("status");
                     }
                     else
                     {
-                        return recvdJson.Value<uint>("server_resp_code");
+                        return recvdJson.Value<int>("server_resp_code");
                     }
                 }
             }
@@ -326,7 +324,7 @@ namespace Client
         public static async Task<List<string>> personalStatsAsync()
         {
             string jsonStr = "";
-            uint sentSuccesfully = 0;
+            int sentSuccesfully = 0;
             JObject recvdJson;
             List<string> userStats = new List<string>();
 
@@ -337,7 +335,7 @@ namespace Client
                 recvdJson = await recieveFromServer();
                 if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.PERSONAL_STATS))
                 {
-                    if (recvdJson.Value<uint>("status") == GetPersonalStatsResponse.PERSONAL_STATS_SUCESS)
+                    if (recvdJson.Value<int>("status") == GetPersonalStatsResponse.PERSONAL_STATS_SUCESS)
                     {
                         if (recvdJson.ContainsKey("statistics"))
                         {
@@ -350,13 +348,13 @@ namespace Client
                     }
                 }
             }
-            //else, return unseccess.
+            //else, return empty.
             return userStats;
         }
 
         public static async Task<List<string>> topStatsAsync()
         {
-            uint sentSuccesfully = 0;
+            int sentSuccesfully = 0;
             JObject recvdJson;
             List<string> topStats = new List<string>();
             //recvdJson = await recieveFromServer();
@@ -367,7 +365,7 @@ namespace Client
                 recvdJson = await recieveFromServer();
                 if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.HIGH_SCORE))
                 {
-                    if (recvdJson.Value<uint>("status") == GetHighScoreResponse.HIGH_SCORES_SUCCESS)
+                    if (recvdJson.Value<int>("status") == GetHighScoreResponse.HIGH_SCORES_SUCCESS)
                     {
                         if (recvdJson.ContainsKey("statistics"))
                         {
@@ -388,7 +386,7 @@ namespace Client
         public static async Task<List<Pair<string, string>>> getRooms()
         {
             List<Pair<string, string>> rooms = new List<Pair<string, string>>();
-            uint sentSuccesfully = 0;
+            int sentSuccesfully = 0;
             JObject recvdJson;
 
             sentSuccesfully = await sendToServer("", msgCodes.GET_ROOM);
@@ -416,7 +414,7 @@ namespace Client
         {
             List<string> players = new List<string>();
             string jsonStr = "";
-            uint sentSuccesfully = 0;
+            int sentSuccesfully = 0;
             JObject recvdJson;
             GetPlayersInRoomRequest GetPlayersInRoomRequest = new GetPlayersInRoomRequest()
             {
@@ -451,9 +449,9 @@ namespace Client
             return players;
         }
 
-        public static async Task<uint> closeConnectionAsync()
+        public static async Task<int> closeConnectionAsync()
         {
-            uint sentSuccessfully = await sendToServer("", msgCodes.DISCONNECT);
+            int sentSuccessfully = await sendToServer("", msgCodes.DISCONNECT);
             return sentSuccessfully;
         }
 

@@ -43,11 +43,18 @@ namespace Client
         {
             List<Pair<string, string>> rooms = await Communicator.getRooms();
             LST_ROOMS.Items.Clear();
-            foreach (Pair<string, string> room in rooms)
+            if (rooms.Count > 0)
             {
-                LST_ROOMS.Items.Add(room.Second);
+                foreach (Pair<string, string> room in rooms)
+                {
+                    LST_ROOMS.Items.Add(room.Second);
+                }
+                _rooms = rooms;
             }
-            _rooms = rooms;
+            else
+            {
+                ERROR.Text = "No Rooms Found.";
+            }
         }
 
         private async void refresh_Click(object sender, RoutedEventArgs e)
@@ -76,10 +83,11 @@ namespace Client
                 if(roomId == "-1")
                 {
                     //unexisting room, shouldnt happen, do nothing.
+                    ERROR.Text = "Error joining room.";
                 }
                 else
                 {
-                    uint ok = await Communicator.joinRoom(roomId);
+                    int ok = await Communicator.joinRoom(roomId);
                     if(ok == JoinRoomResponse.JOIN_ROOM_SUCCESS)
                     {
                         Room room = new Room(Left, Top, Width, Height, WindowState, selected.ToString(), getRoomIdByName(selected.ToString()));
@@ -87,9 +95,14 @@ namespace Client
                         _isClosedByX = false;
                         this.Close();
                     }
-                    else
+                    else if(ok == JoinRoomResponse.ROOM_FULL)
+                    {
+                        ERROR.Text = "Room at maximum capacity.";
+                    }
+                    else if(ok == LoginResponse.LOGIN_F_CONNECTION_ERROR)
                     {
                         //error joining room
+                        ERROR.Text = "Connection error.";
                     }
                 }
             }
@@ -111,7 +124,7 @@ namespace Client
         {
             if (_isClosedByX)
             {
-                uint ok = await Communicator.signoutAsync();
+                int ok = await Communicator.signoutAsync();
             }
         }
 

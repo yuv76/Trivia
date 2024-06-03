@@ -40,7 +40,7 @@ namespace Client
         private async void signupEnter_click(object sender, RoutedEventArgs e)
         {
             string temp = NEWMAIL.Text, temp2;
-            uint ok = 0;
+            int ok = 0;
             string errors = "";
             //check username existance with the server.
             
@@ -90,9 +90,13 @@ namespace Client
                     _isClosedByX = false;
                     this.Close();
                 }
-                else
+                else if(ok == SignupResponse.SIGNUP_FAIL)
                 {
                     ERRORS.Text = "Username already taken";
+                }
+                else
+                {
+                    ERRORS.Text = "Connection error.";
                 }
             }
         }
@@ -100,7 +104,7 @@ namespace Client
         {
             if (_isClosedByX)
             {
-                uint ok = await Communicator.closeConnectionAsync();
+                int ok = await Communicator.closeConnectionAsync();
             }
         }
     }

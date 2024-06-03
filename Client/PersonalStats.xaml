@@ -30,5 +30,7 @@
 
         <TextBlock FontSize="16" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="100">total answers:</TextBlock>
         <TextBlock x:Name="total" FontSize="16" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,230,0,0" Width="100"/>
+
+        <TextBlock x:Name="ERROR" Foreground="DarkRed" FontSize="16" Grid.Column="0" Margin="30,390,0,0"></TextBlock>
     </Grid>
 </Window>
