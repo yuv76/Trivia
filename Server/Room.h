@@ -1,5 +1,6 @@
 #pragma once
 #include "RoomData.h"
+#include "Responses.h"
 #include "LoggedUser.h"
 #include <vector>
 #include <string>
@@ -19,4 +20,5 @@ public:
 	unsigned int isActive();
 	RoomData getRoomData();
 	std::vector<std::string> getPlayersInRoomNames();
+	GetRoomStateResponse getState();
 };
