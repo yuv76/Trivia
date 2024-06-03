@@ -55,9 +55,20 @@ RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo)
 }
 
 /*
-
+creates the response for get room state request.
+in: the request's info.
+out: the request's result.
 */
 RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo)
 {
+	std::vector<std::uint8_t> buffer;
+	RequestResult rqRs;
+	GetRoomStateResponse resp = this->m_room.getState();
 
+	buffer = JsonResponsePacketSerializer::serializeResponse(resp);
+
+	rqRs.response = buffer;
+	rqRs.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room); //stay in room member state.
+
+	return rqRs;
 }

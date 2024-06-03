@@ -92,3 +92,24 @@ std::vector<std::string> Room::getPlayersInRoomNames()
 
 	return players;
 }
+
+/*
+gets room's state into a get room state response struct.
+in: none.
+out: the getRoomStateResponse with the room's data.
+*/
+GetRoomStateResponse Room::getState()
+{
+	GetRoomStateResponse resp;
+
+	//players from vector (comes from the room) into list.
+	std::vector<std::string> playersVec = this->getAllUsers();
+	std::list<std::string> playersLst(playersVec.begin(), playersVec.end());
+
+	//add the room's data to the response.
+	resp.AnswerCount = this->m_metadata.numOfQuestionsInGame;
+	resp.answerTimeOut = this->m_metadata.timePerQuestion;
+	resp.hasGameBegun = false;//#TODO
+	resp.players = playersLst;
+	resp.status = this->m_metadata.isActive;
+}

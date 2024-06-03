@@ -50,7 +50,7 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo& inf)
 /*
 
 */
-RequestResult closeRoom(RequestInfo)
+RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo)
 {
 
 }
@@ -58,15 +58,26 @@ RequestResult closeRoom(RequestInfo)
 /*
 
 */
-RequestResult startGame(RequestInfo)
+RequestResult RoomAdminRequestHandler::startGame(RequestInfo)
 {
 
 }
 
 /*
-
+creates the response for get room state request.
+in: the request's info.
+out: the request's result.
 */
-RequestResult getRoomState(RequestInfo)
+RequestResult RoomAdminRequestHandler::getRoomState(RequestInfo)
 {
+	std::vector<std::uint8_t> buffer;
+	RequestResult rqRs;
+	GetRoomStateResponse resp = this->m_room.getState();
 
+	buffer = JsonResponsePacketSerializer::serializeResponse(resp);
+
+	rqRs.response = buffer;
+	rqRs.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user, this->m_room); //stay in admin state.
+
+	return rqRs;
 }
