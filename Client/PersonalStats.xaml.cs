@@ -39,26 +39,33 @@ namespace Client
         private async void PutPersonalScores()
         {
             List<string> recvdJson = await Communicator.personalStatsAsync();
-            int i = 0;
-            foreach (var stat in recvdJson)
+            if (recvdJson.Count > 0)
             {
-                switch (i)
+                int i = 0;
+                foreach (var stat in recvdJson)
                 {
-                    case 1:
-                        correct.Text = stat;
-                        break;
-                    case 2:
-                        total.Text = stat;
-                        break;
-                    case 3:
-                        games.Text = stat;
-                        break;
-                    case 4:
-                        time.Text = stat;
-                        break;
-                }
+                    switch (i)
+                    {
+                        case 1:
+                            correct.Text = stat;
+                            break;
+                        case 2:
+                            total.Text = stat;
+                            break;
+                        case 3:
+                            games.Text = stat;
+                            break;
+                        case 4:
+                            time.Text = stat;
+                            break;
+                    }
 
-                i++;
+                    i++;
+                }
+            }
+            else
+            {
+                ERROR.Text = "No stats found.";
             }
         }
 
@@ -66,7 +73,7 @@ namespace Client
         {
             if (_isClosedByX)
             {
-                uint ok = await Communicator.signoutAsync();
+                int ok = await Communicator.signoutAsync();
             }
         }
 
@@ -80,7 +87,7 @@ namespace Client
 
         private void PutName()
         {
-            string temp = Communicator.getName();
+            string temp = "hello " + Communicator.getName();
             name.Text = temp;
         }
     }

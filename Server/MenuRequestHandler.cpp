@@ -192,14 +192,16 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 	gp.statistics = stats.getUserStatistics(this->m_user.getUsername());
 	if (gp.statistics.empty())
 	{
-		gp.status = STATS_ERROR;
+		ErrorResponse e;
+		e.message = "No stats found for user.";
+		buffer = JsonResponsePacketSerializer::serializeResponse(e);
 	}
 	else
 	{
 		gp.status = STATS_SUCCESS;
+		buffer = JsonResponsePacketSerializer::serializeResponse(gp);
 	}
-
-	buffer = JsonResponsePacketSerializer::serializeResponse(gp);
+	
 	rr.response = buffer;
 
 	//stay in menu state.
@@ -229,9 +231,10 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
 	else
 	{
 		gh.status = STATS_SUCCESS;
+		
 	}
-
 	buffer = JsonResponsePacketSerializer::serializeResponse(gh);
+
 	rr.response = buffer;
 
 	//stay in menu state.
@@ -258,8 +261,17 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 	try
 	{
 		Room& addTo = roomMngr.getRoom(joinRqst.roomId);
-		addTo.addUser(this->m_user);
-		j.status = USER_ADDED_SUCESSFULLY;
+		if (addTo.getRoomData().maxPlayers > addTo.getAllUsers().size())
+		{
+			//the amount of users is ok.
+			addTo.addUser(this->m_user);
+			j.status = USER_ADDED_SUCESSFULLY;
+		}
+		else
+		{
+			j.status = ROOM_FULL;
+		}
+		
 	}
 	catch (std::exception& e)
 	{
@@ -314,11 +326,14 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 		{
 			//error
 			c.status = ROOM_CREATION_ERROR;
+			c.id = ROOM_ALREADY_EXISTS;
 		}
 	}
 	catch (...)
 	{
 		c.status = ROOM_CREATION_ERROR;
+		c.id = ROOM_CREATION_ERROR;
+		
 	}
 
 	buffer = JsonResponsePacketSerializer::serializeResponse(c);

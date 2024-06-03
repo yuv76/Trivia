@@ -61,7 +61,7 @@ namespace Client
 
         private async void exit_clickAsync(object sender, RoutedEventArgs e)
         {
-            uint ok = await Communicator.signoutAsync();
+            int ok = await Communicator.signoutAsync();
             MainWindow log = new MainWindow(Left, Top, Width, Height, WindowState);
             log.Show();
             _isClosedByX = false;
@@ -72,13 +72,13 @@ namespace Client
         {
             if(_isClosedByX)
             {
-                uint ok = await Communicator.signoutAsync();
+                int ok = await Communicator.signoutAsync();
             }
         }
 
         private void PutName()
         {
-            string temp = Communicator.getName();
+            string temp = "hello " + Communicator.getName();
             name.Text = temp;
         }
     }

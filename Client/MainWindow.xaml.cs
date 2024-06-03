@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Client
 {
@@ -23,9 +24,36 @@ namespace Client
         private bool _isClosedByX = true; // we cant know if it will be closed by x, so start value assumes it was.
         public MainWindow()
         {
-            InitializeComponent();
+            bool keepTrying = true;
             communicator = new Communicator();
+            while (!(Communicator.isConnected()) && keepTrying)
+            {
+                MessageBoxResult result = MessageBox.Show(
+                "Couldn't connect to server. try again?",
+                "Confirmation",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+                if(result == MessageBoxResult.No)
+                {
+                    keepTrying = false;
+                }
+                else
+                {
+                    communicator = new Communicator();
+                }
+            }
+            if (keepTrying)
+            {
+                //means got connected eventually.
+                InitializeComponent();
+            }
+            else
+            {
+                _isClosedByX = false;//no connection made - so nothing has to be closed.
+                this.Close();
+            }
         }
+
         public MainWindow(double left, double top, double width, double height, WindowState windowstate)
         {
             InitializeComponent();
@@ -47,7 +75,7 @@ namespace Client
         
         private async void enterLogin_clickAsync(object sender, RoutedEventArgs e)
         {
-            uint ok = await Communicator.loginAsync(USERNAME.Text, PASSWORD.Text);
+            int ok = await Communicator.loginAsync(USERNAME.Text, PASSWORD.Text);
             if (ok == LoginResponse.LOGIN_SUCCESS)
             {
                 MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
@@ -81,7 +109,7 @@ namespace Client
         {
             if (_isClosedByX)
             {
-                uint ok = await Communicator.closeConnectionAsync(); 
+                int ok = await Communicator.closeConnectionAsync(); 
             }
         }
     }

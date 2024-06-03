@@ -8,13 +8,14 @@
         Title="Room" Height="450" Width="800"
         Background="AliceBlue">
     <Grid>
-        <StackPanel Margin="90,90,103,36">
+        <StackPanel Margin="90,90,103,10">
             <TextBlock x:Name="YOU_ARE_IN_ROOM_XXX" FontSize="20" Height="111"></TextBlock>
             <StackPanel Orientation="Horizontal">
                 <TextBlock x:Name="OWNER" FontSize="16"></TextBlock>
                 <ListBox x:Name="PLAYERS" Height="100" Width="338" Margin="130,0,0,0"></ListBox>
             </StackPanel>
             <Button Height="48" Width="122" Click="back_click" Margin="0,20,0,0">back</Button>
+            <TextBlock Margin="0,10" FontSize="16" Foreground="DarkRed" x:Name="ERROR" Height="33"></TextBlock>
         </StackPanel>
     </Grid>
 </Window>

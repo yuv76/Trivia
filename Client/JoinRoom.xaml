@@ -8,17 +8,18 @@
         Title="JoinRoom" Height="450" Width="800"
         Background="AliceBlue">
     <Grid>
-        <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,15,660,0" Width="100"/>
+        <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,660,0" Width="100"/>
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <TextBlock FontSize="17" Margin="57,40,65,-60">Choose a Room To Join:</TextBlock>
                 <Button Margin="360,40,65,-60" Click="refresh_Click" Height="28" Width="57" Content="refresh"/>
             </StackPanel>
-            <ListBox x:Name="LST_ROOMS" Height="250"  Margin="57,90,65,20" FontSize="25"/>
+            <ListBox x:Name="LST_ROOMS" Height="250"  Margin="57,65,65,10" FontSize="25"/>
             <StackPanel Orientation="Horizontal" Width="637">
-                <Button x:Name="JOIN_ROOM" Height="44" Width="437" Content="Join" FontSize="20" Click="Join_Click"/>
+                <Button x:Name="JOIN_ROOM" Height="29" Width="437" Content="Join" FontSize="20" Click="Join_Click"/>
                 <Button x:Name="BACK" Width="70" Height="32" Margin="80,0,0,0" Click="back_click" Content="back"/>
             </StackPanel>
+            <TextBlock x:Name="ERROR" Foreground="DarkRed" Margin="10" FontSize="16"></TextBlock>
         </StackPanel>
 
 

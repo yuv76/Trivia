@@ -39,12 +39,18 @@ namespace Client
         private async void getPlayers(string id)
         {
             List<string> players = await Communicator.getPlayersInRoom(id);
-
-            OWNER.Text = "room owner: " + players[0];
-            players.RemoveAt(0);
-            foreach (string player in players)
+            if (players.Count > 0)
             {
-                PLAYERS.Items.Add(player);
+                OWNER.Text = "room owner: " + players[0];
+                players.RemoveAt(0);
+                foreach (string player in players)
+                {
+                    PLAYERS.Items.Add(player);
+                }
+            }
+            else
+            {
+                ERROR.Text = "Error loading room.";
             }
             
         }
@@ -61,7 +67,7 @@ namespace Client
         {
             if (_isClosedByX)
             {
-                uint ok = await Communicator.signoutAsync();
+                int ok = await Communicator.signoutAsync();
             }
         }
     }

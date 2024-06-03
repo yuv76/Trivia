@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+
 namespace Client
 {
     /// <summary>
@@ -51,7 +52,7 @@ namespace Client
         {
             if (_isClosedByX)
             {
-                uint ok = await Communicator.signoutAsync();
+                int ok = await Communicator.signoutAsync();
             }
         }
 
@@ -65,7 +66,7 @@ namespace Client
 
         private void PutName()
         {
-            string temp = Communicator.getName();
+            string temp = "hello " + Communicator.getName();
             name.Text = temp;
         }
     }

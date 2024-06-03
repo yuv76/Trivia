@@ -1,4 +1,5 @@
-﻿using Responses;
+﻿using Newtonsoft.Json.Linq;
+using Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,8 @@ namespace Client
 
         private async void signupEnter_click(object sender, RoutedEventArgs e)
         {
-            uint ok = 0;
+            string temp = NEWMAIL.Text, temp2;
+            int ok = 0;
             string errors = "";
             //check username existance with the server.
             
@@ -46,12 +48,35 @@ namespace Client
             {
                 errors += PASSWORDS_NOT_MATCH;
             }
-            if(!NEWMAIL.Text.Contains('@'))
+
+            string[] temp1 = temp.Split('@');
+            if (!NEWMAIL.Text.Contains('@'))
             {
-                errors += INVALID_MAIL; // will maybe add better check further on.
+                errors += INVALID_MAIL;
+            }
+            else
+            {
+                temp2 = temp1[1];
+                string[] temp3 = temp2.Split('.');
+                if (!temp2.Contains('.'))
+                {
+                    errors += INVALID_MAIL;
+                }
+                else if (temp1[0].Length < 1)
+                {
+                    errors += INVALID_MAIL;
+                }
+                else if (temp3[0].Length < 1)
+                {
+                    errors += INVALID_MAIL;
+                }
+                else if (temp3[1].Length != 3)
+                {
+                    errors += INVALID_MAIL;
+                }
             }
 
-            if(errors != "")
+            if (errors != "")
             {
                 ERRORS.Text = errors;
             }
@@ -65,9 +90,13 @@ namespace Client
                     _isClosedByX = false;
                     this.Close();
                 }
-                else
+                else if(ok == SignupResponse.SIGNUP_FAIL)
                 {
                     ERRORS.Text = "Username already taken";
+                }
+                else
+                {
+                    ERRORS.Text = "Connection error.";
                 }
             }
         }
@@ -75,7 +104,7 @@ namespace Client
         {
             if (_isClosedByX)
             {
-                uint ok = await Communicator.closeConnectionAsync();
+                int ok = await Communicator.closeConnectionAsync();
             }
         }
     }
