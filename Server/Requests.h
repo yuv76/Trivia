@@ -13,7 +13,8 @@ enum msgCodes
 	JOIN_ROOM,
 	CREATE_ROOM,
 	HIGH_SCORE,
-	PERSONAL_STATS
+	PERSONAL_STATS,
+	DISCONNECT
 };
 
 struct LoginRequest
@@ -49,5 +50,5 @@ public:
 	std::string roomName;
 	unsigned int maxUsers;
 	unsigned int questionCount;
-	unsigned int anwerTimeout;
+	double anwerTimeout;
 };

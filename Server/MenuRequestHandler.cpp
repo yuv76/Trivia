@@ -28,12 +28,51 @@ bool MenuRequestHandler::isRequestRelevant(RequestInfo& inf)
 }
 
 /*
-
+handles the request, make the response for it.
+in: a RequestInfo struct containing the request details.
+out: RequestResult struct containing the result details.
 */
 RequestResult MenuRequestHandler::handleRequest(RequestInfo& inf)
 {
-	RequestResult r;
-	return r;
+	std::vector<std::uint8_t> buffer;
+	RequestResult res;
+
+	if (inf.RequestId == SIGNOUT)
+	{
+		//perform the request
+		res = this->signout(inf);
+	}
+	else if (inf.RequestId == GET_ROOM)
+	{
+		//perform the request
+		res = this->getRooms(inf);
+	}
+	else if (inf.RequestId == GET_PLAYERS)
+	{
+		//perform the request
+		res = this->getPlayersInRoom(inf);
+	}
+	else if (inf.RequestId == JOIN_ROOM)
+	{
+		//perform the request
+		res = this->joinRoom(inf);
+	}
+	else if (inf.RequestId == CREATE_ROOM)
+	{
+		//perform the request
+		res = this->createRoom(inf);
+	}
+	else if (inf.RequestId == HIGH_SCORE)
+	{
+		//perform the request
+		res = this->getHighScore(inf);
+	}
+	else if (inf.RequestId == PERSONAL_STATS)
+	{
+		//perform the request
+		res = this->getPersonalStats(inf);
+	}
+	return res;
 }
 
 /*
@@ -57,12 +96,13 @@ RequestResult MenuRequestHandler::signout(RequestInfo inf)
 
 	if (status)
 	{
-		// failed - stay in menu state
-		rqRs.newHandler = this;
+		// succesfull - move to no state.
+		rqRs.newHandler = nullptr;
 	}
-	else // succesfull - move on to login (?) #TODO
+	else 
 	{
-		rqRs.newHandler = this->m_handlerFactory.createLoginRequestHandler();
+		// failed - stay in menu state
+		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
 	}
 
 	return rqRs;
@@ -94,11 +134,12 @@ RequestResult MenuRequestHandler::getRooms(RequestInfo info)
 	}
 
 	r.status = status;
+	r.rooms = rooms;
 	buffer = JsonResponsePacketSerializer::serializeResponse(r);
 	rqRs.response = buffer;
 
 	// stay in menu state
-	rqRs.newHandler = this;
+	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
 
 	return rqRs;
 }
@@ -114,19 +155,23 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 	RequestResult rqRs;
 	std::vector<std::string> players;
 	std::vector<std::uint8_t> buffer;
+	std::string admin = "";
 
 	GetPlayersInRoomRequest plyrRqst = JsonRequestPacketDeserializer::deserializeGetPlayersInRoomRequest(info.buffer);
 
 	RoomManager& roomMngr = this->m_handlerFactory.getRoomManager();
 
-	players = roomMngr.getRoom(plyrRqst.roomId).getPlayersInRoomNames();
+	Room r = roomMngr.getRoom(plyrRqst.roomId);
+	players = r.getPlayersInRoomNames();
+	admin = r.getRoomData().owner;
 	p.players = players;
+	p.roomAdmin = admin;
 
 	buffer = JsonResponsePacketSerializer::serializeResponse(p);
 	rqRs.response = buffer;
 
 	// stay in menu state
-	rqRs.newHandler = this;
+	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
 
 	return rqRs;
 }
@@ -147,18 +192,20 @@ RequestResult MenuRequestHandler::getPersonalStats(RequestInfo info)
 	gp.statistics = stats.getUserStatistics(this->m_user.getUsername());
 	if (gp.statistics.empty())
 	{
-		gp.status = STATS_ERROR;
+		ErrorResponse e;
+		e.message = "No stats found for user.";
+		buffer = JsonResponsePacketSerializer::serializeResponse(e);
 	}
 	else
 	{
 		gp.status = STATS_SUCCESS;
+		buffer = JsonResponsePacketSerializer::serializeResponse(gp);
 	}
 	
-	buffer = JsonResponsePacketSerializer::serializeResponse(gp);
 	rr.response = buffer;
 
 	//stay in menu state.
-	rr.newHandler = this;
+	rr.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
 
 	return rr;
 }
@@ -184,13 +231,14 @@ RequestResult MenuRequestHandler::getHighScore(RequestInfo info)
 	else
 	{
 		gh.status = STATS_SUCCESS;
+		
 	}
-
 	buffer = JsonResponsePacketSerializer::serializeResponse(gh);
+
 	rr.response = buffer;
 
 	//stay in menu state.
-	rr.newHandler = this;
+	rr.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
 
 	return rr;
 }
@@ -212,9 +260,18 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 
 	try
 	{
-		Room addTo = roomMngr.getRoom(joinRqst.roomId);
-		addTo.addUser(this->m_user);
-		j.status = USER_ADDED_SUCESSFULLY;
+		Room& addTo = roomMngr.getRoom(joinRqst.roomId);
+		if (addTo.getRoomData().maxPlayers > addTo.getAllUsers().size())
+		{
+			//the amount of users is ok.
+			addTo.addUser(this->m_user);
+			j.status = USER_ADDED_SUCESSFULLY;
+		}
+		else
+		{
+			j.status = ROOM_FULL;
+		}
+		
 	}
 	catch (std::exception& e)
 	{
@@ -225,7 +282,7 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 	rqRs.response = buffer;
 
 	// stay in menu state
-	rqRs.newHandler = this;
+	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
 
 	return rqRs;
 }
@@ -248,29 +305,42 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	RoomManager& roomMngr = this->m_handlerFactory.getRoomManager();
 	try
 	{
-		newRoom.maxPlayers = createRqst.maxUsers;
-		newRoom.name = createRqst.roomName;
-		newRoom.numOfQuestionsInGame = createRqst.questionCount;
-		newRoom.timePerQuestion = createRqst.anwerTimeout;
-		newRoom.isActive = 1; //couldnt find any declaration of active options #TODO
-		
-		lastId = this->m_handlerFactory.getRoomManager().nextId();
-		newRoom.id = lastId;
+		if (!roomMngr.roomExists(createRqst.roomName))
+		{
+			newRoom.maxPlayers = createRqst.maxUsers;
+			newRoom.name = createRqst.roomName;
+			newRoom.numOfQuestionsInGame = createRqst.questionCount;
+			newRoom.timePerQuestion = createRqst.anwerTimeout;
+			newRoom.isActive = 1; //couldnt find any declaration of active options #TODO - seems like v3
+			newRoom.owner = this->m_user.getUsername();
 
-		roomMngr.createRoom(this->m_user, newRoom);
+			lastId = this->m_handlerFactory.getRoomManager().nextId();
+			newRoom.id = lastId;
 
-		c.status = ROOM_CREATED_SUCESSFULLY;
+			roomMngr.createRoom(this->m_user, newRoom);
+
+			c.status = ROOM_CREATED_SUCESSFULLY;
+			c.id = lastId;
+		}
+		else
+		{
+			//error
+			c.status = ROOM_CREATION_ERROR;
+			c.id = ROOM_ALREADY_EXISTS;
+		}
 	}
 	catch (...)
 	{
 		c.status = ROOM_CREATION_ERROR;
+		c.id = ROOM_CREATION_ERROR;
+		
 	}
 
 	buffer = JsonResponsePacketSerializer::serializeResponse(c);
 	rqRs.response = buffer;
 
 	// stay in menu state
-	rqRs.newHandler = this;
+	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
 
 	return rqRs;
 }

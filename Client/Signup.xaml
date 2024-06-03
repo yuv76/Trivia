@@ -1,0 +1,33 @@
+﻿<Window x:Class="Client.Signup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        Title="Signup" Height="450" Width="800"
+        Background="AliceBlue">
+    <Grid>
+        <StackPanel Margin="10,80,10,6">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="16" Width="188">Enter Useraname:</TextBlock>
+                <TextBox x:Name="NEWSERNAME" Height="26" Width="577"/>
+            </StackPanel>
+            <StackPanel Margin="0,20" Orientation="Horizontal">
+                <TextBlock FontSize="16" Width="188">Enter Password:</TextBlock>
+                <TextBox x:Name="NEWPASS" Height="26" Width="577"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="16" Width="188">Re-Enter Password:</TextBlock>
+                <TextBox x:Name="REPASS" Height="26" Width="577"></TextBox>
+            </StackPanel>
+            <StackPanel Margin="0,20" Orientation="Horizontal">
+                <TextBlock FontSize="16" Width="188">Enter Email:</TextBlock>
+                <TextBox x:Name="NEWMAIL" Height="26" Width="577"></TextBox>
+            </StackPanel>
+            
+            <Button Margin="0,5" Height="41" Width="171" FontSize="16" Click="signupEnter_click">Enter</Button>
+            <TextBlock x:Name="ERRORS" Foreground="DarkRed" Height="117"></TextBlock>
+        </StackPanel>
+    </Grid>
+</Window>

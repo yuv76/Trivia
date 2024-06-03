@@ -151,6 +151,14 @@ int SqliteDatabase::addNewUser(std::string username, std::string password, std::
 	{
 		throw std::exception(*errMessage);
 	}
+
+
+	addUserSQL = "INSERT INTO statistics  VALUES(\"" + username + "\", \"" + "0.00" + "\", \"" + '0' + "\", \"" + '0' + "\", \"" + '0' + "\"); ";
+	res = sqlite3_exec(this->database, addUserSQL.c_str(), nullptr, nullptr, errMessage);
+	if (res != SQLITE_OK)
+	{
+		throw std::exception(*errMessage);
+	}
 	return USER_ADDED;
 }
 
@@ -168,16 +176,16 @@ int SqliteDatabase::callbackGetQuestion(void* data, int argc, char** argv, char*
 			if (std::string(azColName[i]) == "id") {
 				temp->id = atoi(argv[i]);
 			}
-			else if (std::string(azColName[i]) == "[right answer]") {
+			else if (std::string(azColName[i]) == "right answer") {
 				temp->rightAnswer = argv[i];
 			}
-			else if (std::string(azColName[i]) == "[1 wrong answer]") {
+			else if (std::string(azColName[i]) == "1 wrong answer") {
 				temp->wrongAnswer1 = argv[i];
 			}
-			else if (std::string(azColName[i]) == "[2 wrong answer]") {
+			else if (std::string(azColName[i]) == "2 wrong answer") {
 				temp->wrongAnswer1 = argv[i];
 			}
-			else if (std::string(azColName[i]) == "[3 wrong answer]") {
+			else if (std::string(azColName[i]) == "3 wrong answer") {
 				temp->wrongAnswer1 = argv[i];
 			}
 			else if (std::string(azColName[i]) == "question") {
@@ -241,7 +249,7 @@ int SqliteDatabase::callbackGetAverageAnswerTime(void* data, int argc, char** ar
 	if (argc != 0)
 	{
 		for (int i = 0; i < argc; i++) {
-			if (std::string(azColName[i]) == "[average time]") 
+			if (std::string(azColName[i]) == "average time") 
 			{
 				*answerTime = atoi(argv[i]);
 			}
@@ -283,7 +291,7 @@ int SqliteDatabase::callbackGetNumOfCorrectAnswers(void* data, int argc, char** 
 	if (argc != 0)
 	{
 		for (int i = 0; i < argc; i++) {
-			if (std::string(azColName[i]) == "[correct answers]")
+			if (std::string(azColName[i]) == "correct answers")
 			{
 				*num = atoi(argv[i]);
 			}
@@ -326,7 +334,7 @@ int SqliteDatabase::callbackGetNumOfTotalAnswers(void* data, int argc, char** ar
 	if (argc != 0)
 	{
 		for (int i = 0; i < argc; i++) {
-			if (std::string(azColName[i]) == "[total answers]")
+			if (std::string(azColName[i]) == "total answers")
 			{
 				*num = atoi(argv[i]);
 			}
@@ -368,7 +376,7 @@ int SqliteDatabase::callbackGetNumOfPlayerGames(void* data, int argc, char** arg
 	if (argc != 0)
 	{
 		for (int i = 0; i < argc; i++) {
-			if (std::string(azColName[i]) == "[player games]")
+			if (std::string(azColName[i]) == "player games")
 			{
 				*num = atoi(argv[i]);
 			}

@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Magshimim\Documents\Magshimim\C4\Trivia\trivia_gali_yuval_2024\json-develop\single_include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Magshimim\Documents\Magshimim\C4\Trivia\trivia_gali_yuval_2024\json-develop\single_include;C:\Users\Magshimim\Documents\C3\trivia_gali_yuval_2024\json-develop\single_include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -120,7 +120,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Magshimim\Documents\Magshimim\C4\Trivia\trivia_gali_yuval_2024\json-develop\single_include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Magshimim\Documents\Magshimim\C4\Trivia\trivia_gali_yuval_2024\json-develop\single_include;C:\Users\Magshimim\Documents\Magshimim\C4\Trivia\trivia_gali_yuval_2024\json-develop\single_include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

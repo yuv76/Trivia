@@ -34,6 +34,7 @@ struct GetRoomsResponse
 
 struct GetPlayersInRoomResponse
 {
+	std::string roomAdmin;
 	std::vector<std::string> players;
 };
 
@@ -51,10 +52,11 @@ struct getPersonalStatsResponse
 
 struct JoinRoomResponse
 {
-	unsigned int status;
+	int status;
 };
 
 struct CreateRoomResponse
 {
+	int id;
 	unsigned int status;
 };
