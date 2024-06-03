@@ -39,6 +39,10 @@ namespace Client
 
         public Communicator() 
         {
+            /*
+            Communicator C'tor.
+            in: none.
+            */
             try
             {
                 _socket = new TcpClient();
@@ -70,6 +74,12 @@ namespace Client
 
         public static void Close()
         {
+            /*
+            closes the communication objects created by the communicator.
+            in: none.
+            out: none.
+            */
+
             if (_socket != null)
             {
                 _in.Close();
@@ -81,6 +91,12 @@ namespace Client
 
         public static async Task<int> sendToServer(string jsonMsg, msgCodes code)
         {
+            /*
+            sends a request message to the server.
+            in: the message to the server, the request's code.
+            out: 1 if success, -4 upon fail.
+            */
+
             int jsonLen = 0;
             byte[] jsonBytes;
             byte[] lenHeader;
@@ -116,6 +132,12 @@ namespace Client
 
         public static async Task<JObject> recieveFromServer()
         {
+            /*
+            recieves a message from the server.
+            in: none.
+            out: the message from the server, as a json object.
+            */
+
             try
             {
                 //receve header.
@@ -152,8 +174,13 @@ namespace Client
             }
         }
 
+        /*
+        Attempts to login a user to the server
+        */
         public static async Task<int> loginAsync(string username, string password)
         {
+            
+
             string jsonStr = "";
 
             int sentSuccesfully = 0;
