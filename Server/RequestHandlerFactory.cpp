@@ -76,8 +76,8 @@ creates a room member request handler for a given user.
 in: the logged user to create the handler for, as a LoggedUser struct. the room the user is in as a room object.
 out: the newly created room member request handler's pointer.
 */
-RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(LoggedUser, Room)
+RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(LoggedUser user, Room room)
 {
-	RoomMemberRequestHandler* newRoomMemberRH = new RoomMemberRequestHandler(user, room);
+	RoomMemberRequestHandler* newRoomMemberRH = new RoomMemberRequestHandler(*this, user, room, this->getRoomManager());
 	return newRoomMemberRH;
 }

@@ -58,6 +58,7 @@ RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo)
 	RequestResult rqRs;
 	this->m_room.removeUser(this->m_user);
 
+	leave.status = 1;
 	buffer = JsonResponsePacketSerializer::serializeResponse(leave);
 
 	rqRs.response = buffer;
