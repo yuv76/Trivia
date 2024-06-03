@@ -48,19 +48,24 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo& inf)
 }
 
 /*
-
+creates the response for close room request.
+in: the request's info.
+out: the request's result.
 */
 RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo)
 {
-
+	this->m_roomManager.deleteRoom(this->m_room.getRoomData().id);
+	//send the message for all the other players.
 }
 
 /*
-
+creates the response for start game request.
+in: the request's info.
+out: the request's result.
 */
 RequestResult RoomAdminRequestHandler::startGame(RequestInfo)
 {
-
+	//send game start to all players.
 }
 
 /*

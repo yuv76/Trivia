@@ -47,11 +47,23 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo& inf)
 }
 
 /*
-
+creates the response for leave room request.
+in: the request's info.
+out: the request's result.
 */
 RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo)
 {
+	std::vector<std::uint8_t> buffer;
+	LeaveRoomResponse leave;
+	RequestResult rqRs;
+	this->m_room.removeUser(this->m_user);
 
+	buffer = JsonResponsePacketSerializer::serializeResponse(leave);
+
+	rqRs.response = buffer;
+	rqRs.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room); //stay in room member state.
+
+	return rqRs;
 }
 
 /*
