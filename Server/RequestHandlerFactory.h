@@ -18,8 +18,8 @@ public:
 	RequestHandlerFactory(IDatabase* db);
 	LoginRequestHandler* createLoginRequestHandler();
 	MenuRequestHandler* createMenuRequestHandler(LoggedUser user);
-	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser, Room);
-	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser, Room);
+	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser user, Room room);
+	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser user, Room room);
 	LoginManager& getLoginManager();
 	RoomManager& getRoomManager();
 	StatisticsManager& getStatisticsManager();
