@@ -382,6 +382,11 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(getPer
 	return buffer;
 }
 
+/*
+serializes a close room response into a byte vector.
+in: the close room response at the form of a CloseRoomResponse struct.
+out: the bytes vector containing the response.
+*/
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse close)
 {
 	std::vector<std::uint8_t> buffer;
@@ -412,6 +417,11 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(CloseR
 	return buffer;
 }
 
+/*
+serializes a start game response into a byte vector.
+in: the start game response at the form of a StartGameResponse struct.
+out: the bytes vector containing the response.
+*/
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(StartGameResponse start)
 {
 	std::vector<std::uint8_t> buffer;
@@ -442,6 +452,11 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(StartG
 	return buffer;
 }
 
+/*
+serializes a leave room response into a byte vector.
+in: the leave room response at the form of a LeaveRoomResponse struct.
+out: the bytes vector containing the response.
+*/
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse leave)
 {
 	std::vector<std::uint8_t> buffer;
@@ -472,6 +487,11 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(LeaveR
 	return buffer;
 }
 
+/*
+serializes a get room stats response into a byte vector.
+in: the get room stats response at the form of a GetRoomStateResponse struct.
+out: the bytes vector containing the response.
+*/
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse stat)
 {
 	std::vector<std::uint8_t> buffer;
