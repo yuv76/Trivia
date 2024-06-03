@@ -54,8 +54,12 @@ out: the request's result.
 */
 RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo)
 {
+	RequestResult rqRs;
+
 	this->m_roomManager.deleteRoom(this->m_room.getRoomData().id);
 	//send the message for all the other players.
+
+	return rqRs;
 }
 
 /*
@@ -65,7 +69,10 @@ out: the request's result.
 */
 RequestResult RoomAdminRequestHandler::startGame(RequestInfo)
 {
+	RequestResult rqRs;
 	//send game start to all players.
+
+	return rqRs;
 }
 
 /*

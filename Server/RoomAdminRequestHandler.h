@@ -2,6 +2,8 @@
 #include "IRequestHandler.h"
 #include "requestHandlerFactory.h"
 
+class RequestHandlerFactory;
+
 class RoomAdminRequestHandler : public IRequestHandler
 {
 public:
