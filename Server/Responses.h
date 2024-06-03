@@ -60,3 +60,27 @@ struct CreateRoomResponse
 	int id;
 	unsigned int status;
 };
+
+struct CloseRoomResponse
+{
+	int id;
+	unsigned int status;
+};
+
+struct StartGameResponse
+{
+	int id;
+	unsigned int status;
+};
+
+struct GetRoomStateResponse
+{
+	int id;
+	unsigned int status;
+};
+
+struct LeaveRoomResponse
+{
+	int id;
+	unsigned int status;
+};

@@ -19,4 +19,9 @@ public:
 	static std::vector<std::uint8_t> serializeResponse(CreateRoomResponse crea);
 	static std::vector<std::uint8_t> serializeResponse(getHighScoreResponse high);
 	static std::vector<std::uint8_t> serializeResponse(getPersonalStatsResponse pers);
+
+	static std::vector<std::uint8_t> serializeResponse(CloseRoomResponse close);
+	static std::vector<std::uint8_t> serializeResponse(StartGameResponse start);
+	static std::vector<std::uint8_t> serializeResponse(GetRoomStateResponse stsat);
+	static std::vector<std::uint8_t> serializeResponse(LeaveRoomResponse leave);
 };

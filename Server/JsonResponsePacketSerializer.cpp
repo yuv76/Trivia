@@ -381,3 +381,27 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(getPer
 
 	return buffer;
 }
+
+
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse close)
+{
+	std::vector<std::uint8_t> buffer;
+	return buffer;
+}
+
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(StartGameResponse start)
+{
+	std::vector<std::uint8_t> buffer;
+	return buffer;
+}
+
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse stsat)
+{
+	std::vector<std::uint8_t> buffer;
+	return buffer;
+}
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse leave)
+{
+	std::vector<std::uint8_t> buffer;
+	return buffer;
+}
