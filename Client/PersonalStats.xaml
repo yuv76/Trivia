@@ -1,0 +1,36 @@
+﻿<Window x:Class="Client.PersonalStats"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        Title="PersonalStats" Height="450" Width="800"
+        Background="AliceBlue">
+    <Grid>
+
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,260,0" Width="100"/>
+        <Button x:Name="BACK" Click="back_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,200,0" Width="70">Go Back</Button>
+        <TextBlock FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,90,0,0" Width="100">average time:</TextBlock>
+        <TextBlock x:Name="time" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,125,0,0" Width="100"/>
+
+
+        <TextBlock FontSize="16" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,90,0,0" Width="120">correct answers:</TextBlock>
+        <TextBlock x:Name="correct" FontSize="16" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,125,0,0" Width="100"/>
+
+        <TextBlock FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" Width="100">player games:</TextBlock>
+        <TextBlock x:Name="games" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,230,0,0" Width="100"/>
+
+
+        <TextBlock FontSize="16" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="100">total answers:</TextBlock>
+        <TextBlock x:Name="total" FontSize="16" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,230,0,0" Width="100"/>
+
+        <TextBlock x:Name="ERROR" Foreground="DarkRed" FontSize="16" Grid.Column="0" Margin="30,390,0,0"></TextBlock>
+    </Grid>
+</Window>

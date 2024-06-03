@@ -5,7 +5,7 @@ C'tor for RequestHandlerFactory.
 in: a database pointer.
 */
 RequestHandlerFactory::RequestHandlerFactory(IDatabase* db) :
-	m_database(db), m_loginManager(db)
+	m_database(db), m_loginManager(db), m_statisticsManager(db)
 {}
 
 /*
@@ -30,10 +30,32 @@ LoginManager& RequestHandlerFactory::getLoginManager()
 }
 
 /*
-blank for now
+creates a menu request handler for a given user.
+in: the logged user to create the handler for, as a LoggedUser struct.
+out: the newly created menu request handler's pointer.
 */
-MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler()
+MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(LoggedUser user)
 {
-	MenuRequestHandler l;
-	return &l;
+	MenuRequestHandler* mnuRqHr = new MenuRequestHandler(*this, user);
+	return mnuRqHr;
+}
+
+/*
+returns the room manager.
+in: none.
+out: a reference to a room manager object.
+*/
+RoomManager& RequestHandlerFactory::getRoomManager()
+{
+	return this->m_roomManager;
+}
+
+/*
+returns the statistics manager.
+in: none.
+out: a reference to a StatisticsManager object.
+*/
+StatisticsManager& RequestHandlerFactory::getStatisticsManager()
+{
+	return this->m_statisticsManager;
 }

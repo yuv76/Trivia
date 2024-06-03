@@ -2,21 +2,33 @@
 
 #include "SqliteDatabase.h"
 #include "LoginManager.h"
+#include "RoomManager.h"
+#include "StatisticsManager.h"
 #include "LoginRequestHandler.h"
 #include "MenuRequestHandler.h"
+#include "RoomAdminRequestHandler.h"
+#include "RoomMemberRequestHandler.h"
 
 class LoginRequestHandler;
+class MenuRequestHandler;
 
 class RequestHandlerFactory
 {
 public:
 	RequestHandlerFactory(IDatabase* db);
 	LoginRequestHandler* createLoginRequestHandler();
-	MenuRequestHandler* createMenuRequestHandler();
+	MenuRequestHandler* createMenuRequestHandler(LoggedUser user);
+	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser, Room);
+	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser, Room);
 	LoginManager& getLoginManager();
+	RoomManager& getRoomManager();
+	StatisticsManager& getStatisticsManager();
 
 private:
 	LoginManager m_loginManager;
+	RoomManager m_roomManager;
+	StatisticsManager m_statisticsManager;
+
 	IDatabase* m_database;
 
 };
