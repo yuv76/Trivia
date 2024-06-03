@@ -2,6 +2,7 @@
 
 #include "RoomData.h"
 #include <vector>
+#include <list>
 
 struct SignupResponse
 {
@@ -63,24 +64,24 @@ struct CreateRoomResponse
 
 struct CloseRoomResponse
 {
-	int id;
 	unsigned int status;
 };
 
 struct StartGameResponse
 {
-	int id;
-	unsigned int status;
-};
-
-struct GetRoomStateResponse
-{
-	int id;
 	unsigned int status;
 };
 
 struct LeaveRoomResponse
 {
-	int id;
 	unsigned int status;
+};
+
+struct GetRoomStateResponse
+{
+	unsigned int status;
+	bool hasGameBegun;
+	std::list<std::string> players;
+	unsigned int AnswerCount;
+	double answerTimeOut;
 };
