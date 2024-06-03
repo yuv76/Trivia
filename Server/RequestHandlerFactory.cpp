@@ -67,7 +67,7 @@ out: the newly created room admin request handler's pointer.
 */
 RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser user, Room room)
 {
-	RoomAdminRequestHandler* newRoomAdminRH = new RoomAdminRequestHandler(user, room);
+	RoomAdminRequestHandler* newRoomAdminRH = new RoomAdminRequestHandler(*this,user, room, this->m_roomManager);
 	return newRoomAdminRH;
 }
 

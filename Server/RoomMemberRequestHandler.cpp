@@ -1,0 +1,63 @@
+#include "RoomMemberRequestHandler.h"
+
+
+/*
+C'tor for room member request handler.
+in: the handler factory, logged user, room and room manager references.
+*/
+RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory& f, LoggedUser& u, Room& r, RoomManager& rm):
+	m_handlerFactory(f), m_user(u), m_room(r), m_roomManager(rm)
+{}
+
+/*
+checks if a given request suits the room member state.
+in: the request's information.
+out: true if relevant for the state, false otherwise.
+*/
+bool RoomMemberRequestHandler::isRequestRelevant(RequestInfo& inf)
+{
+	bool relevant = false;
+	if (inf.RequestId == LEAVE_ROOM || inf.RequestId == GET_ROOM_STATE)
+	{
+		relevant = true;
+	}
+	return relevant;
+}
+
+/*
+handles a request from a Room member, directing it to the choice and handling it.
+in: the request's information.
+out: the request's result.
+*/
+RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo& inf)
+{
+	std::vector<std::uint8_t> buffer;
+	RequestResult res;
+	if (inf.RequestId == LEAVE_ROOM)
+	{
+		//perform the message
+		res = this->leaveRoom(inf);
+	}
+	else // get room state
+	{
+		//perform the request
+		res = this->getRoomState(inf);
+	}
+	return res;
+}
+
+/*
+
+*/
+RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo)
+{
+
+}
+
+/*
+
+*/
+RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo)
+{
+
+}
