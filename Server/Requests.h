@@ -15,11 +15,6 @@ enum msgCodes
 	HIGH_SCORE,
 	PERSONAL_STATS,
 	DISCONNECT,
-	//newly added, can be replaced easily
-	CLOSE_ROOM,
-	START_GAME,
-	GET_ROOM_STATE,
-	LEAVE_ROOM
 };
 
 struct LoginRequest

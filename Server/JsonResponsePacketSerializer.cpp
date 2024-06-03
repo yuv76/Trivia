@@ -382,26 +382,155 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(getPer
 	return buffer;
 }
 
-
+/*
+serializes a close room response into a byte vector.
+in: the close room response at the form of a CloseRoomResponse struct.
+out: the bytes vector containing the response.
+*/
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse close)
 {
 	std::vector<std::uint8_t> buffer;
+	std::string msg = "";
+	msgCodes code = CLOSE_ROOM;
+	int len = 0;
+	json closeRoomJson;
+
+	//add code byte to vector
+	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
+
+	//create msg in json format
+	closeRoomJson["status"] = close.status;
+	msg = closeRoomJson.dump();
+
+	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.
+	len = msg.length();
+	buffer.push_back(static_cast<std::uint8_t>((len >> 24) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 16) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 8) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
+
+	//add message in bytes to the vector
+	std::vector<std::uint8_t> tempMsg(msg.begin(), msg.end());
+
+	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
+
 	return buffer;
 }
 
+/*
+serializes a start game response into a byte vector.
+in: the start game response at the form of a StartGameResponse struct.
+out: the bytes vector containing the response.
+*/
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(StartGameResponse start)
 {
 	std::vector<std::uint8_t> buffer;
+	std::string msg = "";
+	msgCodes code = START_GAME;
+	int len = 0;
+	json startGameJson;
+
+	//add code byte to vector
+	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
+
+	//create msg in json format
+	startGameJson["status"] = start.status;
+	msg = startGameJson.dump();
+
+	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.
+	len = msg.length();
+	buffer.push_back(static_cast<std::uint8_t>((len >> 24) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 16) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 8) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
+
+	//add message in bytes to the vector
+	std::vector<std::uint8_t> tempMsg(msg.begin(), msg.end());
+
+	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
+
 	return buffer;
 }
 
-std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse stsat)
-{
-	std::vector<std::uint8_t> buffer;
-	return buffer;
-}
+/*
+serializes a leave room response into a byte vector.
+in: the leave room response at the form of a LeaveRoomResponse struct.
+out: the bytes vector containing the response.
+*/
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse leave)
 {
 	std::vector<std::uint8_t> buffer;
+	std::string msg = "";
+	msgCodes code = LEAVE_ROOM;
+	int len = 0;
+	json leaveRoomJson;
+
+	//add code byte to vector
+	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
+
+	//create msg in json format
+	leaveRoomJson["status"] = leave.status;
+	msg = leaveRoomJson.dump();
+
+	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.
+	len = msg.length();
+	buffer.push_back(static_cast<std::uint8_t>((len >> 24) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 16) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 8) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
+
+	//add message in bytes to the vector
+	std::vector<std::uint8_t> tempMsg(msg.begin(), msg.end());
+
+	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
+
+	return buffer;
+}
+
+/*
+serializes a get room stats response into a byte vector.
+in: the get room stats response at the form of a GetRoomStateResponse struct.
+out: the bytes vector containing the response.
+*/
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse stat)
+{
+	std::vector<std::uint8_t> buffer;
+	std::string msg = "";
+	std::string playerslist = "";
+	msgCodes code = CREATE_ROOM;
+	int len = 0;
+	json getRoomStateJson;
+
+	//add code byte to vector
+	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
+
+
+	auto i = stat.players.begin();
+	for (i; i != stat.players.end(); i++) //will have to be expanded according to what will be in the players part.
+	{
+		playerslist += *i;
+		playerslist += ",";
+	}
+
+	//create msg in json format
+	getRoomStateJson["status"] = stat.status;
+	getRoomStateJson["hasGameBegun"] = stat.hasGameBegun;
+	getRoomStateJson["players"] = playerslist;
+	getRoomStateJson["AnswerCount"] = stat.AnswerCount;
+	getRoomStateJson["answerTimeOut"] = stat.answerTimeOut;
+	msg = getRoomStateJson.dump();
+
+	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.
+	len = msg.length();
+	buffer.push_back(static_cast<std::uint8_t>((len >> 24) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 16) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>((len >> 8) & 0xFF));
+	buffer.push_back(static_cast<std::uint8_t>(len & 0xFF));
+
+	//add message in bytes to the vector
+	std::vector<std::uint8_t> tempMsg(msg.begin(), msg.end());
+
+	buffer.insert(buffer.end(), tempMsg.begin(), tempMsg.end());
+
 	return buffer;
 }
