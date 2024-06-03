@@ -11,7 +11,9 @@ return value - has none.
 */
 Server::Server() :
 	m_database(new SqliteDatabase), m_handlerFactory(m_database), _communicator(m_handlerFactory)
-{}
+{
+	//m_database->addNewQuestionsToDb(NUM_OF_QUESTIONS_TO_ADD);
+}
 
 /*
 Server - Destructor.

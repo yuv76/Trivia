@@ -67,7 +67,7 @@ RequestResult LoginRequestHandler::login(RequestInfo inf)
 	LoginRequest lgn = JsonRequestPacketDeserializer::deserializeLoginRequest(inf.buffer);
 	status = lgnMgr.login(lgn.username, lgn.password);
 	l.status = status;
-	buffer = JsonResponsePacketSerializer::serializeLoginResponse(l);
+	buffer = JsonResponsePacketSerializer::serializeResponse(l);
 	rqRs.response = buffer;
 
 	if (status == PASSWORDS_DONT_MATCH || status == USER_NOT_EXIST)
@@ -77,7 +77,7 @@ RequestResult LoginRequestHandler::login(RequestInfo inf)
 	}
 	else // succesfull - move on to menu
 	{
-		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(LoggedUser(lgn.username));
 	}
 
 	return rqRs;
@@ -101,7 +101,7 @@ RequestResult LoginRequestHandler::signup(RequestInfo inf)
 	SignupRequest sig = JsonRequestPacketDeserializer::deserializeSignUpRequest(inf.buffer);
 	status = lgnMgr.signup(sig.username, sig.password, sig.email);
 	s.status = status;
-	buffer = JsonResponsePacketSerializer::serializeSignUpResponse(s);
+	buffer = JsonResponsePacketSerializer::serializeResponse(s);
 	rqRs.response = buffer;
 
 	if (status)
@@ -111,32 +111,8 @@ RequestResult LoginRequestHandler::signup(RequestInfo inf)
 	}
 	else // succesfull - move on to menu
 	{
-		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler();
+		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(LoggedUser(sig.username));
 	}
 
 	return rqRs;
 }
-
-
-/*
-// Function to convert binary 
-// to decimal 
-int LoginRequestHandler::binaryToDecimal(int n)
-{
-	int num = n;
-	int dec_value = 0;
-
-	// Initializing base value to 
-	// 1, i.e 2^0 
-	int base = 1;
-
-	int temp = num;
-	while (temp) {
-		int last_digit = temp % 10;
-		temp = temp / 10;
-		dec_value += last_digit * base;
-		base = base * 2;
-	}
-
-	return dec_value;
-}*/

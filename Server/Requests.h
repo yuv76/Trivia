@@ -6,7 +6,15 @@ enum msgCodes
 {
 	ERR = 0,
 	SIGNUP,
-	LOGIN
+	LOGIN,
+	SIGNOUT,
+	GET_ROOM,
+	GET_PLAYERS,
+	JOIN_ROOM,
+	CREATE_ROOM,
+	HIGH_SCORE,
+	PERSONAL_STATS,
+	DISCONNECT
 };
 
 struct LoginRequest
@@ -24,3 +32,23 @@ public:
 	std::string email;
 };
 
+struct GetPlayersInRoomRequest
+{
+public:
+	unsigned int roomId;
+};
+
+struct JoinRoomRequest
+{
+public:
+	unsigned int roomId;
+};
+
+struct CreateRoomRequest
+{
+public:
+	std::string roomName;
+	unsigned int maxUsers;
+	unsigned int questionCount;
+	double anwerTimeout;
+};
