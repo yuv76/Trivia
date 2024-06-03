@@ -16,6 +16,7 @@ using Newtonsoft.Json.Linq;
 using System.Windows.Interop;
 using System.Text.Json.Nodes;
 using Pair;
+using System.Runtime.CompilerServices;
 
 namespace Client
 {
@@ -47,7 +48,8 @@ namespace Client
 
                 if (!_socket.Connected)
                 {
-
+                    _isConnected = false;
+                    _socket.Close();
                 }
                 else
                 {
@@ -62,10 +64,11 @@ namespace Client
             catch(Exception ex)
             {
                 _isConnected = false;
+                _socket.Close();
             }
         }
 
-        public void Close()
+        public static void Close()
         {
             if (_socket != null)
             {
@@ -452,6 +455,7 @@ namespace Client
         public static async Task<int> closeConnectionAsync()
         {
             int sentSuccessfully = await sendToServer("", msgCodes.DISCONNECT);
+            Communicator.Close();
             return sentSuccessfully;
         }
 
@@ -459,6 +463,11 @@ namespace Client
         {
             string name = Communicator.username;
             return name;
+        }
+
+        public static bool isConnected() 
+        {
+            return _isConnected; 
         }
     }
 }
