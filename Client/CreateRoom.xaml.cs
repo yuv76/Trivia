@@ -89,26 +89,33 @@ namespace Client
 
         private async void Create_Click(object sender, RoutedEventArgs e)
         {
-            int id = await Communicator.createRoom(ROOMNAME.Text, uint.Parse(PLAYERS_NUM.Text), uint.Parse(QUESTION_NUM.Text), double.Parse(QUESTION_TIME.Text));
-            if (id >= CreateRoomResponse.CREATE_ROOM_SUCESS_ID)
+            if (int.Parse(PLAYERS_NUM.Text) > 0 && int.Parse(QUESTION_NUM.Text) > 0 && double.Parse(QUESTION_TIME.Text) > 0)
             {
-                Room room = new Room(Left, Top, Width, Height, WindowState, ROOMNAME.Text, id.ToString());
-                room.Show();
-                _isClosedByX = false;
-                this.Close();
-            }
-            else if (id == CreateRoomResponse.ROOM_EXISTS)
-            {
-                ERRORS.Text = "Room with same name already exists.";
-            }
-            else if(id == CreateRoomResponse.CREATE_ROOM_FAIL)
-            {
-                //error
-                ERRORS.Text = "Error creating room.";
+                int id = await Communicator.createRoom(ROOMNAME.Text, uint.Parse(PLAYERS_NUM.Text), uint.Parse(QUESTION_NUM.Text), double.Parse(QUESTION_TIME.Text));
+                if (id >= CreateRoomResponse.CREATE_ROOM_SUCESS_ID)
+                {
+                    Room room = new Room(Left, Top, Width, Height, WindowState, ROOMNAME.Text, id.ToString());
+                    room.Show();
+                    _isClosedByX = false;
+                    this.Close();
+                }
+                else if (id == CreateRoomResponse.ROOM_EXISTS)
+                {
+                    ERRORS.Text = "Room with same name already exists.";
+                }
+                else if (id == CreateRoomResponse.CREATE_ROOM_FAIL)
+                {
+                    //error
+                    ERRORS.Text = "Error creating room.";
+                }
+                else
+                {
+                    ERRORS.Text = "Connection Error.";
+                }
             }
             else
             {
-                ERRORS.Text = "Connection Error.";
+                ERRORS.Text = "Illegal room settings.";
             }
         }
 
