@@ -122,4 +122,6 @@ GetRoomStateResponse Room::getState()
 	resp.players = playersLst;
 	resp.hasGameBegun = this->m_metadata.isActive;
 	resp.status = this->m_metadata.isActive;
+	
+	return resp;
 }
