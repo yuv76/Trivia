@@ -22,7 +22,7 @@ private:
 	RequestResult startGame(RequestInfo);
 	RequestResult getRoomState(RequestInfo);
 
-	Room m_room;
+	Room& m_room;
 	LoggedUser m_user;
 	RoomManager& m_roomManager;
 	RequestHandlerFactory& m_handlerFactory;
