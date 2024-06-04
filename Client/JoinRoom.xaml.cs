@@ -62,6 +62,12 @@ namespace Client
 
         private async void refresh()
         {
+            string selected = "temp";
+            if (LST_ROOMS.SelectedItems.Count > 0)
+            {
+                selected = LST_ROOMS.SelectedItems[0].ToString();
+                
+            }
             List<Pair<string, string>> rooms = await Communicator.getRooms();
             LST_ROOMS.Items.Clear();
             if (rooms.Count > 0)
@@ -71,6 +77,12 @@ namespace Client
                     LST_ROOMS.Items.Add(room.Second);
                 }
                 _rooms = rooms;
+
+                /*if (selected != "temp")
+                {
+                    LST_ROOMS.SelectedItems[0] = selected;
+
+                }*/
             }
             else
             {
@@ -138,6 +150,7 @@ namespace Client
         {
             List<string> players = await Communicator.getPlayersInRoom(id);
             string admin = "";
+            LST_PLAYERS.Items.Clear();
             if (players.Count > 0)
             {
                 admin = players[0];
