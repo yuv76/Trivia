@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Pair;
 using Responses;
+using System.Windows.Threading;
 
 namespace Client
 {
@@ -24,6 +25,7 @@ namespace Client
     {
         private bool _isClosedByX = true; // we cant know.
         List<Pair<string, string>> _rooms;
+        private DispatcherTimer _timer;
 
         public JoinRoom(double left, double top, double width, double height, WindowState windowstate)
         {
@@ -35,8 +37,20 @@ namespace Client
             WindowState = windowstate;
 
             PutName();
+
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(5); // Set the interval to 5 seconds
+            _timer.Tick += Timer_Tick; // Subscribe to the Tick event
+            _timer.Start(); // Start the timer
+
+
             //contact server to get rooms.
             refresh();
+        }
+
+        private async void Timer_Tick(object sender, EventArgs e)
+        {
+            refresh(); // Call refresh on each tick
         }
 
         private async void refresh()
@@ -114,6 +128,7 @@ namespace Client
 
         private void back_click(object sender, RoutedEventArgs e)
         {
+            _timer.Stop();
             MainMenu mainMenu = new MainMenu(Left, Top, Width, Height, WindowState);
             mainMenu.Show();
             _isClosedByX = false;
@@ -126,6 +141,7 @@ namespace Client
             {
                 int ok = await Communicator.signoutAsync();
             }
+            _timer.Stop();
         }
 
         private void PutName()
