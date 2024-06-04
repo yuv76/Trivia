@@ -104,6 +104,7 @@ namespace Client
                     int ok = await Communicator.joinRoom(roomId);
                     if(ok == JoinRoomResponse.JOIN_ROOM_SUCCESS)
                     {
+                        _timer.Stop();
                         Room room = new Room(Left, Top, Width, Height, WindowState, selected.ToString(), getRoomIdByName(selected.ToString()));
                         room.Show();
                         _isClosedByX = false;
