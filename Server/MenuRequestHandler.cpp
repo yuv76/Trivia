@@ -281,8 +281,17 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 	buffer = JsonResponsePacketSerializer::serializeResponse(j);
 	rqRs.response = buffer;
 
-	// stay in menu state
-	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+	if (j.status == ROOM_FULL || j.status == USER_NOT_ADDED)
+	{
+		// failed, stay in menu state
+		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+	}
+	else
+	{
+		// sucess
+		rqRs.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, roomMngr.getRoom(joinRqst.roomId));
+	}
+
 
 	return rqRs;
 }
@@ -339,8 +348,15 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	buffer = JsonResponsePacketSerializer::serializeResponse(c);
 	rqRs.response = buffer;
 
-	// stay in menu state
-	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+	if (c.status == ROOM_CREATION_ERROR || c.status == ROOM_ALREADY_EXISTS)
+	{
+		// stay in menu state
+		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+	}
+	else
+	{
+		rqRs.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user, roomMngr.getRoom(newRoom.id));
+	}
 
 	return rqRs;
 }

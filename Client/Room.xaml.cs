@@ -1,7 +1,9 @@
 ﻿using Pair;
+using Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,6 +24,7 @@ namespace Client
     public partial class Room : Window
     {
         private bool _isClosedByX = true;
+        private bool _isAdmin = false;
 
         public Room(double left, double top, double width, double height, WindowState windowstate, string roomName, string id)
         {
@@ -32,30 +35,89 @@ namespace Client
             Height = height;
             WindowState = windowstate;
 
-            YOU_ARE_IN_ROOM_XXX.Text = "You are in room " + roomName; //can add list of players in the room for now, this might be the wait for game screen.
-            getPlayers(id);
+            ROOM_NAME.Text = roomName;
+            GetRoomStateResponse state = getStateAsync().Result;
+            if(state.isActive == GetRoomStateResponse.CONNECTION_PROBLEM)
+            {
+                ERROR.Text = "Couldnt connect to room.";
+                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                men.Show();
+                _isClosedByX = false;
+                this.Close();
+            }
+            else
+            {
+                updateRoom(state);
+                if (state.players[0] == Communicator.getName()) // if the room manager is the current player,
+                {
+                    // able the close room and start game buttons.
+                    LEAVE.Content = "Close Room";
+                    START.Visibility = Visibility.Visible;
+                    _isAdmin = true;
+                }
+            }
         }
 
-        private async void getPlayers(string id)
+        private async Task<GetRoomStateResponse> getStateAsync()
         {
-            List<string> players = await Communicator.getPlayersInRoom(id);
+            GetRoomStateResponse state = await Communicator.getRoomState();
+            return state;
+        }
+
+        private void updateRoom(GetRoomStateResponse roomState)
+        {
+            this.updatePlayers(roomState.players);
+            NUM_PLAYERS.Text = roomState.players.Count.ToString() + "/" + roomState.maxPlayers.ToString() + " players";
+            QUESTION_TIME.Text = roomState.timePerQuestion.ToString();
+            NUM_QUESTIONS.Text = roomState.numOfQuestionsInGame.ToString();
+        }
+
+        private void updatePlayers(List<string> players)
+        {
+            string admin = "";
             if (players.Count > 0)
             {
-                OWNER.Text = "room owner: " + players[0];
+                admin = players[0];
+                if(admin == Communicator.getName())
+                {
+                    PLAYERS.Items.Add(admin + " - You, Admin");
+                }
+                else
+                {
+                    PLAYERS.Items.Add(admin + " - Admin");
+                }
                 players.RemoveAt(0);
                 foreach (string player in players)
                 {
-                    PLAYERS.Items.Add(player);
+                    if (!(player == admin))
+                    {
+                        if (player == Communicator.getName())
+                        {
+                            PLAYERS.Items.Add(player + " - You");
+                        }
+                        else
+                        {
+                            PLAYERS.Items.Add(player);
+                        }
+                    }
                 }
             }
             else
             {
-                ERROR.Text = "Error loading room.";
+                ERROR.Text = "Error loading room players.";
             }
             
         }
 
-        private void back_click(object sender, RoutedEventArgs e)
+        private void Leave_Click(object sender, RoutedEventArgs e)
+        {
+            MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+            men.Show();
+            _isClosedByX = false;
+            this.Close();
+        }
+        
+        private void start_Click(object sender, RoutedEventArgs e)
         {
             MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
             men.Show();

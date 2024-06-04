@@ -497,27 +497,21 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetRoo
 	std::vector<std::uint8_t> buffer;
 	std::string msg = "";
 	std::string playerslist = "";
-	msgCodes code = CREATE_ROOM;
+	msgCodes code = GET_ROOM_STATE;
 	int len = 0;
 	json getRoomStateJson;
 
 	//add code byte to vector
 	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
 
-
-	auto i = stat.players.begin();
-	for (i; i != stat.players.end(); i++) //will have to be expanded according to what will be in the players part.
-	{
-		playerslist += *i;
-		playerslist += ",";
-	}
-
 	//create msg in json format
 	getRoomStateJson["status"] = stat.status;
 	getRoomStateJson["hasGameBegun"] = stat.hasGameBegun;
-	getRoomStateJson["players"] = playerslist;
+	getRoomStateJson["players"] = stat.players;
 	getRoomStateJson["AnswerCount"] = stat.AnswerCount;
 	getRoomStateJson["answerTimeOut"] = stat.answerTimeOut;
+	getRoomStateJson["admin"] = stat.owner;
+	getRoomStateJson["maxPlayers"] = stat.maxPlayers;
 	msg = getRoomStateJson.dump();
 
 	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.

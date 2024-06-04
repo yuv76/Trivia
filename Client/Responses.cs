@@ -78,4 +78,22 @@ namespace Responses
         uint status;
     };
 
+    public struct GetRoomStateResponse
+    {
+        public const int GET_STATE_SUCESS = 1;
+        public const int GET_STATE_FAILURE = 0;
+
+        public const uint ROOM_CLOSED = 0;
+        public const uint ROOM_LOBBY = 1;
+        public const uint GAME_IN_PROGRESS = 2;
+        public const uint CONNECTION_PROBLEM = 3;
+
+        public List<string> players;
+        public uint numOfQuestionsInGame;
+        public double timePerQuestion;
+        public uint isActive;
+        public bool hasGameBegun;
+        public uint maxPlayers;
+    };
+
 }

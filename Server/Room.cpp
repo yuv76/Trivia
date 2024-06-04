@@ -120,8 +120,15 @@ GetRoomStateResponse Room::getState()
 	resp.AnswerCount = this->m_metadata.numOfQuestionsInGame;
 	resp.answerTimeOut = this->m_metadata.timePerQuestion;
 	resp.players = playersLst;
-	resp.hasGameBegun = this->m_metadata.isActive;
 	resp.status = this->m_metadata.isActive;
+	resp.maxPlayers = this->m_metadata.maxPlayers;
+
+	resp.hasGameBegun = false;
+	if (this->m_metadata.isActive == GAME_STARTED_IN_ROOM)
+	{
+		resp.hasGameBegun = true;
+	}
+	resp.owner = this->m_metadata.owner;
 	
 	return resp;
 }
