@@ -24,7 +24,9 @@ bool RoomAdminRequestHandler::isRequestRelevant(RequestInfo& inf)
 }
 
 /*
-
+handles a request for room admin state.
+in: the request's info to handle.
+out: the handled request's result.
 */
 RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo& inf)
 {
@@ -55,9 +57,24 @@ out: the request's result.
 RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo)
 {
 	RequestResult rqRs;
+	std::vector<std::uint8_t> buffer;
+	CloseRoomResponse closeRsp;
 
-	this->m_roomManager.deleteRoom(this->m_room.getRoomData().id);
-	//send the message for all the other players.
+	try
+	{
+		this->m_roomManager.deleteRoom(this->m_room.getRoomData().id);
+		this->m_room.SetActiveState(ROOM_CLOSED);
+		//will send game start to all players when they will get their next room update.
+		closeRsp.status = ROOM_CLOSED_SUCCESSFULLY;
+	}
+	catch (...)
+	{
+		closeRsp.status = ROOM_CLOSED_FAIL;
+	}
+	buffer = JsonResponsePacketSerializer::serializeResponse(closeRsp);
+
+	rqRs.response = buffer;
+	rqRs.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user, this->m_room); //stay in admin state.
 
 	return rqRs;
 }
@@ -70,7 +87,22 @@ out: the request's result.
 RequestResult RoomAdminRequestHandler::startGame(RequestInfo)
 {
 	RequestResult rqRs;
-	//send game start to all players.
+	std::vector<std::uint8_t> buffer;
+	StartGameResponse stGResp;
+	try
+	{
+		this->m_room.SetActiveState(GAME_STARTED_IN_ROOM);
+		//will send game start to all players when they will get next room update.
+		stGResp.status = GAME_STARTED_SUCESSFULY;
+	}
+	catch(...)
+	{
+		stGResp.status = GAME_START_FAIL;
+	}
+	buffer = JsonResponsePacketSerializer::serializeResponse(stGResp);
+
+	rqRs.response = buffer;
+	rqRs.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user, this->m_room); //stay in admin state.
 
 	return rqRs;
 }

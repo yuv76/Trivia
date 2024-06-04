@@ -2,6 +2,12 @@
 #include "IRequestHandler.h"
 #include "requestHandlerFactory.h"
 
+#define GAME_STARTED_SUCESSFULY 1
+#define GAME_START_FAIL 0
+
+#define ROOM_CLOSED_SUCCESSFULLY 1
+#define ROOM_CLOSED_FAIL 0
+
 class RequestHandlerFactory;
 
 class RoomAdminRequestHandler : public IRequestHandler

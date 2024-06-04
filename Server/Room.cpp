@@ -66,6 +66,16 @@ unsigned int Room::isActive()
 }
 
 /*
+sets the status of the room.
+in: the new active status.
+out: none.
+*/
+void Room::SetActiveState(unsigned int act)
+{
+	this->m_metadata.isActive = act;
+}
+
+/*
 gets the room's data - a roomData object
 in: none.
 out: the room's data.
@@ -109,7 +119,7 @@ GetRoomStateResponse Room::getState()
 	//add the room's data to the response.
 	resp.AnswerCount = this->m_metadata.numOfQuestionsInGame;
 	resp.answerTimeOut = this->m_metadata.timePerQuestion;
-	resp.hasGameBegun = false;//#TODO
 	resp.players = playersLst;
+	resp.hasGameBegun = this->m_metadata.isActive;
 	resp.status = this->m_metadata.isActive;
 }
