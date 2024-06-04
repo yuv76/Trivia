@@ -25,8 +25,8 @@ namespace Client
     {
         private bool _isClosedByX = true; // we cant know.
         List<Pair<string, string>> _rooms;
-        private DispatcherTimer _timer;
-
+        private DispatcherTimer _timer1;
+        private DispatcherTimer _timer2;
         public JoinRoom(double left, double top, double width, double height, WindowState windowstate)
         {
             InitializeComponent();
@@ -38,20 +38,26 @@ namespace Client
 
             PutName();
 
-            _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromSeconds(5);
-            _timer.Tick += Timer_Tick;
-            _timer.Start(); 
+            _timer1 = new DispatcherTimer();
+            _timer1.Interval = TimeSpan.FromSeconds(10);
+            _timer1.Tick += Timer_Tick1;
+            _timer1.Start();
 
+            _timer2 = new DispatcherTimer();
+            _timer2.Interval = TimeSpan.FromSeconds(2);
+            _timer2.Tick += Timer_Tick2;
+            _timer2.Start();
 
             //contact server to get rooms.
             refresh();
         }
 
-        private async void Timer_Tick(object sender, EventArgs e)
+        private async void Timer_Tick1(object sender, EventArgs e)
         {
             refresh();
-
+        }
+        private async void Timer_Tick2(object sender, EventArgs e)
+        { 
             if (LST_ROOMS.SelectedItems.Count > 0)
             {
                 string selected = LST_ROOMS.SelectedItems[0].ToString();
@@ -123,7 +129,8 @@ namespace Client
                     int ok = await Communicator.joinRoom(roomId);
                     if(ok == JoinRoomResponse.JOIN_ROOM_SUCCESS)
                     {
-                        _timer.Stop();
+                        _timer1.Stop();
+                        _timer2.Stop();
                         Room room = new Room(Left, Top, Width, Height, WindowState, selected.ToString(), getRoomIdByName(selected.ToString()));
                         room.Show();
                         _isClosedByX = false;
@@ -187,7 +194,8 @@ namespace Client
 
         private void back_click(object sender, RoutedEventArgs e)
         {
-            _timer.Stop();
+            _timer1.Stop();
+            _timer1.Stop();
             MainMenu mainMenu = new MainMenu(Left, Top, Width, Height, WindowState);
             mainMenu.Show();
             _isClosedByX = false;
@@ -200,7 +208,8 @@ namespace Client
             {
                 int ok = await Communicator.signoutAsync();
             }
-            _timer.Stop();
+            _timer1.Stop();
+            _timer1.Stop();
         }
 
         private void PutName()
