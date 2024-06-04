@@ -69,12 +69,12 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo)
 	}
 	catch (...)
 	{
-		closeRsp.status = ROOM_CLOSED_FAIL;
+		closeRsp.status = ROOM_CLOSE_FAIL;
 	}
 	buffer = JsonResponsePacketSerializer::serializeResponse(closeRsp);
 
 	rqRs.response = buffer;
-	rqRs.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user, this->m_room); //stay in admin state.
+	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user); // back to menu.
 
 	return rqRs;
 }

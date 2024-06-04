@@ -109,12 +109,20 @@ namespace Client
             
         }
 
-        private void Leave_Click(object sender, RoutedEventArgs e)
+        private async void Leave_Click(object sender, RoutedEventArgs e)
         {
-            MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
-            men.Show();
-            _isClosedByX = false;
-            this.Close();
+            if(_isAdmin) // has to close entire room.
+            {
+
+            }
+            else // just a member, leaves by itself.
+            {
+                await Communicator.LeaveRoom();
+                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                men.Show();
+                _isClosedByX = false;
+                this.Close();
+            }
         }
         
         private void start_Click(object sender, RoutedEventArgs e)
@@ -127,9 +135,18 @@ namespace Client
 
         protected override async void OnClosed(EventArgs e)
         {
+            int ok = 0;
             if (_isClosedByX)
             {
-                int ok = await Communicator.signoutAsync();
+                if(_isAdmin)
+                {
+
+                }
+                else // member
+                {
+                    ok = await Communicator.LeaveRoom();
+                }
+                ok = await Communicator.signoutAsync();
             }
         }
     }

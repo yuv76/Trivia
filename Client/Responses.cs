@@ -96,4 +96,13 @@ namespace Responses
         public uint maxPlayers;
     };
 
+    struct LeaveRoomResponse
+    {
+        public const int LEAVED = 1;
+    };
+
+    struct CloseRoomResponse
+    {
+        public uint status;
+    };
 }

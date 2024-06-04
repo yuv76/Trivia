@@ -27,14 +27,18 @@ out: none
 */
 void Room::removeUser(LoggedUser toKick)
 {
+	bool found = false;
+	auto toRemove = this->m_users.begin();
 	auto i = this->m_users.begin();
-	for (i; i != this->m_users.end(); i++)
+	for (i; i != this->m_users.end() && !found; i++)
 	{
 		if (*i == toKick)
 		{
-			this->m_users.erase(i); //might cause exception?
+			toRemove = i;
+			found = true; // no need to continue;
 		}
 	}
+	this->m_users.erase(toRemove);
 }
 
 /*

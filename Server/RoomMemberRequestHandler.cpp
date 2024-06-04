@@ -56,13 +56,14 @@ RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo)
 	std::vector<std::uint8_t> buffer;
 	LeaveRoomResponse leave;
 	RequestResult rqRs;
-	this->m_room.removeUser(this->m_user);
 
-	leave.status = 1;
+	this->m_room.removeUser(this->m_user);
+	leave.status = REMOVAL_SUCESS;
+
 	buffer = JsonResponsePacketSerializer::serializeResponse(leave);
 
 	rqRs.response = buffer;
-	rqRs.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room); //stay in room member state.
+	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user); //move to menu
 
 	return rqRs;
 }

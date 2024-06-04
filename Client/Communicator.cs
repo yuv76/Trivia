@@ -522,6 +522,66 @@ namespace Client
             return roomState;
         }
 
+        public static async Task<int> LeaveRoom()
+        {
+            LeaveRoomResponse roomState = new LeaveRoomResponse();
+            string jsonStr = "";
+            int sentSuccesfully = 0;
+            JObject recvdJson;
+
+            sentSuccesfully = await sendToServer("", msgCodes.LEAVE_ROOM);
+
+            if (sentSuccesfully == LeaveRoomResponse.LEAVED)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.LEAVE_ROOM))
+                {
+                    if (recvdJson.ContainsKey("status"))
+                    {
+                        // return status frm server
+                        return recvdJson.Value<int>("status");
+                    }
+                    else
+                    {
+                        // return server error status.
+                        return recvdJson.Value<int>("server_resp_code");
+                    }
+                }
+            }
+            //else, return the sent message's error code.
+            return sentSuccesfully;
+        }
+
+        public static async Task<int> CloseRoom()
+        {
+            Close roomState = new LeaveRoomResponse();
+            string jsonStr = "";
+            int sentSuccesfully = 0;
+            JObject recvdJson;
+
+            sentSuccesfully = await sendToServer("", msgCodes.CLOSE_ROOM);
+
+            if (sentSuccesfully == LeaveRoomResponse.LEAVED)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.LEAVE_ROOM))
+                {
+                    if (recvdJson.ContainsKey("status"))
+                    {
+                        // return status frm server
+                        return recvdJson.Value<int>("status");
+                    }
+                    else
+                    {
+                        // return server error status.
+                        return recvdJson.Value<int>("server_resp_code");
+                    }
+                }
+            }
+            //else, return the sent message's error code.
+            return sentSuccesfully;
+        }
+
         public static async Task<int> closeConnectionAsync()
         {
             int sentSuccessfully = await sendToServer("", msgCodes.DISCONNECT);

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="Room" Height="450" Width="800"
+        Title="Room Lobby" Height="450" Width="800"
         Background="AliceBlue">
     <Grid>
         <StackPanel Margin="90,44,103,10">
