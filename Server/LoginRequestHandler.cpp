@@ -35,7 +35,6 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo& inf)
 {
 	std::vector<std::uint8_t> buffer;
 	RequestResult res;
-	json result;
 	if (inf.RequestId == LOGIN)
 	{
 		//perform the message

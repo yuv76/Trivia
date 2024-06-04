@@ -311,7 +311,7 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 			newRoom.name = createRqst.roomName;
 			newRoom.numOfQuestionsInGame = createRqst.questionCount;
 			newRoom.timePerQuestion = createRqst.anwerTimeout;
-			newRoom.isActive = 1; //couldnt find any declaration of active options #TODO - seems like v3
+			newRoom.isActive = ROOM_LOBY_STATE;
 			newRoom.owner = this->m_user.getUsername();
 
 			lastId = this->m_handlerFactory.getRoomManager().nextId();

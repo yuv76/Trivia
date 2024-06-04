@@ -66,6 +66,16 @@ unsigned int Room::isActive()
 }
 
 /*
+sets the status of the room.
+in: the new active status.
+out: none.
+*/
+void Room::SetActiveState(unsigned int act)
+{
+	this->m_metadata.isActive = act;
+}
+
+/*
 gets the room's data - a roomData object
 in: none.
 out: the room's data.
@@ -91,4 +101,27 @@ std::vector<std::string> Room::getPlayersInRoomNames()
 	}
 
 	return players;
+}
+
+/*
+gets room's state into a get room state response struct.
+in: none.
+out: the getRoomStateResponse with the room's data.
+*/
+GetRoomStateResponse Room::getState()
+{
+	GetRoomStateResponse resp;
+
+	//players from vector (comes from the room) into list.
+	std::vector<std::string> playersVec = this->getAllUsers();
+	std::list<std::string> playersLst(playersVec.begin(), playersVec.end());
+
+	//add the room's data to the response.
+	resp.AnswerCount = this->m_metadata.numOfQuestionsInGame;
+	resp.answerTimeOut = this->m_metadata.timePerQuestion;
+	resp.players = playersLst;
+	resp.hasGameBegun = this->m_metadata.isActive;
+	resp.status = this->m_metadata.isActive;
+	
+	return resp;
 }
