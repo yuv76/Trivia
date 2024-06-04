@@ -103,6 +103,13 @@ namespace Responses
 
     struct CloseRoomResponse
     {
-        public uint status;
+        public const int CLOSED = 1;
+        public const int ERROR_CLOSING = 0;
     };
+
+    struct StartGameResponse
+    {
+        public const int START_GAME = 1;
+        public const int GAME_START_FAIL = 0;
+    }
 }

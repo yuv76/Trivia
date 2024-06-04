@@ -111,9 +111,24 @@ namespace Client
 
         private async void Leave_Click(object sender, RoutedEventArgs e)
         {
-            if(_isAdmin) // has to close entire room.
+            if(_isAdmin) // admin has to close entire room.
             {
-
+                int close = await Communicator.CloseRoom();
+                if(close == CloseRoomResponse.CLOSED)
+                {
+                    MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                    men.Show();
+                    _isClosedByX = false;
+                    this.Close();
+                }
+                else if(close == LoginResponse.LOGIN_F_CONNECTION_ERROR)
+                {
+                    ERROR.Text = "Error connecting to server.";
+                }
+                else
+                {
+                    ERROR.Text = "Problem closing room, try again.";
+                }
             }
             else // just a member, leaves by itself.
             {
@@ -125,12 +140,20 @@ namespace Client
             }
         }
         
-        private void start_Click(object sender, RoutedEventArgs e)
+        private async void start_Click(object sender, RoutedEventArgs e)
         {
-            MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
-            men.Show();
-            _isClosedByX = false;
-            this.Close();
+            int started = await Communicator.StartGame();
+            if(started == StartGameResponse.START_GAME)
+            {
+                Game game = new Game();
+                game.Show();
+                _isClosedByX = false;
+                this.Close();
+            }
+            else
+            {
+                ERROR.Text = "Error starting game.";
+            }
         }
 
         protected override async void OnClosed(EventArgs e)
@@ -140,7 +163,7 @@ namespace Client
             {
                 if(_isAdmin)
                 {
-
+                    ok = await Communicator.CloseRoom();
                 }
                 else // member
                 {

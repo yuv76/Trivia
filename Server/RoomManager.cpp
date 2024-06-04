@@ -37,9 +37,9 @@ unsigned int RoomManager::getRoomState(int ID)
 }
 
 /*
-gets a vector with data of all rooms currently on the server.
+gets a vector with data of all rooms currently on the server that are open to join to.
 in: none.
-out: an std vector with every room's data.
+out: an std vector with every availabe room's data.
 */
 std::vector<RoomData> RoomManager::getRooms()
 {
@@ -48,7 +48,10 @@ std::vector<RoomData> RoomManager::getRooms()
 	auto i = this->m_rooms.begin();
 	for (i; i != this->m_rooms.end(); i++)
 	{
-		roomDatas.push_back(i->second.getRoomData());
+		if (i->second.isActive() == ROOM_LOBY_STATE)
+		{
+			roomDatas.push_back(i->second.getRoomData());
+		}
 	}
 
 	return roomDatas;
