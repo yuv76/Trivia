@@ -39,9 +39,9 @@ namespace Client
             PutName();
 
             _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromSeconds(5); // Set the interval to 5 seconds
-            _timer.Tick += Timer_Tick; // Subscribe to the Tick event
-            _timer.Start(); // Start the timer
+            _timer.Interval = TimeSpan.FromSeconds(5);
+            _timer.Tick += Timer_Tick;
+            _timer.Start(); 
 
 
             //contact server to get rooms.
@@ -50,7 +50,14 @@ namespace Client
 
         private async void Timer_Tick(object sender, EventArgs e)
         {
-            refresh(); // Call refresh on each tick
+            refresh();
+
+            if (LST_ROOMS.SelectedItems.Count > 0)
+            {
+                string selected = LST_ROOMS.SelectedItems[0].ToString();
+                string roomId = getRoomIdByName(selected);
+                getPlayers(roomId);
+            }
         }
 
         private async void refresh()
@@ -126,6 +133,44 @@ namespace Client
                 //stay here, nothing selected.
             }
         }
+
+        private async void getPlayers(string id)
+        {
+            List<string> players = await Communicator.getPlayersInRoom(id);
+            string admin = "";
+            if (players.Count > 0)
+            {
+                admin = players[0];
+                if (admin == Communicator.getName())
+                {
+                    LST_PLAYERS.Items.Add(admin + " - You, Admin");
+                }
+                else
+                {
+                    LST_PLAYERS.Items.Add(admin + " - Admin");
+                }
+                players.RemoveAt(0);
+                foreach (string player in players)
+                {
+                    if (!(player == admin))
+                    {
+                        if (player == Communicator.getName())
+                        {
+                            LST_PLAYERS.Items.Add(player + " - You");
+                        }
+                        else
+                        {
+                            LST_PLAYERS.Items.Add(player);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                ERROR.Text = "Error loading room players.";
+            }
+        }
+
 
         private void back_click(object sender, RoutedEventArgs e)
         {
