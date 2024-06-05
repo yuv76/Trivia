@@ -519,6 +519,7 @@ namespace Client
                 }
             }
             //else, return empty with error status.
+
             return roomState;
         }
 

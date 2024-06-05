@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,6 +15,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Windows.Threading;
+using System.ComponentModel;
+using System.Reflection.Emit;
 
 namespace Client
 {
@@ -26,6 +31,8 @@ namespace Client
         private bool _isClosedByX = true;
         private bool _isAdmin = false;
 
+        private BackgroundWorker background_worker;
+
         public Room(double left, double top, double width, double height, WindowState windowstate, string roomName, string id)
         {
             InitializeComponent();
@@ -36,10 +43,12 @@ namespace Client
             WindowState = windowstate;
 
             ROOM_NAME.Text = roomName;
+            
+
             GetRoomStateResponse state = getStateAsync().Result;
             if(state.isActive == GetRoomStateResponse.CONNECTION_PROBLEM)
             {
-                ERROR.Text = "Couldnt connect to room.";
+                ERROR.Text = "Connection error.";
                 MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
                 men.Show();
                 _isClosedByX = false;
@@ -56,6 +65,64 @@ namespace Client
                     _isAdmin = true;
                 }
             }
+
+            background_worker = new BackgroundWorker();
+            background_worker.WorkerSupportsCancellation = true;
+            background_worker.WorkerReportsProgress = true;
+            background_worker.DoWork += refreshRoom;
+            background_worker.ProgressChanged += background_worker_ProgressChanged;
+            background_worker.RunWorkerAsync();
+        }
+
+        private void refreshRoom(object? sender, DoWorkEventArgs e)
+        {
+            
+            while (e.Cancel == false)
+            {
+                Thread.Sleep(3000);
+
+                if (background_worker.CancellationPending)
+                {
+                    e.Cancel = true;
+                    break;
+                }
+
+                background_worker.ReportProgress(0, 0);
+            }
+        }
+
+        void background_worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            GetRoomStateResponse state = getStateAsync().Result;
+          /*  if (state.isActive == GetRoomStateResponse.CONNECTION_PROBLEM)
+            {
+                ERROR.Text = "Connection error.";
+                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                men.Show();
+                _isClosedByX = false;
+                background_worker.CancelAsync(); //stop refreshing
+                this.Close();
+            }
+            else if (state.isActive == GetRoomStateResponse.ROOM_CLOSED)
+            {
+                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                men.Show();
+                _isClosedByX = false;
+                background_worker.CancelAsync(); //stop refreshing
+                this.Close();
+            }
+            else if (state.isActive == GetRoomStateResponse.GAME_IN_PROGRESS)
+            {
+                Game game = new Game();
+                game.Show();
+                _isClosedByX = false;
+                background_worker.CancelAsync(); // stop refreshing.
+                this.Close();
+            }
+            else
+            {
+                updateRoom(state);
+            }*/
         }
 
         private async Task<GetRoomStateResponse> getStateAsync()
@@ -77,6 +144,7 @@ namespace Client
             string admin = "";
             if (players.Count > 0)
             {
+                PLAYERS.Items.Clear();
                 admin = players[0];
                 if(admin == Communicator.getName())
                 {
@@ -113,6 +181,7 @@ namespace Client
         {
             if(_isAdmin) // admin has to close entire room.
             {
+                background_worker.CancelAsync(); //stop refreshing
                 int close = await Communicator.CloseRoom();
                 if(close == CloseRoomResponse.CLOSED)
                 {
@@ -136,6 +205,7 @@ namespace Client
                 MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
                 men.Show();
                 _isClosedByX = false;
+                background_worker.CancelAsync(); //stop refreshing
                 this.Close();
             }
         }
@@ -161,9 +231,10 @@ namespace Client
             int ok = 0;
             if (_isClosedByX)
             {
+                background_worker.CancelAsync(); //stop refreshing
                 if(_isAdmin)
                 {
-                    ok = await Communicator.CloseRoom();
+                    ok = await Communicator.CloseRoom();    
                 }
                 else // member
                 {

@@ -62,8 +62,8 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo)
 
 	try
 	{
-		this->m_roomManager.deleteRoom(this->m_room.getRoomData().id);
 		this->m_room.SetActiveState(ROOM_CLOSED);
+		this->m_roomManager.deleteRoom(this->m_room.getRoomData().id);
 		//will send game start to all players when they will get their next room update.
 		closeRsp.status = ROOM_CLOSED_SUCCESSFULLY;
 	}
