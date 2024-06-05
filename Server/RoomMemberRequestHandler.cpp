@@ -77,6 +77,7 @@ RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo)
 {
 	std::vector<std::uint8_t> buffer;
 	RequestResult rqRs;
+
 	GetRoomStateResponse resp = this->m_room.getState();
 
 	buffer = JsonResponsePacketSerializer::serializeResponse(resp);

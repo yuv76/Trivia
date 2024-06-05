@@ -94,7 +94,7 @@ namespace Client
         void background_worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             GetRoomStateResponse state = getStateAsync().Result;
-          /*  if (state.isActive == GetRoomStateResponse.CONNECTION_PROBLEM)
+            if (state.isActive == GetRoomStateResponse.CONNECTION_PROBLEM)
             {
                 ERROR.Text = "Connection error.";
                 MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
@@ -122,7 +122,7 @@ namespace Client
             else
             {
                 updateRoom(state);
-            }*/
+            }
         }
 
         private async Task<GetRoomStateResponse> getStateAsync()

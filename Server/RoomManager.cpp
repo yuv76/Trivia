@@ -104,7 +104,7 @@ bool RoomManager::roomExists(std::string name)
 	auto i = this->m_rooms.begin();
 	for (i; i != this->m_rooms.end(); i++)
 	{
-		if (i->second.getRoomData().name == name)
+		if (i->second.getRoomData().name == name && i->second.getRoomData().isActive != ROOM_CLOSED)
 		{
 			return true;
 		}
