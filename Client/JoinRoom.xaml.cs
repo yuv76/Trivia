@@ -43,10 +43,10 @@ namespace Client
             _timer1.Tick += Timer_Tick1;
             _timer1.Start();
 
-            _timer2 = new DispatcherTimer();
+            /*_timer2 = new DispatcherTimer();
             _timer2.Interval = TimeSpan.FromSeconds(2);
             _timer2.Tick += Timer_Tick2;
-            _timer2.Start();
+            _timer2.Start();*/
 
             //contact server to get rooms.
             refresh();
@@ -84,11 +84,11 @@ namespace Client
                 }
                 _rooms = rooms;
 
-                /*if (selected != "temp")
+                if (selected != "temp")
                 {
                     LST_ROOMS.SelectedItems[0] = selected;
 
-                }*/
+                }
             }
             else
             {
@@ -195,7 +195,7 @@ namespace Client
         private void back_click(object sender, RoutedEventArgs e)
         {
             _timer1.Stop();
-            _timer1.Stop();
+            _timer2.Stop();
             MainMenu mainMenu = new MainMenu(Left, Top, Width, Height, WindowState);
             mainMenu.Show();
             _isClosedByX = false;
@@ -209,7 +209,7 @@ namespace Client
                 int ok = await Communicator.signoutAsync();
             }
             _timer1.Stop();
-            _timer1.Stop();
+            _timer2.Stop();
         }
 
         private void PutName()
