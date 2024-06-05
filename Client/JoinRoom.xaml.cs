@@ -43,10 +43,10 @@ namespace Client
             _timer1.Tick += Timer_Tick1;
             _timer1.Start();
 
-            /*_timer2 = new DispatcherTimer();
+            _timer2 = new DispatcherTimer();
             _timer2.Interval = TimeSpan.FromSeconds(2);
             _timer2.Tick += Timer_Tick2;
-            _timer2.Start();*/
+            _timer2.Start();
 
             //contact server to get rooms.
             refresh();
@@ -68,12 +68,6 @@ namespace Client
 
         private async void refresh()
         {
-            string selected = "temp";
-            if (LST_ROOMS.SelectedItems.Count > 0)
-            {
-                selected = LST_ROOMS.SelectedItems[0].ToString();
-                
-            }
             List<Pair<string, string>> rooms = await Communicator.getRooms();
             LST_ROOMS.Items.Clear();
             if (rooms.Count > 0)
@@ -83,12 +77,6 @@ namespace Client
                     LST_ROOMS.Items.Add(room.Second);
                 }
                 _rooms = rooms;
-
-                if (selected != "temp")
-                {
-                    LST_ROOMS.SelectedItems[0] = selected;
-
-                }
             }
             else
             {
