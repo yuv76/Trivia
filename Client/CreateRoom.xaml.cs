@@ -89,7 +89,7 @@ namespace Client
 
         private async void Create_Click(object sender, RoutedEventArgs e)
         {
-            if (int.Parse(PLAYERS_NUM.Text) > 0 && int.Parse(QUESTION_NUM.Text) > 0 && double.Parse(QUESTION_TIME.Text) > 0)
+            if (int.Parse(PLAYERS_NUM.Text) > 1 && int.Parse(QUESTION_NUM.Text) > 0 && double.Parse(QUESTION_TIME.Text) > 0)
             {
                 int id = await Communicator.createRoom(ROOMNAME.Text, uint.Parse(PLAYERS_NUM.Text), uint.Parse(QUESTION_NUM.Text), double.Parse(QUESTION_TIME.Text));
                 if (id >= CreateRoomResponse.CREATE_ROOM_SUCESS_ID)

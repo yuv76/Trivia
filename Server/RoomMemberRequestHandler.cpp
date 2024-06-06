@@ -83,7 +83,19 @@ RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo)
 	buffer = JsonResponsePacketSerializer::serializeResponse(resp);
 
 	rqRs.response = buffer;
-	rqRs.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room); //stay in room member state.
+	if (resp.status == ROOM_CLOSED)
+	{
+		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user); // move back to menu.
+	}
+	else if(resp.status == GAME_STARTED_IN_ROOM)
+	{
+		//game handler --
+		rqRs.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room); //stay in room member state - temporary.
+	}
+	else
+	{
+		rqRs.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room); //stay in room member state.
+	}
 
 	return rqRs;
 }

@@ -31,6 +31,8 @@ namespace Client
         private bool _isClosedByX = true;
         private bool _isAdmin = false;
 
+        bool _refreshNotComplete = false;
+
         private BackgroundWorker background_worker;
 
         public Room(double left, double top, double width, double height, WindowState windowstate, string roomName, string id)
@@ -70,13 +72,13 @@ namespace Client
             background_worker.WorkerSupportsCancellation = true;
             background_worker.WorkerReportsProgress = true;
             background_worker.DoWork += refreshRoom;
-            background_worker.ProgressChanged += background_worker_ProgressChanged;
+            background_worker.ProgressChanged += new ProgressChangedEventHandler(background_worker_ProgressChanged);
             background_worker.RunWorkerAsync();
         }
 
         private void refreshRoom(object? sender, DoWorkEventArgs e)
         {
-            
+            var locker = new object();
             while (e.Cancel == false)
             {
                 Thread.Sleep(3000);
@@ -86,43 +88,45 @@ namespace Client
                     e.Cancel = true;
                     break;
                 }
-
+                while(_refreshNotComplete){ } // works like a condition variable, will wait untill finished the lastest update.
                 background_worker.ReportProgress(0, 0);
             }
         }
 
         void background_worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            _refreshNotComplete = true;
             GetRoomStateResponse state = getStateAsync().Result;
             if (state.isActive == GetRoomStateResponse.CONNECTION_PROBLEM)
             {
+                background_worker.CancelAsync(); //stop refreshing
                 ERROR.Text = "Connection error.";
                 MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
                 men.Show();
                 _isClosedByX = false;
-                background_worker.CancelAsync(); //stop refreshing
                 this.Close();
             }
             else if (state.isActive == GetRoomStateResponse.ROOM_CLOSED)
             {
+                background_worker.CancelAsync(); //stop refreshing
                 MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
                 men.Show();
                 _isClosedByX = false;
-                background_worker.CancelAsync(); //stop refreshing
                 this.Close();
             }
             else if (state.isActive == GetRoomStateResponse.GAME_IN_PROGRESS)
             {
-                Game game = new Game();
+                background_worker.CancelAsync(); // stop refreshing.
+                Game game = new Game(Left, Top, Width, Height, WindowState);
                 game.Show();
                 _isClosedByX = false;
-                background_worker.CancelAsync(); // stop refreshing.
                 this.Close();
             }
             else
             {
                 updateRoom(state);
             }
+            _refreshNotComplete = false;
         }
 
         private async Task<GetRoomStateResponse> getStateAsync()
@@ -185,10 +189,12 @@ namespace Client
                 int close = await Communicator.CloseRoom();
                 if(close == CloseRoomResponse.CLOSED)
                 {
+                    
                     MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
                     men.Show();
                     _isClosedByX = false;
                     this.Close();
+                    
                 }
                 else if(close == LoginResponse.LOGIN_F_CONNECTION_ERROR)
                 {
@@ -201,11 +207,11 @@ namespace Client
             }
             else // just a member, leaves by itself.
             {
+                background_worker.CancelAsync(); //stop refreshing
                 await Communicator.LeaveRoom();
                 MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
                 men.Show();
                 _isClosedByX = false;
-                background_worker.CancelAsync(); //stop refreshing
                 this.Close();
             }
         }
@@ -215,10 +221,12 @@ namespace Client
             int started = await Communicator.StartGame();
             if(started == StartGameResponse.START_GAME)
             {
+                /*
                 Game game = new Game();
                 game.Show();
                 _isClosedByX = false;
                 this.Close();
+                */
             }
             else
             {

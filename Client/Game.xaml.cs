@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace Client
 {
@@ -19,9 +20,22 @@ namespace Client
     /// </summary>
     public partial class Game : Window
     {
-        public Game()
+        public Game(double left, double top, double width, double height, WindowState windowstate)
         {
             InitializeComponent();
+            Left = left;
+            Top = top;
+            Width = width; 
+            Height = height;
+            WindowState = windowstate;
+
+            putName();
+        }
+
+        private void putName()
+        {
+            string temp = "Game on, " + Communicator.getName();
+            USER.Text = temp;
         }
     }
 }
