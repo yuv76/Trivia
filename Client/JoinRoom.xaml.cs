@@ -39,12 +39,12 @@ namespace Client
             PutName();
 
             _timer1 = new DispatcherTimer();
-            _timer1.Interval = TimeSpan.FromSeconds(10);
+            _timer1.Interval = TimeSpan.FromSeconds(7);
             _timer1.Tick += Timer_Tick1;
             _timer1.Start();
 
             _timer2 = new DispatcherTimer();
-            _timer2.Interval = TimeSpan.FromSeconds(2);
+            _timer2.Interval = TimeSpan.FromSeconds(1);
             _timer2.Tick += Timer_Tick2;
             _timer2.Start();
 
