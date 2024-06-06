@@ -80,8 +80,10 @@ struct LeaveRoomResponse
 struct GetRoomStateResponse
 {
 	unsigned int status;
-	unsigned int hasGameBegun;
+	bool hasGameBegun;
 	std::list<std::string> players;
+	std::string owner;
 	unsigned int AnswerCount;
 	double answerTimeOut;
+	unsigned int maxPlayers;
 };

@@ -62,19 +62,19 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo)
 
 	try
 	{
-		this->m_roomManager.deleteRoom(this->m_room.getRoomData().id);
 		this->m_room.SetActiveState(ROOM_CLOSED);
+		this->m_roomManager.getRoom(this->m_room.getRoomData().id).SetActiveState(ROOM_CLOSED);
 		//will send game start to all players when they will get their next room update.
 		closeRsp.status = ROOM_CLOSED_SUCCESSFULLY;
 	}
 	catch (...)
 	{
-		closeRsp.status = ROOM_CLOSED_FAIL;
+		closeRsp.status = ROOM_CLOSE_FAIL;
 	}
 	buffer = JsonResponsePacketSerializer::serializeResponse(closeRsp);
 
 	rqRs.response = buffer;
-	rqRs.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user, this->m_room); //stay in admin state.
+	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user); // back to menu.
 
 	return rqRs;
 }

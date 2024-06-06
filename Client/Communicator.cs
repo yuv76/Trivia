@@ -479,6 +479,137 @@ namespace Client
             return players;
         }
 
+        public static async Task<GetRoomStateResponse> getRoomState()
+        {
+            GetRoomStateResponse roomState = new GetRoomStateResponse();
+            roomState.isActive = GetRoomStateResponse.CONNECTION_PROBLEM;
+            List<string> players = new List<string>();
+            string jsonStr = "";
+            int sentSuccesfully = 0;
+            JObject recvdJson;
+
+            sentSuccesfully = await sendToServer("", msgCodes.GET_ROOM_STATE);
+
+            if (sentSuccesfully == GetRoomStateResponse.GET_STATE_SUCESS)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.GET_ROOM_STATE))
+                {
+                    if (recvdJson.ContainsKey("players") && recvdJson.ContainsKey("status") && recvdJson.ContainsKey("hasGameBegun") && recvdJson.ContainsKey("AnswerCount") && recvdJson.ContainsKey("answerTimeOut") && recvdJson.ContainsKey("admin") && recvdJson.ContainsKey("maxPlayers"))
+                    {
+                        //get data, first player is the admin.
+                        players.Add(recvdJson.Value<string>("admin"));
+                        foreach (string player in recvdJson.Value<JToken>("players"))
+                        {
+                            players.Add(player.ToString());
+                        }
+                        roomState.players = players;
+                        roomState.hasGameBegun = recvdJson.Value<bool>("hasGameBegun");
+                        roomState.isActive = recvdJson.Value<uint>("status");
+                        roomState.numOfQuestionsInGame = recvdJson.Value<uint>("AnswerCount");
+                        roomState.timePerQuestion = recvdJson.Value<uint>("answerTimeOut");
+                        roomState.maxPlayers = recvdJson.Value<uint>("maxPlayers");
+                        return roomState;
+                    }
+                    else
+                    {
+                        //return empty with error status.
+                        return roomState;
+                    }
+                }
+            }
+            //else, return empty with error status.
+
+            return roomState;
+        }
+
+        public static async Task<int> LeaveRoom()
+        {
+            string jsonStr = "";
+            int sentSuccesfully = 0;
+            JObject recvdJson;
+
+            sentSuccesfully = await sendToServer("", msgCodes.LEAVE_ROOM);
+
+            if (sentSuccesfully == LeaveRoomResponse.LEAVED)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.LEAVE_ROOM))
+                {
+                    if (recvdJson.ContainsKey("status"))
+                    {
+                        // return status frm server
+                        return recvdJson.Value<int>("status");
+                    }
+                    else
+                    {
+                        // return server error status.
+                        return recvdJson.Value<int>("server_resp_code");
+                    }
+                }
+            }
+            //else, return the sent message's error code.
+            return sentSuccesfully;
+        }
+
+        public static async Task<int> CloseRoom()
+        {
+            string jsonStr = "";
+            int sentSuccesfully = 0;
+            JObject recvdJson;
+
+            sentSuccesfully = await sendToServer("", msgCodes.CLOSE_ROOM);
+
+            if (sentSuccesfully == CloseRoomResponse.CLOSED)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.CLOSE_ROOM))
+                {
+                    if (recvdJson.ContainsKey("status"))
+                    {
+                        // return status frm server
+                        return recvdJson.Value<int>("status");
+                    }
+                    else
+                    {
+                        // return server error status.
+                        return recvdJson.Value<int>("server_resp_code");
+                    }
+                }
+            }
+            //else, return the sent message's error code.
+            return sentSuccesfully;
+        }
+
+        public static async Task<int> StartGame()
+        {
+            string jsonStr = "";
+            int sentSuccesfully = 0;
+            JObject recvdJson;
+
+            sentSuccesfully = await sendToServer("", msgCodes.START_GAME);
+
+            if (sentSuccesfully == CloseRoomResponse.CLOSED)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.START_GAME))
+                {
+                    if (recvdJson.ContainsKey("status"))
+                    {
+                        // return status frm server
+                        return recvdJson.Value<int>("status");
+                    }
+                    else
+                    {
+                        // return server error status.
+                        return recvdJson.Value<int>("server_resp_code");
+                    }
+                }
+            }
+            //else, return the sent message's error code.
+            return sentSuccesfully;
+        }
+
         public static async Task<int> closeConnectionAsync()
         {
             int sentSuccessfully = await sendToServer("", msgCodes.DISCONNECT);

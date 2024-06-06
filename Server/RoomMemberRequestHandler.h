@@ -2,6 +2,8 @@
 #include "IRequestHandler.h"
 #include "requestHandlerFactory.h"
 
+#define REMOVAL_SUCESS 1
+
 class RoomMemberRequestHandler : public IRequestHandler
 {
 public:
@@ -13,7 +15,7 @@ private:
 	RequestResult leaveRoom(RequestInfo);
 	RequestResult getRoomState(RequestInfo);
 
-	Room m_room;
+	Room& m_room;
 	LoggedUser m_user;
 	RoomManager&  m_roomManager;
 	RequestHandlerFactory& m_handlerFactory;

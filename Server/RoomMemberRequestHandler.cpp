@@ -56,13 +56,14 @@ RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo)
 	std::vector<std::uint8_t> buffer;
 	LeaveRoomResponse leave;
 	RequestResult rqRs;
-	this->m_room.removeUser(this->m_user);
 
-	leave.status = 1;
+	this->m_room.removeUser(this->m_user);
+	leave.status = REMOVAL_SUCESS;
+
 	buffer = JsonResponsePacketSerializer::serializeResponse(leave);
 
 	rqRs.response = buffer;
-	rqRs.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room); //stay in room member state.
+	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user); //move to menu
 
 	return rqRs;
 }
@@ -76,12 +77,25 @@ RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo)
 {
 	std::vector<std::uint8_t> buffer;
 	RequestResult rqRs;
+
 	GetRoomStateResponse resp = this->m_room.getState();
 
 	buffer = JsonResponsePacketSerializer::serializeResponse(resp);
 
 	rqRs.response = buffer;
-	rqRs.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room); //stay in room member state.
+	if (resp.status == ROOM_CLOSED)
+	{
+		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user); // move back to menu.
+	}
+	else if(resp.status == GAME_STARTED_IN_ROOM)
+	{
+		//game handler --
+		rqRs.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room); //stay in room member state - temporary.
+	}
+	else
+	{
+		rqRs.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room); //stay in room member state.
+	}
 
 	return rqRs;
 }

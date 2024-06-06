@@ -1,0 +1,34 @@
+﻿<Window x:Class="Client.Room"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        Title="Room Lobby" Height="450" Width="800"
+        Background="AliceBlue">
+    <Grid>
+        <StackPanel Margin="90,44,103,10">
+            <TextBlock x:Name="ROOM_NAME" FontSize="20" Height="59" TextAlignment="Center"></TextBlock>
+            <StackPanel Orientation="Horizontal" Height="196">
+                <StackPanel>
+                    <Button x:Name="START" Height="48" Width="122" Click="start_Click" Margin="20,20,0,0" Visibility="Collapsed">Start Game</Button>
+                    <Button x:Name="LEAVE" Height="48" Width="122" Click="Leave_Click" Margin="20,20,0,0" >Leave Room</Button>
+                </StackPanel>
+                <StackPanel Width="460">
+                    <ListBox x:Name="PLAYERS" Height="170" Width="300" Margin="120,0,0,0"></ListBox>
+                    <TextBlock x:Name="NUM_PLAYERS" FontSize="16" Height="28" Width="324" Margin="143,0,0,0"></TextBlock>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="30">
+                <TextBlock Height="41" x:Name="NUM_QUESTIONS_TITLE" FontSize="16" Width="220">Number of questions in game:</TextBlock>
+                <TextBlock Height="41" x:Name="NUM_QUESTIONS" FontSize="16" Width="86"></TextBlock>
+
+                <TextBlock Height="41" x:Name="QUESTION_TIME_TITLE" FontSize="16" Width="133">time for question:</TextBlock>
+                <TextBlock Height="41" x:Name="QUESTION_TIME" FontSize="16" Width="133"></TextBlock>
+            </StackPanel>
+
+            <TextBlock Margin="0,10" FontSize="16" Foreground="DarkRed" x:Name="ERROR" Height="33"></TextBlock>
+        </StackPanel>
+    </Grid>
+</Window>

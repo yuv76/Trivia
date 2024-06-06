@@ -6,7 +6,7 @@
 #define GAME_START_FAIL 0
 
 #define ROOM_CLOSED_SUCCESSFULLY 1
-#define ROOM_CLOSED_FAIL 0
+#define ROOM_CLOSE_FAIL 0
 
 class RequestHandlerFactory;
 
@@ -22,7 +22,7 @@ private:
 	RequestResult startGame(RequestInfo);
 	RequestResult getRoomState(RequestInfo);
 
-	Room m_room;
+	Room& m_room;
 	LoggedUser m_user;
 	RoomManager& m_roomManager;
 	RequestHandlerFactory& m_handlerFactory;
