@@ -1,0 +1,17 @@
+﻿<Window x:Class="Client.Game"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        Title="Game" Height="450" Width="800"
+        Background="AliceBlue">
+    <Grid>
+        <TextBlock x:Name="USER" FontSize="16" Width="420" Margin="53,73,327,298"/>
+        <StackPanel>
+            <TextBlock FontSize="40" Margin="233,178,233,18"><Run Text="game in progress"/></TextBlock>
+            <TextBlock FontSize="16" Height="28" Width="96"><Run Text="(temporary)"/></TextBlock>
+        </StackPanel>
+    </Grid>
+</Window>

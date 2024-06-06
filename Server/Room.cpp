@@ -27,14 +27,18 @@ out: none
 */
 void Room::removeUser(LoggedUser toKick)
 {
+	bool found = false;
+	auto toRemove = this->m_users.begin();
 	auto i = this->m_users.begin();
-	for (i; i != this->m_users.end(); i++)
+	for (i; i != this->m_users.end() && !found; i++)
 	{
 		if (*i == toKick)
 		{
-			this->m_users.erase(i); //might cause exception?
+			toRemove = i;
+			found = true; // no need to continue;
 		}
 	}
+	this->m_users.erase(toRemove);
 }
 
 /*
@@ -66,6 +70,16 @@ unsigned int Room::isActive()
 }
 
 /*
+sets the status of the room.
+in: the new active status.
+out: none.
+*/
+void Room::SetActiveState(unsigned int act)
+{
+	this->m_metadata.isActive = act;
+}
+
+/*
 gets the room's data - a roomData object
 in: none.
 out: the room's data.
@@ -91,4 +105,34 @@ std::vector<std::string> Room::getPlayersInRoomNames()
 	}
 
 	return players;
+}
+
+/*
+gets room's state into a get room state response struct.
+in: none.
+out: the getRoomStateResponse with the room's data.
+*/
+GetRoomStateResponse Room::getState()
+{
+	GetRoomStateResponse resp;
+
+	//players from vector (comes from the room) into list.
+	std::vector<std::string> playersVec = this->getAllUsers();
+	std::list<std::string> playersLst(playersVec.begin(), playersVec.end());
+
+	//add the room's data to the response.
+	resp.AnswerCount = this->m_metadata.numOfQuestionsInGame;
+	resp.answerTimeOut = this->m_metadata.timePerQuestion;
+	resp.players = playersLst;
+	resp.status = this->m_metadata.isActive;
+	resp.maxPlayers = this->m_metadata.maxPlayers;
+
+	resp.hasGameBegun = false;
+	if (this->m_metadata.isActive == GAME_STARTED_IN_ROOM)
+	{
+		resp.hasGameBegun = true;
+	}
+	resp.owner = this->m_metadata.owner;
+	
+	return resp;
 }

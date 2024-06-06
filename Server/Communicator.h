@@ -16,8 +16,6 @@
 class Communicator
 {
 public:
-	//Communicator() = delete;
-	//Communicator(const Communicator& c) = delete;
 	Communicator(RequestHandlerFactory& fact);
 	~Communicator();
 	void startHandleRequests();

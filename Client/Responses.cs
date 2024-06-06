@@ -78,4 +78,38 @@ namespace Responses
         uint status;
     };
 
+    public struct GetRoomStateResponse
+    {
+        public const int GET_STATE_SUCESS = 1;
+        public const int GET_STATE_FAILURE = 0;
+
+        public const uint ROOM_CLOSED = 0;
+        public const uint ROOM_LOBBY = 1;
+        public const uint GAME_IN_PROGRESS = 2;
+        public const uint CONNECTION_PROBLEM = 3;
+
+        public List<string> players;
+        public uint numOfQuestionsInGame;
+        public double timePerQuestion;
+        public uint isActive;
+        public bool hasGameBegun;
+        public uint maxPlayers;
+    };
+
+    struct LeaveRoomResponse
+    {
+        public const int LEAVED = 1;
+    };
+
+    struct CloseRoomResponse
+    {
+        public const int CLOSED = 1;
+        public const int ERROR_CLOSING = 0;
+    };
+
+    struct StartGameResponse
+    {
+        public const int START_GAME = 1;
+        public const int GAME_START_FAIL = 0;
+    }
 }

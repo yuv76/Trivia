@@ -18,7 +18,11 @@ namespace Requests
         CREATE_ROOM,
         HIGH_SCORE,
         PERSONAL_STATS,
-        DISCONNECT
+        DISCONNECT,
+        CLOSE_ROOM,
+        START_GAME,
+        GET_ROOM_STATE,
+        LEAVE_ROOM
     };
 
     public class LoginRequest

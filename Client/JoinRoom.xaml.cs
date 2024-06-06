@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Pair;
 using Responses;
+using System.Windows.Threading;
 
 namespace Client
 {
@@ -24,7 +25,8 @@ namespace Client
     {
         private bool _isClosedByX = true; // we cant know.
         List<Pair<string, string>> _rooms;
-
+        private DispatcherTimer _timer1;
+        private DispatcherTimer _timer2;
         public JoinRoom(double left, double top, double width, double height, WindowState windowstate)
         {
             InitializeComponent();
@@ -35,8 +37,33 @@ namespace Client
             WindowState = windowstate;
 
             PutName();
+
+            _timer1 = new DispatcherTimer();
+            _timer1.Interval = TimeSpan.FromSeconds(7);
+            _timer1.Tick += Timer_Tick1;
+            _timer1.Start();
+
+            _timer2 = new DispatcherTimer();
+            _timer2.Interval = TimeSpan.FromSeconds(1);
+            _timer2.Tick += Timer_Tick2;
+            _timer2.Start();
+
             //contact server to get rooms.
             refresh();
+        }
+
+        private async void Timer_Tick1(object sender, EventArgs e)
+        {
+            refresh();
+        }
+        private async void Timer_Tick2(object sender, EventArgs e)
+        { 
+            if (LST_ROOMS.SelectedItems.Count > 0)
+            {
+                string selected = LST_ROOMS.SelectedItems[0].ToString();
+                string roomId = getRoomIdByName(selected);
+                getPlayers(roomId);
+            }
         }
 
         private async void refresh()
@@ -90,6 +117,8 @@ namespace Client
                     int ok = await Communicator.joinRoom(roomId);
                     if(ok == JoinRoomResponse.JOIN_ROOM_SUCCESS)
                     {
+                        _timer1.Stop();
+                        _timer2.Stop();
                         Room room = new Room(Left, Top, Width, Height, WindowState, selected.ToString(), getRoomIdByName(selected.ToString()));
                         room.Show();
                         _isClosedByX = false;
@@ -112,8 +141,49 @@ namespace Client
             }
         }
 
+        private async void getPlayers(string id)
+        {
+            List<string> players = await Communicator.getPlayersInRoom(id);
+            string admin = "";
+            LST_PLAYERS.Items.Clear();
+            if (players.Count > 0)
+            {
+                admin = players[0];
+                if (admin == Communicator.getName())
+                {
+                    LST_PLAYERS.Items.Add(admin + " - You, Admin");
+                }
+                else
+                {
+                    LST_PLAYERS.Items.Add(admin + " - Admin");
+                }
+                players.RemoveAt(0);
+                foreach (string player in players)
+                {
+                    if (!(player == admin))
+                    {
+                        if (player == Communicator.getName())
+                        {
+                            LST_PLAYERS.Items.Add(player + " - You");
+                        }
+                        else
+                        {
+                            LST_PLAYERS.Items.Add(player);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                ERROR.Text = "Error loading room players.";
+            }
+        }
+
+
         private void back_click(object sender, RoutedEventArgs e)
         {
+            _timer1.Stop();
+            _timer2.Stop();
             MainMenu mainMenu = new MainMenu(Left, Top, Width, Height, WindowState);
             mainMenu.Show();
             _isClosedByX = false;
@@ -126,6 +196,8 @@ namespace Client
             {
                 int ok = await Communicator.signoutAsync();
             }
+            _timer1.Stop();
+            _timer2.Stop();
         }
 
         private void PutName()
