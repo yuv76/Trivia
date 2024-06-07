@@ -3,7 +3,7 @@
 
 struct GameData
 {
-	GameData();
+	GameData() {};
 	Question currentQuestion;
 	unsigned int correctAnswerCount;
 	unsigned int wrongAnswerCount;

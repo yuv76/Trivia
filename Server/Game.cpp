@@ -9,7 +9,7 @@ Game::Game(std::vector<Question> questions, std::vector<LoggedUser> users, int i
 {
 	//add players and create game data to each in a map.
 	auto i = users.begin();
-	for (i; i < users.end(); i++)
+	for (i; i != users.end(); i++)
 	{
 		GameData tempGD;
 		tempGD.averangeAnswerTime = 1; //init with something that wont affect the average when first submit will be entered.

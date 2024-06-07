@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "GameData.h"
+
 enum questionDifficulties
 {
 	easy = 0,
