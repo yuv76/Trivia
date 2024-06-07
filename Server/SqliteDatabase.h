@@ -5,6 +5,7 @@
 #include "IDatabase.h"
 
 #include "Requests.h"
+#include "GameData.h"
 #include <vector>
 #include <string>
 
@@ -50,6 +51,8 @@ public:
 	virtual void addNewQuestionsToDb(int numOfQuestions);
 
 	virtual std::vector<std::string> getUsers();
+
+	virtual void submitGameStatistics(GameData gd);
 
 private:
 	static int callbackCheckExistance(void* data, int argc, char** argv, char** azColName);

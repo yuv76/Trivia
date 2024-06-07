@@ -3,8 +3,10 @@
 
 struct GameData
 {
+	GameData();
 	Question currentQuestion;
 	unsigned int correctAnswerCount;
 	unsigned int wrongAnswerCount;
-	unsigned int averangeAnswerTime;
+	float averangeAnswerTime;
+	bool isActive;
 };

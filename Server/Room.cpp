@@ -136,3 +136,13 @@ GetRoomStateResponse Room::getState()
 	
 	return resp;
 }
+
+/*
+gets the vector with the users in the room.
+in: none.
+out: the Logged User(s) vector.
+*/
+std::vector<LoggedUser> Room::getUsers()
+{
+	return this->m_users;
+}

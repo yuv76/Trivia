@@ -40,5 +40,7 @@ public:
 	virtual void addNewQuestionsToDb(int numOfQuestions) = 0;
 
 	virtual std::vector<std::string> getUsers() = 0;
+
+	virtual void submitGameStatistics(GameData gd) = 0;
 };
 

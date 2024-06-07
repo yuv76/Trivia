@@ -458,3 +458,13 @@ std::vector<std::string> SqliteDatabase::getUsers()
 
 	return users;
 }
+
+/*
+updates game statistics for a user in the database.
+in: the data of a game performed by the user.
+out: 
+*/
+void SqliteDatabase::submitGameStatistics(GameData gd)
+{
+
+}

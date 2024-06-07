@@ -1,19 +1,18 @@
 #pragma once
-#include "GameData.h"
-#include "LoggedUser.h"
-#include <map>
+#include "Game.h"
+#include "SqliteDatabase.h"
+#include "Room.h"
 
 class GameManager
 {
 private:
-	std::vector<Question> m_questions;
-	std::map<LoggedUser, GameData> m_players;
-	int m_gameId;
+	IDatabase* m_database;
+	std::vector<Game> m_games;
 
-	void sumitGameStatsToDB(GameData); // return type made to have one, but not official and could change.
+	int getNextAvailableId();
 
 public:
-	Question getQuestionForUser(LoggedUser user); // return and parameter types made to have one, but not official and could change.
-	void submitAnswer(); // return type made to have one, but not official and could change.
-	void removePlayer(); // return type made to have one, but not official and could change.
+	GameManager(IDatabase* DB);
+	Game& createGame(Room r);
+	void deleteGame(int gameId);//might not be void
 };

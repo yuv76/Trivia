@@ -17,6 +17,7 @@ public:
 	void addUser(LoggedUser newMember);
 	void removeUser(LoggedUser toKick);
 	std::vector<std::string> getAllUsers();
+	std::vector<LoggedUser> getUsers();
 	unsigned int isActive();
 	void SetActiveState(unsigned int act);
 	RoomData getRoomData();
