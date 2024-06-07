@@ -43,6 +43,6 @@ public:
 
 	virtual std::vector<std::string> getUsers() = 0;
 
-	virtual void submitGameStatistics(GameData gd) = 0;
+	virtual void submitGameStatistics(GameData gd, std::string username) = 0;
 };
 
