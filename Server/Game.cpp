@@ -107,7 +107,7 @@ void Game::sumitGameStatsToDB(IDatabase* db)
 	auto i = this->m_players.begin();
 	for (i; i != this->m_players.end(); i++)
 	{
-		db->submitGameStatistics(i->second);
+		db->submitGameStatistics(i->second, i->first.getUsername());
 	}
 }
 
