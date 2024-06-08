@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "GameData.h"
+
 enum questionDifficulties
 {
 	easy = 0,
@@ -40,5 +42,7 @@ public:
 	virtual void addNewQuestionsToDb(int numOfQuestions) = 0;
 
 	virtual std::vector<std::string> getUsers() = 0;
+
+	virtual void submitGameStatistics(GameData gd, std::string username) = 0;
 };
 
