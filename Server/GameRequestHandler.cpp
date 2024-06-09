@@ -141,7 +141,5 @@ RequestResult GameRequestHandler::getGameResult(RequestInfo inf)
 	GetGameResultsResponse result;
 	RequestResult rqRs;
 
-	this->
-
 	return rqRs;
 }

@@ -122,7 +122,7 @@ namespace Responses
     public struct getQuestionResponse
     {
         public const int CONNECTION_PROBLEM = 3;
-
+        public const int QUESTIONS_OVER = -1;
         public int status;
         public string Question;
         public List<string> Answers;
