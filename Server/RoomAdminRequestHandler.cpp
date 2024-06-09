@@ -102,11 +102,11 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo)
 	buffer = JsonResponsePacketSerializer::serializeResponse(stGResp);
 
 	rqRs.response = buffer;
-	rqRs.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user, this->m_room); //stay in admin state.
+	//rqRs.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user, this->m_room); //stay in admin state.
+	rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_handlerFactory.getGameManager().createGame(this->m_room)); //start room.
 
 	return rqRs;
 }
-
 /*
 creates the response for get room state request.
 in: the request's info.

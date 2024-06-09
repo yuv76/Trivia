@@ -58,9 +58,9 @@ Question Game::getQuestionForUser(LoggedUser user)
 /*
 deals with user's answer, updates the data according to if it is right ro wrong.
 in: the user's answer id, the user.
-out: none.
+out: the correct answer's index.
 */
-void Game::submitAnswer(int answerId, LoggedUser user, double ansTime)
+int Game::submitAnswer(int answerId, LoggedUser user, double ansTime)
 {
 	//update average.
 	if (this->m_players[user].isActive)
