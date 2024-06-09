@@ -25,7 +25,7 @@ namespace Client
             InitializeComponent();
             Left = left;
             Top = top;
-            Width = width; 
+            Width = width;
             Height = height;
             WindowState = windowstate;
 
@@ -34,8 +34,17 @@ namespace Client
 
         private void putName()
         {
-            string temp = "Game on, " + Communicator.getName();
-            USER.Text = temp;
+            USERNAME.Text = Communicator.getName();
+        }
+
+        private void sendAns_click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void LeaveGame_click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

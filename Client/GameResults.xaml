@@ -12,8 +12,8 @@
             <TextBlock FontSize="30" Width="199">Game Results:</TextBlock>
             <ListBox x:Name="Players" Height="244" Width="691"></ListBox>
             <StackPanel Orientation="Horizontal" Margin="20" Height="32" Width="244">
-                <Button Margin="0,0,0,0">back to room</Button>
-                <Button Margin="90,0,0,0">back to menu</Button>
+                <Button Click="backRoom_click">back to room</Button>
+                <Button Margin="90,0,0,0" Click="backMenu_click">back to menu</Button>
             </StackPanel>
         </StackPanel>
 

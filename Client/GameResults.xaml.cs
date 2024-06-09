@@ -23,5 +23,15 @@ namespace Client
         {
             InitializeComponent();
         }
+
+        private void backRoom_click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void backMenu_click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
