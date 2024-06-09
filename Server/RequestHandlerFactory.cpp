@@ -61,6 +61,16 @@ StatisticsManager& RequestHandlerFactory::getStatisticsManager()
 }
 
 /*
+returns the game manager.
+in: none.
+out: a reference to a GameManager object.
+*/
+GameManager& RequestHandlerFactory::getGameManager()
+{
+	return this->m_gameManager;
+}
+
+/*
 creates a room admin request handler for a given user owning a given room.
 in: the room as a room object and the logged user to create the handler for, as a LoggedUser struct.
 out: the newly created room admin request handler's pointer.
