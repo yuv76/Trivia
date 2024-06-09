@@ -67,4 +67,5 @@ struct SubmitAnswerRequest
 {
 public:
 	unsigned int answerId;
+	double answerTime;
 };

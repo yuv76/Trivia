@@ -4,6 +4,8 @@
 
 #define REMOVAL_SUCESS 1
 
+#define ANSWER_SUBMITTED 1
+
 class GameRequestHandler : public IRequestHandler
 {
 public:
@@ -14,8 +16,8 @@ public:
 private:
 	RequestResult leaveGame(RequestInfo);
 	RequestResult getQuestion(RequestInfo);
-	RequestResult submitAnswer(RequestInfo);
-	RequestResult getGameResult(RequestInfo);
+	RequestResult submitAnswer(RequestInfo reqInf);
+	RequestResult getGameResult(RequestInfo inf);
 
 	Game& m_game;
 	LoggedUser m_user;
