@@ -484,7 +484,6 @@ namespace Client
             GetRoomStateResponse roomState = new GetRoomStateResponse();
             roomState.isActive = GetRoomStateResponse.CONNECTION_PROBLEM;
             List<string> players = new List<string>();
-            string jsonStr = "";
             int sentSuccesfully = 0;
             JObject recvdJson;
 
@@ -525,7 +524,6 @@ namespace Client
 
         public static async Task<int> LeaveRoom()
         {
-            string jsonStr = "";
             int sentSuccesfully = 0;
             JObject recvdJson;
 
@@ -554,7 +552,6 @@ namespace Client
 
         public static async Task<int> CloseRoom()
         {
-            string jsonStr = "";
             int sentSuccesfully = 0;
             JObject recvdJson;
 
@@ -583,7 +580,6 @@ namespace Client
 
         public static async Task<int> StartGame()
         {
-            string jsonStr = "";
             int sentSuccesfully = 0;
             JObject recvdJson;
 
@@ -608,6 +604,153 @@ namespace Client
             }
             //else, return the sent message's error code.
             return sentSuccesfully;
+        }
+
+        public static async Task<int> LeaveGame()
+        {
+            int sentSuccesfully = 0;
+            JObject recvdJson;
+
+            sentSuccesfully = await sendToServer("", msgCodes.LEAVE_GAME);
+
+            if (sentSuccesfully == LeaveGameResponse.LEFT_GAME)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.START_GAME))
+                {
+                    if (recvdJson.ContainsKey("status"))
+                    {
+                        // return status frm server
+                        return recvdJson.Value<int>("status");
+                    }
+                    else
+                    {
+                        // return server error status.
+                        return recvdJson.Value<int>("server_resp_code");
+                    }
+                }
+            }
+            //else, return the sent message's error code.
+            return sentSuccesfully;
+        }
+
+        public static async Task<int> SubmitAnswer(uint ansNum)
+        {
+            int sentSuccesfully = 0;
+            JObject recvdJson;
+            string jsonStr = "";
+
+            SubmitAnswerRequest GetPlayersInRoomRequest = new SubmitAnswerRequest()
+            {
+                answerId = ansNum,
+            };
+            jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(GetPlayersInRoomRequest);
+
+            sentSuccesfully = await sendToServer(jsonStr, msgCodes.LEAVE_GAME);
+
+            if (sentSuccesfully == LeaveGameResponse.LEFT_GAME)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.START_GAME))
+                {
+                    if (recvdJson.ContainsKey("correctId"))
+                    {
+                        // return status frm server
+                        return recvdJson.Value<int>("correctId");
+                    }
+                    else
+                    {
+                        // return server error status.
+                        return recvdJson.Value<int>("server_resp_code");
+                    }
+                }
+            }
+            //else, return the sent message's error code.
+            return sentSuccesfully;
+        }
+
+        public static async Task<getQuestionResponse> getNextQuestion()
+        {
+            int sentSuccesfully = 0;
+            JObject recvdJson;
+            getQuestionResponse question = new getQuestionResponse();
+            List<string> answers = new List<string>();
+
+            sentSuccesfully = await sendToServer("", msgCodes.GET_QUESTION);
+
+            if (sentSuccesfully == LeaveGameResponse.LEFT_GAME)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.START_GAME))
+                {
+                    if (recvdJson.ContainsKey("Question") && recvdJson.ContainsKey("Answers"))
+                    {
+                        question.Question = recvdJson.Value<string>("Question");
+                        foreach (string answer in recvdJson.Value<JToken>("Answers"))
+                        {
+                            answers.Add(answer.ToString());
+                        }
+                        question.Answers = answers;
+                        question.status = recvdJson.Value<int>("status");
+                        return question;
+                    }
+                    else
+                    {
+                        // return server error status.
+                        question.status = recvdJson.Value<int>("status");
+                        return question;
+                    }
+                }
+            }
+            //else, return the sent message's error code.
+            question.status = getQuestionResponse.CONNECTION_PROBLEM;
+            return question;
+        }
+
+        public static async Task<GameResultsResponse> getGameResults()
+        {
+            int sentSuccesfully = 0;
+            JObject recvdJson;
+            GameResultsResponse gameRes = new GameResultsResponse();
+            List<string> players = new List<string>();
+            List<string> corrects = new List<string>();
+            List<string> avrgs = new List<string>();
+
+            sentSuccesfully = await sendToServer("", msgCodes.GET_QUESTION);
+
+            if (sentSuccesfully == LeaveGameResponse.LEFT_GAME)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.START_GAME))
+                {
+                    if (recvdJson.ContainsKey("Question") && recvdJson.ContainsKey("Answers"))
+                    {
+                        gameRes.status = recvdJson.Value<int>("status");
+                        foreach (string player in recvdJson.Value<JToken>("players"))//#SPLT
+                        {
+                            players.Add(player.ToString());
+                        }
+                        foreach (string avg in recvdJson.Value<JToken>("Averages"))//#SPLT
+                        {
+                            avrgs.Add(avg.ToString());
+                        }
+                        foreach (string correct in recvdJson.Value<JToken>("Corrects"))//#SPLT
+                        {
+                            corrects.Add(correct.ToString());
+                        }
+                        return gameRes;
+                    }
+                    else
+                    {
+                        // return server error status.
+                        gameRes.status = recvdJson.Value<int>("status");
+                        return gameRes;
+                    }
+                }
+            }
+            //else, return the sent message's error code.
+            gameRes.status = getQuestionResponse.CONNECTION_PROBLEM;
+            return gameRes;
         }
 
         public static async Task<int> closeConnectionAsync()
