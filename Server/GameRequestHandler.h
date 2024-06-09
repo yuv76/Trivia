@@ -6,6 +6,10 @@
 
 #define ANSWER_SUBMITTED 1
 
+#define GOT_QUESTION 1
+
+#define GOT_RESULT 1
+
 class GameRequestHandler : public IRequestHandler
 {
 public:
