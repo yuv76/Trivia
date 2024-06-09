@@ -470,8 +470,8 @@ int SqliteDatabase::callbackGetAvgAndTotalAns(void* data, int argc, char** argv,
 	std::pair<double, int>* temp = static_cast<std::pair<double, int>*>(data);
 	if (argc != 0)
 	{
-		temp->first = std::atof(azColName[0]);
-		temp->second = int(azColName[1]);
+		temp->first = std::atof(argv[0]);
+		temp->second = int(std::atof((argv[1])));
 	}
 	return 0;
 }
@@ -510,8 +510,8 @@ void SqliteDatabase::submitGameStatistics(GameData gd, std::string username)
 	avgToUpdate = newAvg + oldAvg;
 	avgToUpdate /= (gameTotalAns + totalAns);
 
-	std::string sqlUpdateQuery = "UPDATE STATISTICS SET [average time] = " + std::to_string(avgToUpdate) + ", [correct answers] = [correct answers] + " + std::to_string(gd.correctAnswerCount) + ", [total answers] = [total answers] + " + std::to_string(gameTotalAns) + ", [player games] = [player games] + 1 \nWHERE username = " + username + "; ";
-	int res = sqlite3_exec(this->database, getStatisticsSQL.c_str(), callbackGetAvgAndTotalAns, &totalAndAvg, errMessage);
+	std::string sqlUpdateQuery = "UPDATE STATISTICS SET [average time] = " + std::to_string(avgToUpdate) + ", [correct answers] = [correct answers] + " + std::to_string(gd.correctAnswerCount) + ", [total answers] = [total answers] + " + std::to_string(gameTotalAns) + ", [player games] = [player games] + 1 WHERE username = \"" + username + "\"; ";
+	res = sqlite3_exec(this->database, sqlUpdateQuery.c_str(), nullptr, nullptr, errMessage);
 	if (res != SQLITE_OK)
 	{
 		throw std::exception(*errMessage);

@@ -15,10 +15,7 @@ D'tor for LoginManager.
 in: none.
 */
 LoginManager::~LoginManager()
-{
-	this->m_database->close();
-	delete this->m_database;
-}
+{}
 
 /*
 signs a new user to the database (if name is not taken).

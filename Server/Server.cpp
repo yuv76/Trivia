@@ -22,6 +22,7 @@ return value - has none.
 */
 Server::~Server()
 {
+	this->m_database->close();
 	delete this->m_database;
 }
 
@@ -31,7 +32,7 @@ parameter - has none.
 return value - has none.
 */
 void Server::Run()
-{
+{	
 	try
 	{
 		bool exit = false;
