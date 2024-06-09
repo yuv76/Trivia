@@ -5,6 +5,7 @@
 #include "RoomManager.h"
 #include "GameManager.h"
 #include "StatisticsManager.h"
+#include "GameManager.h"
 #include "LoginRequestHandler.h"
 #include "MenuRequestHandler.h"
 #include "RoomAdminRequestHandler.h"
@@ -24,7 +25,7 @@ public:
 	MenuRequestHandler* createMenuRequestHandler(LoggedUser user);
 	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser user, Room& room);
 	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser user, Room& room);
-	//GameRequestHandler* createGameRequestHandler(LoggedUser user);
+	GameRequestHandler* createGameRequestHandler(LoggedUser user);
 	LoginManager& getLoginManager();
 	RoomManager& getRoomManager();
 	StatisticsManager& getStatisticsManager();

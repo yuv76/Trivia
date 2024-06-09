@@ -7,11 +7,17 @@
 class GameRequestHandler : public IRequestHandler
 {
 public:
-	GameRequestHandler(RequestHandlerFactory& f, LoggedUser& u, GameManager& rm);
+	GameRequestHandler(RequestHandlerFactory& f, LoggedUser& u, GameManager& gm);
 	virtual bool isRequestRelevant(RequestInfo& inf);
 	virtual RequestResult handleRequest(RequestInfo& inf);
 
 private:
+	RequestResult leaveGame(RequestInfo);
+	RequestResult getQuestion(RequestInfo);
+	RequestResult submitAnswer(RequestInfo);
+	RequestResult getGameResult(RequestInfo);
+
+	Game& m_game;
 	LoggedUser m_user;
 	GameManager& m_gameManager;
 	RequestHandlerFactory& m_handlerFactory;

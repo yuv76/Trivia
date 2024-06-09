@@ -91,3 +91,14 @@ RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(
 	RoomMemberRequestHandler* newRoomMemberRH = new RoomMemberRequestHandler(*this, user, room, this->getRoomManager());
 	return newRoomMemberRH;
 }
+
+/*
+creates a game request handler for a given user.
+in: the logged user to create the handler for, as a LoggedUser struct.
+out: the newly created game manager request handler's pointer.
+*/
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(LoggedUser user)
+{
+	GameRequestHandler* newGameManagerRH = new GameRequestHandler(*this, user, this->getGameManager());
+	return newGameManagerRH;
+}
