@@ -13,6 +13,6 @@ private:
 
 public:
 	GameManager(IDatabase* DB);
-	Game& createGame(Room r);
+	Game& createGame(Room& r);
 	void deleteGame(int gameId);//might not be void
 };

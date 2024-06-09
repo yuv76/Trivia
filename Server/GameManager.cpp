@@ -13,7 +13,7 @@ create a game that takes place in a room.
 in: the room to crete the game in.
 out: the newly created game object;
 */
-Game& GameManager::createGame(Room r)
+Game& GameManager::createGame(Room& r)
 {
 	double ansTimeout = r.getRoomData().timePerQuestion;
 	std::vector<LoggedUser> users = r.getUsers();

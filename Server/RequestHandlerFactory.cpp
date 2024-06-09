@@ -97,8 +97,8 @@ creates a game request handler for a given user.
 in: the logged user to create the handler for, as a LoggedUser struct.
 out: the newly created game manager request handler's pointer.
 */
-GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(LoggedUser user)
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(LoggedUser user, Game& game)
 {
-	GameRequestHandler* newGameManagerRH = new GameRequestHandler(*this, user, this->getGameManager());
+	GameRequestHandler* newGameManagerRH = new GameRequestHandler(*this, user, this->getGameManager(), game);
 	return newGameManagerRH;
 }

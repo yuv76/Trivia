@@ -100,7 +100,7 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo)
 	rqRs.response = buffer;
 	if (question.status == GOT_QUESTION)
 	{
-		rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user); // stay in current state.
+		rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game); // stay in current state.
 	}
 	
 	return rqRs;
