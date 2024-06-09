@@ -98,7 +98,7 @@ struct GetQuestionResponse
 {
 	unsigned int status;
 	std::string question;
-	std::map<unsigned int, std::string> answers;
+	std::vector<std::string> answers;
 };
 
 struct SubmitAnswerResponse
@@ -112,7 +112,7 @@ struct PlayerResults
 	std::string username;
 	unsigned int coorect;
 	unsigned int wrong;
-	unsigned int average;
+	float average;
 };
 
 struct GetGameResultsResponse

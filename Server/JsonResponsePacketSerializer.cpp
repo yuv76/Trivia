@@ -571,8 +571,7 @@ out: the bytes vector containing the response.
 std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetQuestionResponse question)
 {
 	std::vector<std::uint8_t> buffer;
-	std::map<unsigned int, std::string> answers;
-
+	std::vector<std::string> answers;
 	std::string msg = "";
 	msgCodes code = GET_QUESTION;
 	int len = 0;
@@ -581,12 +580,11 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetQue
 	//add code byte to vector
 	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
 
-
-	for (auto i = question.answers.begin(); i != question.answers.end(); i++)
+	auto i = question.answers.begin();
+	for (i; i != question.answers.end(); i++)
 	{
-		answers[i->first] = i->second;
+		answers.push_back(*i);
 	}
-
 	//create msg in json format
 	getQuestionJson["status"] = question.status;
 	getQuestionJson["question"] = question.question;
