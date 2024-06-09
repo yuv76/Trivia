@@ -5,7 +5,7 @@ C'tor for RequestHandlerFactory.
 in: a database pointer.
 */
 RequestHandlerFactory::RequestHandlerFactory(IDatabase* db) :
-	m_database(db), m_loginManager(db), m_statisticsManager(db)
+	m_database(db), m_loginManager(db), m_statisticsManager(db), m_gameManager(db)
 {}
 
 /*

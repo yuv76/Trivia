@@ -7,17 +7,13 @@
 class GameRequestHandler : public IRequestHandler
 {
 public:
-	RoomMemberRequestHandler(RequestHandlerFactory& f, LoggedUser& u, Room& r, RoomManager& rm);
+	GameRequestHandler(RequestHandlerFactory& f, LoggedUser& u, GameManager& rm);
 	virtual bool isRequestRelevant(RequestInfo& inf);
 	virtual RequestResult handleRequest(RequestInfo& inf);
 
 private:
-	RequestResult leaveRoom(RequestInfo);
-	RequestResult getRoomState(RequestInfo);
-
-	Room& m_room;
 	LoggedUser m_user;
-	RoomManager& m_roomManager;
+	GameManager& m_gameManager;
 	RequestHandlerFactory& m_handlerFactory;
 
 };
