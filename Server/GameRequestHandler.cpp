@@ -111,11 +111,21 @@ creates the response for submit answer request.
 in: the request's info.
 out: the request's result.
 */
-RequestResult GameRequestHandler::submitAnswer(RequestInfo)
+RequestResult GameRequestHandler::submitAnswer(RequestInfo reqInf)
 {
 	std::vector<std::uint8_t> buffer;
 	SubmitAnswerResponse answer;
 	RequestResult rqRs;
+	int correct = 0;
+
+	SubmitAnswerRequest subAnsReq = JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(reqInf.buffer);
+	correct = this->m_game.submitAnswer(subAnsReq.answerId, this->m_user, subAnsReq.answerTime);
+	answer.correctAnswerId = correct;
+	answer.status = ANSWER_SUBMITTED;
+	buffer = JsonResponsePacketSerializer::serializeResponse(answer);
+
+	rqRs.response = buffer;
+	rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user);//#TODO fix
 
 	return rqRs;
 }
@@ -125,11 +135,13 @@ creates the response for get game result request.
 in: the request's info.
 out: the request's result.
 */
-RequestResult GameRequestHandler::getGameResult(RequestInfo)
+RequestResult GameRequestHandler::getGameResult(RequestInfo inf)
 {
 	std::vector<std::uint8_t> buffer;
 	GetGameResultsResponse result;
 	RequestResult rqRs;
+
+	this->
 
 	return rqRs;
 }

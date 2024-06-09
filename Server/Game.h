@@ -20,7 +20,7 @@ private:
 public:
 	Game(std::vector<Question> questions, std::vector<LoggedUser> users, int id, double ansTime);
 	Question getQuestionForUser(LoggedUser user); // return and parameter types made to have one, but not official and could change.
-	void submitAnswer(int answerId, LoggedUser user, double ansTime); // return type made to have one, but not official and could change.
+	int submitAnswer(int answerId, LoggedUser user, double ansTime); // return type made to have one, but not official and could change.
 	void removePlayer(LoggedUser user); // return type made to have one, but not official and could change.
 	int getId();
 	void endGame();
