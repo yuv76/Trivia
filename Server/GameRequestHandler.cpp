@@ -6,8 +6,8 @@
 C'tor for game request handler.
 in: the handler factory, logged user, and game manager references.
 */
-GameRequestHandler::GameRequestHandler(RequestHandlerFactory& f, LoggedUser& u, GameManager& gm) :
-	m_handlerFactory(f), m_user(u), m_gameManager(gm)
+GameRequestHandler::GameRequestHandler(RequestHandlerFactory& f, LoggedUser& u, GameManager& gm, Game& g) :
+	m_handlerFactory(f), m_user(u), m_gameManager(gm), m_game(g)
 {}
 
 /*
