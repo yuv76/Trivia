@@ -7,6 +7,7 @@
 #define ANSWER_SUBMITTED 1
 
 #define GOT_QUESTION 1
+#define NO_MORE_QUESTIONS -1
 
 #define GOT_RESULT 1
 

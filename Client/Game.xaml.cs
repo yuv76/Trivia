@@ -45,6 +45,7 @@ namespace Client
             time = timeForQuestion;
 
             putName();
+            getNextQuestion();
         }
 
         private void putName()

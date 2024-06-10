@@ -92,7 +92,14 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo)
 	RequestResult rqRs;
 
 	Question resp = this->m_game.getQuestionForUser(this->m_user);
-	question.status = GOT_QUESTION;
+	if (resp.getQuestionId() == NO_MORE_QUESTIONS)
+	{
+		question.status = NO_MORE_QUESTIONS;
+	}
+	else
+	{
+		question.status = GOT_QUESTION;
+	}
 	question.question = resp.getQuestion();
 	question.answers = resp.getPossibleAnswers();
 	buffer = JsonResponsePacketSerializer::serializeResponse(question);

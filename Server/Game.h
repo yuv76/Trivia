@@ -19,7 +19,7 @@ private:
 	void sumitGameStatsToDB(IDatabase* DB); // return type made to have one, but not official and could change.
 
 public:
-	Game(std::vector<Question> questions, std::vector<LoggedUser> users, int id, double ansTime);
+	Game(std::vector<QuestionData> questionDatas, std::vector<LoggedUser> users, int id, double ansTime);
 	Question getQuestionForUser(LoggedUser user); // return and parameter types made to have one, but not official and could change.
 	int submitAnswer(int answerId, LoggedUser user, double ansTime); // return type made to have one, but not official and could change.
 	void removePlayer(LoggedUser user); // return type made to have one, but not official and could change.

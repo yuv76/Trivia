@@ -616,7 +616,7 @@ namespace Client
             if (sentSuccesfully == LeaveGameResponse.LEFT_GAME)
             {
                 recvdJson = await recieveFromServer();
-                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.START_GAME))
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.LEAVE_GAME))
                 {
                     if (recvdJson.ContainsKey("status"))
                     {
@@ -646,12 +646,12 @@ namespace Client
             };
             jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(GetPlayersInRoomRequest);
 
-            sentSuccesfully = await sendToServer(jsonStr, msgCodes.LEAVE_GAME);
+            sentSuccesfully = await sendToServer(jsonStr, msgCodes.SUBMIT_ANSWER);
 
             if (sentSuccesfully == LeaveGameResponse.LEFT_GAME)
             {
                 recvdJson = await recieveFromServer();
-                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.START_GAME))
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.SUBMIT_ANSWER))
                 {
                     if (recvdJson.ContainsKey("correctId"))
                     {
@@ -681,12 +681,12 @@ namespace Client
             if (sentSuccesfully == LeaveGameResponse.LEFT_GAME)
             {
                 recvdJson = await recieveFromServer();
-                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.START_GAME))
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.GET_QUESTION))
                 {
-                    if (recvdJson.ContainsKey("Question") && recvdJson.ContainsKey("Answers"))
+                    if (recvdJson.ContainsKey("question") && recvdJson.ContainsKey("answers"))
                     {
-                        question.Question = recvdJson.Value<string>("Question");
-                        foreach (string answer in recvdJson.Value<JToken>("Answers"))
+                        question.Question = recvdJson.Value<string>("question");
+                        foreach (string answer in recvdJson.Value<JToken>("answers"))
                         {
                             answers.Add(answer.ToString());
                         }
@@ -721,7 +721,7 @@ namespace Client
             if (sentSuccesfully == LeaveGameResponse.LEFT_GAME)
             {
                 recvdJson = await recieveFromServer();
-                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.START_GAME))
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.GET_QUESTION))
                 {
                     if (recvdJson.ContainsKey("Question") && recvdJson.ContainsKey("Answers"))
                     {

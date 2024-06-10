@@ -10,18 +10,18 @@
     <Grid>
         <StackPanel Margin="0,43,0,0">
             <StackPanel Orientation="Horizontal" Height="47" Width="703">
-                <TextBlock x:Name="ANSWERED" FontSize="17" Width="108"><Run Text="question x/y"/></TextBlock>
-                <TextBlock x:Name="TIME" FontSize="18" Margin="530,0,0,0"><Run Text="5:xx"/></TextBlock>
+                <TextBlock x:Name="ANSWERED" FontSize="17" Width="108"></TextBlock>
+                <TextBlock x:Name="TIME" FontSize="18" Margin="530,0,0,0"></TextBlock>
             </StackPanel>
-            <TextBlock x:Name="QUESTION" Height="64" FontSize="30" TextAlignment="Center"><Run Text="why did the checken cross the road?"/></TextBlock>
+            <TextBlock x:Name="QUESTION" Height="64" FontSize="30" TextAlignment="Center"></TextBlock>
             <StackPanel Orientation="Horizontal" Height="221" Width="494">
                 <StackPanel Height="186">
-                    <Button x:Name="ANS1" Height="81" Width="243" Margin="0,0,0,18" Click="sendAns_click">to get to the other side</Button>
-                    <Button x:Name="ANS2" Height="81" Width="243" Click="sendAns_click">to be with its chicks</Button>
+                    <Button x:Name="ANS1" Height="81" Width="243" Margin="0,0,0,18" Click="sendAns_click"></Button>
+                    <Button x:Name="ANS2" Height="81" Width="243" Click="sendAns_click"></Button>
                 </StackPanel>
                 <StackPanel Margin="0,0,18,0" Width="255" Height="186">
-                    <Button x:Name="ANS3" Height="81" Width="243" Margin="0,0,0,18" Click="sendAns_click">it has got chickened</Button>
-                    <Button x:Name="ANS4" Height="81" Width="243" Margin="0,0,0,0" Click="sendAns_click">this side was to much for it</Button>
+                    <Button x:Name="ANS3" Height="81" Width="243" Margin="0,0,0,18" Click="sendAns_click"></Button>
+                    <Button x:Name="ANS4" Height="81" Width="243" Margin="0,0,0,0" Click="sendAns_click"></Button>
                 </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Width="757">
