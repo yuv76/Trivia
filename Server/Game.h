@@ -3,6 +3,7 @@
 #include "GameData.h"
 #include "LoggedUser.h"
 #include "SqliteDatabase.h"
+#include <vector>
 #include <map>
 #include <ctime>
 
@@ -24,4 +25,5 @@ public:
 	void removePlayer(LoggedUser user); // return type made to have one, but not official and could change.
 	int getId();
 	void endGame();
+	std::vector<std::pair<std::string, GameData>> getData();
 };

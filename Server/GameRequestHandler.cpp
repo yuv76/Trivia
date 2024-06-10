@@ -98,10 +98,7 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo)
 	buffer = JsonResponsePacketSerializer::serializeResponse(question);
 
 	rqRs.response = buffer;
-	if (question.status == GOT_QUESTION)
-	{
-		rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game); // stay in current state.
-	}
+	rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game); // stay in current state.
 	
 	return rqRs;
 }
@@ -125,7 +122,7 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo reqInf)
 	buffer = JsonResponsePacketSerializer::serializeResponse(answer);
 
 	rqRs.response = buffer;
-	rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user);//#TODO fix
+	rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game);
 
 	return rqRs;
 }
@@ -138,8 +135,27 @@ out: the request's result.
 RequestResult GameRequestHandler::getGameResult(RequestInfo inf)
 {
 	std::vector<std::uint8_t> buffer;
-	GetGameResultsResponse result;
+	GetGameResultsResponse results;
 	RequestResult rqRs;
+	std::vector<std::pair<std::string, GameData>> temp;
+	PlayerResults result;
+	
+	temp = this->m_game.getData();
+	auto i = temp.begin();
+	for (i; i != temp.end(); i++)
+	{
+		result.average = i->second.averangeAnswerTime;
+		result.coorect = i->second.correctAnswerCount;
+		result.username = i->first;
+		result.wrong = i->second.wrongAnswerCount;
+		results.results.push_back(result);
+	}
+	results.status = GOT_RESULT;
+	buffer = JsonResponsePacketSerializer::serializeResponse(results);
+
+	rqRs.response = buffer;
+	rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game); // stay in current state.
+
 
 	return rqRs;
 }
