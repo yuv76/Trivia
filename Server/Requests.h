@@ -19,7 +19,12 @@ enum msgCodes
 	CLOSE_ROOM,
 	START_GAME,
 	GET_ROOM_STATE,
-	LEAVE_ROOM
+	LEAVE_ROOM,
+
+	LEAVE_GAME,
+	GET_QUESTION,
+	SUBMIT_ANSWER,
+	GET_GAME_RESULTS
 };
 
 struct LoginRequest
@@ -56,4 +61,11 @@ public:
 	unsigned int maxUsers;
 	unsigned int questionCount;
 	double anwerTimeout;
+};
+
+struct SubmitAnswerRequest
+{
+public:
+	unsigned int answerId;
+	double answerTime;
 };

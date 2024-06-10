@@ -30,6 +30,7 @@ namespace Client
     {
         private bool _isClosedByX = true;
         private bool _isAdmin = false;
+        private int NumOfQuestions = 0;
 
         bool _refreshNotComplete = false;
 
@@ -117,7 +118,7 @@ namespace Client
             else if (state.isActive == GetRoomStateResponse.GAME_IN_PROGRESS)
             {
                 background_worker.CancelAsync(); // stop refreshing.
-                Game game = new Game(Left, Top, Width, Height, WindowState);
+                Game game = new Game(Left, Top, Width, Height, WindowState, this.NumOfQuestions);
                 game.Show();
                 _isClosedByX = false;
                 this.Close();
@@ -141,6 +142,7 @@ namespace Client
             NUM_PLAYERS.Text = roomState.players.Count.ToString() + "/" + roomState.maxPlayers.ToString() + " players";
             QUESTION_TIME.Text = roomState.timePerQuestion.ToString();
             NUM_QUESTIONS.Text = roomState.numOfQuestionsInGame.ToString();
+            this.NumOfQuestions = int.Parse(NUM_QUESTIONS.Text);
         }
 
         private void updatePlayers(List<string> players)

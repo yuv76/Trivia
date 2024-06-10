@@ -3,6 +3,7 @@
 #include "RoomData.h"
 #include <vector>
 #include <list>
+#include <map>
 
 struct SignupResponse
 {
@@ -86,4 +87,36 @@ struct GetRoomStateResponse
 	unsigned int AnswerCount;
 	double answerTimeOut;
 	unsigned int maxPlayers;
+};
+
+struct LeaveGameResponse
+{
+	unsigned int status;
+};
+
+struct GetQuestionResponse
+{
+	unsigned int status;
+	std::string question;
+	std::vector<std::string> answers;
+};
+
+struct SubmitAnswerResponse
+{
+	unsigned int status;
+	unsigned int correctAnswerId;
+};
+
+struct PlayerResults
+{
+	std::string username;
+	unsigned int coorect;
+	unsigned int wrong;
+	float average;
+};
+
+struct GetGameResultsResponse
+{
+	unsigned int status;
+	std::vector<PlayerResults> results;
 };

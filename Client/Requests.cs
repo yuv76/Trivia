@@ -22,7 +22,11 @@ namespace Requests
         CLOSE_ROOM,
         START_GAME,
         GET_ROOM_STATE,
-        LEAVE_ROOM
+        LEAVE_ROOM,
+        LEAVE_GAME,
+        GET_QUESTION,
+        SUBMIT_ANSWER,
+        GET_GAME_RESULTS
     };
 
     public class LoginRequest
@@ -55,4 +59,10 @@ namespace Requests
     {
         public string roomId { get; set; }
     };
+
+    struct SubmitAnswerRequest
+    {
+        public uint answerId;
+    };
+
 }

@@ -24,4 +24,9 @@ public:
 	static std::vector<std::uint8_t> serializeResponse(StartGameResponse start);
 	static std::vector<std::uint8_t> serializeResponse(GetRoomStateResponse stat);
 	static std::vector<std::uint8_t> serializeResponse(LeaveRoomResponse leave);
+
+	static std::vector<std::uint8_t> serializeResponse(LeaveGameResponse leave);
+	static std::vector<std::uint8_t> serializeResponse(GetQuestionResponse question);
+	static std::vector<std::uint8_t> serializeResponse(SubmitAnswerResponse answer);
+	static std::vector<std::uint8_t> serializeResponse(GetGameResultsResponse result);
 };

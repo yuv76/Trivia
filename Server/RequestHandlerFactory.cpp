@@ -5,7 +5,7 @@ C'tor for RequestHandlerFactory.
 in: a database pointer.
 */
 RequestHandlerFactory::RequestHandlerFactory(IDatabase* db) :
-	m_database(db), m_loginManager(db), m_statisticsManager(db)
+	m_database(db), m_loginManager(db), m_statisticsManager(db), m_gameManager(db)
 {}
 
 /*
@@ -61,6 +61,16 @@ StatisticsManager& RequestHandlerFactory::getStatisticsManager()
 }
 
 /*
+returns the game manager.
+in: none.
+out: a reference to a GameManager object.
+*/
+GameManager& RequestHandlerFactory::getGameManager()
+{
+	return this->m_gameManager;
+}
+
+/*
 creates a room admin request handler for a given user owning a given room.
 in: the room as a room object and the logged user to create the handler for, as a LoggedUser struct.
 out: the newly created room admin request handler's pointer.
@@ -80,4 +90,15 @@ RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(
 {
 	RoomMemberRequestHandler* newRoomMemberRH = new RoomMemberRequestHandler(*this, user, room, this->getRoomManager());
 	return newRoomMemberRH;
+}
+
+/*
+creates a game request handler for a given user.
+in: the logged user to create the handler for, as a LoggedUser struct.
+out: the newly created game manager request handler's pointer.
+*/
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(LoggedUser user, Game& game)
+{
+	GameRequestHandler* newGameManagerRH = new GameRequestHandler(*this, user, this->getGameManager(), game);
+	return newGameManagerRH;
 }

@@ -5,6 +5,7 @@
 #include "IDatabase.h"
 
 #include "Requests.h"
+#include "GameData.h"
 #include <vector>
 #include <string>
 
@@ -51,6 +52,8 @@ public:
 
 	virtual std::vector<std::string> getUsers();
 
+	virtual void submitGameStatistics(GameData gd, std::string username);
+
 private:
 	static int callbackCheckExistance(void* data, int argc, char** argv, char** azColName);
 	static int callbackGetQuestion(void* data, int argc, char** argv, char** azColName);
@@ -58,6 +61,7 @@ private:
 	static int callbackGetNumOfCorrectAnswers(void* data, int argc, char** argv, char** azColName);
 	static int callbackGetNumOfTotalAnswers(void* data, int argc, char** argv, char** azColName);
 	static int callbackGetNumOfPlayerGames(void* data, int argc, char** argv, char** azColName);
+	static int callbackGetAvgAndTotalAns(void* data, int argc, char** argv, char** azColName);
 
 	static int callbackGetUsers(void* data, int argc, char** argv, char** azColName);
 
