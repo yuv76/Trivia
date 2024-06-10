@@ -7,12 +7,13 @@ class GameManager
 {
 private:
 	IDatabase* m_database;
-	std::vector<Game> m_games;
+	std::map<int, Game> m_games;
 
 	int getNextAvailableId();
 
 public:
 	GameManager(IDatabase* DB);
-	Game& createGame(Room& r);
+	int createGame(Room& r);
 	void deleteGame(int gameId);//might not be void
+	Game& getGameByID(int id);
 };

@@ -99,6 +99,8 @@ namespace Client
         {
             _refreshNotComplete = true;
             GetRoomStateResponse state = getStateAsync().Result;
+            this.TimeForQuestion = Convert.ToInt32(state.timePerQuestion);//#TODO
+            this.NumOfQuestions = Convert.ToInt32(state.numOfQuestionsInGame); //#TODO
             if (state.isActive == GetRoomStateResponse.CONNECTION_PROBLEM)
             {
                 background_worker.CancelAsync(); //stop refreshing
@@ -224,12 +226,10 @@ namespace Client
             int started = await Communicator.StartGame();
             if(started == StartGameResponse.START_GAME)
             {
-                /*
-                Game game = new Game();
+                Game game = new Game(Left, Top, Width, Height, WindowState, this.NumOfQuestions, this.TimeForQuestion);
                 game.Show();
                 _isClosedByX = false;
                 this.Close();
-                */
             }
             else
             {

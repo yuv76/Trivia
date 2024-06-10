@@ -4,9 +4,15 @@
 C'tor for game object.
 in: questions for game in a vector, users in a vector, room's id, time for answer in the game.
 */
-Game::Game(std::vector<Question> questions, std::vector<LoggedUser> users, int id, double ansTime):
-	m_gameId(id), m_questions(questions), m_answerTimeout(ansTime), _isActive(true)
+Game::Game(std::vector<QuestionData> questionDatas, std::vector<LoggedUser> users, int id, double ansTime):
+	m_gameId(id), m_answerTimeout(ansTime), _isActive(true)
 {
+	auto q = questionDatas.begin();
+	for (q; q != questionDatas.end(); q++)
+	{
+		m_questions.push_back(Question(q->question, q->wrongAnswer1, q->wrongAnswer2, q->wrongAnswer3, q->rightAnswer, q->id));
+	}
+
 	//add players and create game data to each in a map.
 	auto i = users.begin();
 	for (i; i != users.end(); i++)
@@ -41,7 +47,7 @@ Question Game::getQuestionForUser(LoggedUser user)
 		if (i->getQuestionId() == currId)
 		{
 			found = true;
-			i++; //increase to get next one.
+			//i++; //increase to get next one.
 		}
 	}
 	if (i == this->m_questions.end())
