@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using System.Xml.Linq;
 
 namespace Client
@@ -25,7 +26,12 @@ namespace Client
         int totalQ;
         int answeredQ;
 
-        public Game(double left, double top, double width, double height, WindowState windowstate, int numOfQuestions)
+        //timer related
+        private double time;
+        private double tempTime;
+        private DispatcherTimer dispatcherTimer;
+
+        public Game(double left, double top, double width, double height, WindowState windowstate, int numOfQuestions, int timeForQuestion)
         {
             InitializeComponent();
             Left = left;
@@ -36,6 +42,7 @@ namespace Client
 
             answeredQ = 0;
             totalQ = numOfQuestions;
+            time = timeForQuestion;
 
             putName();
         }
@@ -45,8 +52,33 @@ namespace Client
             USERNAME.Text = Communicator.getName();
         }
 
+        void resetTimer()
+        {
+            tempTime = time;
+            TIME.Text = string.Format("00:{0:D2}:{1:D2}", Convert.ToInt32(time) / 60, Convert.ToInt32(time) % 60);
+            dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 1);
+            dispatcherTimer.Tick += Timer_tick;
+            dispatcherTimer.Start();
+        }
+
+        void Timer_tick(object sender, EventArgs e)
+        {
+            if (time > 0)
+            {
+                time--;
+                TIME.Text = string.Format("00:{0:D2}:{1:D2}", Convert.ToInt32(time) / 60, Convert.ToInt32(time) % 60);
+            }
+            else
+            {
+                dispatcherTimer.Stop();
+                getNextQuestion();
+            }
+        }
+
         async void getNextQuestion()
         {
+            resetTimer();
             getQuestionResponse question = await Communicator.getNextQuestion();
             if (question.status != getQuestionResponse.QUESTIONS_OVER)
             {
@@ -58,7 +90,7 @@ namespace Client
 
                 answeredQ++;
                 ANSWERED.Text = answeredQ.ToString() + "/" + totalQ.ToString();
-                //reset timer
+                resetTimer();
             }
             else
             {

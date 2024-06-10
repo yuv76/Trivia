@@ -31,6 +31,7 @@ namespace Client
         private bool _isClosedByX = true;
         private bool _isAdmin = false;
         private int NumOfQuestions = 0;
+        private int TimeForQuestion = 0;
 
         bool _refreshNotComplete = false;
 
@@ -118,7 +119,7 @@ namespace Client
             else if (state.isActive == GetRoomStateResponse.GAME_IN_PROGRESS)
             {
                 background_worker.CancelAsync(); // stop refreshing.
-                Game game = new Game(Left, Top, Width, Height, WindowState, this.NumOfQuestions);
+                Game game = new Game(Left, Top, Width, Height, WindowState, this.NumOfQuestions, this.TimeForQuestion);
                 game.Show();
                 _isClosedByX = false;
                 this.Close();
