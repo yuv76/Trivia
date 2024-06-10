@@ -89,3 +89,14 @@ void Question::setEndQuestion()
 	this->_id = -1;
 	this->m_question = "No Questions left";
 }
+
+/*
+sets the question to contain beggining of questions in game data.
+in: none.
+out: none.
+*/
+void Question::setStartQuestion()
+{
+	this->_id = 0;
+	this->m_question = "First Question padding";
+}

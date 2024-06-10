@@ -22,4 +22,5 @@ public:
 	std::vector<std::string> getPossibleAnswers();
 	int getCorrectAnswerId();
 	void setEndQuestion();
+	void setStartQuestion();
 };
