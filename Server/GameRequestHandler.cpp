@@ -157,6 +157,5 @@ RequestResult GameRequestHandler::getGameResult(RequestInfo inf)
 	rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game); // stay in current state.
 
 
-
 	return rqRs;
 }
