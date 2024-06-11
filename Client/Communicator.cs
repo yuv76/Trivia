@@ -653,10 +653,10 @@ namespace Client
                 recvdJson = await recieveFromServer();
                 if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.SUBMIT_ANSWER))
                 {
-                    if (recvdJson.ContainsKey("correctId"))
+                    if (recvdJson.ContainsKey("correctAnswerId"))
                     {
                         // return status frm server
-                        return recvdJson.Value<int>("correctId");
+                        return recvdJson.Value<int>("correctAnswerId");
                     }
                     else
                     {
@@ -716,14 +716,14 @@ namespace Client
             List<string> corrects = new List<string>();
             List<string> avrgs = new List<string>();
 
-            sentSuccesfully = await sendToServer("", msgCodes.GET_QUESTION);
+            sentSuccesfully = await sendToServer("", msgCodes.GET_GAME_RESULTS);
 
             if (sentSuccesfully == LeaveGameResponse.LEFT_GAME)
             {
                 recvdJson = await recieveFromServer();
-                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.GET_QUESTION))
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.GET_GAME_RESULTS))
                 {
-                    if (recvdJson.ContainsKey("Question") && recvdJson.ContainsKey("Answers"))
+                    if (recvdJson.ContainsKey("status") && recvdJson.ContainsKey("players") && recvdJson.ContainsKey("Averages") && recvdJson.ContainsKey("Corrects"))
                     {
                         gameRes.status = recvdJson.Value<int>("status");
                         foreach (string player in recvdJson.Value<JToken>("players"))//#SPLT
@@ -738,6 +738,9 @@ namespace Client
                         {
                             corrects.Add(correct.ToString());
                         }
+                        gameRes.Players = players;
+                        gameRes.Avrgs = avrgs;
+                        gameRes.CorrectAnswers = corrects;
                         return gameRes;
                     }
                     else

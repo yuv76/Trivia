@@ -144,7 +144,7 @@ SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerReques
 {
 	SubmitAnswerRequest info;
 	json jsonBuf;
-	std::string id = "";
+	int id = 0;
 
 	// remove the code and len from the vector.
 	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
@@ -154,8 +154,8 @@ SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerReques
 	jsonBuf = json::parse(jsonStr);
 
 	//answerId
-	id = (jsonBuf["answerId"]);
-	info.answerId = std::stoi(id);
+	id = jsonBuf["answerId"];
+	info.answerId = (id);
 
 	return info;
 }

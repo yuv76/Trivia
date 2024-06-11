@@ -7,6 +7,9 @@ in: questions for game in a vector, users in a vector, room's id, time for answe
 Game::Game(std::vector<QuestionData> questionDatas, std::vector<LoggedUser> users, int id, double ansTime):
 	m_gameId(id), m_answerTimeout(ansTime), _isActive(true)
 {
+	Question padding;
+	padding.setStartQuestion();
+	m_questions.push_back(padding);
 	auto q = questionDatas.begin();
 	for (q; q != questionDatas.end(); q++)
 	{
@@ -57,6 +60,7 @@ Question Game::getQuestionForUser(LoggedUser user)
 	else
 	{
 		nextQ = *i;
+		this->m_players[user].currentQuestion = *i;
 	}
 	return nextQ;
 }
@@ -88,10 +92,10 @@ int Game::submitAnswer(int answerId, LoggedUser user, double ansTime)
 			//wrong answer
 			this->m_players[user].wrongAnswerCount++;
 		}
-		this->m_players[user].currentQuestion = getQuestionForUser(user);
+		return this->m_players[user].currentQuestion.getCorrectAnswerId();
 	}
 	//if not active, shouldnt do anything.
-	return 1;
+	return -1;
 }
 
 /*

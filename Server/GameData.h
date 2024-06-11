@@ -7,7 +7,7 @@ struct GameData
 {
 	//default C'tor
 	GameData() {}
-
+	
 	Question currentQuestion;
 	unsigned int correctAnswerCount;
 	unsigned int wrongAnswerCount;

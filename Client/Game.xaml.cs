@@ -23,6 +23,7 @@ namespace Client
     public partial class Game : Window
     {
         private bool _isClosedByX = true;
+        private bool _answered = false;
         int totalQ;
         int answeredQ;
 
@@ -56,7 +57,7 @@ namespace Client
         void resetTimer()
         {
             tempTime = time;
-            TIME.Text = string.Format("00:{0:D2}:{1:D2}", Convert.ToInt32(time) / 60, Convert.ToInt32(time) % 60);
+            TIME.Text = string.Format("00:{0:D2}:{1:D2}", Convert.ToInt32(tempTime) / 60, Convert.ToInt32(tempTime) % 60);
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 1);
             dispatcherTimer.Tick += Timer_tick;
@@ -65,10 +66,10 @@ namespace Client
 
         void Timer_tick(object sender, EventArgs e)
         {
-            if (time > 0)
+            if (tempTime > 0)
             {
-                time--;
-                TIME.Text = string.Format("00:{0:D2}:{1:D2}", Convert.ToInt32(time) / 60, Convert.ToInt32(time) % 60);
+                tempTime--;
+                TIME.Text = string.Format("00:{0:D2}:{1:D2}", Convert.ToInt32(tempTime) / 60, Convert.ToInt32(tempTime) % 60);
             }
             else
             {
@@ -79,7 +80,9 @@ namespace Client
 
         async void getNextQuestion()
         {
+            _answered = false;
             resetTimer();
+            //Thread.Sleep(5000);
             getQuestionResponse question = await Communicator.getNextQuestion();
             if (question.status != getQuestionResponse.QUESTIONS_OVER)
             {
@@ -89,9 +92,13 @@ namespace Client
                 ANS3.Content = question.Answers[2];
                 ANS4.Content = question.Answers[3];
 
+                ANS1.Background = Brushes.LightGray;
+                ANS2.Background = Brushes.LightGray;
+                ANS3.Background = Brushes.LightGray;
+                ANS4.Background = Brushes.LightGray;
+
                 answeredQ++;
                 ANSWERED.Text = answeredQ.ToString() + "/" + totalQ.ToString();
-                resetTimer();
             }
             else
             {
@@ -105,75 +112,79 @@ namespace Client
 
         private async void sendAns_click(object sender, RoutedEventArgs e)
         {
-            int resp = 0;
-            uint ans = 0;
-            Button clicked = sender as Button;
-            if(clicked.Name == "ANS1") 
+            if (!_answered)
             {
-                ans = 1;
-            }
-            else if(clicked.Name == "ANS2")
-            {
-                ans = 2;
-            }
-            else if (clicked.Name == "ANS3")
-            {
-                ans = 3;
-            }
-            else // ANS4
-            {
-                ans = 4; 
-            }
-            resp = await Communicator.SubmitAnswer(ans);
-            if (resp == 1)
-            {
-                ANS1.Background = Brushes.LimeGreen;//correct
-                ANS2.Background = Brushes.DarkRed;
-                ANS3.Background = Brushes.DarkRed;
-                ANS4.Background = Brushes.DarkRed;
-            }
-            else if (resp == 2)
-            {
-                ANS2.Background = Brushes.LimeGreen;//correct
-                ANS1.Background = Brushes.DarkRed;
-                ANS3.Background = Brushes.DarkRed;
-                ANS4.Background = Brushes.DarkRed;
-            }
-            else if (resp == 3)
-            {
-                ANS3.Background = Brushes.LimeGreen;//correct
-                ANS2.Background = Brushes.DarkRed;
-                ANS1.Background = Brushes.DarkRed;
-                ANS4.Background = Brushes.DarkRed;
-            }
-            else //4
-            {
-                ANS4.Background = Brushes.LimeGreen;//correct
-                ANS2.Background = Brushes.DarkRed;
-                ANS3.Background = Brushes.DarkRed;
-                ANS1.Background = Brushes.DarkRed;
-            }
-            if(ans != resp)
-            {
-                if(ans == 1)
+                tempTime = 3;
+                _answered = true;
+                int resp = 0;
+                uint ans = 0;
+                Button clicked = sender as Button;
+                if (clicked.Name == "ANS1")
                 {
-                    ANS1.Background = Brushes.Firebrick;
+                    ans = 1;
                 }
-                else if (ans == 2)
+                else if (clicked.Name == "ANS2")
                 {
-                    ANS2.Background = Brushes.Firebrick;
+                    ans = 2;
                 }
-                else if (ans == 2)
+                else if (clicked.Name == "ANS3")
                 {
-                    ANS3.Background = Brushes.Firebrick;
+                    ans = 3;
+                }
+                else // ANS4
+                {
+                    ans = 4;
+                }
+                resp = await Communicator.SubmitAnswer(ans);
+
+                if (resp == 1)
+                {
+                    ANS1.Background = Brushes.LimeGreen;//correct
+                    ANS2.Background = Brushes.DarkRed;
+                    ANS3.Background = Brushes.DarkRed;
+                    ANS4.Background = Brushes.DarkRed;
+                }
+                else if (resp == 2)
+                {
+                    ANS2.Background = Brushes.LimeGreen;//correct
+                    ANS1.Background = Brushes.DarkRed;
+                    ANS3.Background = Brushes.DarkRed;
+                    ANS4.Background = Brushes.DarkRed;
+                }
+                else if (resp == 3)
+                {
+                    ANS3.Background = Brushes.LimeGreen;//correct
+                    ANS2.Background = Brushes.DarkRed;
+                    ANS1.Background = Brushes.DarkRed;
+                    ANS4.Background = Brushes.DarkRed;
                 }
                 else //4
                 {
-                    ANS4.Background = Brushes.Firebrick;
+                    ANS4.Background = Brushes.LimeGreen;//correct
+                    ANS2.Background = Brushes.DarkRed;
+                    ANS3.Background = Brushes.DarkRed;
+                    ANS1.Background = Brushes.DarkRed;
+                }
+                if (ans != resp)
+                {
+                    if (ans == 1)
+                    {
+                        ANS1.Background = Brushes.Firebrick;
+                    }
+                    else if (ans == 2)
+                    {
+                        ANS2.Background = Brushes.Firebrick;
+                    }
+                    else if (ans == 3)
+                    {
+                        ANS3.Background = Brushes.Firebrick;
+                    }
+                    else //4
+                    {
+                        ANS4.Background = Brushes.Firebrick;
+                    }
                 }
             }
-
-            getNextQuestion();
         }
 
         private async void LeaveGame_click(object sender, RoutedEventArgs e)

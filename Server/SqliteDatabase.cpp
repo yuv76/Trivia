@@ -183,10 +183,10 @@ int SqliteDatabase::callbackGetQuestion(void* data, int argc, char** argv, char*
 				temp->wrongAnswer1 = argv[i];
 			}
 			else if (std::string(azColName[i]) == "2 wrong answer") {
-				temp->wrongAnswer1 = argv[i];
+				temp->wrongAnswer2 = argv[i];
 			}
 			else if (std::string(azColName[i]) == "3 wrong answer") {
-				temp->wrongAnswer1 = argv[i];
+				temp->wrongAnswer3 = argv[i];
 			}
 			else if (std::string(azColName[i]) == "question") {
 				temp->question = argv[i];
