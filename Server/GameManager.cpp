@@ -39,9 +39,9 @@ void GameManager::deleteGame(int gameId)
 	auto i = this->m_games.begin();
 	for (i; i != this->m_games.end(); i++)
 	{
-		if (i->first == gameId)
+		if (i->first == gameId && i->second.isActive()) // if not active, game was alredy closed, maybe will only do this
 		{
-			i->second.endGame();
+			i->second.endGame(this->m_database);
 		}
 	}
 }

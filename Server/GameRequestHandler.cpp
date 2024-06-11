@@ -162,7 +162,7 @@ RequestResult GameRequestHandler::getGameResult(RequestInfo inf)
 
 	rqRs.response = buffer;
 	rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game); // stay in current state.
-
+	this->m_gameManager.deleteGame(this->m_game.getId());
 
 	return rqRs;
 }

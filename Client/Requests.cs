@@ -63,6 +63,7 @@ namespace Requests
     struct SubmitAnswerRequest
     {
         public uint answerId;
+        public double ansTime;
     };
 
 }

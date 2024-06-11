@@ -634,7 +634,7 @@ namespace Client
             return sentSuccesfully;
         }
 
-        public static async Task<int> SubmitAnswer(uint ansNum)
+        public static async Task<int> SubmitAnswer(uint ansNum, double time)
         {
             int sentSuccesfully = 0;
             JObject recvdJson;
@@ -643,6 +643,7 @@ namespace Client
             SubmitAnswerRequest GetPlayersInRoomRequest = new SubmitAnswerRequest()
             {
                 answerId = ansNum,
+                ansTime = time,
             };
             jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(GetPlayersInRoomRequest);
 
