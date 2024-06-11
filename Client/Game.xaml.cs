@@ -85,11 +85,10 @@ namespace Client
         async void getNextQuestion()
         {
             _answered = false;
-            resetTimer();
-            //Thread.Sleep(5000);
             getQuestionResponse question = await Communicator.getNextQuestion();
             if (question.status != getQuestionResponse.QUESTIONS_OVER)
             {
+                resetTimer();
                 QUESTION.Text = question.Question;
                 ANS1.Content = question.Answers[0];
                 ANS2.Content = question.Answers[1];
