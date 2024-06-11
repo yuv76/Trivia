@@ -167,7 +167,7 @@ gets a question from the db.
 in: the data(QuestionData pointer), number of fields in column, the field contents, the field names.
 out: 0 upon sucess.
 */
-/*int SqliteDatabase::callbackGetQuestion(void* data, int argc, char** argv, char** azColName)
+int SqliteDatabase::callbackGetQuestion(void* data, int argc, char** argv, char** azColName)
 {
 	QuestionData* temp = static_cast<QuestionData*>(data);
 	if (argc != 0)
@@ -208,8 +208,8 @@ out: 0 upon sucess.
 		}
 	}
 	return 0;
-}*/
-int SqliteDatabase::callbackGetQuestion(void* data, int argc, char** argv, char** azColName)
+}
+/*int SqliteDatabase::callbackGetQuestion(void* data, int argc, char** argv, char** azColName)
 {
 	std::vector<QuestionData>& questionDatas = *(std::vector<QuestionData>*)data;
 	QuestionData temp;
@@ -252,7 +252,7 @@ int SqliteDatabase::callbackGetQuestion(void* data, int argc, char** argv, char*
 		}
 	}
 	return 0;
-}
+}*/
 
 /*
 gets questions from the db.
@@ -277,13 +277,25 @@ std::vector<QuestionData> SqliteDatabase::getQuestions(int questionNum)
 		questionDatas.push_back(temp);
 	}*/
 
-	std::string getQuestionSQL = "select * from questions ORDER BY RANDOM() LIMIT " + std::to_string(questionNum) + ";";
-	int res = sqlite3_exec(this->database, getQuestionSQL.c_str(), callbackGetQuestion, &questionDatas, errMessage);
-	if (res != SQLITE_OK)
+	for (int i = 0; i <= questionNum; i++)
 	{
-		throw std::exception(*errMessage);
+		std::string getQuestionSQL = "select * from questions ORDER BY RANDOM() LIMIT 1;";
+		int res = sqlite3_exec(this->database, getQuestionSQL.c_str(), callbackGetQuestion, &temp, errMessage);
+		if (res != SQLITE_OK)
+		{
+			throw std::exception(*errMessage);
+		}
+		for (auto& element : questionDatas)
+		{
+			if (element.id == temp.id)
+			{
+				i--;
+				continue;
+			}
+		}
+		questionDatas.push_back(temp);
 	}
-
+	
 	return questionDatas;
 }
 
