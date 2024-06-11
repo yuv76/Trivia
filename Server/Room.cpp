@@ -6,6 +6,7 @@ in: the room's data, the room creator (a user).
 */
 Room::Room(RoomData data, LoggedUser creator)
 {
+	this->_gameId = LOBBY;
 	this->m_metadata = data;
 	this->m_users.push_back(creator);
 }
@@ -145,4 +146,24 @@ out: the Logged User(s) vector.
 std::vector<LoggedUser> Room::getUsers()
 {
 	return this->m_users;
+}
+
+/*
+updates the id of the game currently in the room.
+in: the game's id.
+out: none.
+*/
+void Room::updateGameID(int id)
+{
+	this->_gameId = id;
+}
+
+/*
+returns the game's id.
+in: none.
+out: the id.
+*/
+int Room::getGameID() const
+{
+	return this->_gameId;
 }

@@ -161,7 +161,7 @@ RequestResult GameRequestHandler::getGameResult(RequestInfo inf)
 	buffer = JsonResponsePacketSerializer::serializeResponse(results);
 
 	rqRs.response = buffer;
-	rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game); // stay in current state.
+	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user); // move to manu, maybe should move back to room or choose #TODO
 	this->m_gameManager.deleteGame(this->m_game.getId());
 
 	return rqRs;

@@ -13,7 +13,7 @@
                 <TextBlock x:Name="ANSWERED" FontSize="17" Width="108"></TextBlock>
                 <TextBlock x:Name="TIME" FontSize="18" Margin="530,0,0,0"></TextBlock>
             </StackPanel>
-            <TextBlock x:Name="QUESTION" Height="64" FontSize="30" TextAlignment="Center"></TextBlock>
+            <TextBlock x:Name="QUESTION" Height="64" FontSize="17" TextAlignment="Center"></TextBlock>
             <StackPanel Orientation="Horizontal" Height="221" Width="494">
                 <StackPanel Height="186">
                     <Button x:Name="ANS1" Height="81" Width="243" Margin="0,0,0,18" Click="sendAns_click"></Button>

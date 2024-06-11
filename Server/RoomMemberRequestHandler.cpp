@@ -90,7 +90,7 @@ RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo)
 	else if(resp.status == GAME_STARTED_IN_ROOM)
 	{
 		//game handler --
-		rqRs.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, this->m_room); //stay in room member state - temporary.
+		rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_handlerFactory.getGameManager().getGameByID(this->m_room.getGameID()));
 	}
 	else
 	{
