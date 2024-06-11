@@ -146,6 +146,7 @@ namespace Client
             QUESTION_TIME.Text = roomState.timePerQuestion.ToString();
             NUM_QUESTIONS.Text = roomState.numOfQuestionsInGame.ToString();
             this.NumOfQuestions = int.Parse(NUM_QUESTIONS.Text);
+            this.TimeForQuestion = Convert.ToInt32(roomState.timePerQuestion);
         }
 
         private void updatePlayers(List<string> players)
@@ -226,6 +227,7 @@ namespace Client
             int started = await Communicator.StartGame();
             if(started == StartGameResponse.START_GAME)
             {
+                background_worker.CancelAsync();
                 Game game = new Game(Left, Top, Width, Height, WindowState, this.NumOfQuestions, this.TimeForQuestion);
                 game.Show();
                 _isClosedByX = false;

@@ -651,6 +651,8 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetGam
 {
 	std::vector<std::uint8_t> buffer;
 	std::vector<std::string> player;
+	std::vector<std::string> rightAnsNum;
+	std::vector<std::string> avgs;
 	std::string msg = "";
 	msgCodes code = GET_GAME_RESULTS;
 	int len = 0;
@@ -662,15 +664,16 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetGam
 	auto i = result.results.begin();
 	for (i; i != result.results.end(); i++)
 	{
-		player.push_back(std::to_string(i->average));
-		player.push_back(std::to_string(i->coorect));
-		player.push_back(i->username);
-		player.push_back(std::to_string(i->wrong));
+		player.push_back((i->username));
+		rightAnsNum.push_back(std::to_string(i->coorect));
+		avgs.push_back(std::to_string(i->average));
 	}
 
 	//create msg in json format
 	getGameResultsJson["status"] = result.status;
-	getGameResultsJson["results"] = player;
+	getGameResultsJson["players"] = player;
+	getGameResultsJson["Averages"] = avgs;
+	getGameResultsJson["Corrects"] = rightAnsNum;
 	msg = getGameResultsJson.dump();
 
 	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.

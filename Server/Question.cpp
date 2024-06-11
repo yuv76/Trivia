@@ -68,12 +68,12 @@ out: the answer's index, or -1 if an error occured.
 */
 int Question::getCorrectAnswerId()
 {
-	int i = 1;
-	for (i = 1; i <= NUM_OF_ANSWERS; i++)
+	int i = 0;
+	for (i = 0; i <= NUM_OF_ANSWERS; i++)
 	{
 		if (this->m_possibleAnswers[i] == this->_correct)
 		{
-			return i;
+			return i+1;
 		}
 	}
 	return -1;// not suppsed to get here, if does it is a problem.

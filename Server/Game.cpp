@@ -92,10 +92,10 @@ int Game::submitAnswer(int answerId, LoggedUser user, double ansTime)
 			//wrong answer
 			this->m_players[user].wrongAnswerCount++;
 		}
-		this->m_players[user].currentQuestion = getQuestionForUser(user);
+		return this->m_players[user].currentQuestion.getCorrectAnswerId();
 	}
 	//if not active, shouldnt do anything.
-	return 1;
+	return -1;
 }
 
 /*
