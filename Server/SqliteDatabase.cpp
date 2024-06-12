@@ -249,12 +249,30 @@ std::vector<QuestionData> SqliteDatabase::getQuestions(int questionNum)
 				continue;
 			}
 		}
+		temp.question = remove(temp.question);
+		temp.rightAnswer = remove(temp.rightAnswer);
+		temp.wrongAnswer1 = remove(temp.wrongAnswer1);
+		temp.wrongAnswer2 = remove(temp.wrongAnswer2);
+		temp.wrongAnswer3 = remove(temp.wrongAnswer3);
 		questionDatas.push_back(temp);
 	}
 	
 	return questionDatas;
 }
 
+std::string SqliteDatabase::remove(std::string temp)
+{
+	int first = temp.find('&');
+	int last = temp.find(';');
+	while (first != std::string::npos)
+	{
+		temp.erase(first, (last - first) + 1);
+		//temp = temp.substr(0, last);
+		first = temp.find('&');
+		last = temp.find(';');
+	}
+	return temp;
+}
 
 /*
 gets a the players average answer time from the db.

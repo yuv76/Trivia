@@ -65,6 +65,8 @@ private:
 
 	static int callbackGetUsers(void* data, int argc, char** argv, char** azColName);
 
+	std::string remove(std::string temp);
+
 	//the database
 	sqlite3* database;
 };
