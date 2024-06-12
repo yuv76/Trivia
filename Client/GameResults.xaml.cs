@@ -1,6 +1,7 @@
 ﻿using Responses;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Client
 {
@@ -40,9 +42,12 @@ namespace Client
             }
         }
 
-        private void backRoom_click(object sender, RoutedEventArgs e)
+        async void backRoom_click(object sender, RoutedEventArgs e)
         {
-            //not supported yet.
+            /*if (sender == Players.Items[0])
+            {
+                
+            }*/
         }
 
         private void backMenu_click(object sender, RoutedEventArgs e)
