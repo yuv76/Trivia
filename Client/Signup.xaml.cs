@@ -43,62 +43,70 @@ namespace Client
             int ok = 0;
             string errors = "";
             //check username existance with the server.
-            
-            if(NEWPASS.Text != REPASS.Text)
-            {
-                errors += PASSWORDS_NOT_MATCH;
-            }
 
-            string[] temp1 = temp.Split('@');
-            if (!NEWMAIL.Text.Contains('@'))
+            if (NEWSERNAME.Text.Length == 0)
             {
-                errors += INVALID_MAIL;
+                ERRORS.Text = "Invalid username";
             }
             else
             {
-                temp2 = temp1[1];
-                string[] temp3 = temp2.Split('.');
-                if (!temp2.Contains('.'))
+                if (NEWPASS.Text != REPASS.Text)
                 {
-                    errors += INVALID_MAIL;
+                    errors += PASSWORDS_NOT_MATCH;
                 }
-                else if (temp1[0].Length < 1)
-                {
-                    errors += INVALID_MAIL;
-                }
-                else if (temp3[0].Length < 1)
-                {
-                    errors += INVALID_MAIL;
-                }
-                else if (temp3[1].Length != 3)
-                {
-                    errors += INVALID_MAIL;
-                }
-            }
 
-            if (errors != "")
-            {
-                ERRORS.Text = errors;
-            }
-            else
-            {
-                ok = await Communicator.signupAsync(NEWSERNAME.Text, NEWPASS.Text, NEWMAIL.Text);
-                if(ok == SignupResponse.SIGNUP_SUCCESS)
+                string[] temp1 = temp.Split('@');
+                if (!NEWMAIL.Text.Contains('@'))
                 {
-                    MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
-                    men.Show();
-                    _isClosedByX = false;
-                    this.Close();
-                }
-                else if(ok == SignupResponse.SIGNUP_FAIL)
-                {
-                    ERRORS.Text = "Username already taken";
+                    errors += INVALID_MAIL;
                 }
                 else
                 {
-                    ERRORS.Text = "Connection error.";
+                    temp2 = temp1[1];
+                    string[] temp3 = temp2.Split('.');
+                    if (!temp2.Contains('.'))
+                    {
+                        errors += INVALID_MAIL;
+                    }
+                    else if (temp1[0].Length < 1)
+                    {
+                        errors += INVALID_MAIL;
+                    }
+                    else if (temp3[0].Length < 1)
+                    {
+                        errors += INVALID_MAIL;
+                    }
+                    else if (temp3[1].Length != 3)
+                    {
+                        errors += INVALID_MAIL;
+                    }
+                }
+
+                if (errors != "")
+                {
+                    ERRORS.Text = errors;
+                }
+                else
+                {
+                    ok = await Communicator.signupAsync(NEWSERNAME.Text, NEWPASS.Text, NEWMAIL.Text);
+                    if (ok == SignupResponse.SIGNUP_SUCCESS)
+                    {
+                        MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                        men.Show();
+                        _isClosedByX = false;
+                        this.Close();
+                    }
+                    else if (ok == SignupResponse.SIGNUP_FAIL)
+                    {
+                        ERRORS.Text = "Username already taken";
+                    }
+                    else
+                    {
+                        ERRORS.Text = "Connection error.";
+                    }
                 }
             }
+            
         }
         protected override async void OnClosed(EventArgs e)
         {
