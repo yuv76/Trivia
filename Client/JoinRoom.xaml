@@ -18,7 +18,7 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock FontSize="17" Margin="57,0,65,-20">Players In Room:</TextBlock>
             </StackPanel>
-            <ListBox x:Name="LST_PLAYERS" Height="120"  Margin="57,20,65,10" FontSize="25"/>
+            <ListBox x:Name="LST_PLAYERS" Height="100"  Margin="57,20,65,10" FontSize="16"/>
             <StackPanel Orientation="Horizontal" Width="637">
                 <Button x:Name="JOIN_ROOM" Height="29" Width="437" Content="Join" FontSize="20" Click="Join_Click"/>
                 <Button x:Name="BACK" Width="70" Height="32" Margin="80,0,0,0" Click="back_click" Content="back"/>
