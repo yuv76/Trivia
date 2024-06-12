@@ -25,6 +25,8 @@ namespace Client
         {
             InitializeComponent();
 
+            PutName();
+
             getGameResults();
         }
 
@@ -58,6 +60,12 @@ namespace Client
                 int ok = await Communicator.LeaveGame();
                 ok = await Communicator.signoutAsync();
             }
+        }
+
+        private void PutName()
+        {
+            string temp = "hello " + Communicator.getName();
+            name.Text = temp;
         }
     }
 }
