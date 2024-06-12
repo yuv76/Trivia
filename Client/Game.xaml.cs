@@ -1,6 +1,7 @@
 ﻿using Responses;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace Client
     /// </summary>
     public partial class Game : Window
     {
+        private Stopwatch stopwatch = new Stopwatch();
         private bool _isClosedByX = true;
         private bool _answered = false;
         int totalQ;
@@ -62,6 +64,7 @@ namespace Client
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 1);
             dispatcherTimer.Tick += Timer_tick;
             dispatcherTimer.Start();
+            stopwatch.Start();
         }
 
         void Timer_tick(object sender, EventArgs e)
@@ -75,17 +78,17 @@ namespace Client
             {
                 dispatcherTimer.Stop();
                 getNextQuestion();
+                stopwatch.Stop();
             }
         }
 
         async void getNextQuestion()
         {
             _answered = false;
-            resetTimer();
-            //Thread.Sleep(5000);
             getQuestionResponse question = await Communicator.getNextQuestion();
             if (question.status != getQuestionResponse.QUESTIONS_OVER)
             {
+                resetTimer();
                 QUESTION.Text = question.Question;
                 ANS1.Content = question.Answers[0];
                 ANS2.Content = question.Answers[1];
@@ -114,8 +117,6 @@ namespace Client
         {
             if (!_answered)
             {
-                tempTime = 3;
-                _answered = true;
                 int resp = 0;
                 uint ans = 0;
                 Button clicked = sender as Button;
@@ -135,7 +136,10 @@ namespace Client
                 {
                     ans = 4;
                 }
-                resp = await Communicator.SubmitAnswer(ans);
+                stopwatch.Stop();
+                resp = await Communicator.SubmitAnswer(ans, stopwatch.Elapsed.TotalSeconds);
+                tempTime = 3;
+                _answered = true;
 
                 if (resp == 1)
                 {

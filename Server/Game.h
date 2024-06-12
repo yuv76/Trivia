@@ -24,6 +24,7 @@ public:
 	int submitAnswer(int answerId, LoggedUser user, double ansTime); // return type made to have one, but not official and could change.
 	void removePlayer(LoggedUser user); // return type made to have one, but not official and could change.
 	int getId();
-	void endGame();
+	void endGame(IDatabase* db);
 	std::vector<std::pair<std::string, GameData>> getData();
+	bool isActive();
 };

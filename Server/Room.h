@@ -5,9 +5,12 @@
 #include <vector>
 #include <string>
 
+#define LOBBY -1;
+
 class Room
 {
 private:
+	int _gameId;
 	RoomData m_metadata;
 	std::vector<LoggedUser> m_users;
 public:
@@ -23,4 +26,6 @@ public:
 	RoomData getRoomData();
 	std::vector<std::string> getPlayersInRoomNames();
 	GetRoomStateResponse getState();
+	void updateGameID(int id);
+	int getGameID() const;
 };

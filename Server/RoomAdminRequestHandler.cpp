@@ -104,6 +104,7 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo)
 	rqRs.response = buffer;
 
 	int createdGameId = this->m_handlerFactory.getGameManager().createGame(this->m_room);
+	this->m_room.updateGameID(createdGameId);
 	rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_handlerFactory.getGameManager().getGameByID(createdGameId));
 
 

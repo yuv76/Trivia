@@ -137,9 +137,10 @@ makes the game state not active.
 in: none.
 out: none.
 */
-void Game::endGame()
+void Game::endGame(IDatabase* db)
 {
 	this->_isActive = false;
+	this->sumitGameStatsToDB(db);
 }
 
 /*
@@ -166,4 +167,14 @@ std::vector<std::pair<std::string, GameData>> Game::getData()
 		sendData.push_back(temp);
 	}
 	return sendData;
+}
+
+/*
+gets the game's active state.
+in: none.
+out: true if active, false otherwise.
+*/
+bool Game::isActive()
+{
+	return this->_isActive;
 }

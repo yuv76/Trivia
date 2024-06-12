@@ -154,8 +154,8 @@ SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerReques
 	jsonBuf = json::parse(jsonStr);
 
 	//answerId
-	id = jsonBuf["answerId"];
-	info.answerId = (id);
+	info.answerId = jsonBuf["answerId"];
+	info.answerTime = jsonBuf["ansTime"];
 
 	return info;
 }
