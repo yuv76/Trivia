@@ -267,7 +267,6 @@ std::string SqliteDatabase::remove(std::string temp)
 	while (first != std::string::npos)
 	{
 		temp.erase(first, (last - first) + 1);
-		//temp = temp.substr(0, last);
 		first = temp.find('&');
 		last = temp.find(';');
 	}
