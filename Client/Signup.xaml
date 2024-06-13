@@ -8,6 +8,9 @@
         Title="Signup" Height="450" Width="800"
         Background="AliceBlue">
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/back.png"/>
+        </Grid.Background>
         <StackPanel Margin="10,80,10,6">
             <StackPanel Orientation="Horizontal">
                 <TextBlock FontSize="16" Width="188" FontFamily="Cascadia Mono SemiBold">Enter Useraname:</TextBlock>
@@ -26,7 +29,14 @@
                 <TextBox x:Name="NEWMAIL" Height="26" Width="577" FontFamily="Cascadia Mono SemiBold"></TextBox>
             </StackPanel>
 
-            <Button Margin="0,5" Height="41" Width="171" FontSize="16" Click="signupEnter_click" FontFamily="Cascadia Mono SemiBold">Enter</Button>
+            <Button Margin="0,5" Height="65" Width="175" FontSize="16" Click="signupEnter_click" FontFamily="Cascadia Mono SemiBold">
+                <Button.BorderBrush>
+                    <ImageBrush/>
+                </Button.BorderBrush>
+                <Button.Background>
+                    <ImageBrush ImageSource="/dblu.png"/>
+                </Button.Background> Enter
+            </Button>
             <TextBlock x:Name="ERRORS" Foreground="DarkRed" Height="117" FontFamily="Cascadia Mono SemiBold"></TextBlock>
         </StackPanel>
     </Grid>

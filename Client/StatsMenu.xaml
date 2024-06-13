@@ -8,6 +8,9 @@
         Title="Window1" Height="450" Width="800"
         Background="AliceBlue">
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/back.png"/>
+        </Grid.Background>
 
 
         <Grid.ColumnDefinitions>
@@ -16,8 +19,23 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,260,0" Width="100" FontFamily="Cascadia Mono SemiBold"/>
-        <Button x:Name="BACK" Click="back_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,200,0" Width="60" FontFamily="Cascadia Mono SemiBold">Go Back</Button>
-        <Button x:Name="PERSONAL" Click="personal_click" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,200,176,0" Width="154" FontFamily="Cascadia Mono SemiBold">Personal Statistics</Button>
-        <Button x:Name="TOP" Click="top_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,200,150,0" Width="130" RenderTransformOrigin="0.445,1.399" FontFamily="Cascadia Mono SemiBold">Top Statistics</Button>
+        <Button x:Name="BACK" Click="back_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,111,0" Width="149" FontFamily="Cascadia Mono SemiBold" Height="62" BorderBrush="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="/yellow.png"/>
+            </Button.Background> Go Back
+        </Button>
+        <Button x:Name="PERSONAL" Click="personal_click" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,200,120,0" Width="210" FontFamily="Cascadia Mono SemiBold" Height="106" BorderBrush="{x:Null}">
+            <Button.Background>
+                <ImageBrush ImageSource="/red_i.png"/>
+            </Button.Background> Personal Statistics
+        </Button>
+        <Button x:Name="TOP" Click="top_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,200,111,0" Width="169" RenderTransformOrigin="0.445,1.399" FontFamily="Cascadia Mono SemiBold" Height="106">
+            <Button.BorderBrush>
+                <ImageBrush/>
+            </Button.BorderBrush>
+            <Button.Background>
+                <ImageBrush ImageSource="/Pink.png"/>
+            </Button.Background> Top Statistics
+        </Button>
     </Grid>
 </Window>

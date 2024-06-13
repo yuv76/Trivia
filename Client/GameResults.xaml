@@ -8,13 +8,24 @@
         Title="GameResults" Height="450" Width="800"
         Background="AliceBlue">
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/back.png"/>
+        </Grid.Background>
         <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,660,0" Width="100"/>
         <StackPanel Margin="0,60,0,0">
             <TextBlock FontSize="30" Width="199" FontFamily="Cascadia Mono SemiBold">Game Results:</TextBlock>
             <ListBox x:Name="Players" Height="244" Width="691" FontFamily="Cascadia Mono SemiBold"></ListBox>
-            <StackPanel Orientation="Horizontal" Margin="20" Height="32" Width="279">
-                <Button Click="backRoom_click" FontFamily="Cascadia Mono SemiBold" Height="29" Width="96">back to room</Button>
-                <Button Margin="90,0,0,0" Click="backMenu_click" FontFamily="Cascadia Mono SemiBold" Width="89" Height="29">back to menu</Button>
+            <StackPanel Orientation="Horizontal" Margin="20" Height="39" Width="372">
+                <Button Click="backRoom_click" FontFamily="Cascadia Mono SemiBold" Height="40" Width="140" BorderBrush="{x:Null}">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/yellow.png"/>
+                    </Button.Background> back to room
+                </Button>
+                <Button Margin="90,0,0,0" Click="backMenu_click" FontFamily="Cascadia Mono SemiBold" Width="128" Height="42" BorderBrush="{x:Null}">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Pink.png"/>
+                    </Button.Background> back to menu
+                </Button>
             </StackPanel>
         </StackPanel>
 

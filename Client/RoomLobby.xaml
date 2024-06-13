@@ -8,15 +8,26 @@
         Title="Room Lobby" Height="450" Width="800"
         Background="AliceBlue">
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/back.png"/>
+        </Grid.Background>
         <StackPanel Margin="90,44,103,10">
             <TextBlock x:Name="ROOM_NAME" FontSize="20" Height="59" TextAlignment="Center" FontFamily="Cascadia Mono SemiBold"></TextBlock>
             <StackPanel Orientation="Horizontal" Height="196">
                 <StackPanel>
-                    <Button x:Name="START" Height="48" Width="122" Click="start_Click" Margin="20,20,0,0" Visibility="Collapsed" FontFamily="Cascadia Mono SemiBold">Start Game</Button>
-                    <Button x:Name="LEAVE" Height="48" Width="122" Click="Leave_Click" Margin="20,20,0,0" FontFamily="Cascadia Mono SemiBold" >Leave Room</Button>
+                    <Button x:Name="START" Height="69" Width="154" Click="start_Click" Margin="20,20,0,0" Visibility="Collapsed" FontFamily="Cascadia Mono SemiBold" BorderBrush="{x:Null}">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/yellow.png"/>
+                        </Button.Background> Start Game
+                    </Button>
+                    <Button x:Name="LEAVE" Height="74" Width="144" Click="Leave_Click" Margin="20,20,0,0" FontFamily="Cascadia Mono SemiBold" BorderBrush="{x:Null}" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="/dblu.png"/>
+                        </Button.Background> Leave Room
+                    </Button>
                 </StackPanel>
                 <StackPanel Width="460">
-                    <ListBox x:Name="PLAYERS" Height="170" Width="300" Margin="120,0,0,0" FontFamily="Cascadia Mono SemiBold"></ListBox>
+                    <ListBox x:Name="PLAYERS" Height="170" Width="219" Margin="120,0,0,0" FontFamily="Cascadia Mono SemiBold"></ListBox>
                     <TextBlock x:Name="NUM_PLAYERS" FontSize="16" Height="28" Width="324" Margin="143,0,0,0" FontFamily="Cascadia Mono SemiBold"></TextBlock>
                 </StackPanel>
             </StackPanel>

@@ -10,18 +10,33 @@
     <Grid>
         <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,660,0" Width="100" FontFamily="Cascadia Mono SemiBold"/>
         <StackPanel>
+            <StackPanel.Background>
+                <ImageBrush ImageSource="/back.png"/>
+            </StackPanel.Background>
             <StackPanel Orientation="Horizontal">
-                <TextBlock FontSize="17" Margin="57,40,65,-60" Height="20" Width="230" FontFamily="Cascadia Mono SemiBold">Choose a Room To Join:</TextBlock>
-                <Button Margin="310,40,65,-60" Click="refresh_Click" Height="28" Width="57" Content="refresh" FontFamily="Cascadia Mono SemiBold"/>
+                <TextBlock FontSize="17" Margin="57,40,65,-60" Height="20" Width="220" FontFamily="Cascadia Mono SemiBold">Choose a Room To Join:</TextBlock>
+                <Button Margin="270,40,65,-60" Click="refresh_Click" Height="48" Width="77" Content="refresh" FontFamily="Cascadia Mono SemiBold" BorderBrush="{x:Null}">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/yellow.png"/>
+                    </Button.Background>
+                </Button>
             </StackPanel>
             <ListBox x:Name="LST_ROOMS" Height="130"  Margin="57,65,65,10" FontSize="25" FontFamily="Cascadia Mono SemiBold"/>
             <StackPanel Orientation="Horizontal" >
                 <TextBlock FontSize="17" Margin="57,0,65,-20" FontFamily="Cascadia Mono SemiBold">Players In Room:</TextBlock>
             </StackPanel>
-            <ListBox x:Name="LST_PLAYERS" Height="120"  Margin="57,20,65,10" FontSize="25" FontFamily="Cascadia Mono SemiBold"/>
-            <StackPanel Orientation="Horizontal" Width="637">
-                <Button x:Name="JOIN_ROOM" Height="29" Width="437" Content="Join" FontSize="20" Click="Join_Click" FontFamily="Cascadia Mono SemiBold"/>
-                <Button x:Name="BACK" Width="70" Height="32" Margin="80,0,0,0" Click="back_click" Content="back" FontFamily="Cascadia Mono SemiBold"/>
+            <ListBox x:Name="LST_PLAYERS" Height="72"  Margin="57,20,65,10" FontSize="25" FontFamily="Cascadia Mono SemiBold" Width="662"/>
+            <StackPanel Orientation="Horizontal" Width="403">
+                <Button x:Name="JOIN_ROOM" Height="55" Width="157" Content="Join" FontSize="20" Click="Join_Click" FontFamily="Cascadia Mono SemiBold" BorderBrush="{x:Null}">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/red_i.png"/>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="BACK" Width="122" Height="48" Margin="80,0,0,0" Click="back_click" Content="back" FontFamily="Cascadia Mono SemiBold" BorderBrush="{x:Null}">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/blue.png"/>
+                    </Button.Background>
+                </Button>
             </StackPanel>
             <TextBlock x:Name="ERROR" Foreground="DarkRed" Margin="10" FontSize="16" FontFamily="Cascadia Mono SemiBold"></TextBlock>
         </StackPanel>

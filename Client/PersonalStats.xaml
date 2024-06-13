@@ -8,6 +8,9 @@
         Title="PersonalStats" Height="450" Width="800"
         Background="AliceBlue">
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/back.png"/>
+        </Grid.Background>
 
 
         <Grid.ColumnDefinitions>
@@ -16,7 +19,11 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,260,0" Width="100" FontFamily="Cascadia Mono SemiBold"/>
-        <Button x:Name="BACK" Click="back_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,200,0" Width="70" FontFamily="Cascadia Mono SemiBold">Go Back</Button>
+        <Button x:Name="BACK" Click="back_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,185,0" Width="85" FontFamily="Cascadia Mono SemiBold" Height="41">
+            <Button.Background>
+                <ImageBrush ImageSource="/red_i.png"/>
+            </Button.Background> Go Back
+        </Button>
         <TextBlock FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,90,0,0" Width="135" FontFamily="Cascadia Mono SemiBold">average time:</TextBlock>
         <TextBlock x:Name="time" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,125,0,0" Width="100" FontFamily="Cascadia Mono SemiBold"/>
 

@@ -8,6 +8,9 @@
         Title="Game" Height="450" Width="800"
         Background="AliceBlue">
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/back.png"/>
+        </Grid.Background>
         <StackPanel Margin="0,43,0,0">
             <StackPanel Orientation="Horizontal" Height="47" Width="703">
                 <TextBlock x:Name="ANSWERED" FontSize="17" Width="108" FontFamily="Cascadia Mono SemiBold"></TextBlock>
@@ -16,16 +19,36 @@
             <TextBlock x:Name="QUESTION" Height="64" FontSize="30" TextAlignment="Center" FontFamily="Cascadia Mono SemiBold" TextWrapping="WrapWithOverflow"></TextBlock>
             <StackPanel Orientation="Horizontal" Height="221" Width="494" >
                 <StackPanel Height="186">
-                    <Button x:Name="ANS1" Height="81" Width="243" Margin="0,0,0,18" Click="sendAns_click" FontFamily="Cascadia Mono SemiBold"></Button>
-                    <Button x:Name="ANS2" Height="81" Width="243" Click="sendAns_click" FontFamily="Cascadia Mono SemiBold"></Button>
+                    <Button x:Name="ANS1" Height="81" Width="243" Margin="0,0,0,18" Click="sendAns_click" FontFamily="Cascadia Mono SemiBold" BorderBrush="#FF17E3BF" BorderThickness="3,3,3,3">
+                        <Button.Background>
+                            <SolidColorBrush Color="#FF7AF5CD" Opacity="0.5"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="ANS2" Height="81" Width="243" Click="sendAns_click" FontFamily="Cascadia Mono SemiBold" BorderBrush="#FF17E3BF" BorderThickness="3,3,3,3">
+                        <Button.Background>
+                            <SolidColorBrush Color="#FF7AF5CD" Opacity="0.5"/>
+                        </Button.Background>
+                    </Button>
                 </StackPanel>
                 <StackPanel Margin="0,0,18,0" Width="255" Height="186">
-                    <Button x:Name="ANS3" Height="81" Width="243" Margin="0,0,0,18" Click="sendAns_click" FontFamily="Cascadia Mono SemiBold"></Button>
-                    <Button x:Name="ANS4" Height="81" Width="243" Margin="0,0,0,0" Click="sendAns_click" FontFamily="Cascadia Mono SemiBold"></Button>
+                    <Button x:Name="ANS3" Height="81" Width="243" Margin="0,0,0,18" Click="sendAns_click" FontFamily="Cascadia Mono SemiBold" BorderBrush="#FF17E3BF" BorderThickness="3,3,3,3">
+                        <Button.Background>
+                            <SolidColorBrush Color="#FF7AF5CD" Opacity="0.5"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="ANS4" Height="81" Width="243" Margin="0,0,0,0" Click="sendAns_click" FontFamily="Cascadia Mono SemiBold" BorderBrush="#FF17E3BF" BorderThickness="3,3,3,3">
+                        <Button.Background>
+                            <SolidColorBrush Color="#FF7AF5CD" Opacity="0.5"/>
+                        </Button.Background>
+                    </Button>
                 </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Width="757">
-                <Button Height="28" Width="109" Margin="0,0,0,0" Click="LeaveGame_click" FontFamily="Cascadia Mono SemiBold">Leave Game</Button>
+                <Button Height="40" Width="130" Margin="0,0,0,0" Click="LeaveGame_click" FontFamily="Cascadia Mono SemiBold">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/yellow.png"/>
+                    </Button.Background> Leave Game
+                </Button>
                 <TextBlock x:Name="USERNAME" FontSize="16" Margin="540,0,0,0" FontFamily="Cascadia Mono SemiBold"></TextBlock>
             </StackPanel>
         </StackPanel>
