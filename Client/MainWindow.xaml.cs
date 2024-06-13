@@ -12,6 +12,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static System.Net.Mime.MediaTypeNames;
+using GrapeCity.Documents.Imaging;
+using System.Runtime.InteropServices;
+
+using System.Drawing.Text;
 
 namespace Client
 {

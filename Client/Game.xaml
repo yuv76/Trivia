@@ -10,23 +10,23 @@
     <Grid>
         <StackPanel Margin="0,43,0,0">
             <StackPanel Orientation="Horizontal" Height="47" Width="703">
-                <TextBlock x:Name="ANSWERED" FontSize="17" Width="108"></TextBlock>
-                <TextBlock x:Name="TIME" FontSize="18" Margin="530,0,0,0"></TextBlock>
+                <TextBlock x:Name="ANSWERED" FontSize="17" Width="108" FontFamily="Cascadia Mono SemiBold"></TextBlock>
+                <TextBlock x:Name="TIME" FontSize="18" Margin="430,0,0,0" FontFamily="Cascadia Mono SemiBold" RenderTransformOrigin="0.5,0.5" Width="100"></TextBlock>
             </StackPanel>
-            <TextBlock x:Name="QUESTION" Height="64" FontSize="17" TextAlignment="Center"></TextBlock>
-            <StackPanel Orientation="Horizontal" Height="221" Width="494">
+            <TextBlock x:Name="QUESTION" Height="64" FontSize="30" TextAlignment="Center" FontFamily="Cascadia Mono SemiBold" TextWrapping="WrapWithOverflow"></TextBlock>
+            <StackPanel Orientation="Horizontal" Height="221" Width="494" >
                 <StackPanel Height="186">
-                    <Button x:Name="ANS1" Height="81" Width="243" Margin="0,0,0,18" Click="sendAns_click"></Button>
-                    <Button x:Name="ANS2" Height="81" Width="243" Click="sendAns_click"></Button>
+                    <Button x:Name="ANS1" Height="81" Width="243" Margin="0,0,0,18" Click="sendAns_click" FontFamily="Cascadia Mono SemiBold"></Button>
+                    <Button x:Name="ANS2" Height="81" Width="243" Click="sendAns_click" FontFamily="Cascadia Mono SemiBold"></Button>
                 </StackPanel>
                 <StackPanel Margin="0,0,18,0" Width="255" Height="186">
-                    <Button x:Name="ANS3" Height="81" Width="243" Margin="0,0,0,18" Click="sendAns_click"></Button>
-                    <Button x:Name="ANS4" Height="81" Width="243" Margin="0,0,0,0" Click="sendAns_click"></Button>
+                    <Button x:Name="ANS3" Height="81" Width="243" Margin="0,0,0,18" Click="sendAns_click" FontFamily="Cascadia Mono SemiBold"></Button>
+                    <Button x:Name="ANS4" Height="81" Width="243" Margin="0,0,0,0" Click="sendAns_click" FontFamily="Cascadia Mono SemiBold"></Button>
                 </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Width="757">
-                <Button Height="28" Width="109" Margin="0,0,0,0" Click="LeaveGame_click">Leave Game</Button>
-                <TextBlock x:Name="USERNAME" FontSize="16" Margin="540,0,0,0"></TextBlock>
+                <Button Height="28" Width="109" Margin="0,0,0,0" Click="LeaveGame_click" FontFamily="Cascadia Mono SemiBold">Leave Game</Button>
+                <TextBlock x:Name="USERNAME" FontSize="16" Margin="540,0,0,0" FontFamily="Cascadia Mono SemiBold"></TextBlock>
             </StackPanel>
         </StackPanel>
     </Grid>

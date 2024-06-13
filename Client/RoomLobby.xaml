@@ -9,26 +9,26 @@
         Background="AliceBlue">
     <Grid>
         <StackPanel Margin="90,44,103,10">
-            <TextBlock x:Name="ROOM_NAME" FontSize="20" Height="59" TextAlignment="Center"></TextBlock>
+            <TextBlock x:Name="ROOM_NAME" FontSize="20" Height="59" TextAlignment="Center" FontFamily="Cascadia Mono SemiBold"></TextBlock>
             <StackPanel Orientation="Horizontal" Height="196">
                 <StackPanel>
-                    <Button x:Name="START" Height="48" Width="122" Click="start_Click" Margin="20,20,0,0" Visibility="Collapsed">Start Game</Button>
-                    <Button x:Name="LEAVE" Height="48" Width="122" Click="Leave_Click" Margin="20,20,0,0" >Leave Room</Button>
+                    <Button x:Name="START" Height="48" Width="122" Click="start_Click" Margin="20,20,0,0" Visibility="Collapsed" FontFamily="Cascadia Mono SemiBold">Start Game</Button>
+                    <Button x:Name="LEAVE" Height="48" Width="122" Click="Leave_Click" Margin="20,20,0,0" FontFamily="Cascadia Mono SemiBold" >Leave Room</Button>
                 </StackPanel>
                 <StackPanel Width="460">
-                    <ListBox x:Name="PLAYERS" Height="170" Width="300" Margin="120,0,0,0"></ListBox>
-                    <TextBlock x:Name="NUM_PLAYERS" FontSize="16" Height="28" Width="324" Margin="143,0,0,0"></TextBlock>
+                    <ListBox x:Name="PLAYERS" Height="170" Width="300" Margin="120,0,0,0" FontFamily="Cascadia Mono SemiBold"></ListBox>
+                    <TextBlock x:Name="NUM_PLAYERS" FontSize="16" Height="28" Width="324" Margin="143,0,0,0" FontFamily="Cascadia Mono SemiBold"></TextBlock>
                 </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Height="30">
-                <TextBlock Height="41" x:Name="NUM_QUESTIONS_TITLE" FontSize="16" Width="220">Number of questions in game:</TextBlock>
-                <TextBlock Height="41" x:Name="NUM_QUESTIONS" FontSize="16" Width="86"></TextBlock>
+                <TextBlock Height="41" x:Name="NUM_QUESTIONS_TITLE" FontSize="16" Width="272" FontFamily="Cascadia Mono SemiBold">Number of questions in game:</TextBlock>
+                <TextBlock Height="41" x:Name="NUM_QUESTIONS" FontSize="16" Width="95" FontFamily="Cascadia Mono SemiBold"></TextBlock>
 
-                <TextBlock Height="41" x:Name="QUESTION_TIME_TITLE" FontSize="16" Width="133">time for question:</TextBlock>
-                <TextBlock Height="41" x:Name="QUESTION_TIME" FontSize="16" Width="133"></TextBlock>
+                <TextBlock Height="41" x:Name="QUESTION_TIME_TITLE" FontSize="16" Width="175" FontFamily="Cascadia Mono SemiBold">time for question:</TextBlock>
+                <TextBlock Height="41" x:Name="QUESTION_TIME" FontSize="16" Width="133" FontFamily="Cascadia Mono SemiBold"></TextBlock>
             </StackPanel>
 
-            <TextBlock Margin="0,10" FontSize="16" Foreground="DarkRed" x:Name="ERROR" Height="33"></TextBlock>
+            <TextBlock Margin="0,10" FontSize="16" Foreground="DarkRed" x:Name="ERROR" Height="33" FontFamily="Cascadia Mono SemiBold"></TextBlock>
         </StackPanel>
     </Grid>
 </Window>

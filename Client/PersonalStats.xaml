@@ -15,22 +15,22 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,260,0" Width="100"/>
-        <Button x:Name="BACK" Click="back_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,200,0" Width="70">Go Back</Button>
-        <TextBlock FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,90,0,0" Width="100">average time:</TextBlock>
-        <TextBlock x:Name="time" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,125,0,0" Width="100"/>
+        <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,260,0" Width="100" FontFamily="Cascadia Mono SemiBold"/>
+        <Button x:Name="BACK" Click="back_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,200,0" Width="70" FontFamily="Cascadia Mono SemiBold">Go Back</Button>
+        <TextBlock FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,90,0,0" Width="135" FontFamily="Cascadia Mono SemiBold">average time:</TextBlock>
+        <TextBlock x:Name="time" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,125,0,0" Width="100" FontFamily="Cascadia Mono SemiBold"/>
 
 
-        <TextBlock FontSize="16" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,90,0,0" Width="120">correct answers:</TextBlock>
-        <TextBlock x:Name="correct" FontSize="16" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,125,0,0" Width="100"/>
+        <TextBlock FontSize="16" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,90,0,0" Width="152" FontFamily="Cascadia Mono SemiBold">correct answers:</TextBlock>
+        <TextBlock x:Name="correct" FontSize="16" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,125,0,0" Width="100" FontFamily="Cascadia Mono SemiBold"/>
 
-        <TextBlock FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" Width="100">player games:</TextBlock>
-        <TextBlock x:Name="games" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,230,0,0" Width="100"/>
+        <TextBlock FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" Width="135" FontFamily="Cascadia Mono SemiBold" Height="26">player games:</TextBlock>
+        <TextBlock x:Name="games" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,230,0,0" Width="100" FontFamily="Cascadia Mono SemiBold"/>
 
 
-        <TextBlock FontSize="16" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="100">total answers:</TextBlock>
-        <TextBlock x:Name="total" FontSize="16" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,230,0,0" Width="100"/>
+        <TextBlock FontSize="16" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="153" FontFamily="Cascadia Mono SemiBold">total answers:</TextBlock>
+        <TextBlock x:Name="total" FontSize="16" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,230,0,0" Width="100" FontFamily="Cascadia Mono SemiBold"/>
 
-        <TextBlock x:Name="ERROR" Foreground="DarkRed" FontSize="16" Grid.Column="0" Margin="30,390,0,0"></TextBlock>
+        <TextBlock x:Name="ERROR" Foreground="DarkRed" FontSize="16" Grid.Column="0" Margin="30,390,0,0" FontFamily="Cascadia Mono SemiBold"></TextBlock>
     </Grid>
 </Window>

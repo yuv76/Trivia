@@ -10,24 +10,24 @@
     <Grid>
         <StackPanel Margin="10,80,10,6">
             <StackPanel Orientation="Horizontal">
-                <TextBlock FontSize="16" Width="188">Enter Useraname:</TextBlock>
-                <TextBox x:Name="NEWSERNAME" Height="26" Width="577"/>
+                <TextBlock FontSize="16" Width="188" FontFamily="Cascadia Mono SemiBold">Enter Useraname:</TextBlock>
+                <TextBox x:Name="NEWSERNAME" Height="26" Width="577" FontFamily="Cascadia Mono SemiBold"/>
             </StackPanel>
             <StackPanel Margin="0,20" Orientation="Horizontal">
-                <TextBlock FontSize="16" Width="188">Enter Password:</TextBlock>
-                <TextBox x:Name="NEWPASS" Height="26" Width="577"></TextBox>
+                <TextBlock FontSize="16" Width="188" FontFamily="Cascadia Mono SemiBold">Enter Password:</TextBlock>
+                <TextBox x:Name="NEWPASS" Height="26" Width="577" FontFamily="Cascadia Mono SemiBold"></TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock FontSize="16" Width="188">Re-Enter Password:</TextBlock>
-                <TextBox x:Name="REPASS" Height="26" Width="577"></TextBox>
+                <TextBlock FontSize="16" Width="188" FontFamily="Cascadia Mono SemiBold">Re-Enter Password:</TextBlock>
+                <TextBox x:Name="REPASS" Height="26" Width="577" FontFamily="Cascadia Mono SemiBold"></TextBox>
             </StackPanel>
             <StackPanel Margin="0,20" Orientation="Horizontal">
-                <TextBlock FontSize="16" Width="188">Enter Email:</TextBlock>
-                <TextBox x:Name="NEWMAIL" Height="26" Width="577"></TextBox>
+                <TextBlock FontSize="16" Width="188" FontFamily="Cascadia Mono SemiBold">Enter Email:</TextBlock>
+                <TextBox x:Name="NEWMAIL" Height="26" Width="577" FontFamily="Cascadia Mono SemiBold"></TextBox>
             </StackPanel>
-            
-            <Button Margin="0,5" Height="41" Width="171" FontSize="16" Click="signupEnter_click">Enter</Button>
-            <TextBlock x:Name="ERRORS" Foreground="DarkRed" Height="117"></TextBlock>
+
+            <Button Margin="0,5" Height="41" Width="171" FontSize="16" Click="signupEnter_click" FontFamily="Cascadia Mono SemiBold">Enter</Button>
+            <TextBlock x:Name="ERRORS" Foreground="DarkRed" Height="117" FontFamily="Cascadia Mono SemiBold"></TextBlock>
         </StackPanel>
     </Grid>
 </Window>
