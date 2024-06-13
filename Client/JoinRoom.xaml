@@ -25,8 +25,8 @@
             <StackPanel Orientation="Horizontal" >
                 <TextBlock FontSize="17" Margin="57,0,65,-20" FontFamily="Cascadia Mono SemiBold">Players In Room:</TextBlock>
             </StackPanel>
-            <ListBox x:Name="LST_PLAYERS" Height="72"  Margin="57,20,65,10" FontSize="25" FontFamily="Cascadia Mono SemiBold" Width="662"/>
-            <StackPanel Orientation="Horizontal" Width="403">
+            <ListBox x:Name="LST_PLAYERS" Height="56"  Margin="57,20,65,10" FontSize="25" FontFamily="Cascadia Mono SemiBold" Width="672"/>
+            <StackPanel Orientation="Horizontal" Width="404" Height="52">
                 <Button x:Name="JOIN_ROOM" Height="55" Width="157" Content="Join" FontSize="20" Click="Join_Click" FontFamily="Cascadia Mono SemiBold" BorderBrush="{x:Null}">
                     <Button.Background>
                         <ImageBrush ImageSource="/red_i.png"/>
@@ -38,7 +38,7 @@
                     </Button.Background>
                 </Button>
             </StackPanel>
-            <TextBlock x:Name="ERROR" Foreground="DarkRed" Margin="10" FontSize="16" FontFamily="Cascadia Mono SemiBold"></TextBlock>
+            <TextBlock x:Name="ERROR" Foreground="DarkRed" Margin="10" FontSize="16" FontFamily="Cascadia Mono SemiBold" Height="47"></TextBlock>
         </StackPanel>
 
 
