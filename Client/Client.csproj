@@ -20,8 +20,13 @@
     <None Remove="p_blu.png" />
     <None Remove="p_yel.png" />
     <None Remove="red_i.png" />
+    <None Remove="Resources\Images\pink_h.png" />
+    <None Remove="Resources\Images\pink_p_h.png" />
+    <None Remove="Resources\Images\p_blu_h.png" />
     <None Remove="Resources\Images\quiz.png" />
     <None Remove="Resources\Images\red.png" />
+    <None Remove="Resources\Images\red_h.png" />
+    <None Remove="Resources\Images\yellow_h.png" />
 	<None Remove="yellow.png" />
     <None Remove="Resources\Images\blue_h.png" />
     <None Remove="Resources\Images\dblu_h.png" />
@@ -45,7 +50,13 @@
 	 <Resource Include="p_blu.png" />
 	 <Resource Include="p_yel.png" />
 	 <Resource Include="red_i.png" />
+	 <Resource Include="Resources\Images\pink_h.png" />
+	 <Resource Include="Resources\Images\pink_p_h.png" />
+	 <Resource Include="Resources\Images\p_blu_h.png" />
+	 <Resource Include="Resources\Images\quiz.png" />
 	 <Resource Include="Resources\Images\red.png" />
+	 <Resource Include="Resources\Images\red_h.png" />
+	 <Resource Include="Resources\Images\yellow_h.png" />
 	  <Resource Include="yellow.png" />
     <Resource Include="Resources\Images\blue_h.png" />
 	<Resource Include="Resources\Images\dblu_h.png" />

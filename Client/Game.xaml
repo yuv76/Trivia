@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
         Title="Game" Height="450" Width="800"
-        Background="AliceBlue">
+        Background="AliceBlue"
+        Icon="Resources/Images/quiz.png">
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/back.png"/>
+            <ImageBrush ImageSource="/back.png" Stretch="UniformToFill"/>
         </Grid.Background>
         <StackPanel Margin="0,43,0,0">
             <StackPanel Orientation="Horizontal" Height="47" Width="703">
