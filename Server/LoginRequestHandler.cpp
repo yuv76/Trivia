@@ -69,7 +69,7 @@ RequestResult LoginRequestHandler::login(RequestInfo inf)
 	buffer = JsonResponsePacketSerializer::serializeResponse(l);
 	rqRs.response = buffer;
 
-	if (status == PASSWORDS_DONT_MATCH || status == USER_NOT_EXIST)
+	if (status == PASSWORDS_DONT_MATCH || status == USER_NOT_EXIST || status == USER_ALREADY_CONNECTED_CODE)
 	{
 		// failed - stay in login state
 		rqRs.newHandler = this->m_handlerFactory.createLoginRequestHandler();
