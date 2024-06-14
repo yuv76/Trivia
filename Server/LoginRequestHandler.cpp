@@ -103,7 +103,7 @@ RequestResult LoginRequestHandler::signup(RequestInfo inf)
 	buffer = JsonResponsePacketSerializer::serializeResponse(s);
 	rqRs.response = buffer;
 
-	if (status)
+	if (status == USER_NOT_ADDED)
 	{
 		// failed - stay in login state
 		rqRs.newHandler = this->m_handlerFactory.createLoginRequestHandler();

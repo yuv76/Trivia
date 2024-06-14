@@ -119,31 +119,32 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="/back.png" Stretch="UniformToFill"/>
-        </Grid.Background>
-        <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,380,0" Width="380" FontFamily="Cascadia Mono SemiBold" Foreground="#FFE541E6"/>
-        <StackPanel Margin="0,60,0,0">
-            <TextBlock FontSize="30" Width="199" FontFamily="Cascadia Mono SemiBold" Foreground="#FFFF8800">Game Results:</TextBlock>
-            <ListBox x:Name="Players" Height="244" Width="691" FontFamily="Cascadia Mono SemiBold" FontSize="16" BorderBrush="#FFFF8800" BorderThickness="2,2,2,2" Foreground="#FFFF8800">
-                <ListBox.Background>
-                    <SolidColorBrush Color="#FFE7D31E" Opacity="0.3"/>
-                </ListBox.Background>
-            </ListBox>
-            <StackPanel Orientation="Horizontal" Margin="20" Height="39" Width="372">
-                <Button Style="{DynamicResource backRoom}" Click="backRoom_click" FontFamily="Cascadia Mono SemiBold" Height="40" Width="140" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/yellow.png"/>
-                    </Button.Background> back to room
-                </Button>
-                <Button Style="{DynamicResource backManu}" Margin="90,0,0,0" Click="backMenu_click" FontFamily="Cascadia Mono SemiBold" Width="128" Height="42" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFF8FCC">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/Pink.png"/>
-                    </Button.Background> back to menu
-                </Button>
+    <Viewbox Stretch="UniformToFill">
+        <Grid>
+            <Grid.Background>
+                <ImageBrush ImageSource="/back.png" Stretch="UniformToFill"/>
+            </Grid.Background>
+            <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="30,20,380,0" Width="249" FontFamily="Cascadia Mono SemiBold" Foreground="#FFE541E6"/>
+            <StackPanel Margin="0,30,0,0">
+                <TextBlock FontSize="30" Width="241" FontFamily="Cascadia Mono SemiBold" Foreground="#FFFF8800">Game Results:</TextBlock>
+                <ListBox x:Name="Players" Height="185" Width="561" FontFamily="Cascadia Mono SemiBold" FontSize="16" BorderBrush="#FFFF8800" BorderThickness="2,2,2,2" Foreground="#FFFF8800">
+                    <ListBox.Background>
+                        <SolidColorBrush Color="#FFE7D31E" Opacity="0.3"/>
+                    </ListBox.Background>
+                </ListBox>
+                <StackPanel Orientation="Horizontal" Margin="20" Height="39" Width="372">
+                    <Button Style="{DynamicResource backRoom}" Click="backRoom_click" FontFamily="Cascadia Mono SemiBold" Height="40" Width="140" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/yellow.png"/>
+                        </Button.Background> back to room
+                    </Button>
+                    <Button Style="{DynamicResource backManu}" Margin="90,0,0,0" Click="backMenu_click" FontFamily="Cascadia Mono SemiBold" Width="128" Height="42" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFF8FCC">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/Pink.png"/>
+                        </Button.Background> back to menu
+                    </Button>
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-
-    </Grid>
+        </Grid>
+    </Viewbox>
 </Window>

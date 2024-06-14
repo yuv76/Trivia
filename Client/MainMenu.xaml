@@ -227,37 +227,33 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="/back.png" Stretch="UniformToFill"/>
-        </Grid.Background>
+    <Viewbox Stretch="UniformToFill">
+        <Grid Height="325" Width="608">
+            <Grid.Background>
+                <ImageBrush ImageSource="/back.png" Stretch="UniformToFill"/>
+            </Grid.Background>
 
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,267,0" Width="493" Height="55" FontFamily="Cascadia Mono SemiBold" Foreground="#FF68B60A" Grid.ColumnSpan="2"/>
-        <Button Style="{DynamicResource exitBtn}" x:Name="EXIT" Click="exit_clickAsync" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,250,155,0" Width="140" FontFamily="Cascadia Mono SemiBold" Height="79" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
-            <Button.Background>
-                <ImageBrush ImageSource="/yellow.png"/>
-            </Button.Background> Exit
-        </Button>
-        <Button Style="{DynamicResource createBtn}" x:Name="CREATE_ROOM" Click="moveToCreateRoom_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,146,58,0" Width="130" RenderTransformOrigin="0.445,1.399" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Height="67" Foreground="#FFFF8FCC">
-            <Button.Background>
-                <ImageBrush ImageSource="/Pink.png"/>
-            </Button.Background> Create Room
-        </Button>
-        <Button Style="{DynamicResource joinRoomBtn}" x:Name="JOIN_ROOM" Click="moveToJoinRoom_click" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="114,150,0,0" Width="122" FontFamily="Cascadia Mono SemiBold" Height="67" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF726BB5">
-            <Button.Background>
-                <ImageBrush ImageSource="/dblu.png"/>
-            </Button.Background> Join Room
-        </Button>
-        <Button Style="{DynamicResource statsBtn}" x:Name="STATISTICS" Click="moveToStatsMenu_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,241,46,0" FontFamily="Cascadia Mono SemiBold" Height="97" Width="154" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF80ECEC">
-            <Button.Background>
-                <ImageBrush ImageSource="/blue.png"/>
-            </Button.Background> Statistics
-        </Button>
-    </Grid>
+            <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,267,0" Width="292" Height="44" FontFamily="Cascadia Mono SemiBold" Foreground="#FF68B60A"/>
+            <Button Style="{DynamicResource exitBtn}" x:Name="EXIT" Click="exit_clickAsync" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,186,331,0" Width="140" FontFamily="Cascadia Mono SemiBold" Height="79" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
+                <Button.Background>
+                    <ImageBrush ImageSource="/yellow.png"/>
+                </Button.Background> Sign Out
+            </Button>
+            <Button Style="{DynamicResource createBtn}" x:Name="CREATE_ROOM" Click="moveToCreateRoom_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,69,151,0" Width="130" RenderTransformOrigin="0.445,1.399" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Height="67" Foreground="#FFFF8FCC">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Pink.png"/>
+                </Button.Background> Create Room
+            </Button>
+            <Button Style="{DynamicResource joinRoomBtn}" x:Name="JOIN_ROOM" Click="moveToJoinRoom_click" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="146,69,0,0" Width="122" FontFamily="Cascadia Mono SemiBold" Height="67" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF726BB5">
+                <Button.Background>
+                    <ImageBrush ImageSource="/dblu.png"/>
+                </Button.Background> Join Room
+            </Button>
+            <Button Style="{DynamicResource statsBtn}" x:Name="STATISTICS" Click="moveToStatsMenu_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,177,139,0" FontFamily="Cascadia Mono SemiBold" Height="97" Width="154" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF80ECEC">
+                <Button.Background>
+                    <ImageBrush ImageSource="/blue.png"/>
+                </Button.Background> Statistics
+            </Button>
+        </Grid>
+    </Viewbox>
 </Window>

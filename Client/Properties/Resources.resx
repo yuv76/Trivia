@@ -181,6 +181,9 @@
   <data name="red_i" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\red_i.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="whale" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\whale.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="yellow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\yellow.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

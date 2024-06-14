@@ -202,8 +202,8 @@ namespace Client
 
         private void PutName()
         {
-            string temp = "hello " + Communicator.getName();
-            name.Text = temp;
+            string temp = "Hello " + Communicator.getName();
+            NAME.Text = temp;
         }
     }
 }

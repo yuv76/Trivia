@@ -273,6 +273,16 @@ namespace Client.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] whale {
+            get {
+                object obj = ResourceManager.GetObject("whale", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] yellow {
             get {
                 object obj = ResourceManager.GetObject("yellow", resourceCulture);
