@@ -78,7 +78,7 @@ namespace Client
 
         private void PutName()
         {
-            string temp = "hello " + Communicator.getName();
+            string temp = "Hello " + Communicator.getName();
             name.Text = temp;
         }
     }

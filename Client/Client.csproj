@@ -26,6 +26,7 @@
     <None Remove="Resources\Images\quiz.png" />
     <None Remove="Resources\Images\red.png" />
     <None Remove="Resources\Images\red_h.png" />
+    <None Remove="Resources\Images\whale.png" />
     <None Remove="Resources\Images\yellow_h.png" />
 	<None Remove="yellow.png" />
     <None Remove="Resources\Images\blue_h.png" />
@@ -56,6 +57,7 @@
 	 <Resource Include="Resources\Images\quiz.png" />
 	 <Resource Include="Resources\Images\red.png" />
 	 <Resource Include="Resources\Images\red_h.png" />
+	 <Resource Include="Resources\Images\whale.png" />
 	 <Resource Include="Resources\Images\yellow_h.png" />
 	  <Resource Include="yellow.png" />
     <Resource Include="Resources\Images\blue_h.png" />

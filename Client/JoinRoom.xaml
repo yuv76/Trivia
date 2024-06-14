@@ -173,48 +173,48 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <Grid>
-        <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,660,0" Width="100" FontFamily="Cascadia Mono SemiBold"/>
-        <StackPanel>
-            <StackPanel.Background>
-                <ImageBrush ImageSource="/back.png" Stretch="UniformToFill"/>
-            </StackPanel.Background>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock FontSize="17" Margin="57,40,65,-60" Height="20" Width="220" FontFamily="Cascadia Mono SemiBold" Foreground="#FF658CFF">Choose a Room To Join:</TextBlock>
-                <Button Style="{DynamicResource refresh_h}" Margin="270,40,65,-60" Click="refresh_Click" Height="48" Width="77" Content="refresh" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/yellow.png"/>
-                    </Button.Background>
-                </Button>
+    <Viewbox Stretch="UniformToFill">
+        <Grid>
+            <StackPanel>
+                <StackPanel.Background>
+                    <ImageBrush ImageSource="/back.png" Stretch="UniformToFill"/>
+                </StackPanel.Background>
+                <StackPanel Orientation="Horizontal" Height="44">
+                    <TextBlock FontSize="17" Margin="57,40,65,-60" Height="20" Width="220" FontFamily="Cascadia Mono SemiBold" Foreground="#FF658CFF">Choose a Room To Join:</TextBlock>
+                    <Button Style="{DynamicResource refresh_h}" Margin="270,40,65,-60" Click="refresh_Click" Height="48" Width="77" Content="refresh" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/yellow.png"/>
+                        </Button.Background>
+                    </Button>
+                </StackPanel>
+                <TextBlock x:Name="NAME" FontSize="16" Width="186" FontFamily="Cascadia Mono SemiBold" Height="25" Foreground="#FFFFE115" Margin="-500,0,0,0"/>
+                <ListBox x:Name="LST_ROOMS" Height="130" Margin="57,24,65,10" FontSize="25" FontFamily="Cascadia Mono SemiBold" BorderBrush="#FF658CFF" BorderThickness="2,2,2,2" Foreground="#FF658CFF">
+                    <ListBox.Background>
+                        <SolidColorBrush Color="#FF2AB1CA" Opacity="0.2"/>
+                    </ListBox.Background>
+                </ListBox>
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock FontSize="17" Margin="57,0,65,-20" FontFamily="Cascadia Mono SemiBold" Foreground="#FFFF4848">Players In Room:</TextBlock>
+                </StackPanel>
+                <ListBox x:Name="LST_PLAYERS" Height="56"  Margin="57,20,65,10" FontSize="25" FontFamily="Cascadia Mono SemiBold" Width="661" BorderBrush="#FFFF4848" BorderThickness="2,2,2,2" Foreground="#FFFF4848">
+                    <ListBox.Background>
+                        <SolidColorBrush Color="#FFFF4848" Opacity="0.2"/>
+                    </ListBox.Background>
+                </ListBox>
+                <StackPanel Orientation="Horizontal" Width="404" Height="52">
+                    <Button Style="{DynamicResource joinBtn}" x:Name="JOIN_ROOM" Height="55" Width="157" Content="Join" FontSize="20" Click="Join_Click" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFF929D">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/red_i.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button Style="{DynamicResource exitBtn}" x:Name="BACK" Width="122" Height="48" Margin="80,0,0,0" Click="back_click" Content="back" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF80ECEC">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/blue.png"/>
+                        </Button.Background>
+                    </Button>
+                </StackPanel>
+                <TextBlock x:Name="ERROR" Foreground="DarkRed" Margin="10" FontSize="16" FontFamily="Cascadia Mono SemiBold" Height="47"></TextBlock>
             </StackPanel>
-            <ListBox x:Name="LST_ROOMS" Height="130"  Margin="57,65,65,10" FontSize="25" FontFamily="Cascadia Mono SemiBold" BorderBrush="#FF658CFF" BorderThickness="2,2,2,2" Foreground="#FF658CFF">
-                <ListBox.Background>
-                    <SolidColorBrush Color="#FF2AB1CA" Opacity="0.2"/>
-                </ListBox.Background>
-            </ListBox>
-            <StackPanel Orientation="Horizontal" >
-                <TextBlock FontSize="17" Margin="57,0,65,-20" FontFamily="Cascadia Mono SemiBold" Foreground="#FFFF4848">Players In Room:</TextBlock>
-            </StackPanel>
-            <ListBox x:Name="LST_PLAYERS" Height="56"  Margin="57,20,65,10" FontSize="25" FontFamily="Cascadia Mono SemiBold" Width="661" BorderBrush="#FFFF4848" BorderThickness="2,2,2,2" Foreground="#FFFF4848">
-                <ListBox.Background>
-                    <SolidColorBrush Color="#FFFF4848" Opacity="0.2"/>
-                </ListBox.Background>
-            </ListBox>
-            <StackPanel Orientation="Horizontal" Width="404" Height="52">
-                <Button Style="{DynamicResource joinBtn}" x:Name="JOIN_ROOM" Height="55" Width="157" Content="Join" FontSize="20" Click="Join_Click" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFF929D">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/red_i.png"/>
-                    </Button.Background>
-                </Button>
-                <Button Style="{DynamicResource exitBtn}" x:Name="BACK" Width="122" Height="48" Margin="80,0,0,0" Click="back_click" Content="back" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF80ECEC">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/blue.png"/>
-                    </Button.Background>
-                </Button>
-            </StackPanel>
-            <TextBlock x:Name="ERROR" Foreground="DarkRed" Margin="10" FontSize="16" FontFamily="Cascadia Mono SemiBold" Height="47"></TextBlock>
-        </StackPanel>
-
-
-    </Grid>
+        </Grid>
+    </Viewbox>
 </Window>

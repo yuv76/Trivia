@@ -21,9 +21,14 @@ namespace Client
     public partial class GameResults : Window
     {
         private bool _isClosedByX = true;
-        public GameResults()
+        public GameResults(double left, double top, double width, double height, WindowState windowstate)
         {
             InitializeComponent();
+            Left = left;
+            Top = top;
+            Width = width;
+            Height = height;
+            WindowState = windowstate;
 
             PutName();
 
@@ -64,7 +69,7 @@ namespace Client
 
         private void PutName()
         {
-            string temp = "hello " + Communicator.getName();
+            string temp = "Hello " + Communicator.getName();
             name.Text = temp;
         }
     }

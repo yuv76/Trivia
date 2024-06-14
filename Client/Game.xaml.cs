@@ -144,7 +144,7 @@ namespace Client
             }
             else
             {
-                GameResults gr = new GameResults();
+                GameResults gr = new GameResults(Left, Top, Width, Height, WindowState);
                 gr.Show();
                 _isClosedByX = false;
                 this.Close();
