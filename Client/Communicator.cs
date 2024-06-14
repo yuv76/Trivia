@@ -283,7 +283,7 @@ namespace Client
             return sentSuccesfully;
         }
 
-        public static async Task<int> createRoom(string roomName, uint maxPlayers, uint questionsNum, double timeForQuestion)
+        public static async Task<int> createRoom(string roomName, uint maxPlayers, uint questionsNum, int timeForQuestion)
         {
             string jsonStr = "";
             int sentSuccesfully = 0;

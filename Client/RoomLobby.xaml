@@ -11,7 +11,7 @@
     <Window.Resources>
         <ImageBrush x:Key="dblu_h" ImageSource="/Resources/Images/dblu_h.png" Stretch="Fill"/>
         <ImageBrush x:Key="yellow_h" ImageSource="/Resources/Images/yellow_h.png" Stretch="Fill"/>
-        
+
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -127,28 +127,32 @@
             <TextBlock x:Name="ROOM_NAME" FontSize="20" Height="59" TextAlignment="Center" FontFamily="Cascadia Mono SemiBold"></TextBlock>
             <StackPanel Orientation="Horizontal" Height="196">
                 <StackPanel>
-                    <Button Style="{DynamicResource startBtn}" x:Name="START" Height="69" Width="154" Click="start_Click" Margin="20,20,0,0" Visibility="Collapsed" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}">
+                    <Button Style="{DynamicResource startBtn}" x:Name="START" Height="69" Width="154" Click="start_Click" Margin="20,20,0,0" Visibility="Collapsed" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
                         <Button.Background>
                             <ImageBrush ImageSource="/yellow.png"/>
                         </Button.Background> Start Game
                     </Button>
-                    <Button Style="{DynamicResource leaveBtn}" x:Name="LEAVE" Height="74" Width="144" Click="Leave_Click" Margin="20,20,0,0" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" >
+                    <Button Style="{DynamicResource leaveBtn}" x:Name="LEAVE" Height="74" Width="144" Click="Leave_Click" Margin="20,20,0,0" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF726BB5" >
                         <Button.Background>
                             <ImageBrush ImageSource="/dblu.png"/>
                         </Button.Background> Leave Room
                     </Button>
                 </StackPanel>
                 <StackPanel Width="460">
-                    <ListBox x:Name="PLAYERS" Height="170" Width="219" Margin="120,0,0,0" FontFamily="Cascadia Mono SemiBold"></ListBox>
-                    <TextBlock x:Name="NUM_PLAYERS" FontSize="16" Height="28" Width="324" Margin="143,0,0,0" FontFamily="Cascadia Mono SemiBold"></TextBlock>
+                    <ListBox x:Name="PLAYERS" Height="170" Width="219" Margin="120,0,0,0" FontFamily="Cascadia Mono SemiBold" BorderBrush="#FF6B8EF7" BorderThickness="2,2,2,2" Foreground="#FF0975C9" FontSize="16">
+                        <ListBox.Background>
+                            <SolidColorBrush Color="#FF48FCB0" Opacity="0.2"/>
+                        </ListBox.Background>
+                    </ListBox>
+                    <TextBlock x:Name="NUM_PLAYERS" FontSize="16" Height="28" Width="324" Margin="143,0,0,0" FontFamily="Cascadia Mono SemiBold" Foreground="#FF47FF3A"></TextBlock>
                 </StackPanel>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Height="30">
-                <TextBlock Height="41" x:Name="NUM_QUESTIONS_TITLE" FontSize="16" Width="272" FontFamily="Cascadia Mono SemiBold">Number of questions in game:</TextBlock>
-                <TextBlock Height="41" x:Name="NUM_QUESTIONS" FontSize="16" Width="95" FontFamily="Cascadia Mono SemiBold"></TextBlock>
+                <TextBlock Height="41" x:Name="NUM_QUESTIONS_TITLE" FontSize="16" Width="272" FontFamily="Cascadia Mono SemiBold" Foreground="#FFF0EE18">Number of questions in game:</TextBlock>
+                <TextBlock Height="41" x:Name="NUM_QUESTIONS" FontSize="16" Width="95" FontFamily="Cascadia Mono SemiBold" Foreground="#FFF0EE18"></TextBlock>
 
-                <TextBlock Height="41" x:Name="QUESTION_TIME_TITLE" FontSize="16" Width="175" FontFamily="Cascadia Mono SemiBold">time for question:</TextBlock>
-                <TextBlock Height="41" x:Name="QUESTION_TIME" FontSize="16" Width="133" FontFamily="Cascadia Mono SemiBold"></TextBlock>
+                <TextBlock Height="41" x:Name="QUESTION_TIME_TITLE" FontSize="16" Width="175" FontFamily="Cascadia Mono SemiBold" Foreground="#FFFF6CD3">time for question:</TextBlock>
+                <TextBlock Height="41" x:Name="QUESTION_TIME" FontSize="16" Width="133" FontFamily="Cascadia Mono SemiBold" Foreground="#FFFF6CD3"></TextBlock>
             </StackPanel>
 
             <TextBlock Margin="0,10" FontSize="16" Foreground="DarkRed" x:Name="ERROR" Height="33" FontFamily="Cascadia Mono SemiBold"></TextBlock>

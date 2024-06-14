@@ -30,8 +30,8 @@ namespace Client
         int answeredQ;
 
         //timer related
-        private double time;
-        private double tempTime;
+        private int time;
+        private int tempTime;
         private DispatcherTimer dispatcherTimer;
 
         public Game(double left, double top, double width, double height, WindowState windowstate, int numOfQuestions, int timeForQuestion)
@@ -71,8 +71,37 @@ namespace Client
         {
             if (tempTime > 0)
             {
-                tempTime--;
-                TIME.Text = string.Format("00:{0:D2}:{1:D2}", Convert.ToInt32(tempTime) / 60, Convert.ToInt32(tempTime) % 60);
+                if(_answered)
+                {
+                    tempTime--;
+                    TIME.Text = string.Format("00:00", Convert.ToInt32(tempTime) / 60, Convert.ToInt32(tempTime) % 60);
+                    if(tempTime % 2 == 0)
+                    {
+                        TIME.Visibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        TIME.Visibility = Visibility.Visible;
+                        TIME.Foreground = Brushes.DarkRed;
+                    }
+                }
+                else
+                {
+                    if (tempTime <= 10)
+                    {
+                        TIME.Foreground = Brushes.DarkRed;
+                        TIME.Visibility = Visibility.Visible;
+                        tempTime--;
+                        TIME.Text = string.Format("{0:D2}:{1:D2}", Convert.ToInt32(tempTime) / 60, Convert.ToInt32(tempTime) % 60);
+                    }
+                    else
+                    {
+                        TIME.Foreground = Brushes.Lime;
+                        TIME.Visibility = Visibility.Visible;
+                        tempTime--;
+                        TIME.Text = string.Format("{0:D2}:{1:D2}", Convert.ToInt32(tempTime) / 60, Convert.ToInt32(tempTime) % 60);
+                    }
+                }
             }
             else
             {
@@ -95,10 +124,20 @@ namespace Client
                 ANS3.Content = question.Answers[2];
                 ANS4.Content = question.Answers[3];
 
-                ANS1.Background = Brushes.LightGray;
-                ANS2.Background = Brushes.LightGray;
-                ANS3.Background = Brushes.LightGray;
-                ANS4.Background = Brushes.LightGray;
+                ANS1.Background = Brushes.LightBlue;
+                ANS2.Background = Brushes.LightBlue;
+                ANS3.Background = Brushes.LightBlue;
+                ANS4.Background = Brushes.LightBlue;
+
+                ANS1.BorderBrush = Brushes.LightBlue;
+                ANS2.BorderBrush = Brushes.LightBlue;
+                ANS3.BorderBrush = Brushes.LightBlue;
+                ANS4.BorderBrush = Brushes.LightBlue;
+
+                ANS1.Opacity = 0.5;
+                ANS2.Opacity = 0.5;
+                ANS3.Opacity = 0.5;
+                ANS4.Opacity = 0.5;
 
                 answeredQ++;
                 ANSWERED.Text = answeredQ.ToString() + "/" + totalQ.ToString();
@@ -147,20 +186,35 @@ namespace Client
                     ANS2.Background = Brushes.DarkRed;
                     ANS3.Background = Brushes.DarkRed;
                     ANS4.Background = Brushes.DarkRed;
+
+                    ANS1.BorderBrush = Brushes.DarkGreen;
+                    ANS2.BorderBrush = Brushes.Brown;
+                    ANS3.BorderBrush = Brushes.Brown;
+                    ANS4.BorderBrush = Brushes.Brown;
                 }
                 else if (resp == 2)
                 {
                     ANS2.Background = Brushes.LimeGreen;//correct
-                    ANS1.Background = Brushes.DarkRed;
-                    ANS3.Background = Brushes.DarkRed;
-                    ANS4.Background = Brushes.DarkRed;
+                    ANS1.Background = Brushes.Brown;
+                    ANS3.Background = Brushes.Brown;
+                    ANS4.Background = Brushes.Brown;
+
+                    ANS2.BorderBrush = Brushes.LimeGreen;
+                    ANS1.BorderBrush = Brushes.Brown;
+                    ANS3.BorderBrush = Brushes.Brown;
+                    ANS4.BorderBrush = Brushes.Brown;
                 }
                 else if (resp == 3)
                 {
                     ANS3.Background = Brushes.LimeGreen;//correct
-                    ANS2.Background = Brushes.DarkRed;
-                    ANS1.Background = Brushes.DarkRed;
-                    ANS4.Background = Brushes.DarkRed;
+                    ANS2.Background = Brushes.Brown;
+                    ANS1.Background = Brushes.Brown;
+                    ANS4.Background = Brushes.Brown;
+
+                    ANS3.BorderBrush = Brushes.LimeGreen;
+                    ANS2.BorderBrush = Brushes.Brown;
+                    ANS1.BorderBrush = Brushes.Brown;
+                    ANS4.BorderBrush = Brushes.Brown;
                 }
                 else //4
                 {
@@ -168,6 +222,11 @@ namespace Client
                     ANS2.Background = Brushes.DarkRed;
                     ANS3.Background = Brushes.DarkRed;
                     ANS1.Background = Brushes.DarkRed;
+
+                    ANS4.BorderBrush = Brushes.LimeGreen;
+                    ANS2.BorderBrush = Brushes.Brown;
+                    ANS3.BorderBrush = Brushes.Brown;
+                    ANS1.BorderBrush = Brushes.Brown;
                 }
                 if (ans != resp)
                 {

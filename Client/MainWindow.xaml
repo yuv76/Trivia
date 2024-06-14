@@ -130,23 +130,31 @@
             <ColumnDefinition Width="659*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Margin="-5,53,0,11" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
-            <TextBlock Height="28" Width="134" FontSize="16" Text="Enter Username"  FontFamily="Cascadia Mono SemiBold">
+            <TextBlock Height="28" Width="134" FontSize="16" Text="Enter Username"  FontFamily="Cascadia Mono SemiBold" Foreground="#FFED332A">
                 <TextBlock.Background>
                     <ImageBrush/>
                 </TextBlock.Background>
             </TextBlock>
 
-            <TextBox x:Name="USERNAME" Width="280" Height="35" FontFamily="Cascadia Mono SemiBold" TextBox.TextAlignment="Center" BorderBrush="#FF7693EA" BorderThickness="3,3,3,3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" />
-            <TextBlock Margin="0,5,0,0" Height="26" Width="139" FontSize="16" Text="Enter Password" FontFamily="Cascadia Mono SemiBold"></TextBlock>
-            <TextBox x:Name="PASSWORD" Width="280" Height="35" FontFamily="Cascadia Mono SemiBold" TextAlignment="Center" BorderBrush="#FF7693EA" BorderThickness="3,3,3,3" FontSize="24"></TextBox>
+            <TextBox x:Name="USERNAME" Width="280" Height="35" FontFamily="Cascadia Mono SemiBold" TextBox.TextAlignment="Center" BorderBrush="#FFEA7B76" BorderThickness="3,3,3,3" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" Foreground="#FFED332A" >
+                <TextBox.Background>
+                    <SolidColorBrush Color="#FFEA7B76" Opacity="0.2"/>
+                </TextBox.Background>
+            </TextBox>
+            <TextBlock Margin="0,5,0,0" Height="26" Width="139" FontSize="16" Text="Enter Password" FontFamily="Cascadia Mono SemiBold" Foreground="#FF48D435"></TextBlock>
+            <TextBox x:Name="PASSWORD" Width="280" Height="35" FontFamily="Cascadia Mono SemiBold" TextAlignment="Center" BorderBrush="#FF59FF42" BorderThickness="3,3,3,3" FontSize="24" Foreground="#FF59FF42">
+                <TextBox.Background>
+                    <SolidColorBrush Color="#FF59FF42" Opacity="0.2"/>
+                </TextBox.Background>
+            </TextBox>
             <StackPanel Orientation="Horizontal" Width="281">
-                    <Button Style="{DynamicResource SignInStyle}" x:Name="ENTER_USERNAME" Click="enterLogin_clickAsync" Margin="5" Height="72" Width="138" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}">
+                <Button Style="{DynamicResource SignInStyle}" x:Name="ENTER_USERNAME" Click="enterLogin_clickAsync" Margin="5" Height="72" Width="138" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF80ECEC">
                     <Button.Background>
                         <ImageBrush ImageSource="/blue.png"/>
                     </Button.Background> Sign In
                 </Button>
 
-                <Button Style="{DynamicResource signup_btn}" x:Name="SIGNUP" Click="moveToSignUp_click" Margin="10" Height="59" Width="108" FontFamily="Cascadia Mono SemiBold" Content="Sign Up" Cursor="Hand" BorderBrush="{x:Null}" >
+                <Button Style="{DynamicResource signup_btn}" x:Name="SIGNUP" Click="moveToSignUp_click" Margin="10" Height="59" Width="108" FontFamily="Cascadia Mono SemiBold" Content="Sign Up" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF726BB5" >
                     <Button.Background>
                         <ImageBrush ImageSource="/dblu.png"/>
                     </Button.Background>

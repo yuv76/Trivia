@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="Window1" Height="450" Width="800"
+        Title="statistics menu" Height="450" Width="800"
         Background="AliceBlue"
         Icon="Resources/Images/quiz.png">
     <Window.Resources>
@@ -184,18 +184,18 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,260,0" Width="100" FontFamily="Cascadia Mono SemiBold"/>
-        <Button Style="{DynamicResource goBack}" x:Name="BACK" Click="back_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,111,0" Width="149" FontFamily="Cascadia Mono SemiBold" Height="62" Cursor="Hand" BorderBrush="{x:Null}">
+        <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,0,0" Width="360" FontFamily="Cascadia Mono SemiBold" Foreground="#FF5AB71C" Height="31"/>
+        <Button Style="{DynamicResource goBack}" x:Name="BACK" Click="back_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,10,0" Width="149" FontFamily="Cascadia Mono SemiBold" Height="62" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFCD688" Grid.Column="1">
             <Button.Background>
                 <ImageBrush ImageSource="/yellow.png"/>
             </Button.Background> Go Back
         </Button>
-        <Button Style="{DynamicResource personalBtn}" x:Name="PERSONAL" Click="personal_click" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,200,120,0" Width="210" FontFamily="Cascadia Mono SemiBold" Height="106" Cursor="Hand" BorderBrush="{x:Null}">
+        <Button Style="{DynamicResource personalBtn}" x:Name="PERSONAL" Click="personal_click" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,200,120,0" Width="210" FontFamily="Cascadia Mono SemiBold" Height="106" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFF929D">
             <Button.Background>
                 <ImageBrush ImageSource="/red_i.png"/>
             </Button.Background> Personal Statistics
         </Button>
-        <Button Style="{DynamicResource topBtn}" x:Name="TOP" Click="top_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,200,111,0" Width="169" RenderTransformOrigin="0.445,1.399" FontFamily="Cascadia Mono SemiBold" Height="106" Cursor="Hand">
+        <Button Style="{DynamicResource topBtn}" x:Name="TOP" Click="top_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,200,111,0" Width="169" RenderTransformOrigin="0.445,1.399" FontFamily="Cascadia Mono SemiBold" Height="106" Cursor="Hand" Foreground="#FFFF93CD">
             <Button.BorderBrush>
                 <ImageBrush/>
             </Button.BorderBrush>
