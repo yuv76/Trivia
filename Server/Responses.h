@@ -96,7 +96,7 @@ struct LeaveGameResponse
 
 struct GetQuestionResponse
 {
-	unsigned int status;
+	int status;
 	std::string question;
 	std::vector<std::string> answers;
 };

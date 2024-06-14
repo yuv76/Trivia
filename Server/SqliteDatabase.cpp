@@ -183,10 +183,10 @@ int SqliteDatabase::callbackGetQuestion(void* data, int argc, char** argv, char*
 				temp->wrongAnswer1 = argv[i];
 			}
 			else if (std::string(azColName[i]) == "2 wrong answer") {
-				temp->wrongAnswer1 = argv[i];
+				temp->wrongAnswer2 = argv[i];
 			}
 			else if (std::string(azColName[i]) == "3 wrong answer") {
-				temp->wrongAnswer1 = argv[i];
+				temp->wrongAnswer3 = argv[i];
 			}
 			else if (std::string(azColName[i]) == "question") {
 				temp->question = argv[i];
@@ -221,7 +221,7 @@ std::vector<QuestionData> SqliteDatabase::getQuestions(int questionNum)
 	QuestionData temp;
 	std::vector<QuestionData> questionDatas;
 
-	for (int i = 0; i <= questionNum; i++)
+	/*for (int i = 0; i <= questionNum; i++)
 	{
 		std::string getQuestionSQL = "select * from questions WHERE id == \"" + std::to_string((i + 1)) + "\";";
 		int res = sqlite3_exec(this->database, getQuestionSQL.c_str(), callbackGetQuestion, &temp, errMessage);
@@ -231,11 +231,47 @@ std::vector<QuestionData> SqliteDatabase::getQuestions(int questionNum)
 		}
 
 		questionDatas.push_back(temp);
-	}
+	}*/
 
+	for (int i = 0; i < questionNum; i++)
+	{
+		std::string getQuestionSQL = "select * from questions ORDER BY RANDOM() LIMIT 1;";
+		int res = sqlite3_exec(this->database, getQuestionSQL.c_str(), callbackGetQuestion, &temp, errMessage);
+		if (res != SQLITE_OK)
+		{
+			throw std::exception(*errMessage);
+		}
+		for (auto& element : questionDatas)
+		{
+			if (element.id == temp.id)
+			{
+				i--;
+				continue;
+			}
+		}
+		temp.question = remove(temp.question);
+		temp.rightAnswer = remove(temp.rightAnswer);
+		temp.wrongAnswer1 = remove(temp.wrongAnswer1);
+		temp.wrongAnswer2 = remove(temp.wrongAnswer2);
+		temp.wrongAnswer3 = remove(temp.wrongAnswer3);
+		questionDatas.push_back(temp);
+	}
+	
 	return questionDatas;
 }
 
+std::string SqliteDatabase::remove(std::string temp)
+{
+	int first = temp.find('&');
+	int last = temp.find(';');
+	while (first != std::string::npos)
+	{
+		temp.erase(first, (last - first) + 1);
+		first = temp.find('&');
+		last = temp.find(';');
+	}
+	return temp;
+}
 
 /*
 gets a the players average answer time from the db.

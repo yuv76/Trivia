@@ -99,6 +99,8 @@ namespace Client
         {
             _refreshNotComplete = true;
             GetRoomStateResponse state = getStateAsync().Result;
+            this.TimeForQuestion = Convert.ToInt32(state.timePerQuestion);//#TODO
+            this.NumOfQuestions = Convert.ToInt32(state.numOfQuestionsInGame); //#TODO
             if (state.isActive == GetRoomStateResponse.CONNECTION_PROBLEM)
             {
                 background_worker.CancelAsync(); //stop refreshing
@@ -144,6 +146,7 @@ namespace Client
             QUESTION_TIME.Text = roomState.timePerQuestion.ToString();
             NUM_QUESTIONS.Text = roomState.numOfQuestionsInGame.ToString();
             this.NumOfQuestions = int.Parse(NUM_QUESTIONS.Text);
+            this.TimeForQuestion = Convert.ToInt32(roomState.timePerQuestion);
         }
 
         private void updatePlayers(List<string> players)
@@ -221,19 +224,26 @@ namespace Client
         
         private async void start_Click(object sender, RoutedEventArgs e)
         {
-            int started = await Communicator.StartGame();
-            if(started == StartGameResponse.START_GAME)
+            GetRoomStateResponse state = getStateAsync().Result;
+            if (state.players.Count <= 2)
             {
-                /*
-                Game game = new Game();
-                game.Show();
-                _isClosedByX = false;
-                this.Close();
-                */
+                ERROR.Text = "Error not enough players.";
             }
             else
             {
-                ERROR.Text = "Error starting game.";
+                int started = await Communicator.StartGame();
+                if (started == StartGameResponse.START_GAME)
+                {
+                    background_worker.CancelAsync();
+                    Game game = new Game(Left, Top, Width, Height, WindowState, this.NumOfQuestions, this.TimeForQuestion);
+                    game.Show();
+                    _isClosedByX = false;
+                    this.Close();
+                }
+                else
+                {
+                    ERROR.Text = "Error starting game.";
+                }
             }
         }
 

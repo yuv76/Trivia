@@ -13,7 +13,7 @@ create a game that takes place in a room.
 in: the room to crete the game in.
 out: the newly created game object;
 */
-Game& GameManager::createGame(Room& r)
+int GameManager::createGame(Room& r)
 {
 	double ansTimeout = r.getRoomData().timePerQuestion;
 	std::vector<LoggedUser> users = r.getUsers();
@@ -21,15 +21,12 @@ Game& GameManager::createGame(Room& r)
 
 	std::vector<Question> questions;
 	std::vector<QuestionData> Qdata = this->m_database->getQuestions(r.getRoomData().numOfQuestionsInGame);
-	auto i = Qdata.begin();
-	for (i; i != Qdata.end(); i++)
-	{
-		questions.push_back(Question(i->question, i->wrongAnswer1, i->wrongAnswer2, i->wrongAnswer3, i->rightAnswer, i->id));
-	}
 
-	Game game(questions, users, id, ansTimeout);
 
-	return game;
+	Game game(Qdata, users, id, ansTimeout);
+	this->m_games.insert(std::make_pair(id, game));
+
+	return id;
 }
 
 /*
@@ -42,9 +39,9 @@ void GameManager::deleteGame(int gameId)
 	auto i = this->m_games.begin();
 	for (i; i != this->m_games.end(); i++)
 	{
-		if (i->getId() == gameId)
+		if (i->first == gameId && i->second.isActive()) // if not active, game was alredy closed, maybe will only do this
 		{
-			i->endGame();
+			i->second.endGame(this->m_database);
 		}
 	}
 }
@@ -65,9 +62,24 @@ int GameManager::getNextAvailableId()
 	else
 	{
 		//the map is sorted by increased oredr, so its last position will be its biggest key.
-		id = this->m_games.back().getId();
+		id = this->m_games.rbegin()->first;
 		//increase id by one to get the next unused id.
 		id++;
 	}
 	return id;
+}
+
+/*
+gets a game from the manager by its id.
+in: the game's id.
+out: the game's reference.
+*/
+Game& GameManager::getGameByID(int id)
+{
+	if (this->m_games.find(id) != this->m_games.end()) // if key exists.
+	{
+		return this->m_games.find(id)->second;
+	}
+	//else
+	throw std::exception("Invalid Room ID.");
 }

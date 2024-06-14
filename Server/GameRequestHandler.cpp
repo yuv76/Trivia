@@ -92,7 +92,14 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo)
 	RequestResult rqRs;
 
 	Question resp = this->m_game.getQuestionForUser(this->m_user);
-	question.status = GOT_QUESTION;
+	if (resp.getQuestionId() == NO_MORE_QUESTIONS)
+	{
+		question.status = NO_MORE_QUESTIONS;
+	}
+	else
+	{
+		question.status = GOT_QUESTION;
+	}
 	question.question = resp.getQuestion();
 	question.answers = resp.getPossibleAnswers();
 	buffer = JsonResponsePacketSerializer::serializeResponse(question);
@@ -154,8 +161,8 @@ RequestResult GameRequestHandler::getGameResult(RequestInfo inf)
 	buffer = JsonResponsePacketSerializer::serializeResponse(results);
 
 	rqRs.response = buffer;
-	rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game); // stay in current state.
-
+	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user); // move to manu, maybe should move back to room or choose #TODO
+	this->m_gameManager.deleteGame(this->m_game.getId());
 
 	return rqRs;
 }

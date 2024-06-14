@@ -60,7 +60,7 @@ public:
 	std::string roomName;
 	unsigned int maxUsers;
 	unsigned int questionCount;
-	double anwerTimeout;
+	unsigned int anwerTimeout;
 };
 
 struct SubmitAnswerRequest

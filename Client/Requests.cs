@@ -52,7 +52,7 @@ namespace Requests
         public string roomName { get; set; }
         public uint maxUsers { get; set; }
         public uint questionCount { get; set; }
-        public double anwerTimeout { get; set; }
+        public int anwerTimeout { get; set; }
     };
 
     struct GetPlayersInRoomRequest
@@ -63,6 +63,7 @@ namespace Requests
     struct SubmitAnswerRequest
     {
         public uint answerId;
+        public double ansTime;
     };
 
 }

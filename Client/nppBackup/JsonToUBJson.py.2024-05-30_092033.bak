@@ -1,8 +1,0 @@
-import ubjson
-import sys #for cmd arguments
-
-def main():
-    args = sys.argv[1:]  # Remove the first argumen, the name of the script.
-    
-    json_str = argv[0]
-    json_dict = json.loads(json_str)

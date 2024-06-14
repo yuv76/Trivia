@@ -25,15 +25,18 @@ namespace Client
         {
             InitializeComponent();
 
+            PutName();
+
             getGameResults();
         }
 
         async void getGameResults()
         {
+            int i = 0;
             GameResultsResponse gameResultsResponse = await Communicator.getGameResults();
-            foreach(string player in gameResultsResponse.Players)
+            for(i = 0; i < gameResultsResponse.Players.Count; i++)
             {
-                Players.Items.Add(gameResultsResponse.Players[0] + " - " + gameResultsResponse.CorrectAnswers[0] + " - " + gameResultsResponse.Avrgs[0]);
+                Players.Items.Add(gameResultsResponse.Players[i] + " - " + gameResultsResponse.CorrectAnswers[i] + " - " + gameResultsResponse.Avrgs[i]);
             }
         }
 
@@ -57,6 +60,12 @@ namespace Client
                 int ok = await Communicator.LeaveGame();
                 ok = await Communicator.signoutAsync();
             }
+        }
+
+        private void PutName()
+        {
+            string temp = "hello " + Communicator.getName();
+            name.Text = temp;
         }
     }
 }

@@ -4,9 +4,18 @@
 C'tor for game object.
 in: questions for game in a vector, users in a vector, room's id, time for answer in the game.
 */
-Game::Game(std::vector<Question> questions, std::vector<LoggedUser> users, int id, double ansTime):
-	m_gameId(id), m_questions(questions), m_answerTimeout(ansTime), _isActive(true)
+Game::Game(std::vector<QuestionData> questionDatas, std::vector<LoggedUser> users, int id, double ansTime):
+	m_gameId(id), m_answerTimeout(ansTime), _isActive(true)
 {
+	Question padding;
+	padding.setStartQuestion();
+	m_questions.push_back(padding);
+	auto q = questionDatas.begin();
+	for (q; q != questionDatas.end(); q++)
+	{
+		m_questions.push_back(Question(q->question, q->wrongAnswer1, q->wrongAnswer2, q->wrongAnswer3, q->rightAnswer, q->id));
+	}
+
 	//add players and create game data to each in a map.
 	auto i = users.begin();
 	for (i; i != users.end(); i++)
@@ -41,7 +50,7 @@ Question Game::getQuestionForUser(LoggedUser user)
 		if (i->getQuestionId() == currId)
 		{
 			found = true;
-			i++; //increase to get next one.
+			//i++; //increase to get next one.
 		}
 	}
 	if (i == this->m_questions.end())
@@ -51,6 +60,7 @@ Question Game::getQuestionForUser(LoggedUser user)
 	else
 	{
 		nextQ = *i;
+		this->m_players[user].currentQuestion = *i;
 	}
 	return nextQ;
 }
@@ -82,10 +92,10 @@ int Game::submitAnswer(int answerId, LoggedUser user, double ansTime)
 			//wrong answer
 			this->m_players[user].wrongAnswerCount++;
 		}
-		this->m_players[user].currentQuestion = getQuestionForUser(user);
+		return this->m_players[user].currentQuestion.getCorrectAnswerId();
 	}
 	//if not active, shouldnt do anything.
-	return 1;
+	return -1;
 }
 
 /*
@@ -127,9 +137,10 @@ makes the game state not active.
 in: none.
 out: none.
 */
-void Game::endGame()
+void Game::endGame(IDatabase* db)
 {
 	this->_isActive = false;
+	this->sumitGameStatsToDB(db);
 }
 
 /*
@@ -156,4 +167,14 @@ std::vector<std::pair<std::string, GameData>> Game::getData()
 		sendData.push_back(temp);
 	}
 	return sendData;
+}
+
+/*
+gets the game's active state.
+in: none.
+out: true if active, false otherwise.
+*/
+bool Game::isActive()
+{
+	return this->_isActive;
 }
