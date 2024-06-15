@@ -29,6 +29,7 @@ namespace Client
         private bool _isClosedByX = true;
         private int room_id = 0;
         private int total_time;
+        private DispatcherTimer _timer;
 
         public GameResults(double left, double top, double width, double height, WindowState windowstate, int numOfQuestions, int timeForQuestion, int roomId)
         {
@@ -38,9 +39,20 @@ namespace Client
             room_id = roomId;
             total_time = timeForQuestion * numOfQuestions;
 
-            getGameResults();
+            //getGameResults();
+
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(total_time);
+            _timer.Tick += Timer_Tick;
+            _timer.Start();
+
         }
-        
+        private async void Timer_Tick(object sender, EventArgs e)
+        {
+            getGameResults();
+            _timer.Stop();
+        }
+
         async void getGameResults()
         {
             int i = 0;
