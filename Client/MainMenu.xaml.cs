@@ -23,7 +23,7 @@ namespace Client
     {
         private bool _isClosedByX = true; // we cant know.
 
-        public MainMenu(double left, double top, double width, double height, WindowState windowstate)
+        public MainMenu(double left, double top, double width, double height, WindowState windowstate, string error)
         {
             InitializeComponent();
             Left = left;
@@ -31,6 +31,8 @@ namespace Client
             Width = width;
             Height = height;
             WindowState = windowstate;
+
+            ERROR.Text = error;
 
             PutName();
         }

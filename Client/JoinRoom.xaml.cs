@@ -184,7 +184,7 @@ namespace Client
         {
             _timer1.Stop();
             _timer2.Stop();
-            MainMenu mainMenu = new MainMenu(Left, Top, Width, Height, WindowState);
+            MainMenu mainMenu = new MainMenu(Left, Top, Width, Height, WindowState, "");
             mainMenu.Show();
             _isClosedByX = false;
             this.Close();

@@ -53,7 +53,7 @@ namespace Client
             if(state.isActive == GetRoomStateResponse.CONNECTION_PROBLEM)
             {
                 ERROR.Text = "Connection error.";
-                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "Connection error.");
                 men.Show();
                 _isClosedByX = false;
                 this.Close();
@@ -105,7 +105,7 @@ namespace Client
             {
                 background_worker.CancelAsync(); //stop refreshing
                 ERROR.Text = "Connection error.";
-                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "Connection error.");
                 men.Show();
                 _isClosedByX = false;
                 this.Close();
@@ -113,7 +113,7 @@ namespace Client
             else if (state.isActive == GetRoomStateResponse.ROOM_CLOSED)
             {
                 background_worker.CancelAsync(); //stop refreshing
-                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "Room Closed By Admin.");
                 men.Show();
                 _isClosedByX = false;
                 this.Close();
@@ -196,7 +196,7 @@ namespace Client
                 if(close == CloseRoomResponse.CLOSED)
                 {
                     
-                    MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                    MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "Room Closed By Admin.");
                     men.Show();
                     _isClosedByX = false;
                     this.Close();
@@ -215,7 +215,7 @@ namespace Client
             {
                 background_worker.CancelAsync(); //stop refreshing
                 await Communicator.LeaveRoom();
-                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "");
                 men.Show();
                 _isClosedByX = false;
                 this.Close();

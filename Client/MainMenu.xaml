@@ -232,7 +232,7 @@
             <Grid.Background>
                 <ImageBrush ImageSource="/back.png" Stretch="UniformToFill"/>
             </Grid.Background>
-
+            
             <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,267,0" Width="292" Height="44" FontFamily="Cascadia Mono SemiBold" Foreground="#FF68B60A"/>
             <Button Style="{DynamicResource exitBtn}" x:Name="EXIT" Click="exit_clickAsync" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,186,331,0" Width="140" FontFamily="Cascadia Mono SemiBold" Height="79" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
                 <Button.Background>
@@ -254,6 +254,7 @@
                     <ImageBrush ImageSource="/blue.png"/>
                 </Button.Background> Statistics
             </Button>
+            <TextBlock x:Name="ERROR" Margin="49,279,55,10" FontSize="16" Foreground="DarkRed" FontFamily="Cascadia Mono SemiBold"></TextBlock>
         </Grid>
     </Viewbox>
 </Window>

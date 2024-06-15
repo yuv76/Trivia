@@ -58,7 +58,7 @@ namespace Client
 
         private void back_click(object sender, RoutedEventArgs e)
         {
-            MainMenu sigi = new MainMenu(Left, Top, Width, Height, WindowState);
+            MainMenu sigi = new MainMenu(Left, Top, Width, Height, WindowState, "");
             sigi.Show();
             _isClosedByX = false;
             this.Close();

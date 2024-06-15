@@ -52,7 +52,7 @@ namespace Client
 
         private void backMenu_click(object sender, RoutedEventArgs e)
         {
-            MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+            MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "");
             men.Show();
             _isClosedByX = false;
             this.Close();

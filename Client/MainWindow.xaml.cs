@@ -82,7 +82,7 @@ namespace Client
             int ok = await Communicator.loginAsync(USERNAME.Text, PASSWORD.Text);
             if (ok == LoginResponse.LOGIN_SUCCESS)
             {
-                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "");
                 men.Show();
                 _isClosedByX = false;
                 this.Close();

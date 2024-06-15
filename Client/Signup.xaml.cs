@@ -85,7 +85,7 @@ namespace Client
                 ok = await Communicator.signupAsync(NEWSERNAME.Text, NEWPASS.Text, NEWMAIL.Text);
                 if(ok == SignupResponse.SIGNUP_SUCCESS)
                 {
-                    MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                    MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "");
                     men.Show();
                     _isClosedByX = false;
                     this.Close();

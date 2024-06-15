@@ -255,7 +255,7 @@ namespace Client
             int res = await Communicator.LeaveGame();
             if(res == 1)
             {
-                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "");
                 men.Show();
                 _isClosedByX = false;
                 this.Close();
