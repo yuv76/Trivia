@@ -24,6 +24,11 @@ namespace Client
         private bool _isClosedByX = true;
         public CreateRoom(double left, double top, double width, double height, WindowState windowstate)
         {
+            /*
+            create room window C'tor.
+            in: the window's position (left, top, width, height, windowstate).
+            */
+
             InitializeComponent();
             Left = left;
             Top = top;
@@ -36,6 +41,12 @@ namespace Client
 
         private void Inc_click(object sender, RoutedEventArgs e)
         {
+            /*
+            event handler for increase button click, destinguishes the three different increase buttons.
+            in: the sender (Button), the event arguments.
+            out: none.
+            */
+
             if (sender is Button)
             {
                 Button button = sender as Button;
@@ -61,6 +72,12 @@ namespace Client
 
         private void Dec_click(object sender, RoutedEventArgs e)
         {
+            /*
+            event handler for decrease button click, destinguishes the three different decrease buttons.
+            in: the sender (Button), the event arguments.
+            out: none.
+            */
+
             if (sender is Button)
             {
                 Button button = sender as Button;
@@ -92,6 +109,12 @@ namespace Client
 
         private async void Create_Click(object sender, RoutedEventArgs e)
         {
+            /*
+            event handler for create room button click, tries to preform the create room action.
+            in: the sender (Button), the event arguments.
+            out: none.
+            */
+
             if (int.Parse(PLAYERS_NUM.Text) > 1 && int.Parse(QUESTION_NUM.Text) > 0 && int.Parse(QUESTION_TIME.Text) > 0)
             {
                 int id = await Communicator.createRoom(ROOMNAME.Text, uint.Parse(PLAYERS_NUM.Text), uint.Parse(QUESTION_NUM.Text), int.Parse(QUESTION_TIME.Text));
@@ -124,6 +147,12 @@ namespace Client
 
         private void back_click(object sender, RoutedEventArgs e)
         {
+            /*
+            event handler for back to menu button click, returns to the main menu.
+            in: the sender (Button), the event arguments.
+            out: none.
+            */
+
             MainMenu menu = new MainMenu(Left, Top, Width, Height, WindowState, "");
             menu.Show();
             _isClosedByX = false;
@@ -132,6 +161,12 @@ namespace Client
 
         protected override async void OnClosed(EventArgs e)
         {
+            /*
+            event handler for closing window, seperates client closing it from closing it to move to another window.
+            in: the sender (Button), the event arguments.
+            out: none.
+            */
+
             if (_isClosedByX)
             {
                 int ok = await Communicator.signoutAsync();
@@ -140,12 +175,24 @@ namespace Client
 
         private void PutName()
         {
+            /*
+            puts connected user's name in the name box.
+            in: none.
+            out: none.
+            */
+
             string temp = "Hello " + Communicator.getName();
             name.Text = temp;
         }
 
         private void PLAYERS_NUM_TextChanged(object sender, TextChangedEventArgs e)
         {
+            /*
+            event handler for text changed in number of players setting, checks change is valid.
+            in: the sender (the text box), the event arguments.
+            out: none.
+            */
+
             try
             {
                 if (int.Parse(PLAYERS_NUM.Text) < 2)
@@ -168,6 +215,12 @@ namespace Client
 
         private void QUESTION_NUM_TextChanged(object sender, TextChangedEventArgs e)
         {
+            /*
+            event handler for text changed in number of questions setting, checks change is valid.
+            in: the sender (the text box), the event arguments.
+            out: none.
+            */
+
             try
             {
                 if (int.Parse(QUESTION_NUM.Text) < 1)
@@ -190,6 +243,12 @@ namespace Client
 
         private void QUESTION_TIME_TextChanged(object sender, TextChangedEventArgs e)
         {
+            /*
+            event handler for text changed in time for question setting, checks change is valid.
+            in: the sender (the text box), the event arguments.
+            out: none.
+            */
+
             try
             {
                 if (int.Parse(QUESTION_TIME.Text) < 1)

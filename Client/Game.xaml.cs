@@ -36,6 +36,11 @@ namespace Client
 
         public Game(double left, double top, double width, double height, WindowState windowstate, int numOfQuestions, int timeForQuestion)
         {
+            /*
+            game window C'tor.
+            in: the window's position (left, top, width, height, windowstate), the number of questions in the game, the time for each question.
+            */
+
             InitializeComponent();
             Left = left;
             Top = top;
@@ -53,11 +58,22 @@ namespace Client
 
         private void putName()
         {
+            /*
+            puts user's name in the name textBlock.
+            in&out: none.
+            */
+
             USERNAME.Text = Communicator.getName();
         }
 
         void resetTimer()
         {
+            /*
+            resets question's timer with the time for each question in the game and starts it.
+            in: none.
+            out: none.
+            */
+
             tempTime = time;
             TIME.Text = string.Format("00:{0:D2}:{1:D2}", Convert.ToInt32(tempTime) / 60, Convert.ToInt32(tempTime) % 60);
             dispatcherTimer = new DispatcherTimer();
@@ -69,6 +85,12 @@ namespace Client
 
         void Timer_tick(object sender, EventArgs e)
         {
+            /*
+            event for each timer's tick, decreases time left for question by one second.
+            in: the sender, the event arguments.
+            out: none.
+            */
+
             if (tempTime > 0)
             {
                 if(_answered)
@@ -113,6 +135,12 @@ namespace Client
 
         async void getNextQuestion()
         {
+            /*
+            gets next question in game for user, ends game if no questions left.
+            in: none.
+            out: none.
+            */
+
             _answered = false;
             getQuestionResponse question = await Communicator.getNextQuestion();
             if (question.status != getQuestionResponse.QUESTIONS_OVER)
@@ -154,6 +182,11 @@ namespace Client
 
         private async void sendAns_click(object sender, RoutedEventArgs e)
         {
+            /*
+            event for answer sending (clicking it) event, seperates the 4 different buttons.
+            in: the sender (the clicked button), event arguments.
+            */
+
             if (!_answered)
             {
                 int resp = 0;
@@ -252,6 +285,12 @@ namespace Client
 
         private async void LeaveGame_click(object sender, RoutedEventArgs e)
         {
+            /*
+            event for the leave game button click, leaves the game.
+            in: the sender, the event arguments.
+            out: none.
+            */
+
             int res = await Communicator.LeaveGame();
             if(res == 1)
             {
@@ -269,6 +308,12 @@ namespace Client
 
         protected override async void OnClosed(EventArgs e)
         {
+            /*
+            event handler for closing window, seperates client closing it from closing it to move to another window.
+            in: the sender (Button), the event arguments.
+            out: none.
+            */
+
             if (_isClosedByX)
             {
                 int ok = await Communicator.LeaveGame();

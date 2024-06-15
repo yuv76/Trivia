@@ -29,6 +29,11 @@ namespace Client
 
         public Signup(double left, double top, double width, double height, WindowState windowstate)
         {
+            /*
+            signup window C'tor.
+            in: the window's position (left, top, width, height, windowstate).
+            */
+
             InitializeComponent();
             Left = left;
             Top = top;
@@ -39,6 +44,12 @@ namespace Client
 
         private async void signupEnter_click(object sender, RoutedEventArgs e)
         {
+            /*
+            event handler for the signup enter button, tries to prefom the signup request.
+            in: the sender, the event's arguments.
+            out: none.
+            */
+
             string temp = NEWMAIL.Text, temp2;
             int ok = 0;
             string errors = "";
@@ -102,6 +113,12 @@ namespace Client
         }
         private async void back_click(object sender, RoutedEventArgs e)
         {
+            /*
+            the back to login button event handler - returns to login.
+            in: the sender, the event arguments.
+            out: none.
+            */
+
             MainWindow login = new MainWindow(Left, Top, Width, Height, WindowState);
             login.Show();
             _isClosedByX = false;
@@ -110,6 +127,12 @@ namespace Client
 
         protected override async void OnClosed(EventArgs e)
         {
+            /*
+            event handler for closing window, seperates client closing it from closing it to move to another window.
+            in: the sender (Button), the event arguments.
+            out: none.
+            */
+
             if (_isClosedByX)
             {
                 int ok = await Communicator.closeConnectionAsync();

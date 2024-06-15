@@ -25,6 +25,11 @@ namespace Client
 
         public MainMenu(double left, double top, double width, double height, WindowState windowstate, string error)
         {
+            /*
+            main menu window C'tor.
+            in: the window's position (left, top, width, height, windowstate), error string if there were errors (empty if not).
+            */
+
             InitializeComponent();
             Left = left;
             Top = top;
@@ -39,6 +44,12 @@ namespace Client
 
         private void moveToCreateRoom_click(object sender, RoutedEventArgs e)
         {
+            /*
+            event handler for the create room button - moves to create room window.
+            in: the sender (the button), the event's arguments.
+            out: none.
+            */
+
             CreateRoom crRoom = new CreateRoom(Left, Top, Width, Height, WindowState);
             crRoom.Show();
             _isClosedByX = false;
@@ -47,6 +58,12 @@ namespace Client
 
         private void moveToJoinRoom_click(object sender, RoutedEventArgs e)
         {
+            /*
+            event handler for the join room button - moves to join room window.
+            in: the sender (the button), the event's arguments.
+            out: none.
+            */
+
             JoinRoom jnRoom = new JoinRoom(Left, Top, Width, Height, WindowState);
             jnRoom.Show();
             _isClosedByX = false;
@@ -55,6 +72,12 @@ namespace Client
 
         private void moveToStatsMenu_click(object sender, RoutedEventArgs e)
         {
+            /*
+            event handler for the stats menu button - moves to stats menu window.
+            in: the sender (the button), the event's arguments.
+            out: none.
+            */
+
             statsMenu statsMen = new statsMenu(Left, Top, Width, Height, WindowState);
             statsMen.Show();
             _isClosedByX = false;
@@ -63,6 +86,12 @@ namespace Client
 
         private async void exit_clickAsync(object sender, RoutedEventArgs e)
         {
+            /*
+            event handler for the sign out button - moves to login window (main window).
+            in: the sender (the button), the event's arguments.
+            out: none.
+            */
+
             int ok = await Communicator.signoutAsync();
             MainWindow log = new MainWindow(Left, Top, Width, Height, WindowState);
             log.Show();
@@ -72,7 +101,13 @@ namespace Client
 
         protected override async void OnClosed(EventArgs e)
         {
-            if(_isClosedByX)
+            /*
+            event handler for closing window, seperates client closing it from closing it to move to another window.
+            in: the sender (Button), the event arguments.
+            out: none.
+            */
+
+            if (_isClosedByX)
             {
                 int ok = await Communicator.signoutAsync();
             }
@@ -80,6 +115,11 @@ namespace Client
 
         private void PutName()
         {
+            /*
+            puts the connected user's username in the name block.
+            in&out: none.
+            */
+
             string temp = "Hello " + Communicator.getName();
             name.Text = temp;
         }

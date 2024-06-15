@@ -174,12 +174,13 @@ namespace Client
             }
         }
 
-        /*
-        Attempts to login a user to the server
-        */
         public static async Task<int> loginAsync(string username, string password)
         {
-            
+            /*
+            Attempts to login a user to the server.
+            in: the username and password to login.
+            out: the server's response code, or connection error code.
+            */
 
             string jsonStr = "";
 
@@ -220,6 +221,12 @@ namespace Client
 
         public static async Task<int> signupAsync(string username, string password, string mail)
         {
+            /*
+            Attempts to signup a user to the server.
+            in: the username, password and mail to login.
+            out: the server's response code, or connection error code.
+            */
+
             string jsonStr = "";
             int sentSuccesfully = 0;
             JObject recvdJson;
@@ -259,6 +266,12 @@ namespace Client
 
         public static async Task<int> signoutAsync()
         {
+            /*
+            Attempts to sign out the connected user to the server.
+            in: none.
+            out: the server's response code, or connection error code.
+            */
+
             int sentSuccesfully = 0;
             JObject recvdJson;
 
@@ -285,6 +298,12 @@ namespace Client
 
         public static async Task<int> createRoom(string roomName, uint maxPlayers, uint questionsNum, int timeForQuestion)
         {
+            /*
+            sends a create room request to the server.
+            in: the room's name, maximum players, number of questions in game and time for question.
+            out: the server's response code, or connection error code.
+            */
+
             string jsonStr = "";
             int sentSuccesfully = 0;
             JObject recvdJson;
@@ -321,6 +340,12 @@ namespace Client
 
         public static async Task<int> joinRoom(string roomIdentifier)
         {
+            /*
+            Attempts to join a user to a room in the server.
+            in: the room's identifier.
+            out: the server's response code, or connection error code.
+            */
+
             string jsonStr = "";
             int sentSuccesfully = 0;
             JObject recvdJson;
@@ -353,7 +378,12 @@ namespace Client
 
         public static async Task<List<string>> personalStatsAsync()
         {
-            string jsonStr = "";
+            /*
+            Attempts to get personal statistics the server.
+            in: none.
+            out: a list of the statistics.
+            */
+
             int sentSuccesfully = 0;
             JObject recvdJson;
             List<string> userStats = new List<string>();
@@ -384,6 +414,12 @@ namespace Client
 
         public static async Task<List<string>> topStatsAsync()
         {
+            /*
+            Attempts to get top statistics from the server.
+            in: none.
+            out: a list with the top statistics.
+            */
+
             int sentSuccesfully = 0;
             JObject recvdJson;
             List<string> topStats = new List<string>();
@@ -415,6 +451,12 @@ namespace Client
 
         public static async Task<List<Pair<string, string>>> getRooms()
         {
+            /*
+            Attempts to get open rooms list from the server.
+            in: none.
+            out: a list of pairs, each containing room's id and room's name as strings.
+            */
+
             List<Pair<string, string>> rooms = new List<Pair<string, string>>();
             int sentSuccesfully = 0;
             JObject recvdJson;
@@ -442,6 +484,12 @@ namespace Client
 
         public static async Task<List<string>> getPlayersInRoom(string roomIdentifier)
         {
+            /*
+            Attempts to get list of players connected to a room from the server.
+            in: the room's id, as string.
+            out: a list with the player names, the first one is the admin.
+            */
+
             List<string> players = new List<string>();
             string jsonStr = "";
             int sentSuccesfully = 0;
@@ -481,6 +529,12 @@ namespace Client
 
         public static async Task<GetRoomStateResponse> getRoomState()
         {
+            /*
+            Attempts to get the current room the client is connected to's state and data from the server.
+            in: none.
+            out: GetRoomStateResponse with the rooms data and state, empty if there was a problem.
+            */
+
             GetRoomStateResponse roomState = new GetRoomStateResponse();
             roomState.isActive = GetRoomStateResponse.CONNECTION_PROBLEM;
             List<string> players = new List<string>();
@@ -524,6 +578,12 @@ namespace Client
 
         public static async Task<int> LeaveRoom()
         {
+            /*
+            Attempts to Leave a room in the server.
+            in: none.
+            out: the server's response code, or connection error code.
+            */
+
             int sentSuccesfully = 0;
             JObject recvdJson;
 
@@ -552,6 +612,12 @@ namespace Client
 
         public static async Task<int> CloseRoom()
         {
+            /*
+            Attempts to close a room in the server.
+            in: none.
+            out: the server's response code, or connection error code.
+            */
+
             int sentSuccesfully = 0;
             JObject recvdJson;
 
@@ -580,6 +646,12 @@ namespace Client
 
         public static async Task<int> StartGame()
         {
+            /*
+            Attempts to start a game in current room.
+            in: none.
+            out: the server's response code, or connection error code.
+            */
+
             int sentSuccesfully = 0;
             JObject recvdJson;
 
@@ -608,6 +680,12 @@ namespace Client
 
         public static async Task<int> LeaveGame()
         {
+            /*
+            Attempts to leave current game.
+            in: none.
+            out: the server's response code, or connection error code.
+            */
+
             int sentSuccesfully = 0;
             JObject recvdJson;
 
@@ -636,6 +714,12 @@ namespace Client
 
         public static async Task<int> SubmitAnswer(uint ansNum, double time)
         {
+            /*
+            Attempts to send answer to current question to server.
+            in: the chosen answer's id, the time took for the client to answer.
+            out: the right answer's id, or connection error code.
+            */
+
             int sentSuccesfully = 0;
             JObject recvdJson;
             string jsonStr = "";
@@ -673,10 +757,11 @@ namespace Client
         private static string replaceQuotChars(string toReplace)
         {
             /*
-             * characters ' and " in the questions in the database dosnt appear as themselves; replacing them with readable characters.
-             * in: the string to replace.
-             * out: the replaced string.
+            characters ' and " in the questions in the database dosnt appear as themselves; replacing them with readable characters.
+            in: the string to replace.
+            out: the replaced string.
             */
+
             toReplace = toReplace.Replace("&quot;", "\"");
             toReplace = toReplace.Replace("&#039;", "'");
             return toReplace;
@@ -684,6 +769,12 @@ namespace Client
 
         public static async Task<getQuestionResponse> getNextQuestion()
         {
+            /*
+            Attempts to get next question for user from server.
+            in: none. 
+            out: getQuestionResponse with the question's data, empty if there was a connection error.
+            */
+
             string answer = "";
             int sentSuccesfully = 0;
             JObject recvdJson;
@@ -724,6 +815,12 @@ namespace Client
 
         public static async Task<GameResultsResponse> getGameResults()
         {
+            /*
+            Attempts to get game results from server.
+            in: none. 
+            out: GameResultsResponse containing the results, empty if there is an error.
+            */
+
             int sentSuccesfully = 0;
             JObject recvdJson;
             GameResultsResponse gameRes = new GameResultsResponse();
@@ -773,6 +870,12 @@ namespace Client
 
         public static async Task<int> closeConnectionAsync()
         {
+            /*
+            Attempts to close connection with server.
+            in: none.
+            out: the server's response code, or connection error code.
+            */
+
             int sentSuccessfully = await sendToServer("", msgCodes.DISCONNECT);
             Communicator.Close();
             return sentSuccessfully;
@@ -780,12 +883,24 @@ namespace Client
 
         public static string getName()
         {
+            /*
+            gets connected user's username
+            in: none.
+            out: the name.
+            */
+
             string name = Communicator.username;
             return name;
         }
 
         public static bool isConnected() 
         {
+            /*
+            gets connection status.
+            in: none.
+            out: true if connected, false otherwise.
+            */
+
             return _isConnected; 
         }
     }
