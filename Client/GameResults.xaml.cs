@@ -39,7 +39,7 @@ namespace Client
             room_id = roomId;
             total_time = timeForQuestion * numOfQuestions;
 
-            //getGameResults();
+            getGameResults();
 
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromSeconds(total_time);
@@ -65,7 +65,7 @@ namespace Client
 
         async void backRoom_click(object sender, RoutedEventArgs e)
         {
-            /*_timer.Stop();
+            /*
             if (sender == Players.Items[0])
             {
                 

@@ -94,7 +94,7 @@ namespace Client
                 int id = await Communicator.createRoom(ROOMNAME.Text, uint.Parse(PLAYERS_NUM.Text), uint.Parse(QUESTION_NUM.Text), double.Parse(QUESTION_TIME.Text));
                 if (id >= CreateRoomResponse.CREATE_ROOM_SUCESS_ID)
                 {
-                    Room room = new Room(Left, Top, Width, Height, WindowState, ROOMNAME.Text, id.ToString());
+                    Room room = new Room(Left, Top, Width, Height, WindowState, ROOMNAME.Text, id.ToString(),PLAYERS_NUM.Text);
                     room.Show();
                     _isClosedByX = false;
                     this.Close();

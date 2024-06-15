@@ -32,13 +32,15 @@ namespace Client
         private bool _isAdmin = false;
         private int NumOfQuestions = 0;
         private int TimeForQuestion = 0;
-        private int roomId = 0;
+        private int playernum = 0;
 
+
+        private int roomId = 0;
         bool _refreshNotComplete = false;
 
         private BackgroundWorker background_worker;
 
-        public Room(double left, double top, double width, double height, WindowState windowstate, string roomName, string id)
+        public Room(double left, double top, double width, double height, WindowState windowstate, string roomName, string id, string num)
         {
             InitializeComponent();
             Left = left;
@@ -49,7 +51,7 @@ namespace Client
 
             ROOM_NAME.Text = roomName;
             roomId = Int32.Parse(id);
-
+            playernum = Int32.Parse(num);
 
             GetRoomStateResponse state = getStateAsync().Result;
             if(state.isActive == GetRoomStateResponse.CONNECTION_PROBLEM)
@@ -123,7 +125,7 @@ namespace Client
             else if (state.isActive == GetRoomStateResponse.GAME_IN_PROGRESS)
             {
                 background_worker.CancelAsync(); // stop refreshing.
-                Game game = new Game(Left, Top, Width, Height, WindowState, this.NumOfQuestions, this.TimeForQuestion, this.roomId);
+                Game game = new Game(Left, Top, Width, Height, WindowState, this.NumOfQuestions, this.TimeForQuestion, this.roomId, this.playernum);
                 game.Show();
                 _isClosedByX = false;
                 this.Close();
@@ -237,7 +239,7 @@ namespace Client
                 if (started == StartGameResponse.START_GAME)
                 {
                     background_worker.CancelAsync();
-                    Game game = new Game(Left, Top, Width, Height, WindowState, this.NumOfQuestions, this.TimeForQuestion, roomId);
+                    Game game = new Game(Left, Top, Width, Height, WindowState, this.NumOfQuestions, this.TimeForQuestion, this.roomId, this.playernum);
                     game.Show();
                     _isClosedByX = false;
                     this.Close();

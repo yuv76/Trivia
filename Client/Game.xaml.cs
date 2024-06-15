@@ -36,7 +36,7 @@ namespace Client
         private double tempTime;
         private DispatcherTimer dispatcherTimer;
 
-        public Game(double left, double top, double width, double height, WindowState windowstate, int numOfQuestions, int timeForQuestion, int roomId)
+        public Game(double left, double top, double width, double height, WindowState windowstate, int numOfQuestions, int timeForQuestion, int roomId, int num)
         {
             InitializeComponent();
             Left = left;
