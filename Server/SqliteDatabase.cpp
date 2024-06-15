@@ -221,18 +221,6 @@ std::vector<QuestionData> SqliteDatabase::getQuestions(int questionNum)
 	QuestionData temp;
 	std::vector<QuestionData> questionDatas;
 
-	/*for (int i = 0; i <= questionNum; i++)
-	{
-		std::string getQuestionSQL = "select * from questions WHERE id == \"" + std::to_string((i + 1)) + "\";";
-		int res = sqlite3_exec(this->database, getQuestionSQL.c_str(), callbackGetQuestion, &temp, errMessage);
-		if (res != SQLITE_OK)
-		{
-			throw std::exception(*errMessage);
-		}
-
-		questionDatas.push_back(temp);
-	}*/
-
 	for (int i = 0; i < questionNum; i++)
 	{
 		std::string getQuestionSQL = "select * from questions ORDER BY RANDOM() LIMIT 1;";

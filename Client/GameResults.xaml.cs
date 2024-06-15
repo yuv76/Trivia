@@ -41,7 +41,7 @@ namespace Client
             GameResultsResponse gameResultsResponse = await Communicator.getGameResults();
             for(i = 0; i < gameResultsResponse.Players.Count; i++)
             {
-                Players.Items.Add(gameResultsResponse.Players[i] + " - " + gameResultsResponse.CorrectAnswers[i] + " - " + gameResultsResponse.Avrgs[i]);
+                Players.Items.Add(gameResultsResponse.Players[i] + " correct answers: " + gameResultsResponse.CorrectAnswers[i] + " Average answer time: " + gameResultsResponse.Avrgs[i]);
             }
         }
 

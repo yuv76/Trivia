@@ -670,8 +670,21 @@ namespace Client
             return sentSuccesfully;
         }
 
+        private static string replaceQuotChars(string toReplace)
+        {
+            /*
+             * characters ' and " in the questions in the database dosnt appear as themselves; replacing them with readable characters.
+             * in: the string to replace.
+             * out: the replaced string.
+            */
+            toReplace = toReplace.Replace("&quot;", "\"");
+            toReplace = toReplace.Replace("&#039;", "'");
+            return toReplace;
+        }
+
         public static async Task<getQuestionResponse> getNextQuestion()
         {
+            string answer = "";
             int sentSuccesfully = 0;
             JObject recvdJson;
             getQuestionResponse question = new getQuestionResponse();
@@ -686,9 +699,10 @@ namespace Client
                 {
                     if (recvdJson.ContainsKey("question") && recvdJson.ContainsKey("answers"))
                     {
-                        question.Question = recvdJson.Value<string>("question");
-                        foreach (string answer in recvdJson.Value<JToken>("answers"))
+                        question.Question = replaceQuotChars(recvdJson.Value<string>("question"));
+                        foreach (string tAnswer in recvdJson.Value<JToken>("answers"))
                         {
+                            answer = replaceQuotChars(tAnswer);
                             answers.Add(answer.ToString());
                         }
                         question.Answers = answers;
