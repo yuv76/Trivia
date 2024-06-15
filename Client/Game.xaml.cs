@@ -35,8 +35,10 @@ namespace Client
         private int room_id;
         private double tempTime;
         private DispatcherTimer dispatcherTimer;
+        private int playernum = 0;
+        private string name;
 
-        public Game(double left, double top, double width, double height, WindowState windowstate, int numOfQuestions, int timeForQuestion, int roomId, int num)
+        public Game(double left, double top, double width, double height, WindowState windowstate, int numOfQuestions, int timeForQuestion, int roomId, int num, string roomName)
         {
             InitializeComponent();
             Left = left;
@@ -52,6 +54,8 @@ namespace Client
             putName();
             getNextQuestion();
             this.room_id = roomId;
+            playernum = num;
+            name = roomName;
         }
 
         private void putName()
@@ -108,7 +112,7 @@ namespace Client
             }
             else
             {
-                GameResults gr = new GameResults(Left, Top, Width, Height, WindowState, totalQ, time, room_id);
+                GameResults gr = new GameResults(Left, Top, Width, Height, WindowState, totalQ, time, room_id, this.playernum, this.name);
                 gr.Show();
                 _isClosedByX = false;
                 this.Close();

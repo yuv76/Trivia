@@ -30,14 +30,18 @@ namespace Client
         private int room_id = 0;
         private int total_time;
         private DispatcherTimer _timer;
+        private int playernum = 0;
 
-        public GameResults(double left, double top, double width, double height, WindowState windowstate, int numOfQuestions, int timeForQuestion, int roomId)
+
+        public GameResults(double left, double top, double width, double height, WindowState windowstate, int numOfQuestions, int timeForQuestion, int roomId, int num, string roomName)
         {
             InitializeComponent();
 
             PutName();
             room_id = roomId;
             total_time = timeForQuestion * numOfQuestions;
+            playernum = num;
+
 
             getGameResults();
 
@@ -65,11 +69,17 @@ namespace Client
 
         async void backRoom_click(object sender, RoutedEventArgs e)
         {
-            /*
-            if (sender == Players.Items[0])
+            if (sender == Players.Items[0] && playernum != 0)
             {
-                
-            }*/
+                int id = await Communicator.createRoom(roomName, uint.Parse(PLAYERS_NUM.Text), uint.Parse(numOfQuestions.Text), double.Parse(QUESTION_TIME.Text));
+                if (id >= CreateRoomResponse.CREATE_ROOM_SUCESS_ID)
+                {
+                    Room room = new Room(Left, Top, Width, Height, WindowState, ROOMNAME.Text, id.ToString(), PLAYERS_NUM.Text);
+                    room.Show();
+                    _isClosedByX = false;
+                    this.Close();
+                }
+            }
         }
 
         private void backMenu_click(object sender, RoutedEventArgs e)
