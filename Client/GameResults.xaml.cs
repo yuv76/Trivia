@@ -89,11 +89,11 @@ namespace Client
         {
             if (playernum != 0)
             {
-                //(string roomName, uint maxPlayers, uint questionsNum, double timeForQuestion)
-                int id = await Communicator.createRoom(this.roomname, uint.Parse(this.playernum.ToString()), uint.Parse(this.totalQ.ToString()), double.Parse(this.timeQ.ToString()));
+                string newName = this.roomname + this.room_id.ToString();
+                int id = await Communicator.createRoom(newName, uint.Parse(this.playernum.ToString()), uint.Parse(this.totalQ.ToString()), double.Parse(this.timeQ.ToString()));
                 if (id >= CreateRoomResponse.CREATE_ROOM_SUCESS_ID)
                 {
-                    Room room = new Room(Left, Top, Width, Height, WindowState, this.roomname, id.ToString(), this.playernum.ToString());
+                    Room room = new Room(Left, Top, Width, Height, WindowState, newName, id.ToString(), this.playernum.ToString());
                     room.Show();
                     _isClosedByX = false;
                     this.Close();
