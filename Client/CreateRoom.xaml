@@ -443,7 +443,7 @@
     <Viewbox Stretch="UniformToFill">
         <Grid>
             <Grid.Background>
-                <ImageBrush ImageSource="/back.png" Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="/Resources/Images/back.png" Stretch="UniformToFill"/>
             </Grid.Background>
             <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,400,0" Width="360" FontFamily="Cascadia Mono SemiBold" Foreground="#FF0E68CD"/>
             <StackPanel Margin="10,80,10,6">
@@ -460,7 +460,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Button Style="{DynamicResource Inc1}" x:Name="PlayersInc"  Height="30" Width="30" Click="Inc_click" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
                             <Button.Background>
-                                <ImageBrush ImageSource="/p_yel.png"/>
+                                <ImageBrush ImageSource="/Resources/Images/p_yel.png"/>
                             </Button.Background> +
                         </Button>
                         <TextBox x:Name="PLAYERS_NUM" Height="21" Width="44" Text="2" TextAlignment="Center" FontFamily="Cascadia Mono SemiBold" BorderBrush="#FFFFCC66" BorderThickness="3,3,3,3" TextChanged="PLAYERS_NUM_TextChanged" Foreground="#FFFFCC66">
@@ -470,7 +470,7 @@
                         </TextBox>
                         <Button Style="{DynamicResource Dec1}" x:Name="PlayersDec" Height="30" Width="30" Click="Dec_click" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
                             <Button.Background>
-                                <ImageBrush ImageSource="/p_yel.png"/>
+                                <ImageBrush ImageSource="/Resources/Images/p_yel.png"/>
                             </Button.Background> -
                         </Button>
                     </StackPanel>
@@ -478,7 +478,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Button Style="{DynamicResource Inc2}" x:Name="QuestionsInc" Height="30" Width="30" Click="Inc_click" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF80ECEC">
                             <Button.Background>
-                                <ImageBrush ImageSource="/p_blu.png"/>
+                                <ImageBrush ImageSource="/Resources/Images/p_blu.png"/>
                             </Button.Background> +
                         </Button>
                         <TextBox x:Name="QUESTION_NUM" Height="21" Width="44" Text="1" TextAlignment="Center" FontFamily="Cascadia Mono SemiBold" BorderBrush="#FF80ECEC" BorderThickness="3,3,3,3" TextChanged="QUESTION_NUM_TextChanged" Foreground="#FF80ECEC">
@@ -488,7 +488,7 @@
                         </TextBox>
                         <Button Style="{DynamicResource Dec2}" x:Name="QuestionsDec" Height="30" Width="30" Click="Dec_click" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF80ECEC">
                             <Button.Background>
-                                <ImageBrush ImageSource="/p_blu.png"/>
+                                <ImageBrush ImageSource="/Resources/Images/p_blu.png"/>
                             </Button.Background> -
                         </Button>
                     </StackPanel>
@@ -498,7 +498,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Button Style="{DynamicResource Inc3}" x:Name="TimeInc" Height="30" Width="30" Click="Inc_click" Content="+" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFF8FCC">
                             <Button.Background>
-                                <ImageBrush ImageSource="/pink_p.png"/>
+                                <ImageBrush ImageSource="/Resources/Images/pink_p.png"/>
                             </Button.Background>
                         </Button>
                         <TextBox x:Name="QUESTION_TIME" Height="22" Width="44" Text="30" TextAlignment="Center" FontFamily="Cascadia Mono SemiBold" BorderBrush="#FFFF8FCC" BorderThickness="3,3,3,3" TextChanged="QUESTION_TIME_TextChanged" Foreground="#FFFF8FCC">
@@ -508,19 +508,19 @@
                         </TextBox>
                         <Button Style="{DynamicResource Dec3}" x:Name="TimeDec" Height="30" Width="30" Click="Dec_click" Content="-" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFF8FCC">
                             <Button.Background>
-                                <ImageBrush ImageSource="/pink_p.png"/>
+                                <ImageBrush ImageSource="/Resources/Images/pink_p.png"/>
                             </Button.Background>
                         </Button>
                     </StackPanel>
                 </StackPanel>
                 <Button Style="{DynamicResource createBtn}" x:Name="CREATE_BTN" Margin="45,5,45,0" Height="119" Width="248" FontSize="17" Click="Create_Click" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
                     <Button.Background>
-                        <ImageBrush ImageSource="/yellow.png"/>
+                        <ImageBrush ImageSource="/Resources/Images/yellow.png"/>
                     </Button.Background> Create
                 </Button>
                 <Button Style="{DynamicResource exitBtn}" x:Name="BACK" Width="78" Height="40" Click="back_click" FontFamily="Cascadia Mono SemiBold" Content="Back" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF80ECEC">
                     <Button.Background>
-                        <ImageBrush ImageSource="/blue.png"/>
+                        <ImageBrush ImageSource="/Resources/Images/blue.png"/>
                     </Button.Background>
                 </Button>
                 <TextBlock x:Name="ERRORS" Foreground="DarkRed" FontSize="16" Margin="10" Height="38" Width="730" FontFamily="Cascadia Mono SemiBold"></TextBlock>

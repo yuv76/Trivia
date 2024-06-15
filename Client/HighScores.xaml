@@ -68,7 +68,7 @@
     <Viewbox Stretch="UniformToFill">
         <Grid>
             <Grid.Background>
-                <ImageBrush ImageSource="/back.png" Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="/Resources/Images/back.png" Stretch="UniformToFill"/>
             </Grid.Background>
 
             <Grid.ColumnDefinitions>
@@ -79,7 +79,7 @@
             <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="30,20,27,0" Width="333" FontFamily="Cascadia Mono SemiBold" Height="31" Foreground="#FF3BAEBB"/>
             <Button Style="{DynamicResource goBackBtn}" x:Name="BACK" Click="back_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,17,24,0" Width="90" FontFamily="Cascadia Mono SemiBold" Height="35" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF726BB5" Grid.Column="1">
                 <Button.Background>
-                    <ImageBrush ImageSource="/dblu.png"/>
+                    <ImageBrush ImageSource="/Resources/Images/dblu.png"/>
                 </Button.Background> Go Back
             </Button>
             <TextBlock FontSize="20" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,57,0,0" Width="106" FontFamily="Cascadia Mono SemiBold" Foreground="#FFA96BB5" Height="23">username:</TextBlock>

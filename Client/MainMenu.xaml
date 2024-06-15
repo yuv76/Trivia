@@ -230,28 +230,28 @@
     <Viewbox Stretch="UniformToFill">
         <Grid Height="325" Width="608">
             <Grid.Background>
-                <ImageBrush ImageSource="/back.png" Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="/Resources/Images/back.png" Stretch="UniformToFill"/>
             </Grid.Background>
             
             <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,267,0" Width="292" Height="44" FontFamily="Cascadia Mono SemiBold" Foreground="#FF68B60A"/>
             <Button Style="{DynamicResource exitBtn}" x:Name="EXIT" Click="exit_clickAsync" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,186,331,0" Width="140" FontFamily="Cascadia Mono SemiBold" Height="79" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
                 <Button.Background>
-                    <ImageBrush ImageSource="/yellow.png"/>
+                    <ImageBrush ImageSource="/Resources/Images/yellow.png"/>
                 </Button.Background> Sign Out
             </Button>
             <Button Style="{DynamicResource createBtn}" x:Name="CREATE_ROOM" Click="moveToCreateRoom_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,69,151,0" Width="130" RenderTransformOrigin="0.445,1.399" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Height="67" Foreground="#FFFF8FCC">
                 <Button.Background>
-                    <ImageBrush ImageSource="/Pink.png"/>
+                    <ImageBrush ImageSource="/Resources/Images/Pink.png"/>
                 </Button.Background> Create Room
             </Button>
             <Button Style="{DynamicResource joinRoomBtn}" x:Name="JOIN_ROOM" Click="moveToJoinRoom_click" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="146,69,0,0" Width="122" FontFamily="Cascadia Mono SemiBold" Height="67" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF726BB5">
                 <Button.Background>
-                    <ImageBrush ImageSource="/dblu.png"/>
+                    <ImageBrush ImageSource="/Resources/Images/dblu.png"/>
                 </Button.Background> Join Room
             </Button>
             <Button Style="{DynamicResource statsBtn}" x:Name="STATISTICS" Click="moveToStatsMenu_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,177,139,0" FontFamily="Cascadia Mono SemiBold" Height="97" Width="154" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF80ECEC">
                 <Button.Background>
-                    <ImageBrush ImageSource="/blue.png"/>
+                    <ImageBrush ImageSource="/Resources/Images/blue.png"/>
                 </Button.Background> Statistics
             </Button>
             <TextBlock x:Name="ERROR" Margin="49,279,55,10" FontSize="16" Foreground="DarkRed" FontFamily="Cascadia Mono SemiBold"></TextBlock>

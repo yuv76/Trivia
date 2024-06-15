@@ -119,7 +119,7 @@
     <Viewbox Stretch="UniformToFill">
         <Grid Height="571" Width="650">
             <Grid.Background>
-                <ImageBrush ImageSource="/back.png" Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="/Resources/Images/back.png" Stretch="UniformToFill"/>
             </Grid.Background>
             <StackPanel Margin="10,41,10,6">
                 <StackPanel Orientation="Horizontal" Height="29" Width="511">
@@ -160,7 +160,7 @@
                             <ImageBrush/>
                         </Button.BorderBrush>
                         <Button.Background>
-                            <ImageBrush ImageSource="/blue.png"/>
+                            <ImageBrush ImageSource="/Resources/Images/blue.png"/>
                         </Button.Background> back to login
                     </Button>
                     <Button Style="{DynamicResource signup}" Margin="0,5" Height="65" Width="175" FontSize="16" Click="signupEnter_click" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" Foreground="#FF726BB5">
@@ -168,7 +168,7 @@
                             <ImageBrush/>
                         </Button.BorderBrush>
                         <Button.Background>
-                            <ImageBrush ImageSource="/dblu.png"/>
+                            <ImageBrush ImageSource="/Resources/Images/dblu.png"/>
                         </Button.Background> Enter
                     </Button>
                 </StackPanel>

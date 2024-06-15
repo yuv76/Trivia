@@ -122,7 +122,7 @@
     <Viewbox Stretch="UniformToFill">
         <Grid>
             <Grid.Background>
-                <ImageBrush ImageSource="/back.png" Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="/Resources/Images/back.png" Stretch="UniformToFill"/>
             </Grid.Background>
             <StackPanel Margin="90,44,103,10">
                 <TextBlock x:Name="ROOM_NAME" FontSize="20" Height="59" TextAlignment="Center" FontFamily="Cascadia Mono SemiBold"></TextBlock>
@@ -130,12 +130,12 @@
                     <StackPanel>
                         <Button Style="{DynamicResource startBtn}" x:Name="START" Height="69" Width="154" Click="start_Click" Margin="20,20,0,0" Visibility="Collapsed" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
                             <Button.Background>
-                                <ImageBrush ImageSource="/yellow.png"/>
+                                <ImageBrush ImageSource="/Resources/Images/yellow.png"/>
                             </Button.Background> Start Game
                         </Button>
                         <Button Style="{DynamicResource leaveBtn}" x:Name="LEAVE" Height="74" Width="144" Click="Leave_Click" Margin="20,20,0,0" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF726BB5" >
                             <Button.Background>
-                                <ImageBrush ImageSource="/dblu.png"/>
+                                <ImageBrush ImageSource="/Resources/Images/dblu.png"/>
                             </Button.Background> Leave Room
                         </Button>
                     </StackPanel>

@@ -176,18 +176,18 @@
     <Viewbox Stretch="UniformToFill">
         <Grid Height="505" Width="540">
             <Grid.Background>
-                <ImageBrush ImageSource="/back.png" Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="/Resources/Images/back.png" Stretch="UniformToFill"/>
             </Grid.Background>
 
             <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,40,220,0" Width="260" FontFamily="Cascadia Mono SemiBold" Foreground="#FF5AB71C" Height="30"/>
             <Button Style="{DynamicResource goBack}" x:Name="BACK" Click="back_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,31,0" Width="149" FontFamily="Cascadia Mono SemiBold" Height="62" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFCD688">
                 <Button.Background>
-                    <ImageBrush ImageSource="/yellow.png"/>
+                    <ImageBrush ImageSource="/Resources/Images/yellow.png"/>
                 </Button.Background> Go Back
             </Button>
             <Button Style="{DynamicResource personalBtn}" x:Name="PERSONAL" Click="personal_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,139,270,0" Width="210" FontFamily="Cascadia Mono SemiBold" Height="106" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFF929D">
                 <Button.Background>
-                    <ImageBrush ImageSource="/red_i.png"/>
+                    <ImageBrush ImageSource="/Resources/Images/red_i.png"/>
                 </Button.Background> Personal Statistics
             </Button>
             <Button Style="{DynamicResource topBtn}" x:Name="TOP" Click="top_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,139,52,0" Width="169" RenderTransformOrigin="0.445,1.399" FontFamily="Cascadia Mono SemiBold" Height="106" Cursor="Hand" Foreground="#FFFF93CD">
@@ -195,7 +195,7 @@
                     <ImageBrush/>
                 </Button.BorderBrush>
                 <Button.Background>
-                    <ImageBrush ImageSource="/Pink.png"/>
+                    <ImageBrush ImageSource="/Resources/Images/Pink.png"/>
                 </Button.Background> Top Statistics
             </Button>
         </Grid>

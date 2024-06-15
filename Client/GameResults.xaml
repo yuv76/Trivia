@@ -122,7 +122,7 @@
     <Viewbox Stretch="UniformToFill">
         <Grid>
             <Grid.Background>
-                <ImageBrush ImageSource="/back.png" Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="/Resources/Images/back.png" Stretch="UniformToFill"/>
             </Grid.Background>
             <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="30,20,380,0" Width="249" FontFamily="Cascadia Mono SemiBold" Foreground="#FFE541E6"/>
             <StackPanel Margin="0,30,0,0">
@@ -135,12 +135,12 @@
                 <StackPanel Orientation="Horizontal" Margin="20" Height="39" Width="372">
                     <Button Style="{DynamicResource backRoom}" Click="backRoom_click" FontFamily="Cascadia Mono SemiBold" Height="40" Width="140" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
                         <Button.Background>
-                            <ImageBrush ImageSource="/yellow.png"/>
+                            <ImageBrush ImageSource="/Resources/Images/yellow.png"/>
                         </Button.Background> back to room
                     </Button>
                     <Button Style="{DynamicResource backManu}" Margin="90,0,0,0" Click="backMenu_click" FontFamily="Cascadia Mono SemiBold" Width="128" Height="42" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFF8FCC">
                         <Button.Background>
-                            <ImageBrush ImageSource="/Pink.png"/>
+                            <ImageBrush ImageSource="/Resources/Images/Pink.png"/>
                         </Button.Background> back to menu
                     </Button>
                 </StackPanel>

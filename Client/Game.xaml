@@ -68,7 +68,7 @@
     <Viewbox Stretch="UniformToFill">
         <Grid>
             <Grid.Background>
-                <ImageBrush ImageSource="/back.png" Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="/Resources/Images/back.png" Stretch="UniformToFill"/>
             </Grid.Background>
             <StackPanel Margin="0,7,0,54">
                 <StackPanel Orientation="Horizontal" Height="47" Width="703">
@@ -105,7 +105,7 @@
                 <StackPanel Orientation="Horizontal" Width="757">
                     <Button Style="{DynamicResource leaveBtn}" Cursor="Hand" Height="40" Width="130" Margin="0,0,0,0" Click="LeaveGame_click" FontFamily="Cascadia Mono SemiBold" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
                         <Button.Background>
-                            <ImageBrush ImageSource="/yellow.png"/>
+                            <ImageBrush ImageSource="/Resources/Images/yellow.png"/>
                         </Button.Background> Leave Game
                     </Button>
                     <TextBlock x:Name="USERNAME" FontSize="16" Margin="540,0,0,0" FontFamily="Cascadia Mono SemiBold" Foreground="#FF3D6ED7"></TextBlock>

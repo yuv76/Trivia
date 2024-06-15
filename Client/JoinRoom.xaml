@@ -177,13 +177,13 @@
         <Grid>
             <StackPanel>
                 <StackPanel.Background>
-                    <ImageBrush ImageSource="/back.png" Stretch="UniformToFill"/>
+                    <ImageBrush ImageSource="/Resources/Images/back.png" Stretch="UniformToFill"/>
                 </StackPanel.Background>
                 <StackPanel Orientation="Horizontal" Height="44">
                     <TextBlock FontSize="17" Margin="57,40,65,-60" Height="20" Width="220" FontFamily="Cascadia Mono SemiBold" Foreground="#FF658CFF">Choose a Room To Join:</TextBlock>
                     <Button Style="{DynamicResource refresh_h}" Margin="270,40,65,-60" Click="refresh_Click" Height="48" Width="77" Content="refresh" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
                         <Button.Background>
-                            <ImageBrush ImageSource="/yellow.png"/>
+                            <ImageBrush ImageSource="/Resources/Images/yellow.png"/>
                         </Button.Background>
                     </Button>
                 </StackPanel>
@@ -204,12 +204,12 @@
                 <StackPanel Orientation="Horizontal" Width="404" Height="52">
                     <Button Style="{DynamicResource joinBtn}" x:Name="JOIN_ROOM" Height="55" Width="157" Content="Join" FontSize="20" Click="Join_Click" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFF929D">
                         <Button.Background>
-                            <ImageBrush ImageSource="/red_i.png"/>
+                            <ImageBrush ImageSource="/Resources/Images/red_i.png"/>
                         </Button.Background>
                     </Button>
                     <Button Style="{DynamicResource exitBtn}" x:Name="BACK" Width="122" Height="48" Margin="80,0,0,0" Click="back_click" Content="back" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF80ECEC">
                         <Button.Background>
-                            <ImageBrush ImageSource="/blue.png"/>
+                            <ImageBrush ImageSource="/Resources/Images/blue.png"/>
                         </Button.Background>
                     </Button>
                 </StackPanel>
