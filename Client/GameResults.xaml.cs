@@ -27,31 +27,23 @@ namespace Client
     public partial class GameResults : Window
     {
         private bool _isClosedByX = true;
-        private DispatcherTimer _timer;
+        private int room_id = 0;
+        private int total_time;
 
-        public GameResults()
+        public GameResults(double left, double top, double width, double height, WindowState windowstate, int numOfQuestions, int timeForQuestion, int roomId)
         {
             InitializeComponent();
 
             PutName();
-
-            _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromSeconds(2);
-            _timer.Tick += Timer_Tick;
-            _timer.Start();
-
+            room_id = roomId;
+            total_time = timeForQuestion * numOfQuestions;
 
             getGameResults();
         }
-        private async void Timer_Tick(object sender, EventArgs e)
-        {
-            getGameResults();
-        }
-
+        
         async void getGameResults()
         {
             int i = 0;
-            Players.Items.Clear();
             GameResultsResponse gameResultsResponse = await Communicator.getGameResults();
             for(i = 0; i < gameResultsResponse.Players.Count; i++)
             {
@@ -70,7 +62,6 @@ namespace Client
 
         private void backMenu_click(object sender, RoutedEventArgs e)
         {
-            _timer.Stop();
             MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
             men.Show();
             _isClosedByX = false;
@@ -81,7 +72,6 @@ namespace Client
         {
             if (_isClosedByX)
             {
-                //_timer.Stop();
                 int ok = await Communicator.LeaveGame();
                 ok = await Communicator.signoutAsync();
             }

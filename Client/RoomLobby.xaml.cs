@@ -32,6 +32,7 @@ namespace Client
         private bool _isAdmin = false;
         private int NumOfQuestions = 0;
         private int TimeForQuestion = 0;
+        private int roomId = 0;
 
         bool _refreshNotComplete = false;
 
@@ -47,7 +48,8 @@ namespace Client
             WindowState = windowstate;
 
             ROOM_NAME.Text = roomName;
-            
+            roomId = Int32.Parse(id);
+
 
             GetRoomStateResponse state = getStateAsync().Result;
             if(state.isActive == GetRoomStateResponse.CONNECTION_PROBLEM)
@@ -121,7 +123,7 @@ namespace Client
             else if (state.isActive == GetRoomStateResponse.GAME_IN_PROGRESS)
             {
                 background_worker.CancelAsync(); // stop refreshing.
-                Game game = new Game(Left, Top, Width, Height, WindowState, this.NumOfQuestions, this.TimeForQuestion);
+                Game game = new Game(Left, Top, Width, Height, WindowState, this.NumOfQuestions, this.TimeForQuestion, this.roomId);
                 game.Show();
                 _isClosedByX = false;
                 this.Close();
@@ -235,7 +237,7 @@ namespace Client
                 if (started == StartGameResponse.START_GAME)
                 {
                     background_worker.CancelAsync();
-                    Game game = new Game(Left, Top, Width, Height, WindowState, this.NumOfQuestions, this.TimeForQuestion);
+                    Game game = new Game(Left, Top, Width, Height, WindowState, this.NumOfQuestions, this.TimeForQuestion, roomId);
                     game.Show();
                     _isClosedByX = false;
                     this.Close();
