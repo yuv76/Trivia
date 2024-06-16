@@ -27,4 +27,6 @@ public:
 	void endGame(IDatabase* db);
 	std::vector<std::pair<std::string, GameData>> getData();
 	bool isActive();
+	void setUserStatus(bool newStatus, LoggedUser user);
+	bool getUserStatus(LoggedUser user);
 };

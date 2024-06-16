@@ -95,6 +95,7 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo)
 	if (resp.getQuestionId() == NO_MORE_QUESTIONS)
 	{
 		question.status = NO_MORE_QUESTIONS;
+		this->m_game.setUserStatus(false, this->m_user); //sets status of user to not playing.
 	}
 	else
 	{
@@ -146,7 +147,7 @@ RequestResult GameRequestHandler::getGameResult(RequestInfo inf)
 	RequestResult rqRs;
 	std::vector<std::pair<std::string, GameData>> temp;
 	PlayerResults result;
-	
+
 	temp = this->m_game.getData();
 	auto i = temp.begin();
 	for (i; i != temp.end(); i++)

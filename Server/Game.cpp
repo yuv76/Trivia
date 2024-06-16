@@ -178,3 +178,23 @@ bool Game::isActive()
 {
 	return this->_isActive;
 }
+
+/*
+sets given user's status to a new one.
+in: the new status to update to, the user to update in the game (the user is already in the game).
+out: none.
+*/
+void Game::setUserStatus(bool newStatus, LoggedUser user)
+{
+	this->m_players[user].isActive = newStatus;
+}
+
+/*
+gets given user's status in the game.
+in: the user.
+out: the boolean status.
+*/
+bool Game::getUserStatus(LoggedUser user)
+{
+	return this->m_players[user].isActive;
+}
