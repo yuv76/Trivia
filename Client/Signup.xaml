@@ -6,28 +6,174 @@
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
         Title="Signup" Height="450" Width="800"
-        Background="AliceBlue">
-    <Grid>
-        <StackPanel Margin="10,80,10,6">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock FontSize="16" Width="188">Enter Useraname:</TextBlock>
-                <TextBox x:Name="NEWSERNAME" Height="26" Width="577"/>
+        Background="AliceBlue"
+        Icon="Resources/Images/whale.png">
+    <Window.Resources>
+        <ImageBrush x:Key="blue_h" ImageSource="/Resources/Images/blue_h.png" Stretch="Fill"/>
+        <ImageBrush x:Key="dblu_h" ImageSource="/Resources/Images/dblu_h.png" Stretch="Fill"/>
+
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="signup" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource dblu_h}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource dblu_h}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ImageBrush x:Key="dblu_h1" ImageSource="/Resources/Images/dblu_h.png" Stretch="Fill"/>
+        <Style x:Key="FocusVisual1">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background1" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border1" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background1" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border1" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground1" Color="#FF838383"/>
+        <Style x:Key="backBtn" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual1}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background1}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border1}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource blue_h}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource blue_h}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background1}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border1}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground1}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Viewbox Stretch="UniformToFill">
+        <Grid Height="571" Width="650">
+            <Grid.Background>
+                <ImageBrush ImageSource="/Resources/Images/back.png" Stretch="UniformToFill"/>
+            </Grid.Background>
+            <StackPanel Margin="10,41,10,6">
+                <StackPanel Orientation="Horizontal" Height="29" Width="511">
+                    <TextBlock FontSize="16" Width="188" FontFamily="Cascadia Mono SemiBold" Foreground="#FF55A412">Enter Useraname:</TextBlock>
+                    <TextBox x:Name="NEWSERNAME" Height="26" Width="315" FontFamily="Cascadia Mono SemiBold" BorderBrush="#FF55A412" BorderThickness="2,2,2,2" Foreground="#FF55A412">
+                        <TextBox.Background>
+                            <SolidColorBrush Color="#FF7EF516" Opacity="0.2"/>
+                        </TextBox.Background>
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Margin="0,20" Orientation="Horizontal" Height="29" Width="511">
+                    <TextBlock FontSize="16" Width="188" FontFamily="Cascadia Mono SemiBold" Foreground="#FFFF6262">Enter Password:</TextBlock>
+                    <TextBox x:Name="NEWPASS" Height="26" Width="315" FontFamily="Cascadia Mono SemiBold" BorderBrush="#FFFF6262" BorderThickness="2,2,2,2" Foreground="#FFFF6262">
+                        <TextBox.Background>
+                            <SolidColorBrush Color="#FFFF6262" Opacity="0.2"/>
+                        </TextBox.Background>
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Height="29" Width="511">
+                    <TextBlock FontSize="16" Width="188" FontFamily="Cascadia Mono SemiBold" Foreground="#FFEBB52C">Re-Enter Password:</TextBlock>
+                    <TextBox x:Name="REPASS" Height="26" Width="315" FontFamily="Cascadia Mono SemiBold" Foreground="#FFEBB52C" BorderBrush="#FFEBB52C" BorderThickness="2,2,2,2">
+                        <TextBox.Background>
+                            <SolidColorBrush Color="#FFEBB52C" Opacity="0.2"/>
+                        </TextBox.Background>
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Margin="0,20" Orientation="Horizontal" Height="29" Width="511">
+                    <TextBlock FontSize="16" Width="188" FontFamily="Cascadia Mono SemiBold" Foreground="#FF9795AE">Enter Email:</TextBlock>
+                    <TextBox x:Name="NEWMAIL" Height="26" Width="315" FontFamily="Cascadia Mono SemiBold" BorderBrush="#FF9795AE" BorderThickness="2,2,2,2" Foreground="#FF9795AE">
+                        <TextBox.Background>
+                            <SolidColorBrush Color="#FF9795AE" Opacity="0.2"/>
+                        </TextBox.Background>
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Width="364">
+                    <Button Style="{DynamicResource backBtn}" Margin="0,5" Height="65" Width="175" FontSize="14" Click="back_click" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" Foreground="#FF80ECEC">
+                        <Button.BorderBrush>
+                            <ImageBrush/>
+                        </Button.BorderBrush>
+                        <Button.Background>
+                            <ImageBrush ImageSource="/Resources/Images/blue.png"/>
+                        </Button.Background> back to login
+                    </Button>
+                    <Button Style="{DynamicResource signup}" Margin="0,5" Height="65" Width="175" FontSize="16" Click="signupEnter_click" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" Foreground="#FF726BB5">
+                        <Button.BorderBrush>
+                            <ImageBrush/>
+                        </Button.BorderBrush>
+                        <Button.Background>
+                            <ImageBrush ImageSource="/Resources/Images/dblu.png"/>
+                        </Button.Background> Enter
+                    </Button>
+                </StackPanel>
+                <TextBlock x:Name="ERRORS" Foreground="DarkRed" Height="117" FontFamily="Cascadia Mono SemiBold"></TextBlock>
             </StackPanel>
-            <StackPanel Margin="0,20" Orientation="Horizontal">
-                <TextBlock FontSize="16" Width="188">Enter Password:</TextBlock>
-                <TextBox x:Name="NEWPASS" Height="26" Width="577"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock FontSize="16" Width="188">Re-Enter Password:</TextBlock>
-                <TextBox x:Name="REPASS" Height="26" Width="577"></TextBox>
-            </StackPanel>
-            <StackPanel Margin="0,20" Orientation="Horizontal">
-                <TextBlock FontSize="16" Width="188">Enter Email:</TextBlock>
-                <TextBox x:Name="NEWMAIL" Height="26" Width="577"></TextBox>
-            </StackPanel>
-            
-            <Button Margin="0,5" Height="41" Width="171" FontSize="16" Click="signupEnter_click">Enter</Button>
-            <TextBlock x:Name="ERRORS" Foreground="DarkRed" Height="117"></TextBlock>
-        </StackPanel>
-    </Grid>
+        </Grid>
+    </Viewbox>
 </Window>

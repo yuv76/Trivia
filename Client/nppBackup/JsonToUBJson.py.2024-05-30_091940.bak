@@ -1,5 +1,0 @@
-import ubjson
-import sys #for cmd arguments
-
-def main():
-    

@@ -39,7 +39,17 @@ namespace Client
 
         public GameResults(double left, double top, double width, double height, WindowState windowstate, int numOfQuestions, int timeForQuestion, int roomId, int num, string roomName)
         {
+            /*
+            game results C'tor.
+            in: the window's position (left, top, width, height, windowstate).
+            */
+
             InitializeComponent();
+            Left = left;
+            Top = top;
+            Width = width;
+            Height = height;
+            WindowState = windowstate;
 
             PutName();
             room_id = roomId;
@@ -65,11 +75,17 @@ namespace Client
 
         async void getGameResults()
         {
+            /*
+            gets and displays game's results.
+            in: none.
+            out: none.
+            */
+
             int i = 0;
             GameResultsResponse gameResultsResponse = await Communicator.getGameResults();
             for(i = 0; i < gameResultsResponse.Players.Count; i++)
             {
-                Players.Items.Add(gameResultsResponse.Players[i] + " - " + gameResultsResponse.CorrectAnswers[i] + " - " + gameResultsResponse.Avrgs[i]);
+                Players.Items.Add(gameResultsResponse.Players[i] + " correct answers: " + gameResultsResponse.CorrectAnswers[i] + " Average answer time: " + gameResultsResponse.Avrgs[i]);
             }
         }
 
@@ -90,7 +106,7 @@ namespace Client
             if (playernum != 0)
             {
                 string newName = this.roomname + this.room_id.ToString();
-                int id = await Communicator.createRoom(newName, uint.Parse(this.playernum.ToString()), uint.Parse(this.totalQ.ToString()), double.Parse(this.timeQ.ToString()));
+                int id = await Communicator.createRoom(newName, uint.Parse(this.playernum.ToString()), uint.Parse(this.totalQ.ToString()), int.Parse(this.timeQ.ToString()));
                 if (id >= CreateRoomResponse.CREATE_ROOM_SUCESS_ID)
                 {
                     Room room = new Room(Left, Top, Width, Height, WindowState, newName, id.ToString(), this.playernum.ToString());
@@ -115,7 +131,13 @@ namespace Client
 
         private void backMenu_click(object sender, RoutedEventArgs e)
         {
-            MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+            /*
+            event for the back to menu button, returns to the menu.
+            in: the sender, the event arguments.
+            out: none.
+            */
+
+            MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "");
             men.Show();
             _isClosedByX = false;
             this.Close();
@@ -123,6 +145,12 @@ namespace Client
 
         protected override async void OnClosed(EventArgs e)
         {
+            /*
+            event handler for closing window, seperates client closing it from closing it to move to another window.
+            in: the sender (Button), the event arguments.
+            out: none.
+            */
+
             if (_isClosedByX)
             {
                 int ok = await Communicator.LeaveGame();
@@ -132,7 +160,13 @@ namespace Client
 
         private void PutName()
         {
-            string temp = "hello " + Communicator.getName();
+            /*
+            puts connected user's username in name textBlock.
+            in: none.
+            out: none.
+            */
+
+            string temp = "Hello " + Communicator.getName();
             name.Text = temp;
         }
     }

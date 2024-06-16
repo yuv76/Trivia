@@ -43,6 +43,11 @@ namespace Client
 
         public Room(double left, double top, double width, double height, WindowState windowstate, string roomName, string id, string num)
         {
+            /*
+            room lobby window C'tor.
+            in: the window's position (left, top, width, height, windowstate), room's name and id.
+            */
+
             InitializeComponent();
             Left = left;
             Top = top;
@@ -60,7 +65,7 @@ namespace Client
             if(state.isActive == GetRoomStateResponse.CONNECTION_PROBLEM)
             {
                 ERROR.Text = "Connection error.";
-                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "Connection error.");
                 men.Show();
                 _isClosedByX = false;
                 this.Close();
@@ -87,6 +92,12 @@ namespace Client
 
         private void refreshRoom(object? sender, DoWorkEventArgs e)
         {
+            /*
+            refreshes data in the room's lobby.
+            in: the sender (Can be null), the event's arguments.
+            out: none.
+            */
+
             var locker = new object();
             while (e.Cancel == false)
             {
@@ -104,6 +115,12 @@ namespace Client
 
         void background_worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            /*
+            the background worker's gui thread update - updates room's data, starts game if game started or closes room if closed by admin.
+            in: the sender, the event arguments.
+            out: none.
+            */
+
             _refreshNotComplete = true;
             GetRoomStateResponse state = getStateAsync().Result;
             this.TimeForQuestion = Convert.ToInt32(state.timePerQuestion);//#TODO
@@ -112,7 +129,7 @@ namespace Client
             {
                 background_worker.CancelAsync(); //stop refreshing
                 ERROR.Text = "Connection error.";
-                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "Connection error.");
                 men.Show();
                 _isClosedByX = false;
                 this.Close();
@@ -120,7 +137,7 @@ namespace Client
             else if (state.isActive == GetRoomStateResponse.ROOM_CLOSED)
             {
                 background_worker.CancelAsync(); //stop refreshing
-                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "Room Closed By Admin.");
                 men.Show();
                 _isClosedByX = false;
                 this.Close();
@@ -142,12 +159,24 @@ namespace Client
 
         private async Task<GetRoomStateResponse> getStateAsync()
         {
+            /*
+            gets rooms state from server.
+            in: none.
+            out: the room's state (data) as a GetRoomStateResponse object.
+            */
+
             GetRoomStateResponse state = await Communicator.getRoomState();
             return state;
         }
 
         private void updateRoom(GetRoomStateResponse roomState)
         {
+            /*
+            updates room's data disply.
+            in: the room state to update to, a GetRoomStateResponse object.
+            out: none.
+            */
+
             this.updatePlayers(roomState.players);
             NUM_PLAYERS.Text = roomState.players.Count.ToString() + "/" + roomState.maxPlayers.ToString() + " players";
             QUESTION_TIME.Text = roomState.timePerQuestion.ToString();
@@ -158,6 +187,12 @@ namespace Client
 
         private void updatePlayers(List<string> players)
         {
+            /*
+            updates list of players in the room.
+            in: the list of players (first index is admin).
+            out: none.
+            */
+
             string admin = "";
             if (players.Count > 0)
             {
@@ -196,6 +231,12 @@ namespace Client
 
         private async void Leave_Click(object sender, RoutedEventArgs e)
         {
+            /*
+            leave room button click event handler.
+            in: the sender, the event's arguments.
+            out: none.
+            */
+
             if(_isAdmin) // admin has to close entire room.
             {
                 background_worker.CancelAsync(); //stop refreshing
@@ -203,7 +244,7 @@ namespace Client
                 if(close == CloseRoomResponse.CLOSED)
                 {
                     
-                    MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                    MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "Room Closed By Admin.");
                     men.Show();
                     _isClosedByX = false;
                     this.Close();
@@ -222,7 +263,7 @@ namespace Client
             {
                 background_worker.CancelAsync(); //stop refreshing
                 await Communicator.LeaveRoom();
-                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "");
                 men.Show();
                 _isClosedByX = false;
                 this.Close();
@@ -231,6 +272,12 @@ namespace Client
         
         private async void start_Click(object sender, RoutedEventArgs e)
         {
+            /*
+            event handler for the start game button - starts game in the room (the button appears only to the manager).
+            in: the sender, the event's arguments.
+            out: none.
+            */
+
             GetRoomStateResponse state = getStateAsync().Result;
             if (state.players.Count <= 2)
             {
@@ -256,6 +303,12 @@ namespace Client
 
         protected override async void OnClosed(EventArgs e)
         {
+            /*
+            event handler for closing window, seperates client closing it from closing it to move to another window.
+            in: the sender (Button), the event arguments.
+            out: none.
+            */
+
             int ok = 0;
             if (_isClosedByX)
             {

@@ -14,6 +14,6 @@ struct RoomData
 	std::string owner;
 	unsigned int maxPlayers;
 	unsigned int numOfQuestionsInGame;
-	double timePerQuestion;
+	unsigned int timePerQuestion;
 	unsigned int isActive;
 };

@@ -29,6 +29,11 @@ namespace Client
         private DispatcherTimer _timer2;
         public JoinRoom(double left, double top, double width, double height, WindowState windowstate)
         {
+            /*
+            join room window C'tor.
+            in: the window's position (left, top, width, height, windowstate).
+            */
+
             InitializeComponent();
             Left = left;
             Top = top;   
@@ -56,6 +61,7 @@ namespace Client
         {
             refresh();
         }
+
         private async void Timer_Tick2(object sender, EventArgs e)
         { 
             if (LST_ROOMS.SelectedItems.Count > 0)
@@ -68,6 +74,12 @@ namespace Client
 
         private async void refresh()
         {
+            /*
+            refreshes the rooms list.
+            in; none.
+            out: none.
+            */
+
             List<Pair<string, string>> rooms = await Communicator.getRooms();
             LST_ROOMS.Items.Clear();
             if (rooms.Count > 0)
@@ -86,11 +98,23 @@ namespace Client
 
         private async void refresh_Click(object sender, RoutedEventArgs e)
         {
+            /*
+            event handler for clicking the refresh button, refreshes the rooms list.
+            in: the object, the event arguments.
+            out: none.
+            */
+
             refresh();
         }
 
         private string getRoomIdByName(string roomName)
         {
+            /*
+            gets room's id by its name.
+            in: the room's name.
+            out: the rooms id (as string).
+            */
+
             foreach(Pair<string, string> room in _rooms)
             {
                 if(room.Second == roomName)
@@ -103,6 +127,12 @@ namespace Client
 
         private async void Join_Click(object sender, RoutedEventArgs e)
         {
+            /*
+            event handler for the join room button.
+            in: the sender (the button), the event arguments.
+            out: none.
+            */
+
             if (LST_ROOMS.SelectedItems.Count > 0)
             {
                 string selected = LST_ROOMS.SelectedItems[0].ToString();
@@ -143,6 +173,12 @@ namespace Client
 
         private async void getPlayers(string id)
         {
+            /*
+            gets players in a room given its id.
+            in: the room's id (as string).
+            out: none.
+            */
+
             List<string> players = await Communicator.getPlayersInRoom(id);
             string admin = "";
             LST_PLAYERS.Items.Clear();
@@ -182,9 +218,15 @@ namespace Client
 
         private void back_click(object sender, RoutedEventArgs e)
         {
+            /*
+            event handler for the back button, returns to main menu.
+            in: the sender, the event arguments.
+            out: none.
+            */
+
             _timer1.Stop();
             _timer2.Stop();
-            MainMenu mainMenu = new MainMenu(Left, Top, Width, Height, WindowState);
+            MainMenu mainMenu = new MainMenu(Left, Top, Width, Height, WindowState, "");
             mainMenu.Show();
             _isClosedByX = false;
             this.Close();
@@ -192,6 +234,12 @@ namespace Client
 
         protected override async void OnClosed(EventArgs e)
         {
+            /*
+            event handler for closing window, seperates client closing it from closing it to move to another window.
+            in: the sender (Button), the event arguments.
+            out: none.
+            */
+
             if (_isClosedByX)
             {
                 int ok = await Communicator.signoutAsync();
@@ -202,8 +250,13 @@ namespace Client
 
         private void PutName()
         {
-            string temp = "hello " + Communicator.getName();
-            name.Text = temp;
+            /*
+            puts connected user's username in the name textblock.
+            in&out: none.
+            */
+
+            string temp = "Hello " + Communicator.getName();
+            NAME.Text = temp;
         }
     }
 }

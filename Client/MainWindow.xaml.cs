@@ -12,6 +12,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static System.Net.Mime.MediaTypeNames;
+using GrapeCity.Documents.Imaging;
+using System.Runtime.InteropServices;
+
+using System.Drawing.Text;
 
 namespace Client
 {
@@ -24,6 +28,11 @@ namespace Client
         private bool _isClosedByX = true; // we cant know if it will be closed by x, so start value assumes it was.
         public MainWindow()
         {
+            /*
+            main window C'tor, creates connection with the server.
+            in: none.
+            */
+
             bool keepTrying = true;
             communicator = new Communicator();
             while (!(Communicator.isConnected()) && keepTrying)
@@ -56,6 +65,11 @@ namespace Client
 
         public MainWindow(double left, double top, double width, double height, WindowState windowstate)
         {
+            /*
+            create room window C'tor.
+            in: the window's position (left, top, width, height, windowstate).
+            */
+
             InitializeComponent();
             Left = left;
             Top = top;
@@ -67,6 +81,12 @@ namespace Client
 
         private void moveToSignUp_click(object sender, RoutedEventArgs e)
         {
+            /*
+            event handler to the signup button click - moves to signup window.
+            in: the sender, the event arguments.
+            out: none.
+            */
+
             Signup sigi = new Signup(Left, Top, Width, Height, WindowState);
             sigi.Show();
             _isClosedByX = false;
@@ -75,10 +95,16 @@ namespace Client
         
         private async void enterLogin_clickAsync(object sender, RoutedEventArgs e)
         {
+            /*
+            event handler for enter button - tries to log in.
+            in: the sender, the event arguments.
+            out: none.
+            */
+
             int ok = await Communicator.loginAsync(USERNAME.Text, PASSWORD.Text);
             if (ok == LoginResponse.LOGIN_SUCCESS)
             {
-                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
+                MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "");
                 men.Show();
                 _isClosedByX = false;
                 this.Close();
@@ -107,6 +133,12 @@ namespace Client
         }
         protected override async void OnClosed(EventArgs e)
         {
+            /*
+            event handler for closing window, seperates client closing it from closing it to move to another window.
+            in: the sender (Button), the event arguments.
+            out: none.
+            */
+
             if (_isClosedByX)
             {
                 int ok = await Communicator.closeConnectionAsync(); 
