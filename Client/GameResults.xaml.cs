@@ -29,6 +29,7 @@ namespace Client
     public partial class GameResults : Window
     {
         private bool _isClosedByX = true;
+        List<Pair<string, string>> _rooms;
         private int room_id = 0;
         private int total_time;
         private DispatcherTimer _timer;
