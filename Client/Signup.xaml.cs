@@ -93,28 +93,30 @@ namespace Client
                     }
                 }
 
-            if (errors != "")
-            {
-                ERRORS.Text = errors;
-            }
-            else
-            {
-                ok = await Communicator.signupAsync(NEWSERNAME.Text, NEWPASS.Text, NEWMAIL.Text);
-                if(ok == SignupResponse.SIGNUP_SUCCESS)
+                if (errors != "")
                 {
-                    MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "");
-                    men.Show();
-                    _isClosedByX = false;
-                    this.Close();
-                }
-                else if(ok == SignupResponse.SIGNUP_FAIL)
-                {
-                    ERRORS.Text = "Username already taken";
+                    ERRORS.Text = errors;
                 }
                 else
                 {
-                    ERRORS.Text = "Connection error.";
+                    ok = await Communicator.signupAsync(NEWSERNAME.Text, NEWPASS.Text, NEWMAIL.Text);
+                    if(ok == SignupResponse.SIGNUP_SUCCESS)
+                    {
+                        MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "");
+                         men.Show();
+                        _isClosedByX = false;
+                        this.Close();
+                    }
+                    else if(ok == SignupResponse.SIGNUP_FAIL)
+                    {
+                        ERRORS.Text = "Username already taken";
+                    }
+                    else
+                    {
+                        ERRORS.Text = "Connection error.";
+                    }
                 }
+             
             }
         }
 
