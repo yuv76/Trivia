@@ -150,7 +150,7 @@ out: a vector with all of the gamedatas.
 */
 std::vector<std::pair<LoggedUser, GameData>> Game::getData()
 {
-	std::vector<std::pair<std::string,GameData>> sendData;
+	std::vector<std::pair<LoggedUser,GameData>> sendData;
 	std::pair<LoggedUser, GameData> temp;
 	//GameData temp;
 	std::string name;
@@ -197,4 +197,25 @@ out: the boolean status.
 bool Game::getUserStatus(LoggedUser user)
 {
 	return this->m_players[user].isActive;
+}
+
+/*
+checks if the game is still on, updates its active status according.
+in: none.
+out: none.
+*/
+void Game::checkIfFinished()
+{
+	bool gameFinished = true;
+
+	auto i = this->m_players.begin();
+	for (i; i != this->m_players.end() && gameFinished; i++)
+	{
+		if (i->second.isActive)
+		{
+			gameFinished = false;
+		}
+	}
+
+	this->_isActive = !gameFinished;//if game not finished, active is true.
 }

@@ -34,7 +34,6 @@ namespace Client
         List<Pair<string, string>> _rooms;
         private int room_id = 0;
         private int total_time;
-        private DispatcherTimer _timer;
         private int playernum = 0;
         private string roomname;
         private int totalQ;
@@ -63,20 +62,6 @@ namespace Client
             roomname = roomName;
 
             getGameResults();
-
-            _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromSeconds(total_time);
-            _timer.Tick += Timer_Tick;
-            _timer.Start();
-
-        }
-        private async void Timer_Tick(object sender, EventArgs e)
-        {
-            if (!_closed)
-            {
-                getGameResults();
-                _timer.Stop();
-            }
         }
 
         async void getGameResults()
@@ -91,7 +76,14 @@ namespace Client
             GameResultsResponse gameResultsResponse = await Communicator.getGameResults();
             for(i = 0; i < gameResultsResponse.Players.Count; i++)
             {
-                Players.Items.Add(gameResultsResponse.Players[i] + " correct answers: " + gameResultsResponse.CorrectAnswers[i] + " Average answer time: " + gameResultsResponse.Avrgs[i]);
+                if (double.Parse(gameResultsResponse.Avrgs[i]) == -1)
+                {
+                    Players.Items.Add(gameResultsResponse.Players[i] + " - Game still in proresss.");
+                }
+                else
+                {
+                    Players.Items.Add(gameResultsResponse.Players[i] + " correct answers: " + gameResultsResponse.CorrectAnswers[i] + " Average answer time: " + gameResultsResponse.Avrgs[i]);
+                }
             }
         }
 
@@ -119,7 +111,6 @@ namespace Client
                 if (id >= CreateRoomResponse.CREATE_ROOM_SUCESS_ID)
                 {
                     Room room = new Room(Left, Top, Width, Height, WindowState, newName, id.ToString(), this.playernum.ToString());
-                    _closed = true;
                     room.Show();
                     _isClosedByX = false;
                     this.Close();
@@ -128,16 +119,52 @@ namespace Client
             else
             {
                 string roomId = getRoomIdByName(newName);
-                int ok = await Communicator.joinRoom(roomId);
-                if (ok == JoinRoomResponse.JOIN_ROOM_SUCCESS)
+                if (roomId == "-1")
                 {
-                    Room room = new Room(Left, Top, Width, Height, WindowState, newName, roomId, "0");
-                    _closed = true;
-                    room.Show();
-                    _isClosedByX = false;
-                    this.Close();
+                    //unexisting room, shouldnt happen, do nothing.
+                    ERROR.Text = "Error the admin hasnt joined the room yet.";
+                }
+                else
+                {
+                    int ok = await Communicator.joinRoom(roomId);
+                    if (ok == JoinRoomResponse.JOIN_ROOM_SUCCESS)
+                    {
+                        Room room = new Room(Left, Top, Width, Height, WindowState, newName, roomId, "0");
+                        room.Show();
+                        _isClosedByX = false;
+                        this.Close();
+                    }
                 }
             }
+        }
+
+        
+        private async void refresh_click(object sender, RoutedEventArgs e)
+        {
+            /*
+            event handler for the refresh results button.
+            in: the sender, the event arguments.
+            out: none.
+            */
+
+            int i = 0;
+            GameResultsResponse gameResultsResponse = await Communicator.getGameResults();
+            if (gameResultsResponse.status == 1 || gameResultsResponse.status == 2)
+            {
+                Players.Items.Clear();
+                for (i = 0; i < gameResultsResponse.Players.Count; i++)
+                {
+                    if (gameResultsResponse.Avrgs[i] == "-1")
+                    {
+                        Players.Items.Add(gameResultsResponse.Players[i] + " - Game still in proresss.");
+                    }
+                    else
+                    {
+                        Players.Items.Add(gameResultsResponse.Players[i] + " correct answers: " + gameResultsResponse.CorrectAnswers[i] + " Average answer time: " + gameResultsResponse.Avrgs[i]);
+                    }
+                }
+            }
+            //else - final results already arrived, let current results stay.
         }
 
         private void backMenu_click(object sender, RoutedEventArgs e)

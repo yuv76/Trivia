@@ -29,4 +29,5 @@ public:
 	bool isActive();
 	void setUserStatus(bool newStatus, LoggedUser user);
 	bool getUserStatus(LoggedUser user);
+	void checkIfFinished();
 };

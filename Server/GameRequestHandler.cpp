@@ -145,25 +145,52 @@ RequestResult GameRequestHandler::getGameResult(RequestInfo inf)
 	std::vector<std::uint8_t> buffer;
 	GetGameResultsResponse results;
 	RequestResult rqRs;
-	std::vector<std::pair<std::string, GameData>> temp;
+	std::vector<std::pair<LoggedUser, GameData>> temp;
 	PlayerResults result;
 
 	temp = this->m_game.getData();
 	auto i = temp.begin();
 	for (i; i != temp.end(); i++)
 	{
-		result.average = i->second.averangeAnswerTime;
-		result.coorect = i->second.correctAnswerCount;
-		result.username = i->first;
-		result.wrong = i->second.wrongAnswerCount;
-		results.results.push_back(result);
+		if (!i->second.isActive) //only if user finished game, we want to
+		{
+			result.average = i->second.averangeAnswerTime;
+			result.coorect = i->second.correctAnswerCount;
+			result.username = i->first.getUsername();
+			result.wrong = i->second.wrongAnswerCount;
+			results.results.push_back(result);
+		}
+		else
+		{
+			result.username = i->first.getUsername();
+			result.average = -1; //flag to determine the user is still playing.
+			result.coorect = 0;
+			result.wrong = 0;
+			results.results.push_back(result);
+		}
 	}
-	results.status = GOT_RESULT;
+	this->m_game.checkIfFinished();
+	if (this->m_game.isActive())
+	{
+		results.status = GOT_UNFINAL_RESULT;
+	}
+	else
+	{
+		results.status = GOT_RESULT;
+	}
+	
 	buffer = JsonResponsePacketSerializer::serializeResponse(results);
 
 	rqRs.response = buffer;
-	rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user); // move to manu, maybe should move back to room or choose #TODO
-	this->m_gameManager.deleteGame(this->m_game.getId());
+	if (this->m_game.isActive())
+	{
+		rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game); // stay in state.
+	}
+	else
+	{
+		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+		this->m_gameManager.deleteGame(this->m_game.getId());
+	}
 
 	return rqRs;
 }
