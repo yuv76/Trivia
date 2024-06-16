@@ -104,6 +104,9 @@ namespace Client
 
         async void backRoom_click(object sender, RoutedEventArgs e)
         {
+            List<Pair<string, string>> rooms = await Communicator.getRooms();
+            _rooms = rooms;
+
             string newName = this.roomname + this.room_id.ToString();
             if (playernum != 0)
             {
