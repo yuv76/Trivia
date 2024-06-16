@@ -29,6 +29,8 @@ namespace Client
     public partial class GameResults : Window
     {
         private bool _isClosedByX = true;
+        private bool _closed = false;
+
         List<Pair<string, string>> _rooms;
         private int room_id = 0;
         private int total_time;
@@ -70,8 +72,11 @@ namespace Client
         }
         private async void Timer_Tick(object sender, EventArgs e)
         {
-            getGameResults();
-            _timer.Stop();
+            if (!_closed)
+            {
+                getGameResults();
+                _timer.Stop();
+            }
         }
 
         async void getGameResults()
@@ -150,6 +155,7 @@ namespace Client
             */
 
             MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "");
+            _closed = true;
             men.Show();
             _isClosedByX = false;
             this.Close();
