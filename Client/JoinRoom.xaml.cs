@@ -149,7 +149,7 @@ namespace Client
                     {
                         _timer1.Stop();
                         _timer2.Stop();
-                        Room room = new Room(Left, Top, Width, Height, WindowState, selected.ToString(), getRoomIdByName(selected.ToString()));
+                        Room room = new Room(Left, Top, Width, Height, WindowState, selected.ToString(), getRoomIdByName(selected.ToString()), "0");
                         room.Show();
                         _isClosedByX = false;
                         this.Close();

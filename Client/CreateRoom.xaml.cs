@@ -114,13 +114,12 @@ namespace Client
             in: the sender (Button), the event arguments.
             out: none.
             */
-
-            if (int.Parse(PLAYERS_NUM.Text) > 1 && int.Parse(QUESTION_NUM.Text) > 0 && int.Parse(QUESTION_TIME.Text) > 0)
+            if (int.Parse(PLAYERS_NUM.Text) > 1 && int.Parse(QUESTION_NUM.Text) > 0 && double.Parse(QUESTION_TIME.Text) > 0 && ROOMNAME.Text.Length != 0)
             {
                 int id = await Communicator.createRoom(ROOMNAME.Text, uint.Parse(PLAYERS_NUM.Text), uint.Parse(QUESTION_NUM.Text), int.Parse(QUESTION_TIME.Text));
                 if (id >= CreateRoomResponse.CREATE_ROOM_SUCESS_ID)
                 {
-                    Room room = new Room(Left, Top, Width, Height, WindowState, ROOMNAME.Text, id.ToString());
+                    Room room = new Room(Left, Top, Width, Height, WindowState, ROOMNAME.Text, id.ToString(),PLAYERS_NUM.Text);
                     room.Show();
                     _isClosedByX = false;
                     this.Close();

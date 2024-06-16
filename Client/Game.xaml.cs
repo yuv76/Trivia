@@ -12,6 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml.Linq;
@@ -31,10 +32,13 @@ namespace Client
 
         //timer related
         private int time;
-        private int tempTime;
+        private int room_id;
+        private double tempTime;
         private DispatcherTimer dispatcherTimer;
+        private int playernum = 0;
+        private string name;
 
-        public Game(double left, double top, double width, double height, WindowState windowstate, int numOfQuestions, int timeForQuestion)
+        public Game(double left, double top, double width, double height, WindowState windowstate, int numOfQuestions, int timeForQuestion, int roomId, int num, string roomName)
         {
             /*
             game window C'tor.
@@ -54,6 +58,9 @@ namespace Client
 
             putName();
             getNextQuestion();
+            this.room_id = roomId;
+            playernum = num;
+            name = roomName;
         }
 
         private void putName()
@@ -172,7 +179,7 @@ namespace Client
             }
             else
             {
-                GameResults gr = new GameResults(Left, Top, Width, Height, WindowState);
+                GameResults gr = new GameResults(Left, Top, Width, Height, WindowState, totalQ, time, room_id, this.playernum, this.name);
                 gr.Show();
                 _isClosedByX = false;
                 this.Close();

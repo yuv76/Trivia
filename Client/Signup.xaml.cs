@@ -54,38 +54,44 @@ namespace Client
             int ok = 0;
             string errors = "";
             //check username existance with the server.
-            
-            if(NEWPASS.Text != REPASS.Text)
-            {
-                errors += PASSWORDS_NOT_MATCH;
-            }
 
-            string[] temp1 = temp.Split('@');
-            if (!NEWMAIL.Text.Contains('@'))
+            if (NEWSERNAME.Text.Length == 0)
             {
-                errors += INVALID_MAIL;
+                ERRORS.Text = "Invalid username";
             }
             else
             {
-                temp2 = temp1[1];
-                string[] temp3 = temp2.Split('.');
-                if (!temp2.Contains('.'))
+                if (NEWPASS.Text != REPASS.Text)
+                {
+                    errors += PASSWORDS_NOT_MATCH;
+                }
+
+                string[] temp1 = temp.Split('@');
+                if (!NEWMAIL.Text.Contains('@'))
                 {
                     errors += INVALID_MAIL;
                 }
-                else if (temp1[0].Length < 1)
+                else
                 {
-                    errors += INVALID_MAIL;
+                    temp2 = temp1[1];
+                    string[] temp3 = temp2.Split('.');
+                    if (!temp2.Contains('.'))
+                    {
+                        errors += INVALID_MAIL;
+                    }
+                    else if (temp1[0].Length < 1)
+                    {
+                        errors += INVALID_MAIL;
+                    }
+                    else if (temp3[0].Length < 1)
+                    {
+                        errors += INVALID_MAIL;
+                    }
+                    else if (temp3[1].Length != 3)
+                    {
+                        errors += INVALID_MAIL;
+                    }
                 }
-                else if (temp3[0].Length < 1)
-                {
-                    errors += INVALID_MAIL;
-                }
-                else if (temp3[1].Length != 3)
-                {
-                    errors += INVALID_MAIL;
-                }
-            }
 
             if (errors != "")
             {
@@ -111,6 +117,7 @@ namespace Client
                 }
             }
         }
+
         private async void back_click(object sender, RoutedEventArgs e)
         {
             /*
