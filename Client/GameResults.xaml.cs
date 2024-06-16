@@ -154,7 +154,7 @@ namespace Client
                 Players.Items.Clear();
                 for (i = 0; i < gameResultsResponse.Players.Count; i++)
                 {
-                    if (gameResultsResponse.Avrgs[i] == "-1")
+                    if (double.Parse(gameResultsResponse.Avrgs[i]) == -1)
                     {
                         Players.Items.Add(gameResultsResponse.Players[i] + " - Game still in proresss.");
                     }
