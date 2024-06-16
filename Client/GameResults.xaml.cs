@@ -29,6 +29,8 @@ namespace Client
     public partial class GameResults : Window
     {
         private bool _isClosedByX = true;
+        private bool _closed = false;
+
         List<Pair<string, string>> _rooms;
         private int room_id = 0;
         private int total_time;
@@ -70,8 +72,11 @@ namespace Client
         }
         private async void Timer_Tick(object sender, EventArgs e)
         {
-            getGameResults();
-            _timer.Stop();
+            if (!_closed)
+            {
+                getGameResults();
+                _timer.Stop();
+            }
         }
 
         async void getGameResults()
@@ -114,6 +119,7 @@ namespace Client
                 if (id >= CreateRoomResponse.CREATE_ROOM_SUCESS_ID)
                 {
                     Room room = new Room(Left, Top, Width, Height, WindowState, newName, id.ToString(), this.playernum.ToString());
+                    _closed = true;
                     room.Show();
                     _isClosedByX = false;
                     this.Close();
@@ -126,6 +132,7 @@ namespace Client
                 if (ok == JoinRoomResponse.JOIN_ROOM_SUCCESS)
                 {
                     Room room = new Room(Left, Top, Width, Height, WindowState, newName, roomId, "0");
+                    _closed = true;
                     room.Show();
                     _isClosedByX = false;
                     this.Close();
@@ -142,6 +149,7 @@ namespace Client
             */
 
             MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "");
+            _closed = true;
             men.Show();
             _isClosedByX = false;
             this.Close();

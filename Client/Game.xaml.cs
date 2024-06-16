@@ -27,6 +27,7 @@ namespace Client
         private Stopwatch stopwatch = new Stopwatch();
         private bool _isClosedByX = true;
         private bool _answered = false;
+        private bool _leaved = false;
         int totalQ;
         int answeredQ;
 
@@ -147,42 +148,44 @@ namespace Client
             in: none.
             out: none.
             */
-
-            _answered = false;
-            getQuestionResponse question = await Communicator.getNextQuestion();
-            if (question.status != getQuestionResponse.QUESTIONS_OVER)
+            if (!_leaved)
             {
-                resetTimer();
-                QUESTION.Text = question.Question;
-                ANS1.Content = question.Answers[0];
-                ANS2.Content = question.Answers[1];
-                ANS3.Content = question.Answers[2];
-                ANS4.Content = question.Answers[3];
+                _answered = false;
+                getQuestionResponse question = await Communicator.getNextQuestion();
+                if (question.status != getQuestionResponse.QUESTIONS_OVER)
+                {
+                    resetTimer();
+                    QUESTION.Text = question.Question;
+                    ANS1.Content = question.Answers[0];
+                    ANS2.Content = question.Answers[1];
+                    ANS3.Content = question.Answers[2];
+                    ANS4.Content = question.Answers[3];
 
-                ANS1.Background = Brushes.LightBlue;
-                ANS2.Background = Brushes.LightBlue;
-                ANS3.Background = Brushes.LightBlue;
-                ANS4.Background = Brushes.LightBlue;
+                    ANS1.Background = Brushes.LightBlue;
+                    ANS2.Background = Brushes.LightBlue;
+                    ANS3.Background = Brushes.LightBlue;
+                    ANS4.Background = Brushes.LightBlue;
 
-                ANS1.BorderBrush = Brushes.LightBlue;
-                ANS2.BorderBrush = Brushes.LightBlue;
-                ANS3.BorderBrush = Brushes.LightBlue;
-                ANS4.BorderBrush = Brushes.LightBlue;
+                    ANS1.BorderBrush = Brushes.LightBlue;
+                    ANS2.BorderBrush = Brushes.LightBlue;
+                    ANS3.BorderBrush = Brushes.LightBlue;
+                    ANS4.BorderBrush = Brushes.LightBlue;
 
-                ANS1.Opacity = 0.5;
-                ANS2.Opacity = 0.5;
-                ANS3.Opacity = 0.5;
-                ANS4.Opacity = 0.5;
+                    ANS1.Opacity = 0.5;
+                    ANS2.Opacity = 0.5;
+                    ANS3.Opacity = 0.5;
+                    ANS4.Opacity = 0.5;
 
-                answeredQ++;
-                ANSWERED.Text = answeredQ.ToString() + "/" + totalQ.ToString();
-            }
-            else
-            {
-                GameResults gr = new GameResults(Left, Top, Width, Height, WindowState, totalQ, time, room_id, this.playernum, this.name);
-                gr.Show();
-                _isClosedByX = false;
-                this.Close();
+                    answeredQ++;
+                    ANSWERED.Text = answeredQ.ToString() + "/" + totalQ.ToString();
+                }
+                else
+                {
+                    GameResults gr = new GameResults(Left, Top, Width, Height, WindowState, totalQ, time, room_id, this.playernum, this.name);
+                    gr.Show();
+                    _isClosedByX = false;
+                    this.Close();
+                }
             }
             
         }
@@ -301,6 +304,7 @@ namespace Client
             int res = await Communicator.LeaveGame();
             if(res == 1)
             {
+                _leaved = true;
                 MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "");
                 men.Show();
                 _isClosedByX = false;
