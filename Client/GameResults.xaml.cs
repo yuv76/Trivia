@@ -29,6 +29,7 @@ namespace Client
     public partial class GameResults : Window
     {
         private bool _isClosedByX = true;
+        List<Pair<string, string>> _rooms;
         private int room_id = 0;
         private int total_time;
         private DispatcherTimer _timer;
@@ -103,9 +104,9 @@ namespace Client
 
         async void backRoom_click(object sender, RoutedEventArgs e)
         {
+            string newName = this.roomname + this.room_id.ToString();
             if (playernum != 0)
             {
-                string newName = this.roomname + this.room_id.ToString();
                 int id = await Communicator.createRoom(newName, uint.Parse(this.playernum.ToString()), uint.Parse(this.totalQ.ToString()), int.Parse(this.timeQ.ToString()));
                 if (id >= CreateRoomResponse.CREATE_ROOM_SUCESS_ID)
                 {
@@ -117,11 +118,11 @@ namespace Client
             }
             else
             {
-                string roomId = getRoomIdByName(this.roomname);
+                string roomId = getRoomIdByName(newName);
                 int ok = await Communicator.joinRoom(roomId);
                 if (ok == JoinRoomResponse.JOIN_ROOM_SUCCESS)
                 {
-                    Room room = new Room(Left, Top, Width, Height, WindowState, this.roomname, getRoomIdByName(this.roomname), "0");
+                    Room room = new Room(Left, Top, Width, Height, WindowState, newName, roomId, "0");
                     room.Show();
                     _isClosedByX = false;
                     this.Close();
