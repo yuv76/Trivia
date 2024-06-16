@@ -148,10 +148,10 @@ gets the game's users data.
 in: none,
 out: a vector with all of the gamedatas.
 */
-std::vector<std::pair<std::string, GameData>> Game::getData()
+std::vector<std::pair<LoggedUser, GameData>> Game::getData()
 {
 	std::vector<std::pair<std::string,GameData>> sendData;
-	std::pair<std::string, GameData> temp;
+	std::pair<LoggedUser, GameData> temp;
 	//GameData temp;
 	std::string name;
 
@@ -163,7 +163,7 @@ std::vector<std::pair<std::string, GameData>> Game::getData()
 		temp.second.currentQuestion = i->second.currentQuestion;
 		temp.second.isActive = i->second.isActive;
 		temp.second.wrongAnswerCount = i->second.wrongAnswerCount;
-		temp.first = i->first.getUsername();
+		temp.first = i->first;
 		sendData.push_back(temp);
 	}
 	return sendData;
