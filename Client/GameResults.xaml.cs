@@ -119,7 +119,6 @@ namespace Client
                 if (id >= CreateRoomResponse.CREATE_ROOM_SUCESS_ID)
                 {
                     Room room = new Room(Left, Top, Width, Height, WindowState, newName, id.ToString(), this.playernum.ToString());
-                    _closed = true;
                     room.Show();
                     _isClosedByX = false;
                     this.Close();
@@ -128,14 +127,21 @@ namespace Client
             else
             {
                 string roomId = getRoomIdByName(newName);
-                int ok = await Communicator.joinRoom(roomId);
-                if (ok == JoinRoomResponse.JOIN_ROOM_SUCCESS)
+                if (roomId == "-1")
                 {
-                    Room room = new Room(Left, Top, Width, Height, WindowState, newName, roomId, "0");
-                    _closed = true;
-                    room.Show();
-                    _isClosedByX = false;
-                    this.Close();
+                    //unexisting room, shouldnt happen, do nothing.
+                    ERROR.Text = "Error the admin hasnt joined the room yet.";
+                }
+                else
+                {
+                    int ok = await Communicator.joinRoom(roomId);
+                    if (ok == JoinRoomResponse.JOIN_ROOM_SUCCESS)
+                    {
+                        Room room = new Room(Left, Top, Width, Height, WindowState, newName, roomId, "0");
+                        room.Show();
+                        _isClosedByX = false;
+                        this.Close();
+                    }
                 }
             }
         }
