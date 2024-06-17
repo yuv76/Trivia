@@ -22,11 +22,7 @@ namespace Requests
         CLOSE_ROOM,
         START_GAME,
         GET_ROOM_STATE,
-        LEAVE_ROOM,
-        LEAVE_GAME,
-        GET_QUESTION,
-        SUBMIT_ANSWER,
-        GET_GAME_RESULTS
+        LEAVE_ROOM
     };
 
     public class LoginRequest
@@ -52,18 +48,11 @@ namespace Requests
         public string roomName { get; set; }
         public uint maxUsers { get; set; }
         public uint questionCount { get; set; }
-        public int anwerTimeout { get; set; }
+        public double anwerTimeout { get; set; }
     };
 
     struct GetPlayersInRoomRequest
     {
         public string roomId { get; set; }
     };
-
-    struct SubmitAnswerRequest
-    {
-        public uint answerId;
-        public double ansTime;
-    };
-
 }

@@ -6,111 +6,12 @@
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
         Title="Game" Height="450" Width="800"
-        Background="AliceBlue"
-        Icon="Resources/Images/quiz.png">
-    <Window.Resources>
-        <ImageBrush x:Key="yellow_h" ImageSource="/Resources/Images/yellow_h.png" Stretch="Fill"/>
-        
-        <Style x:Key="FocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
-        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
-        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
-        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
-        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
-        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
-        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
-        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
-        <Style x:Key="leaveBtn" TargetType="{x:Type Button}">
-            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
-            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="1"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
-                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsDefaulted" Value="true">
-                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource yellow_h}"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource yellow_h}"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
-                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
-                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
-    <Viewbox Stretch="UniformToFill">
-        <Grid>
-            <Grid.Background>
-                <ImageBrush ImageSource="/Resources/Images/back.png" Stretch="UniformToFill"/>
-            </Grid.Background>
-            <StackPanel Margin="0,7,0,54">
-                <StackPanel Orientation="Horizontal" Height="47" Width="703">
-                    <TextBlock x:Name="ANSWERED" FontSize="17" Width="108" FontFamily="Cascadia Mono SemiBold" Foreground="#FFFF4808"></TextBlock>
-                    <TextBlock x:Name="TIME" FontSize="18" Margin="430,0,0,0" FontFamily="Cascadia Mono SemiBold" RenderTransformOrigin="0.5,0.5" Width="100" Foreground="Lime"></TextBlock>
-                </StackPanel>
-                <TextBlock x:Name="QUESTION" Height="64" FontSize="20" TextAlignment="Center" FontFamily="Cascadia Mono SemiBold" TextWrapping="WrapWithOverflow" Foreground="#FF3A2B2B" Width="594"></TextBlock>
-                <StackPanel Orientation="Horizontal" Height="221" Width="494" >
-                    <StackPanel Height="186">
-                        <Button x:Name="ANS1" Height="81" Width="243" Margin="0,0,0,18" Click="sendAns_click" FontFamily="Cascadia Mono SemiBold" BorderBrush="LightBlue" BorderThickness="3,3,3,3">
-                            <Button.Background>
-                                <SolidColorBrush Color="LightBlue" Opacity="0.5"/>
-                            </Button.Background>
-                        </Button>
-                        <Button x:Name="ANS2" Height="81" Width="243" Click="sendAns_click" FontFamily="Cascadia Mono SemiBold" BorderBrush="LightBlue" BorderThickness="3,3,3,3">
-                            <Button.Background>
-                                <SolidColorBrush Color="LightBlue" Opacity="0.5"/>
-                            </Button.Background>
-                        </Button>
-                    </StackPanel>
-                    <StackPanel Margin="0,0,18,0" Width="255" Height="186">
-                        <Button x:Name="ANS3" Height="81" Width="243" Margin="0,0,0,18" Click="sendAns_click" FontFamily="Cascadia Mono SemiBold" BorderBrush="LightBlue" BorderThickness="3,3,3,3">
-                            <Button.Background>
-                                <SolidColorBrush Color="LightBlue" Opacity="0.5"/>
-                            </Button.Background>
-                        </Button>
-                        <Button x:Name="ANS4" Height="81" Width="243" Margin="0,0,0,0" Click="sendAns_click" FontFamily="Cascadia Mono SemiBold" BorderBrush="LightBlue" BorderThickness="3,3,3,3">
-                            <Button.Background>
-                                <SolidColorBrush Color="LightBlue" Opacity="0.5"/>
-                            </Button.Background>
-                        </Button>
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Width="757">
-                    <Button Style="{DynamicResource leaveBtn}" Cursor="Hand" Height="40" Width="130" Margin="0,0,0,0" Click="LeaveGame_click" FontFamily="Cascadia Mono SemiBold" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
-                        <Button.Background>
-                            <ImageBrush ImageSource="/Resources/Images/yellow.png"/>
-                        </Button.Background> Leave Game
-                    </Button>
-                    <TextBlock x:Name="USERNAME" FontSize="16" Margin="540,0,0,0" FontFamily="Cascadia Mono SemiBold" Foreground="#FF3D6ED7"></TextBlock>
-                </StackPanel>
-            </StackPanel>
-        </Grid>
-    </Viewbox>
+        Background="AliceBlue">
+    <Grid>
+        <TextBlock x:Name="USER" FontSize="16" Width="420" Margin="53,73,327,298"/>
+        <StackPanel>
+            <TextBlock FontSize="40" Margin="233,178,233,18"><Run Text="game in progress"/></TextBlock>
+            <TextBlock FontSize="16" Height="28" Width="96"><Run Text="(temporary)"/></TextBlock>
+        </StackPanel>
+    </Grid>
 </Window>

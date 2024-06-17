@@ -45,10 +45,10 @@ namespace Client
             WindowState = windowstate;
 
             ROOM_NAME.Text = roomName;
-
+            
 
             GetRoomStateResponse state = getStateAsync().Result;
-            if (state.isActive == GetRoomStateResponse.CONNECTION_PROBLEM)
+            if(state.isActive == GetRoomStateResponse.CONNECTION_PROBLEM)
             {
                 ERROR.Text = "Connection error.";
                 MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
@@ -88,7 +88,7 @@ namespace Client
                     e.Cancel = true;
                     break;
                 }
-                while (_refreshNotComplete) { } // works like a condition variable, will wait untill finished the lastest update.
+                while(_refreshNotComplete){ } // works like a condition variable, will wait untill finished the lastest update.
                 background_worker.ReportProgress(0, 0);
             }
         }
@@ -150,7 +150,7 @@ namespace Client
             {
                 PLAYERS.Items.Clear();
                 admin = players[0];
-                if (admin == Communicator.getName())
+                if(admin == Communicator.getName())
                 {
                     PLAYERS.Items.Add(admin + " - You, Admin");
                 }
@@ -178,25 +178,25 @@ namespace Client
             {
                 ERROR.Text = "Error loading room players.";
             }
-
+            
         }
 
         private async void Leave_Click(object sender, RoutedEventArgs e)
         {
-            if (_isAdmin) // admin has to close entire room.
+            if(_isAdmin) // admin has to close entire room.
             {
                 background_worker.CancelAsync(); //stop refreshing
                 int close = await Communicator.CloseRoom();
-                if (close == CloseRoomResponse.CLOSED)
+                if(close == CloseRoomResponse.CLOSED)
                 {
-
+                    
                     MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState);
                     men.Show();
                     _isClosedByX = false;
                     this.Close();
-
+                    
                 }
-                else if (close == LoginResponse.LOGIN_F_CONNECTION_ERROR)
+                else if(close == LoginResponse.LOGIN_F_CONNECTION_ERROR)
                 {
                     ERROR.Text = "Error connecting to server.";
                 }
@@ -215,11 +215,11 @@ namespace Client
                 this.Close();
             }
         }
-
+        
         private async void start_Click(object sender, RoutedEventArgs e)
         {
             int started = await Communicator.StartGame();
-            if (started == StartGameResponse.START_GAME)
+            if(started == StartGameResponse.START_GAME)
             {
                 /*
                 Game game = new Game();
@@ -240,9 +240,9 @@ namespace Client
             if (_isClosedByX)
             {
                 background_worker.CancelAsync(); //stop refreshing
-                if (_isAdmin)
+                if(_isAdmin)
                 {
-                    ok = await Communicator.CloseRoom();
+                    ok = await Communicator.CloseRoom();    
                 }
                 else // member
                 {
