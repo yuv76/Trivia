@@ -155,7 +155,11 @@ namespace Client
             in: the sender, the event arguments.
             out: none.
             */
-            
+            if (playernum != 0)
+            {
+                Room room = new Room(Left, Top, Width, Height, WindowState, roomname, room_id.ToString(), this.playernum.ToString());
+                room.Close();
+            }
             MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "");
             _closed = true;
             men.Show();

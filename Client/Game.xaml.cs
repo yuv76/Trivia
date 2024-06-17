@@ -327,11 +327,6 @@ namespace Client
 
             if (_isClosedByX)
             {
-                if (playernum != 0)
-                {
-                    Room room = new Room(Left, Top, Width, Height, WindowState, name, room_id.ToString(), this.playernum.ToString());
-                    room.Close();
-                }
                 int ok = await Communicator.LeaveGame();
                 ok = await Communicator.signoutAsync();
             }
