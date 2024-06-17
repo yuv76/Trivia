@@ -148,10 +148,10 @@ gets the game's users data.
 in: none,
 out: a vector with all of the gamedatas.
 */
-std::vector<std::pair<std::string, GameData>> Game::getData()
+std::vector<std::pair<LoggedUser, GameData>> Game::getData()
 {
-	std::vector<std::pair<std::string,GameData>> sendData;
-	std::pair<std::string, GameData> temp;
+	std::vector<std::pair<LoggedUser,GameData>> sendData;
+	std::pair<LoggedUser, GameData> temp;
 	//GameData temp;
 	std::string name;
 
@@ -163,7 +163,7 @@ std::vector<std::pair<std::string, GameData>> Game::getData()
 		temp.second.currentQuestion = i->second.currentQuestion;
 		temp.second.isActive = i->second.isActive;
 		temp.second.wrongAnswerCount = i->second.wrongAnswerCount;
-		temp.first = i->first.getUsername();
+		temp.first = i->first;
 		sendData.push_back(temp);
 	}
 	return sendData;
@@ -177,4 +177,45 @@ out: true if active, false otherwise.
 bool Game::isActive()
 {
 	return this->_isActive;
+}
+
+/*
+sets given user's status to a new one.
+in: the new status to update to, the user to update in the game (the user is already in the game).
+out: none.
+*/
+void Game::setUserStatus(bool newStatus, LoggedUser user)
+{
+	this->m_players[user].isActive = newStatus;
+}
+
+/*
+gets given user's status in the game.
+in: the user.
+out: the boolean status.
+*/
+bool Game::getUserStatus(LoggedUser user)
+{
+	return this->m_players[user].isActive;
+}
+
+/*
+checks if the game is still on, updates its active status according.
+in: none.
+out: none.
+*/
+void Game::checkIfFinished()
+{
+	bool gameFinished = true;
+
+	auto i = this->m_players.begin();
+	for (i; i != this->m_players.end() && gameFinished; i++)
+	{
+		if (i->second.isActive)
+		{
+			gameFinished = false;
+		}
+	}
+
+	this->_isActive = !gameFinished;//if game not finished, active is true.
 }

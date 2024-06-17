@@ -25,6 +25,9 @@ public:
 	void removePlayer(LoggedUser user); // return type made to have one, but not official and could change.
 	int getId();
 	void endGame(IDatabase* db);
-	std::vector<std::pair<std::string, GameData>> getData();
+	std::vector<std::pair<LoggedUser, GameData>> getData();
 	bool isActive();
+	void setUserStatus(bool newStatus, LoggedUser user);
+	bool getUserStatus(LoggedUser user);
+	void checkIfFinished();
 };

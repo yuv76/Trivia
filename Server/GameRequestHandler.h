@@ -9,6 +9,7 @@
 #define GOT_QUESTION 1
 #define NO_MORE_QUESTIONS -1
 
+#define GOT_UNFINAL_RESULT 2
 #define GOT_RESULT 1
 
 class GameRequestHandler : public IRequestHandler
