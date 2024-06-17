@@ -227,7 +227,7 @@ namespace Client
                     QUESTION_NUM.Text = "1"; //Default Value.
                     ERRORS.Text = "Illegal Room Settings - Needs At Least One Question For a Game.";
                 }
-                else if (int.Parse(QUESTION_NUM.Text) >= 30)
+                else if (int.Parse(QUESTION_NUM.Text) > 30)
                 {
                     QUESTION_NUM.Text = "1";
                     ERRORS.Text = "Illegal Room Settings - Max Question Number is 30.";

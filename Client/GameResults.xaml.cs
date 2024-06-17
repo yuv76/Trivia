@@ -64,6 +64,38 @@ namespace Client
             getGameResults();
         }
 
+        private string getWinner(GameResultsResponse response)
+        {
+            /*
+            Gets the game's winner.
+            in: the game results response
+            out: the name of the winner, or an empty string if there is no winner.
+            */
+            string winner = "";
+            int i = 0;
+            int winnerIndex = 0;
+
+            if (response.status == 1 || response.status == 2)
+            {
+                for (i = 1; i < response.Players.Count; i++)
+                {
+                    if (int.Parse(response.CorrectAnswers[i]) > int.Parse(response.CorrectAnswers[winnerIndex]))
+                    {
+                        winnerIndex = i; //update current to temporary winner.
+                    }
+                    else if (response.CorrectAnswers[i] == response.CorrectAnswers[winnerIndex])
+                    {
+                        if (double.Parse(response.Avrgs[i]) < double.Parse(response.Avrgs[winnerIndex])) //compare avrgs.
+                        {
+                            winnerIndex = i;
+                        }
+                    }
+                }
+                winner = response.Players[winnerIndex];
+            }
+            return winner;
+        }
+
         async void getGameResults()
         {
             /*
@@ -74,17 +106,30 @@ namespace Client
 
             int i = 0;
             GameResultsResponse gameResultsResponse = await Communicator.getGameResults();
-            for(i = 0; i < gameResultsResponse.Players.Count; i++)
+            string winner = getWinner(gameResultsResponse);
+            if (gameResultsResponse.status == 1 || gameResultsResponse.status == 2)
             {
-                if (double.Parse(gameResultsResponse.Avrgs[i]) == -1)
+                Players.Items.Clear();
+                for (i = 0; i < gameResultsResponse.Players.Count; i++)
                 {
-                    Players.Items.Add(gameResultsResponse.Players[i] + " - Game still in proresss.");
-                }
-                else
-                {
-                    Players.Items.Add(gameResultsResponse.Players[i] + " correct answers: " + gameResultsResponse.CorrectAnswers[i] + " Average answer time: " + gameResultsResponse.Avrgs[i]);
+                    if (double.Parse(gameResultsResponse.Avrgs[i]) == -1)
+                    {
+                        Players.Items.Add(gameResultsResponse.Players[i] + " - Game still in proresss.");
+                    }
+                    else
+                    { 
+                        if (gameResultsResponse.Players[i] == winner)
+                        {
+                            Players.Items.Insert(0, "Winner: " + gameResultsResponse.Players[i] + " correct answers: " + gameResultsResponse.CorrectAnswers[i] + " Average answer time: " + gameResultsResponse.Avrgs[i]);
+                        }
+                        else
+                        {
+                            Players.Items.Add(gameResultsResponse.Players[i] + " correct answers: " + gameResultsResponse.CorrectAnswers[i] + " Average answer time: " + gameResultsResponse.Avrgs[i]);
+                        }
+                    }
                 }
             }
+            //else - final results already arrived, let current results stay.
         }
 
         private string getRoomIdByName(string roomName)
@@ -101,6 +146,7 @@ namespace Client
 
         async void backRoom_click(object sender, RoutedEventArgs e)
         {
+            await Communicator.LeaveGame();
             List<Pair<string, string>> rooms = await Communicator.getRooms();
             _rooms = rooms;
 
@@ -147,33 +193,18 @@ namespace Client
             out: none.
             */
 
-            int i = 0;
-            GameResultsResponse gameResultsResponse = await Communicator.getGameResults();
-            if (gameResultsResponse.status == 1 || gameResultsResponse.status == 2)
-            {
-                Players.Items.Clear();
-                for (i = 0; i < gameResultsResponse.Players.Count; i++)
-                {
-                    if (double.Parse(gameResultsResponse.Avrgs[i]) == -1)
-                    {
-                        Players.Items.Add(gameResultsResponse.Players[i] + " - Game still in proresss.");
-                    }
-                    else
-                    {
-                        Players.Items.Add(gameResultsResponse.Players[i] + " correct answers: " + gameResultsResponse.CorrectAnswers[i] + " Average answer time: " + gameResultsResponse.Avrgs[i]);
-                    }
-                }
-            }
-            //else - final results already arrived, let current results stay.
+            getGameResults();
         }
 
-        private void backMenu_click(object sender, RoutedEventArgs e)
+        private async void backMenu_click(object sender, RoutedEventArgs e)
         {
             /*
             event for the back to menu button, returns to the menu.
             in: the sender, the event arguments.
             out: none.
             */
+
+            await Communicator.LeaveGame();
 
             MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "");
             _closed = true;

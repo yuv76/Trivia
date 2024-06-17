@@ -156,10 +156,26 @@ namespace Client
                 {
                     resetTimer();
                     QUESTION.Text = question.Question;
-                    ANS1.Content = question.Answers[0];
-                    ANS2.Content = question.Answers[1];
-                    ANS3.Content = question.Answers[2];
-                    ANS4.Content = question.Answers[3];
+                    ANS1.Content = new TextBlock()
+                    {
+                        Text = question.Answers[0],
+                        TextWrapping = TextWrapping.WrapWithOverflow,
+                    };
+                    ANS2.Content = new TextBlock()
+                    {
+                        Text = question.Answers[1],
+                        TextWrapping = TextWrapping.WrapWithOverflow,
+                    };
+                    ANS3.Content = new TextBlock()
+                    {
+                        Text = question.Answers[2],
+                        TextWrapping = TextWrapping.WrapWithOverflow,
+                    };
+                    ANS4.Content = new TextBlock()
+                    {
+                        Text = question.Answers[3],
+                        TextWrapping = TextWrapping.WrapWithOverflow,
+                    };
 
                     ANS1.Background = Brushes.LightBlue;
                     ANS2.Background = Brushes.LightBlue;
