@@ -117,7 +117,7 @@ namespace Client
                 }
                 else if (ok == LoginResponse.LOGIN_F_NO_USER) 
                 {
-                    LOGIN_ERORR.Text = "No user with given name exists, log in insted?";
+                    LOGIN_ERORR.Text = "No user with given name exists, sign up insted?";
                 }
                 else if(ok == LoginResponse.LOGIN_F_CONNECTED_ALREADY)
                 {

@@ -66,6 +66,7 @@ namespace Client
                     errors += PASSWORDS_NOT_MATCH;
                 }
 
+                //check if mail is in valid mail adress format.
                 string[] temp1 = temp.Split('@');
                 if (!NEWMAIL.Text.Contains('@'))
                 {
@@ -87,7 +88,7 @@ namespace Client
                     {
                         errors += INVALID_MAIL;
                     }
-                    else if (temp3[1].Length != 3)
+                    else if (temp3[1].Length < 1)
                     {
                         errors += INVALID_MAIL;
                     }

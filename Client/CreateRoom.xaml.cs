@@ -53,11 +53,17 @@ namespace Client
 
                 if (button.Name == "PlayersInc")
                 {
-                    PLAYERS_NUM.Text = (int.Parse(PLAYERS_NUM.Text) + 1).ToString();
+                    if (int.Parse(PLAYERS_NUM.Text) < 500)
+                    {
+                        PLAYERS_NUM.Text = (int.Parse(PLAYERS_NUM.Text) + 1).ToString();
+                    }
                 }
                 else if(button.Name == "QuestionsInc")
                 {
-                    QUESTION_NUM.Text = (int.Parse(QUESTION_NUM.Text) + 1).ToString();
+                    if (int.Parse(QUESTION_NUM.Text) < 30)
+                    {
+                        QUESTION_NUM.Text = (int.Parse(QUESTION_NUM.Text) + 1).ToString();
+                    }
                 }
                 else if (button.Name == "TimeInc")
                 {
@@ -255,7 +261,7 @@ namespace Client
                     QUESTION_TIME.Text = "5"; //default
                     ERRORS.Text = "Illegal Room Settings - Minimum one second for question.";
                 }
-                else if (int.Parse(QUESTION_TIME.Text) >= 305) // max question time.
+                else if (int.Parse(QUESTION_TIME.Text) > 305) // max question time.
                 {
                     QUESTION_TIME.Text = "5";
                     ERRORS.Text = "Illegal Room Settings - max question time is 5:05 minuetes.";

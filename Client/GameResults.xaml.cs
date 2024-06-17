@@ -96,6 +96,24 @@ namespace Client
             return winner;
         }
 
+        bool allDone(GameResultsResponse res)
+        {
+            /*
+            checks if all players are done with the game.
+            in: the game results response.
+            out: true if all finished, false otherwise.
+            */
+            int i = 0;
+            for(i = 0; i < res.Players.Count; i++)
+            {
+                if (double.Parse(res.Avrgs[i]) == -1)
+                {
+                    return false; // at least one is still playing.
+                }
+            }
+            return true; // if got here, all finished.
+        }
+
         async void getGameResults()
         {
             /*
@@ -118,7 +136,7 @@ namespace Client
                     }
                     else
                     { 
-                        if (gameResultsResponse.Players[i] == winner)
+                        if (gameResultsResponse.Players[i] == winner && allDone(gameResultsResponse))
                         {
                             Players.Items.Insert(0, "Winner: " + gameResultsResponse.Players[i] + " correct answers: " + gameResultsResponse.CorrectAnswers[i] + " Average answer time: " + gameResultsResponse.Avrgs[i]);
                         }
