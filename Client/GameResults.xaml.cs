@@ -118,7 +118,7 @@ namespace Client
                 int id = await Communicator.createRoom(newName, uint.Parse(this.playernum.ToString()), uint.Parse(this.totalQ.ToString()), int.Parse(this.timeQ.ToString()));
                 if (id >= CreateRoomResponse.CREATE_ROOM_SUCESS_ID)
                 {
-                    ERROR.Text = "Error the admin has left the room.";
+                    ERROR.Text = "The admin has left the room.";
 
                     Room room = new Room(Left, Top, Width, Height, WindowState, newName, id.ToString(), this.playernum.ToString());
                     room.Show();
@@ -155,7 +155,11 @@ namespace Client
             in: the sender, the event arguments.
             out: none.
             */
-
+            if (playernum != 0)
+            {
+                Room room = new Room(Left, Top, Width, Height, WindowState, roomname, room_id.ToString(), this.playernum.ToString());
+                room.Close();
+            }
             MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "");
             _closed = true;
             men.Show();
