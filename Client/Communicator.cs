@@ -644,14 +644,13 @@ namespace Client
             return sentSuccesfully;
         }
 
+        /*
+        Attempts to start a game in current room.
+        in: none.
+        out: the server's response code, or connection error code.
+        */
         public static async Task<int> StartGame()
         {
-            /*
-            Attempts to start a game in current room.
-            in: none.
-            out: the server's response code, or connection error code.
-            */
-
             int sentSuccesfully = 0;
             JObject recvdJson;
 
@@ -674,6 +673,7 @@ namespace Client
                     }
                 }
             }
+            int sentSucces = await sendToServer("", msgCodes.CLOSE_ROOM);
             //else, return the sent message's error code.
             return sentSuccesfully;
         }

@@ -291,10 +291,11 @@ namespace Client
                     background_worker.CancelAsync();
                     Game game = new Game(Left, Top, Width, Height, WindowState, this.NumOfQuestions, this.TimeForQuestion, this.roomId, this.playernum, this.name);
                     game.Show();
-                    int ok1 = await Communicator.CloseRoom();
                     _isClosedByX = false;
                     this.Close();
-                    Leave_Click(sender, e);
+
+                    
+                    
                 }
                 else
                 {
