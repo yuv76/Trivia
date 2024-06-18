@@ -44,10 +44,11 @@ std::vector<std::string> StatisticsManager::getHighScore()
 			topUser = entry.first;
 			currentMax = entry.second;
 		}
+		_lck = std::unique_lock<std::mutex>(this->_mtx);
 		s.push_back(topUser);// push it into the vector in order.
 		s.push_back(std::to_string(currentMax));// push it into the vector in order.
 		score.erase(topUser);// remove it from the original scores vector.
-
+		_lck.unlock();
 	}
 
 	return s;
@@ -67,11 +68,13 @@ std::vector<std::string> StatisticsManager::getUserStatistics(std::string userna
 	int games = m_database->getNumOfPlayerGames(username);
 	float average = m_database->getPlayerAverageAnswerTime(username);
 
+	_lck = std::unique_lock<std::mutex>(this->_mtx);
 	s.push_back(username);
 	s.push_back(std::to_string(correct));
 	s.push_back(std::to_string(total));
 	s.push_back(std::to_string(games));
 	s.push_back(std::to_string(average));
+	_lck.unlock();
 
 	return s;
 }

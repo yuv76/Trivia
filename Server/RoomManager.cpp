@@ -8,7 +8,10 @@ out: none.
 void RoomManager::createRoom(LoggedUser l, RoomData rd)
 {
 	Room newRoom(rd, l);
+	_lck = std::unique_lock<std::mutex>(this->_mtx);
 	this->m_rooms.insert(std::make_pair(rd.id, newRoom));
+	_lck.unlock();
+
 }
 
 /*
@@ -18,7 +21,9 @@ out: none.
 */
 void RoomManager::deleteRoom(int ID)
 {
+	_lck = std::unique_lock<std::mutex>(this->_mtx);
 	this->m_rooms.erase(ID);
+	_lck.unlock();
 }
 
 /*
@@ -48,10 +53,12 @@ std::vector<RoomData> RoomManager::getRooms()
 	auto i = this->m_rooms.begin();
 	for (i; i != this->m_rooms.end(); i++)
 	{
+		_lck = std::unique_lock<std::mutex>(this->_mtx);
 		if (i->second.isActive() == ROOM_LOBY_STATE)
 		{
 			roomDatas.push_back(i->second.getRoomData());
 		}
+		_lck.unlock();
 	}
 
 	return roomDatas;
@@ -64,10 +71,13 @@ out: the room itself (a reference).
 */
 Room& RoomManager::getRoom(int ID)
 {
+	_lck = std::unique_lock<std::mutex>(this->_mtx);
 	if (this->m_rooms.find(ID) != this->m_rooms.end()) // if key exists.
 	{
+		_lck.unlock();
 		return this->m_rooms.find(ID)->second;
 	}
+	_lck.unlock();
 	throw std::exception("Invalid Room ID.");
 }
 
@@ -79,6 +89,7 @@ out: the unused id.
 int RoomManager::nextId()
 {
 	int id = 0;
+	_lck = std::unique_lock<std::mutex>(this->_mtx);
 	if (this->m_rooms.empty())
 	{ 
 		//first room
@@ -91,6 +102,7 @@ int RoomManager::nextId()
 		//increase id by one to get the next unused id.
 		id++;
 	}
+	_lck.unlock();
 	return id;
 }
 

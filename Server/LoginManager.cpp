@@ -24,13 +24,21 @@ out: true if logged sucessfully, false otherwise.
 */
 bool LoginManager::signup(std::string username, std::string password, std::string email)
 {
+	_lck = std::unique_lock<std::mutex>(this->_mtx);
 	int res = this->m_database->addNewUser(username, password, email);
+	_lck.unlock();
+
 	if (res == USER_NOT_ADDED)
 	{
 		return false;
 	}
+
 	LoggedUser l = LoggedUser(username);
+
+	_lck = std::unique_lock<std::mutex>(this->_mtx);
 	this->m_loggedUsers.push_back(l);
+	_lck.unlock();
+
 	return true;
 }
 
@@ -41,7 +49,10 @@ out: 1 if logged sucessfuly, 2 if user dosnt exist, 3 if user already connected,
 */
 int LoginManager::login(std::string username, std::string password)
 {
+	_lck = std::unique_lock<std::mutex>(this->_mtx);
 	int res = this->m_database->doesPasswordMatch(username, password);
+	_lck.unlock();
+
 	if (res == PASSWORDS_MATCH)
 	{
 		//check user is not already connected.
@@ -59,7 +70,9 @@ int LoginManager::login(std::string username, std::string password)
 		{
 			//add user to logged users list.
 			LoggedUser l = LoggedUser(username);
+			_lck = std::unique_lock<std::mutex>(this->_mtx);
 			this->m_loggedUsers.push_back(l);
+			_lck.unlock();
 		}
 	}
 	return res;
@@ -78,8 +91,11 @@ bool LoginManager::logout(std::string username)
 	{
 		if (i->getUsername() == username)
 		{
+			_lck = std::unique_lock<std::mutex>(this->_mtx);
 			//remove the user.
 			this->m_loggedUsers.erase(i);
+			_lck.unlock();
+
 			removed = true;
 			//exit loop.
 			break;

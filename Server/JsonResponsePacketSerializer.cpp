@@ -162,7 +162,7 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetRoo
 	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
 
 	auto i = getR.rooms.begin();
-	for (i; i != getR.rooms.end(); i++) // propably will need to contain more info, can be in another json field and each room by its index, see after will be needed. #todo
+	for (i; i != getR.rooms.end(); i++)
 	{
 		rooms.push_back(std::make_pair(std::to_string(i->id), i->name));
 	}

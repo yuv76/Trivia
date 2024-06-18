@@ -15,16 +15,16 @@ out: the newly created game object;
 */
 int GameManager::createGame(Room& r)
 {
+	_lck = std::unique_lock<std::mutex>(this->_mtx);
 	double ansTimeout = r.getRoomData().timePerQuestion;
 	std::vector<LoggedUser> users = r.getUsers();
 	int id = this->getNextAvailableId();
-
-	std::vector<Question> questions;
 	std::vector<QuestionData> Qdata = this->m_database->getQuestions(r.getRoomData().numOfQuestionsInGame);
 
 
 	Game game(Qdata, users, id, ansTimeout);
 	this->m_games.insert(std::make_pair(id, game));
+	_lck.unlock();
 
 	return id;
 }
@@ -41,7 +41,9 @@ void GameManager::deleteGame(int gameId)
 	{
 		if (i->first == gameId)
 		{
+			_lck = std::unique_lock<std::mutex>(this->_mtx);
 			i->second.endGame(this->m_database);
+			_lck.unlock();
 		}
 	}
 }

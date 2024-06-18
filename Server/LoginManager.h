@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <mutex>
 #include "SqliteDatabase.h"
 #include "LoggedUser.h"
 
@@ -11,6 +12,9 @@ class LoginManager
 private:
 	IDatabase* m_database;
 	std::vector<LoggedUser> m_loggedUsers;
+	std::mutex _mtx;
+	std::unique_lock<std::mutex> _lck;
+
 public:
 	LoginManager(IDatabase* db);
 	~LoginManager();
