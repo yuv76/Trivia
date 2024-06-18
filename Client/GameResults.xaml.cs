@@ -221,6 +221,10 @@ namespace Client
             in: the sender, the event arguments.
             out: none.
             */
+            if (playernum != 0)
+            {
+                ERROR.Text = "Error the admin has left the room.";
+            }
 
             await Communicator.LeaveGame();
 
