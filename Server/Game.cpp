@@ -5,7 +5,7 @@ C'tor for game object.
 in: questions for game in a vector, users in a vector, room's id, time for answer in the game.
 */
 Game::Game(std::vector<QuestionData> questionDatas, std::vector<LoggedUser> users, int id, double ansTime):
-	m_gameId(id), m_answerTimeout(ansTime), _isActive(true)
+	m_gameId(id), m_answerTimeout(ansTime), _isActive(true), _submitted(false)
 {
 	Question padding;
 	padding.setStartQuestion();
@@ -116,9 +116,13 @@ out: none.
 void Game::sumitGameStatsToDB(IDatabase* db)
 {
 	auto i = this->m_players.begin();
-	for (i; i != this->m_players.end(); i++)
+	if (!_submitted)
 	{
-		db->submitGameStatistics(i->second, i->first.getUsername());
+		for (i; i != this->m_players.end(); i++)
+		{
+			db->submitGameStatistics(i->second, i->first.getUsername());
+		}
+		_submitted = true;
 	}
 }
 

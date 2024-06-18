@@ -275,7 +275,7 @@ int SqliteDatabase::callbackGetAverageAnswerTime(void* data, int argc, char** ar
 		for (int i = 0; i < argc; i++) {
 			if (std::string(azColName[i]) == "average time") 
 			{
-				*answerTime = atoi(argv[i]);
+				*answerTime = std::stof(argv[i]);
 			}
 		}
 	}

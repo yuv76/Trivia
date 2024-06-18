@@ -15,6 +15,7 @@ private:
 	int m_gameId;
 	double m_answerTimeout;
 	bool _isActive;
+	bool _submitted;
 
 	void sumitGameStatsToDB(IDatabase* DB); // return type made to have one, but not official and could change.
 
