@@ -168,7 +168,7 @@ namespace Client
             List<Pair<string, string>> rooms = await Communicator.getRooms();
             _rooms = rooms;
 
-            string newName = this.roomname + this.room_id.ToString();
+            string newName = this.roomname;
             if (playernum != 0)
             {
                 int id = await Communicator.createRoom(newName, uint.Parse(this.playernum.ToString()), uint.Parse(this.totalQ.ToString()), int.Parse(this.timeQ.ToString()));
