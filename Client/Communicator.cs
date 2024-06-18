@@ -673,7 +673,6 @@ namespace Client
                     }
                 }
             }
-            int sentSucces = await sendToServer("", msgCodes.CLOSE_ROOM);
             //else, return the sent message's error code.
             return sentSuccesfully;
         }

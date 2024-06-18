@@ -168,9 +168,11 @@ namespace Client
             List<Pair<string, string>> rooms = await Communicator.getRooms();
             _rooms = rooms;
 
-            string newName = this.roomname;
+            string newName = this.roomname + this.room_id.ToString();
             if (playernum != 0)
             {
+                await Communicator.CloseRoom();
+
                 int id = await Communicator.createRoom(newName, uint.Parse(this.playernum.ToString()), uint.Parse(this.totalQ.ToString()), int.Parse(this.timeQ.ToString()));
                 if (id >= CreateRoomResponse.CREATE_ROOM_SUCESS_ID)
                 {
@@ -223,8 +225,10 @@ namespace Client
             */
             if (playernum != 0)
             {
+
                 ERROR.Text = "Error the admin has left the room.";
             }
+            await Communicator.CloseRoom();
 
             await Communicator.LeaveGame();
 
