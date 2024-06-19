@@ -24,7 +24,8 @@ enum msgCodes
 	LEAVE_GAME,
 	GET_QUESTION,
 	SUBMIT_ANSWER,
-	GET_GAME_RESULTS
+	GET_GAME_RESULTS,
+	RETURN_TO_ROOM
 };
 
 struct LoginRequest

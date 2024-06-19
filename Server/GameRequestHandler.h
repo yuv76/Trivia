@@ -1,6 +1,7 @@
 #pragma once
 #include "IRequestHandler.h"
 #include "requestHandlerFactory.h"
+#include "RoomData.h"
 
 #define REMOVAL_SUCESS 1
 
@@ -11,6 +12,10 @@
 
 #define GOT_UNFINAL_RESULT 2
 #define GOT_RESULT 1
+
+#define  RETURNED_TO_ROOM 1
+#define  ADMIN_LEFT 2
+#define  ADMIN_DIDNT_ENTER_YET 3
 
 class GameRequestHandler : public IRequestHandler
 {
@@ -24,6 +29,7 @@ private:
 	RequestResult getQuestion(RequestInfo);
 	RequestResult submitAnswer(RequestInfo reqInf);
 	RequestResult getGameResult(RequestInfo inf);
+	RequestResult returnToRoom(RequestInfo inf);
 
 	Game& m_game;
 	LoggedUser m_user;

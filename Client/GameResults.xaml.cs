@@ -164,41 +164,22 @@ namespace Client
 
         async void backRoom_click(object sender, RoutedEventArgs e)
         {
-            await Communicator.LeaveGame();
-            List<Pair<string, string>> rooms = await Communicator.getRooms();
-            _rooms = rooms;
+            returnToRoomResponse roomData = await Communicator.returnToRoom();
 
-            string newName = this.roomname + this.room_id.ToString();
-            if (playernum != 0)
+            if(roomData.status == returnToRoomResponse.ADMIN_DIDNT_ENTER_YET)
             {
-                int id = await Communicator.createRoom(newName, uint.Parse(this.playernum.ToString()), uint.Parse(this.totalQ.ToString()), int.Parse(this.timeQ.ToString()));
-                if (id >= CreateRoomResponse.CREATE_ROOM_SUCESS_ID)
-                {
-                    Room room = new Room(Left, Top, Width, Height, WindowState, newName, id.ToString(), this.playernum.ToString());
-                    room.Show();
-                    _isClosedByX = false;
-                    this.Close();
-                }
+                ERROR.Text = "Wait for admin to enter room";
             }
-            else
+            else if(roomData.status == returnToRoomResponse.ADMIN_LEFT)
             {
-                string roomId = getRoomIdByName(newName);
-                if (roomId == "-1")
-                {
-                    //unexisting room, shouldnt happen, do nothing.
-                    ERROR.Text = "Error the admin hasnt joined the room yet.";
-                }
-                else
-                {
-                    int ok = await Communicator.joinRoom(roomId);
-                    if (ok == JoinRoomResponse.JOIN_ROOM_SUCCESS)
-                    {
-                        Room room = new Room(Left, Top, Width, Height, WindowState, newName, roomId, "0");
-                        room.Show();
-                        _isClosedByX = false;
-                        this.Close();
-                    }
-                }
+                ERROR.Text = "Admin left, cannot return to room";
+            }
+            else if(roomData.status == returnToRoomResponse.RETURNED_TO_ROOM) 
+            {
+                Room roomLobby = new Room(Left, Top, Width, Height, WindowState, roomData.roomName, roomData.roomId.ToString(), roomData.numOfPlayers.ToString());
+                roomLobby.Show();
+                _isClosedByX = false;
+                this.Close();
             }
         }
 

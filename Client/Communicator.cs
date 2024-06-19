@@ -868,6 +868,50 @@ namespace Client
             return gameRes;
         }
 
+        public static async Task<returnToRoomResponse> returnToRoom()
+        {
+            /*
+            Attempts to return to the room the game was in.
+            in: none. 
+            out: returnToRoomResponse containing the room data needed, empty if there is an error.
+            */
+
+            int sentSuccesfully = 0;
+            JObject recvdJson;
+            returnToRoomResponse roomData = new returnToRoomResponse();
+
+            sentSuccesfully = await sendToServer("", msgCodes.RETURN_TO_ROOM);
+
+            if (sentSuccesfully == LeaveGameResponse.LEFT_GAME)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.RETURN_TO_ROOM))
+                {
+                    if (recvdJson.ContainsKey("status") && recvdJson.ContainsKey("numOfPlayers") && recvdJson.ContainsKey("roomId") && recvdJson.ContainsKey("roomName"))
+                    {
+                        roomData.status = recvdJson.Value<int>("status");
+                        if(roomData.status == returnToRoomResponse.RETURNED_TO_ROOM)
+                        {
+                            roomData.numOfPlayers = recvdJson.Value<uint>("numOfPlayers");
+                            roomData.roomId = recvdJson.Value<uint>("roomId");
+                            roomData.roomName = recvdJson.Value<string>("roomName");
+                        }
+                        //else, will only contain status that explains what went wrong.
+                        return roomData;
+                    }
+                    else
+                    {
+                        // return server error status.
+                        roomData.status = recvdJson.Value<int>("status");
+                        return roomData;
+                    }
+                }
+            }
+            //else, return the sent message's error code.
+            roomData.status = getQuestionResponse.CONNECTION_PROBLEM;
+            return roomData;
+        }
+
         public static async Task<int> closeConnectionAsync()
         {
             /*

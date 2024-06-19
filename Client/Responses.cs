@@ -137,4 +137,16 @@ namespace Responses
         public List<string> Avrgs;
     }
 
+    public struct returnToRoomResponse
+    {
+        public const int RETURNED_TO_ROOM =  1;
+        public const int ADMIN_LEFT = 2;
+        public const int ADMIN_DIDNT_ENTER_YET = 3;
+        public const int GAME_NOT_OVER = 4;
+
+        public int status;
+        public string roomName;
+        public uint numOfPlayers;
+        public uint roomId;
+    }
 }

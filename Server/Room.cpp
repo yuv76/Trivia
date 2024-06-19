@@ -167,3 +167,14 @@ int Room::getGameID() const
 {
 	return this->_gameId;
 }
+
+/*
+clears all players from room, except for admin.
+in&out: none.
+*/
+void Room::clearRoom()
+{
+	std::string admin = this->m_metadata.owner;
+	this->m_users.clear();
+	m_users.push_back(LoggedUser(admin));
+}
