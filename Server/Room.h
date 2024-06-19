@@ -28,4 +28,5 @@ public:
 	GetRoomStateResponse getState();
 	void updateGameID(int id);
 	int getGameID() const;
+	void clearRoom();
 };

@@ -22,7 +22,7 @@ int GameManager::createGame(Room& r)
 	std::vector<QuestionData> Qdata = this->m_database->getQuestions(r.getRoomData().numOfQuestionsInGame);
 
 
-	Game game(Qdata, users, id, ansTimeout);
+	Game game(Qdata, users, id, ansTimeout, r.getRoomData().owner, r.getRoomData().id);
 	this->m_games.insert(std::make_pair(id, game));
 	_lck.unlock();
 
@@ -30,7 +30,7 @@ int GameManager::createGame(Room& r)
 }
 
 /*
-deletes a game from the manager.
+deletes a game from the manager, if it wasnt already deleted.
 in: the game to delete's id.
 out: none.
 */
