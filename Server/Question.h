@@ -23,4 +23,5 @@ public:
 	int getCorrectAnswerId();
 	void setEndQuestion();
 	void setStartQuestion();
+	bool addQuestion(std::string right, std::string ans1, std::string ans2, std::string ans3, std::string question);
 };

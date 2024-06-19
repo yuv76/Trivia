@@ -11,12 +11,14 @@
 #include "RoomAdminRequestHandler.h"
 #include "RoomMemberRequestHandler.h"
 #include "GameRequestHandler.h"
+#include "Question.h"
 
 class LoginRequestHandler;
 class MenuRequestHandler;
 class RoomAdminRequestHandler;
 class RoomMemberRequestHandler;
 class GameRequestHandler;
+class Question;
 
 class RequestHandlerFactory
 {
@@ -31,6 +33,7 @@ public:
 	RoomManager& getRoomManager();
 	StatisticsManager& getStatisticsManager();
 	GameManager& getGameManager();
+	Question& getQuestion();
 
 private:
 	LoginManager m_loginManager;

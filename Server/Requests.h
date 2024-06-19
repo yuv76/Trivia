@@ -24,7 +24,8 @@ enum msgCodes
 	LEAVE_GAME,
 	GET_QUESTION,
 	SUBMIT_ANSWER,
-	GET_GAME_RESULTS
+	GET_GAME_RESULTS,
+	ADD_QUESTION
 };
 
 struct LoginRequest
@@ -68,4 +69,12 @@ struct SubmitAnswerRequest
 public:
 	unsigned int answerId;
 	double answerTime;
+};
+
+struct AddQuestionRequest
+{
+public:
+	std::string username;
+	std::string password;
+	std::string email;
 };

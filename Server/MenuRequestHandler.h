@@ -37,6 +37,7 @@ private:
 	RequestResult getHighScore(RequestInfo info);
 	RequestResult joinRoom(RequestInfo info);
 	RequestResult createRoom(RequestInfo info);
+	RequestResult addQustion(RequestInfo info);
 
 	LoggedUser m_user;
 	RequestHandlerFactory& m_handlerFactory;

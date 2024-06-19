@@ -20,7 +20,7 @@ bool MenuRequestHandler::isRequestRelevant(RequestInfo& inf)
 	if (inf.RequestId == SIGNOUT || inf.RequestId == GET_ROOM 
 		|| inf.RequestId == GET_PLAYERS || inf.RequestId == JOIN_ROOM 
 		|| inf.RequestId == CREATE_ROOM || inf.RequestId == HIGH_SCORE 
-		|| inf.RequestId == PERSONAL_STATS)
+		|| inf.RequestId == PERSONAL_STATS || inf.RequestId == GET_GAME_RESULTS)
 	{
 		relevant = true;
 	}
@@ -359,4 +359,38 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	}
 
 	return rqRs;
+}
+
+
+/*
+gets a add question request and returns its response.
+in: the request's information, a RequestInfo object.
+out: the requests's result, a RequestResult object.
+*/
+RequestResult MenuRequestHandler::addQustion(RequestInfo info)
+{
+	RequestResult rr;
+	AddQuestionResponse aq;
+	std::vector<std::uint8_t> buffer;
+
+	Question& temp = this->m_handlerFactory.getQuestion();
+
+	aq.question = temp.addQuestion();
+	if (aq..empty())
+	{
+		gh.status = STATS_ERROR;
+	}
+	else
+	{
+		gh.status = STATS_SUCCESS;
+
+	}
+	buffer = JsonResponsePacketSerializer::serializeResponse(gh);
+
+	rr.response = buffer;
+
+	//stay in menu state.
+	rr.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+
+	return rr;
 }

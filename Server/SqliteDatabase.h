@@ -55,6 +55,9 @@ public:
 
 	virtual void submitGameStatistics(GameData gd, std::string username);
 
+	virtual int addUsersQuestionToDb(std::string question, std::string rightAnswer, std::string wrongAnswer1, std::string wrongAnswer2, std::string wrongAnswer3);
+
+
 private:
 	static int callbackCheckExistance(void* data, int argc, char** argv, char** azColName);
 	static int callbackGetQuestion(void* data, int argc, char** argv, char** azColName);

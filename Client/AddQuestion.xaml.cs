@@ -53,67 +53,45 @@ namespace Client
             out: none.
             */
 
-            string temp = NEWMAIL.Text, temp2;
+            string temp = QUESTION.Text, temp2;
             int ok = 0;
             string errors = "";
-            //check username existance with the server.
 
-            if (NEWSERNAME.Text.Length == 0)
+            if (QUESTION.Text.Length == 0)
             {
-                ERRORS.Text = "Invalid username";
+                ERRORS.Text = "Invalid question";
             }
             else
             {
-                if (NEWPASS.Text != REPASS.Text)
+                if (RIGHTANS.Text.Length == 0)
                 {
-                    errors += PASSWORDS_NOT_MATCH;
+                    ERRORS.Text = "Invalid right answer";
                 }
-
-                //check if mail is in valid mail adress format.
-                string[] temp1 = temp.Split('@');
-                if (!NEWMAIL.Text.Contains('@'))
+                else if (WRONG1.Text.Length == 0)
                 {
-                    errors += INVALID_MAIL;
+                    ERRORS.Text = "Invalid wrong answer 1";
                 }
-                else
+                else if (WRONG2.Text.Length == 0)
                 {
-                    temp2 = temp1[1];
-                    string[] temp3 = temp2.Split('.');
-                    if (!temp2.Contains('.'))
-                    {
-                        errors += INVALID_MAIL;
-                    }
-                    else if (temp1[0].Length < 1)
-                    {
-                        errors += INVALID_MAIL;
-                    }
-                    else if (temp3[0].Length < 1)
-                    {
-                        errors += INVALID_MAIL;
-                    }
-                    else if (temp3[1].Length < 1)
-                    {
-                        errors += INVALID_MAIL;
-                    }
+                    ERRORS.Text = "Invalid wrong answer 2";
                 }
-
-                if (errors != "")
+                else if (WRONG3.Text.Length == 0)
                 {
-                    ERRORS.Text = errors;
+                    ERRORS.Text = "Invalid wrong answer 3";
                 }
                 else
                 {
-                    ok = await Communicator.signupAsync(NEWSERNAME.Text, NEWPASS.Text, NEWMAIL.Text);
-                    if (ok == SignupResponse.SIGNUP_SUCCESS)
+                    ok = await Communicator.addQuestionAsync(RIGHTANS.Text, WRONG1.Text, WRONG2.Text, WRONG3.Text, QUESTION.Text);
+                    if (ok == AddQuestionResponse.ADDED)
                     {
                         MainMenu men = new MainMenu(Left, Top, Width, Height, WindowState, "");
                         men.Show();
                         _isClosedByX = false;
                         this.Close();
                     }
-                    else if (ok == SignupResponse.SIGNUP_FAIL)
+                    else if (ok == AddQuestionResponse.ERROR_ADDING)
                     {
-                        ERRORS.Text = "Username already taken";
+                        ERRORS.Text = "error in adding question";
                     }
                     else
                     {

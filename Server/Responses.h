@@ -120,3 +120,14 @@ struct GetGameResultsResponse
 	unsigned int status;
 	std::vector<PlayerResults> results;
 };
+
+struct AddQuestionResponse
+{
+	unsigned int status;
+	std::string question;
+	std::string right;
+	std::string wrong1;
+	std::string wrong2;
+	std::string wrong3;
+	std::string difficulty;
+};
