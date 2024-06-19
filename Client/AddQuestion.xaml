@@ -121,6 +121,7 @@
             <Grid.Background>
                 <ImageBrush ImageSource="/Resources/Images/back.png" Stretch="UniformToFill"/>
             </Grid.Background>
+            <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,370,0" Width="260" FontFamily="Cascadia Mono SemiBold" Foreground="#FF5AB71C" Height="24"/>
             <StackPanel Margin="10,41,10,6">
                 <StackPanel Orientation="Horizontal" Height="29" Width="511">
                     <TextBlock FontSize="16" Width="245" FontFamily="Cascadia Mono SemiBold" Foreground="#FFFF0000">Enter Question:</TextBlock>
