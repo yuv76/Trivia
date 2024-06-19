@@ -541,3 +541,22 @@ void SqliteDatabase::submitGameStatistics(GameData gd, std::string username)
 		throw std::exception(*errMessage);
 	}
 }
+
+
+/*
+adds a question that the user added to the database.
+in: the question, the rite answer and 3 wrong answers.
+out: 1 if added sucessfully.
+*/
+int SqliteDatabase::addUsersQuestionToDb(std::string question, std::string rightAnswer, std::string wrongAnswer1, std::string wrongAnswer2, std::string wrongAnswer3)
+{
+	char* errMessage[100];
+	std::string addUserSQL = "";
+	addUserSQL = "INSERT INTO questions VALUES(\"" + rightAnswer + "\", \"" + wrongAnswer1 + "\", \"" + wrongAnswer2 + "\", \"" + wrongAnswer3 + "\", \"hard\"); ";
+	int res = sqlite3_exec(this->database, addUserSQL.c_str(), nullptr, nullptr, errMessage);
+	if (res != SQLITE_OK)
+	{
+		throw std::exception(*errMessage);
+	}
+	return QUESTIONS_ADDED;
+}

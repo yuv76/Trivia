@@ -26,7 +26,8 @@ namespace Requests
         LEAVE_GAME,
         GET_QUESTION,
         SUBMIT_ANSWER,
-        GET_GAME_RESULTS
+        GET_GAME_RESULTS,
+        ADD_QUESTION
     };
 
     public class LoginRequest
@@ -66,4 +67,12 @@ namespace Requests
         public double ansTime;
     };
 
+    struct AddQuestionRequest
+    {
+        public string question { get; set; }
+        public string rightAnswer { get; set; }
+        public string wrongAnswer1 { get; set; }
+        public string wrongAnswer2 { get; set; }
+        public string wrongAnswer3 { get; set; }
+    };
 }

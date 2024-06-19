@@ -137,4 +137,9 @@ namespace Responses
         public List<string> Avrgs;
     }
 
+    struct AddQuestionResponse
+    {
+        public const int ADDED = 1;
+        public const int ERROR_ADDING = 0;
+    };
 }
