@@ -107,10 +107,9 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo)
 	this->m_room.updateGameID(createdGameId);
 	rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_handlerFactory.getGameManager().getGameByID(createdGameId));
 
-
-
 	return rqRs;
 }
+
 /*
 creates the response for get room state request.
 in: the request's info.

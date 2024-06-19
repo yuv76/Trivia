@@ -27,7 +27,7 @@ namespace Requests
         GET_QUESTION,
         SUBMIT_ANSWER,
         GET_GAME_RESULTS,
-        ADD_QUESTION
+        RETURN_TO_ROOM
     };
 
     public class LoginRequest

@@ -18,7 +18,7 @@ out: true if relevant for the state, false otherwise.
 bool GameRequestHandler::isRequestRelevant(RequestInfo& inf)
 {
 	bool relevant = false;
-	if (inf.RequestId == LEAVE_GAME || inf.RequestId == GET_QUESTION || inf.RequestId == SUBMIT_ANSWER || inf.RequestId == GET_GAME_RESULTS)
+	if (inf.RequestId == LEAVE_GAME || inf.RequestId == GET_QUESTION || inf.RequestId == SUBMIT_ANSWER || inf.RequestId == GET_GAME_RESULTS || inf.RequestId == RETURN_TO_ROOM)
 	{
 		relevant = true;
 	}
@@ -50,6 +50,11 @@ RequestResult GameRequestHandler::handleRequest(RequestInfo& inf)
 		//perform the request
 		res = this->submitAnswer(inf);
 	}
+	else if (inf.RequestId == RETURN_TO_ROOM)
+	{
+		//perform the request
+		res = this->returnToRoom(inf);
+	}
 	else // get game results
 	{
 		//perform the request
@@ -71,6 +76,17 @@ RequestResult GameRequestHandler::leaveGame(RequestInfo)
 
 	this->m_game.removePlayer(this->m_user);
 	leave.status = REMOVAL_SUCESS;
+
+	this->m_game.checkIfFinished();
+	if(!this->m_game.isActive())
+	{
+		this->m_gameManager.deleteGame(this->m_game.getId());
+	}
+	if (this->m_user.getUsername() == this->m_game.getAdminUsername())
+	{
+		//if admin leaves game, has to close the room.
+		this->m_handlerFactory.getRoomManager().deleteRoom(this->m_game.getRoomId());
+	}
 
 	buffer = JsonResponsePacketSerializer::serializeResponse(leave);
 
@@ -182,15 +198,64 @@ RequestResult GameRequestHandler::getGameResult(RequestInfo inf)
 	buffer = JsonResponsePacketSerializer::serializeResponse(results);
 
 	rqRs.response = buffer;
-	if (this->m_game.isActive())
+	rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game); // stay in game state.
+
+	return rqRs;
+}
+
+/*
+creates a response for return to room request
+in: the request's information.
+out; the request's result.
+*/
+RequestResult GameRequestHandler::returnToRoom(RequestInfo inf)
+{
+	std::vector<std::uint8_t> buffer;
+	returnToRoomResponse results;
+	RequestResult rqRs;
+	try
 	{
-		rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game); // stay in state.
+		Room& room = this->m_handlerFactory.getRoomManager().getRoom(this->m_game.getRoomId());
+		if (this->m_user.getUsername() == this->m_game.getAdminUsername())
+		{
+			//if the user is the admin, they can return to the room immedietly.
+			results.status = RETURNED_TO_ROOM;
+			room.SetActiveState(ROOM_LOBY_STATE);
+			results.numOfPlayers = room.getRoomData().maxPlayers;
+			results.roomName = room.getRoomData().name;
+			results.roomId = this->m_game.getRoomId();
+			room.clearRoom();
+			rqRs.newHandler = this->m_handlerFactory.createRoomAdminRequestHandler(this->m_user, room);
+		}
+		else // user is not the admin.
+		{
+			if (room.isActive() == ROOM_LOBY_STATE)
+			{
+				//room can be joined.
+				room.addUser(this->m_user);
+				results.status = RETURNED_TO_ROOM;
+				results.numOfPlayers = room.getRoomData().maxPlayers;
+				results.roomName = room.getRoomData().name;
+				results.roomId = this->m_game.getRoomId();
+				rqRs.newHandler = this->m_handlerFactory.createRoomMemberRequestHandler(this->m_user, room);
+			}
+			else
+			{
+				// game still in progress (admin hasnt left) so can might still join room later.
+				rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game);
+				results.status = ADMIN_DIDNT_ENTER_YET;
+			}
+		}
 	}
-	else
+	catch (...)
 	{
-		rqRs.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
-		this->m_gameManager.deleteGame(this->m_game.getId());
+		//admin left so room was deleted, cannot enter.
+		rqRs.newHandler = this->m_handlerFactory.createGameRequestHandler(this->m_user, this->m_game);
+		results.status = ADMIN_LEFT;
 	}
+
+	buffer = JsonResponsePacketSerializer::serializeResponse(results);
+	rqRs.response = buffer;
 
 	return rqRs;
 }

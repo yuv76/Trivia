@@ -692,24 +692,27 @@ std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(GetGam
 }
 
 /*
-serializes a add question response into a byte vector.
-in: the add question response at the form of a AddQuestionResponse struct.
+serializes a return to room response into a byte vector.
+in: the return to room response at the form of a returnToRoomResponse struct.
 out: the bytes vector containing the response.
 */
-std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(AddQuestionResponse question)
+std::vector<std::uint8_t> JsonResponsePacketSerializer::serializeResponse(returnToRoomResponse result)
 {
 	std::vector<std::uint8_t> buffer;
 	std::string msg = "";
-	msgCodes code = ADD_QUESTION;
+	msgCodes code = RETURN_TO_ROOM;
 	int len = 0;
-	json AddJson;
+	json submitAnsweJson;
 
 	//add code byte to vector
 	buffer.push_back(static_cast<std::uint8_t>(code & 0xFF)); //only one byte
 
 	//create msg in json format
-	AddJson["status"] = question.status;
-	msg = AddJson.dump();
+	submitAnsweJson["status"] = result.status;
+	submitAnsweJson["numOfPlayers"] = result.numOfPlayers;
+	submitAnsweJson["roomId"] = result.roomId;
+	submitAnsweJson["roomName"] = result.roomName;
+	msg = submitAnsweJson.dump();
 
 	//add length to vector as 4 binary bytes - shifting the integer value to the right by 8 bits each time.
 	len = msg.length();

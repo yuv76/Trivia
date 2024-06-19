@@ -121,12 +121,10 @@ struct GetGameResultsResponse
 	std::vector<PlayerResults> results;
 };
 
-struct AddQuestionResponse
+struct returnToRoomResponse
 {
-	unsigned int status;
-	std::string question;
-	std::string right;
-	std::string wrong1;
-	std::string wrong2;
-	std::string wrong3;
+	int status;
+	std::string roomName;
+	unsigned int roomId;
+	unsigned int numOfPlayers;
 };

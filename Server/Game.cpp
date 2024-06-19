@@ -4,8 +4,8 @@
 C'tor for game object.
 in: questions for game in a vector, users in a vector, room's id, time for answer in the game.
 */
-Game::Game(std::vector<QuestionData> questionDatas, std::vector<LoggedUser> users, int id, double ansTime):
-	m_gameId(id), m_answerTimeout(ansTime), _isActive(true), _submitted(false)
+Game::Game(std::vector<QuestionData> questionDatas, std::vector<LoggedUser> users, int id, double ansTime, std::string admin, int roomId):
+	m_gameId(id), m_answerTimeout(ansTime), _isActive(true), _submitted(false), _adminUsername(admin), _roomId(roomId)
 {
 	Question padding;
 	padding.setStartQuestion();
@@ -222,4 +222,24 @@ void Game::checkIfFinished()
 	}
 
 	this->_isActive = !gameFinished;//if game not finished, active is true.
+}
+
+/*
+getter for game admin's username.
+in: none.
+out: the username.
+*/
+std::string Game::getAdminUsername()
+{
+	return this->_adminUsername;
+}
+
+/*
+gets the room the game is in's id.
+in: none.
+out: the id.
+*/
+int Game::getRoomId()
+{
+	return this->_roomId;
 }
