@@ -30,7 +30,7 @@
         <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
         <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
         <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
-        <Style x:Key="signup" TargetType="{x:Type Button}">
+        <Style x:Key="addQu" TargetType="{x:Type Button}">
             <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
             <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
             <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
@@ -164,15 +164,15 @@
                     </TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Width="365">
-                    <Button Style="{DynamicResource backBtn}" Margin="0,5" Height="50" Width="175" FontSize="14" Click="back_click" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" Foreground="#FF80ECEC">
+                    <Button Style="{DynamicResource backBtn}" Margin="0,5" Height="50" Width="175" FontSize="14" Click="back_click" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" Foreground="#FF80ECEC" Content="back to menu">
                         <Button.BorderBrush>
                             <ImageBrush/>
                         </Button.BorderBrush>
                         <Button.Background>
                             <ImageBrush ImageSource="/Resources/Images/blue.png"/>
-                        </Button.Background> back to login
+                        </Button.Background>
                     </Button>
-                    <Button Style="{DynamicResource signup}" Margin="5,15" Height="42" Width="175" FontSize="14" Click="signupEnter_click" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" Foreground="#FF726BB5" Content="Enter">
+                    <Button Style="{DynamicResource addQu}" Margin="5,15" Height="42" Width="175" FontSize="14" Click="enter_click" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" Foreground="#FF726BB5" Content="Enter">
                         <Button.BorderBrush>
                             <ImageBrush/>
                         </Button.BorderBrush>

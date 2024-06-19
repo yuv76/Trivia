@@ -45,7 +45,7 @@ namespace Client
             PutName();
         }
 
-        private async void signupEnter_click(object sender, RoutedEventArgs e)
+        private async void enter_click(object sender, RoutedEventArgs e)
         {
             /*
             event handler for the signup enter button, tries to prefom the signup request.
