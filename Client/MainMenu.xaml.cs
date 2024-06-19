@@ -123,5 +123,19 @@ namespace Client
             string temp = "Hello " + Communicator.getName();
             name.Text = temp;
         }
+
+        private void moveToAddQuestionm_click(object sender, RoutedEventArgs e)
+        {
+            /*
+            event handler for the stats menu button - moves to stats menu window.
+            in: the sender (the button), the event's arguments.
+            out: none.
+            */
+
+            AddQuestion addQuestion = new AddQuestion(Left, Top, Width, Height, WindowState);
+            addQuestion.Show();
+            _isClosedByX = false;
+            this.Close();
+        }
     }
 }

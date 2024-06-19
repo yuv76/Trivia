@@ -138,6 +138,59 @@
         <SolidColorBrush x:Key="Button.Disabled.Background2" Color="#FFF4F4F4"/>
         <SolidColorBrush x:Key="Button.Disabled.Border2" Color="#FFADB2B5"/>
         <SolidColorBrush x:Key="Button.Disabled.Foreground2" Color="#FF838383"/>
+        <Style x:Key="addQuestionmBtn" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource dblu_h}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource dblu_h}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="FocusVisual6">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background7" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border8" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background9" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border10" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background11" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border12" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background13" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border14" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground15" Color="#FF838383"/>
         <Style x:Key="statsBtn" TargetType="{x:Type Button}">
             <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual2}"/>
             <Setter Property="Background" Value="{StaticResource Button.Static.Background2}"/>
@@ -232,24 +285,29 @@
             <Grid.Background>
                 <ImageBrush ImageSource="/Resources/Images/back.png" Stretch="UniformToFill"/>
             </Grid.Background>
-            
-            <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,267,0" Width="292" Height="44" FontFamily="Cascadia Mono SemiBold" Foreground="#FF68B60A"/>
-            <Button Style="{DynamicResource exitBtn}" x:Name="EXIT" Click="exit_clickAsync" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,186,331,0" Width="140" FontFamily="Cascadia Mono SemiBold" Height="79" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFFCC66">
+
+            <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,270,0" Width="292" Height="44" FontFamily="Cascadia Mono SemiBold" Foreground="#FF68B60A"/>
+            <Button Style="{DynamicResource exitBtn}" x:Name="EXIT" Click="exit_clickAsync" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,200,400,0" Width="140" FontFamily="Cascadia Mono SemiBold" Height="79" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FFFFCC66" RenderTransformOrigin="0.189,0.577">
                 <Button.Background>
                     <ImageBrush ImageSource="/Resources/Images/yellow.png"/>
                 </Button.Background> Sign Out
             </Button>
-            <Button Style="{DynamicResource createBtn}" x:Name="CREATE_ROOM" Click="moveToCreateRoom_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,69,151,0" Width="130" RenderTransformOrigin="0.445,1.399" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Height="67" Foreground="#FFFF8FCC">
+            <Button Style="{DynamicResource createBtn}" x:Name="CREATE_ROOM" Click="moveToCreateRoom_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,80,100,0" Width="130" RenderTransformOrigin="0.445,1.399" FontFamily="Cascadia Mono SemiBold" Cursor="Hand" BorderBrush="{x:Null}" Height="67" Foreground="#FFFF8FCC">
                 <Button.Background>
                     <ImageBrush ImageSource="/Resources/Images/Pink.png"/>
                 </Button.Background> Create Room
             </Button>
-            <Button Style="{DynamicResource joinRoomBtn}" x:Name="JOIN_ROOM" Click="moveToJoinRoom_click" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="146,69,0,0" Width="122" FontFamily="Cascadia Mono SemiBold" Height="67" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF726BB5">
+            <Button Style="{DynamicResource joinRoomBtn}" x:Name="JOIN_ROOM" Click="moveToJoinRoom_click" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="85,80,0,0" Width="122" FontFamily="Cascadia Mono SemiBold" Height="67" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF726BB5">
                 <Button.Background>
                     <ImageBrush ImageSource="/Resources/Images/dblu.png"/>
                 </Button.Background> Join Room
             </Button>
-            <Button Style="{DynamicResource statsBtn}" x:Name="STATISTICS" Click="moveToStatsMenu_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,177,139,0" FontFamily="Cascadia Mono SemiBold" Height="97" Width="154" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF80ECEC">
+            <Button Style="{DynamicResource addQuestionmBtn}" x:Name="ADD_QUESTION" Click="moveToAddQuestionm_click" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="235,135,0,0" Width="122" FontFamily="Cascadia Mono SemiBold" Height="67" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF55A412">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Resources/Images/green_h_i.png"/>
+                </Button.Background> Add Question
+            </Button>
+            <Button Style="{DynamicResource statsBtn}" x:Name="STATISTICS" Click="moveToStatsMenu_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,200,100,0" FontFamily="Cascadia Mono SemiBold" Height="74" Width="138" Cursor="Hand" BorderBrush="{x:Null}" Foreground="#FF80ECEC">
                 <Button.Background>
                     <ImageBrush ImageSource="/Resources/Images/blue.png"/>
                 </Button.Background> Statistics

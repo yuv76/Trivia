@@ -947,5 +947,47 @@ namespace Client
 
             return _isConnected; 
         }
+
+        /*
+        Attempts to send a new question to the server.
+        in: the question, the right answer and 3 wrong answers.
+        out: the server's response code, or connection error code.
+        */
+        public static async Task<int> addQuestionAsync(string rightAnswer, string wrongAnswer1, string wrongAnswer2, string wrongAnswer3, string question)
+        {
+            string jsonStr = "";
+            int sentSuccesfully = 0;
+            JObject recvdJson;
+
+            AddQuestionRequest addQuestionRequest = new AddQuestionRequest()
+            {
+                question = question,
+                rightAnswer = rightAnswer,
+                wrongAnswer1 = wrongAnswer1,
+                wrongAnswer2 = wrongAnswer2,
+                wrongAnswer3 = wrongAnswer3
+            };
+
+            jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(addQuestionRequest);
+            sentSuccesfully = await sendToServer(jsonStr, msgCodes.ADD_QUESTION);
+
+            if (sentSuccesfully == AddQuestionResponse.ADDED)
+            {
+                recvdJson = await recieveFromServer();
+                if (recvdJson.ContainsKey("server_resp_code") && recvdJson.Value<int>("server_resp_code") == (int)(Requests.msgCodes.ADD_QUESTION))
+                {
+                    if (recvdJson.ContainsKey("status"))
+                    {
+                        return recvdJson.Value<int>("status");
+                    }
+                    else
+                    {
+                        return recvdJson.Value<int>("server_resp_code");
+                    }
+                }
+            }
+            //else, return unseccess.
+            return sentSuccesfully;
+        }
     }
 }

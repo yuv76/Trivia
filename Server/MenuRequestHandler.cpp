@@ -20,7 +20,8 @@ bool MenuRequestHandler::isRequestRelevant(RequestInfo& inf)
 	if (inf.RequestId == SIGNOUT || inf.RequestId == GET_ROOM 
 		|| inf.RequestId == GET_PLAYERS || inf.RequestId == JOIN_ROOM 
 		|| inf.RequestId == CREATE_ROOM || inf.RequestId == HIGH_SCORE 
-		|| inf.RequestId == PERSONAL_STATS)
+		|| inf.RequestId == PERSONAL_STATS || inf.RequestId == GET_GAME_RESULTS
+		|| inf.RequestId == ADD_QUESTION)
 	{
 		relevant = true;
 	}
@@ -71,6 +72,11 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo& inf)
 	{
 		//perform the request
 		res = this->getPersonalStats(inf);
+	}
+	else if (inf.RequestId == ADD_QUESTION)
+	{
+		//perform the request
+		res = this->addQustion(inf);
 	}
 	return res;
 }
@@ -359,4 +365,41 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	}
 
 	return rqRs;
+}
+
+
+/*
+gets a add question request and returns its response.
+in: the request's information, a RequestInfo object.
+out: the requests's result, a RequestResult object.
+*/
+RequestResult MenuRequestHandler::addQustion(RequestInfo info)
+{
+	int status = 0;
+	int res = 0;
+	RequestResult rr;
+	AddQuestionResponse aq;
+	std::vector<std::uint8_t> buffer;
+
+	IDatabase* temp = this->m_handlerFactory.getIDatabase();
+	AddQuestionRequest question = JsonRequestPacketDeserializer::deserializeAddQuestionRequest(info.buffer);
+
+	aq.question = temp->addUsersQuestionToDb(question.question, question.right, question.wrong1, question.wrong2, question.wrong3);
+	if (aq.question == "")
+	{
+		aq.status = STATS_ERROR;
+	}
+	else
+	{
+		aq.status = STATS_SUCCESS;
+
+	}
+	buffer = JsonResponsePacketSerializer::serializeResponse(aq);
+
+	rr.response = buffer;
+
+	//stay in menu state.
+	rr.newHandler = this->m_handlerFactory.createMenuRequestHandler(this->m_user);
+
+	return rr;
 }

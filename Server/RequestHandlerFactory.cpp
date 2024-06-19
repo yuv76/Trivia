@@ -71,6 +71,16 @@ GameManager& RequestHandlerFactory::getGameManager()
 }
 
 /*
+returns the IDatabase.
+in: none.
+out: a reference to a IDatabase object.
+*/
+IDatabase* RequestHandlerFactory::getIDatabase()
+{
+	return this->m_database;
+}
+
+/*
 creates a room admin request handler for a given user owning a given room.
 in: the room as a room object and the logged user to create the handler for, as a LoggedUser struct.
 out: the newly created room admin request handler's pointer.

@@ -70,3 +70,13 @@ public:
 	unsigned int answerId;
 	double answerTime;
 };
+
+struct AddQuestionRequest
+{
+public:
+	std::string question;
+	std::string right;
+	std::string wrong1;
+	std::string wrong2;
+	std::string wrong3;
+};

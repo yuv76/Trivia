@@ -44,5 +44,7 @@ public:
 	virtual std::vector<std::string> getUsers() = 0;
 
 	virtual void submitGameStatistics(GameData gd, std::string username) = 0;
+
+	virtual int addUsersQuestionToDb(std::string question, std::string rightAnswer, std::string wrongAnswer1, std::string wrongAnswer2, std::string wrongAnswer3) = 0;
 };
 

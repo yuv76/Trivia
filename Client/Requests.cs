@@ -67,4 +67,12 @@ namespace Requests
         public double ansTime;
     };
 
+    struct AddQuestionRequest
+    {
+        public string question { get; set; }
+        public string rightAnswer { get; set; }
+        public string wrongAnswer1 { get; set; }
+        public string wrongAnswer2 { get; set; }
+        public string wrongAnswer3 { get; set; }
+    };
 }
