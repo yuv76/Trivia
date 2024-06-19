@@ -74,7 +74,9 @@ public:
 struct AddQuestionRequest
 {
 public:
-	std::string username;
-	std::string password;
-	std::string email;
+	std::string question;
+	std::string right;
+	std::string wrong1;
+	std::string wrong2;
+	std::string wrong3;
 };

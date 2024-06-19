@@ -129,5 +129,4 @@ struct AddQuestionResponse
 	std::string wrong1;
 	std::string wrong2;
 	std::string wrong3;
-	std::string difficulty;
 };

@@ -159,3 +159,32 @@ SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerReques
 
 	return info;
 }
+
+
+/*
+deserializes a add question request.
+in: the bytes vector buffer containing the add question message.
+out: AddQuestionRequest struct presenting the request.
+*/
+AddQuestionRequest JsonRequestPacketDeserializer::deserializeAddQuestionRequest(std::vector<std::uint8_t> buffer)
+{
+	AddQuestionRequest info;
+	json jsonBuf;
+	int id = 0;
+
+	// remove the code and len from the vector.
+	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
+	// convert the recieved bytes to a string.
+	std::string jsonStr(buffer.begin(), buffer.end());
+	//convert the string to json.
+	jsonBuf = json::parse(jsonStr);
+
+	//answerId
+	info.question = jsonBuf["question"];
+	info.right = jsonBuf["rightAnswer"];
+	info.wrong1 = jsonBuf["wrongAnswer1"];
+	info.wrong2 = jsonBuf["wrongAnswer2"];
+	info.wrong3 = jsonBuf["wrongAnswer3"];
+
+	return info;
+}
