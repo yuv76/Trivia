@@ -194,3 +194,7 @@ RequestResult GameRequestHandler::getGameResult(RequestInfo inf)
 
 	return rqRs;
 }
+
+/*
+
+*/
