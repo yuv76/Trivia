@@ -1,0 +1,39 @@
+﻿<Window x:Class="Client.HighScores"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        Title="HighScores" Height="450" Width="800"
+        Background="AliceBlue">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock x:Name="name" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,260,0" Width="100"/>
+        <Button x:Name="BACK" Click="back_click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,20,200,0" Width="70">Go Back</Button>
+        <TextBlock FontSize="20" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,333" Width="100">username:</TextBlock>
+        <TextBlock FontSize="20" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,200,333" Width="70" Height="27" VerticalAlignment="Bottom">score:</TextBlock>
+
+        <TextBlock x:Name="name1" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,120,170,0" Width="70"/>
+        <TextBlock x:Name="score1" FontSize="16" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,120,200,0" Width="70"/>
+
+        <TextBlock x:Name="name2" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,170,170,0" Width="70"/>
+        <TextBlock x:Name="score2" FontSize="16" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,170,200,0" Width="70"/>
+
+        <TextBlock x:Name="name3" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,220,170,0" Width="70"/>
+        <TextBlock x:Name="score3" FontSize="16" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,220,200,0" Width="70"/>
+
+        <TextBlock x:Name="name4" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,270,170,0" Width="70"/>
+        <TextBlock x:Name="score4" FontSize="16" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,270,200,0" Width="70"/>
+
+        <TextBlock x:Name="name5" FontSize="16" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,320,170,0" Width="70"/>
+            <TextBlock x:Name="score5" FontSize="16" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,320,200,0" Width="70"/>
+        <TextBlock x:Name="ERROR" FontSize="16" Foreground="DarkRed" Grid.Column="0" Margin="40,387,47,10" Grid.ColumnSpan="2"></TextBlock>
+
+    </Grid>
+</Window>

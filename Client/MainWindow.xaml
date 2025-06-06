@@ -1,0 +1,21 @@
+﻿<Window x:Class="Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        Background="AliceBlue">
+    <Grid>
+        <StackPanel Margin="-5,118,0,11" RenderTransformOrigin="0.5,0.5">
+            <TextBlock Height="28" Width="115" FontSize="16">Enter Username</TextBlock>
+            <TextBox x:Name="USERNAME" Width="500" Height="35"></TextBox>
+            <TextBlock Height="28" Width="115" FontSize="16">Enter Password</TextBlock>
+            <TextBox x:Name="PASSWORD" Width="500" Height="35"></TextBox>
+            <Button x:Name="ENTER_USERNAME" Click="enterLogin_clickAsync" Margin="20" Height="35" Width="100">Enter</Button>
+            <Button x:Name="SIGNUP" Click="moveToSignUp_click" Margin="10" Width="50">sign up</Button>
+            <TextBlock x:Name="LOGIN_ERORR" FontSize="15" Height="45" Width="624" Foreground="DarkRed"></TextBlock>
+        </StackPanel> 
+    </Grid>
+</Window>
