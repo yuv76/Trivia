@@ -11,3 +11,6 @@ Supports multiple players competing each other, with real time updates, user aut
 - WPF Client (C#)
 - SQLite Database Integration
 - User Authentication
+
+## Run
+Server and Client .sln projects. Run more than one client to simulate competition.
