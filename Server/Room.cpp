@@ -6,6 +6,7 @@ in: the room's data, the room creator (a user).
 */
 Room::Room(RoomData data, LoggedUser creator)
 {
+	this->_gameId = LOBBY;
 	this->m_metadata = data;
 	this->m_users.push_back(creator);
 }
@@ -135,4 +136,45 @@ GetRoomStateResponse Room::getState()
 	resp.owner = this->m_metadata.owner;
 	
 	return resp;
+}
+
+/*
+gets the vector with the users in the room.
+in: none.
+out: the Logged User(s) vector.
+*/
+std::vector<LoggedUser> Room::getUsers()
+{
+	return this->m_users;
+}
+
+/*
+updates the id of the game currently in the room.
+in: the game's id.
+out: none.
+*/
+void Room::updateGameID(int id)
+{
+	this->_gameId = id;
+}
+
+/*
+returns the game's id.
+in: none.
+out: the id.
+*/
+int Room::getGameID() const
+{
+	return this->_gameId;
+}
+
+/*
+clears all players from room, except for admin.
+in&out: none.
+*/
+void Room::clearRoom()
+{
+	std::string admin = this->m_metadata.owner;
+	this->m_users.clear();
+	m_users.push_back(LoggedUser(admin));
 }

@@ -183,10 +183,10 @@ int SqliteDatabase::callbackGetQuestion(void* data, int argc, char** argv, char*
 				temp->wrongAnswer1 = argv[i];
 			}
 			else if (std::string(azColName[i]) == "2 wrong answer") {
-				temp->wrongAnswer1 = argv[i];
+				temp->wrongAnswer2 = argv[i];
 			}
 			else if (std::string(azColName[i]) == "3 wrong answer") {
-				temp->wrongAnswer1 = argv[i];
+				temp->wrongAnswer3 = argv[i];
 			}
 			else if (std::string(azColName[i]) == "question") {
 				temp->question = argv[i];
@@ -221,25 +221,49 @@ std::vector<QuestionData> SqliteDatabase::getQuestions(int questionNum)
 	QuestionData temp;
 	std::vector<QuestionData> questionDatas;
 
-	for (int i = 0; i <= questionNum; i++)
+	for (int i = 0; i < questionNum; i++)
 	{
-		std::string getQuestionSQL = "select * from questions WHERE id == \"" + std::to_string((i + 1)) + "\";";
+		std::string getQuestionSQL = "select * from questions ORDER BY RANDOM() LIMIT 1;";
 		int res = sqlite3_exec(this->database, getQuestionSQL.c_str(), callbackGetQuestion, &temp, errMessage);
 		if (res != SQLITE_OK)
 		{
 			throw std::exception(*errMessage);
 		}
-
+		for (auto& element : questionDatas)
+		{
+			if (element.id == temp.id)
+			{
+				i--;
+				continue;
+			}
+		}
+		temp.question = remove(temp.question);
+		temp.rightAnswer = remove(temp.rightAnswer);
+		temp.wrongAnswer1 = remove(temp.wrongAnswer1);
+		temp.wrongAnswer2 = remove(temp.wrongAnswer2);
+		temp.wrongAnswer3 = remove(temp.wrongAnswer3);
 		questionDatas.push_back(temp);
 	}
-
+	
 	return questionDatas;
 }
 
+std::string SqliteDatabase::remove(std::string temp)
+{
+	int first = temp.find('&');
+	int last = temp.find(';');
+	while (first != std::string::npos)
+	{
+		temp.erase(first, (last - first) + 1);
+		first = temp.find('&');
+		last = temp.find(';');
+	}
+	return temp;
+}
 
 /*
 gets a the players average answer time from the db.
-in: the data(QuestionData pointer), number of fields in column, the field contents, the field names.
+in: the data(float pointer), number of fields in column, the field contents, the field names.
 out: 0 upon sucess.
 */
 int SqliteDatabase::callbackGetAverageAnswerTime(void* data, int argc, char** argv, char** azColName)
@@ -251,7 +275,7 @@ int SqliteDatabase::callbackGetAverageAnswerTime(void* data, int argc, char** ar
 		for (int i = 0; i < argc; i++) {
 			if (std::string(azColName[i]) == "average time") 
 			{
-				*answerTime = atoi(argv[i]);
+				*answerTime = std::stof(argv[i]);
 			}
 		}
 	}
@@ -281,7 +305,7 @@ float SqliteDatabase::getPlayerAverageAnswerTime(std::string username)
 
 /*
 gets a the players num of correct answers from the db.
-in: the data(QuestionData pointer), number of fields in column, the field contents, the field names.
+in: the data(int pointer), number of fields in column, the field contents, the field names.
 out: 0 upon sucess.
 */
 int SqliteDatabase::callbackGetNumOfCorrectAnswers(void* data, int argc, char** argv, char** azColName)
@@ -324,7 +348,7 @@ int SqliteDatabase::getNumOfCorrectAnswers(std::string username)
 
 /*
 gets a the players num of total answers from the db.
-in: the data(QuestionData pointer), number of fields in column, the field contents, the field names.
+in: the data(int pointer), number of fields in column, the field contents, the field names.
 out: 0 upon sucess.
 */
 int SqliteDatabase::callbackGetNumOfTotalAnswers(void* data, int argc, char** argv, char** azColName)
@@ -366,7 +390,7 @@ int SqliteDatabase::getNumOfTotalAnswers(std::string username)
 
 /*
 gets a the players num of players games from the db.
-in: the data(QuestionData pointer), number of fields in column, the field contents, the field names.
+in: the data(int pointer), number of fields in column, the field contents, the field names.
 out: 0 upon sucess.
 */
 int SqliteDatabase::callbackGetNumOfPlayerGames(void* data, int argc, char** argv, char** azColName)
@@ -421,7 +445,7 @@ void SqliteDatabase::addNewQuestionsToDb(int numOfQuestions)
 
 /*
 gets the users from the db.
-in: the data(QuestionData pointer), number of fields in column, the field contents, the field names.
+in: the data(strings vector pointer), number of fields in column, the field contents, the field names.
 out: 0 upon sucess.
 */
 int SqliteDatabase::callbackGetUsers(void* data, int argc, char** argv, char** azColName)
@@ -457,4 +481,63 @@ std::vector<std::string> SqliteDatabase::getUsers()
 	}
 
 	return users;
+}
+
+
+/*
+gets the total answers of user and its average answer time from SQL database answer.
+in: the data(Pair of double and int pointer), number of fields in column, the field contents, the field names.
+out: 0 upon sucess.
+*/
+int SqliteDatabase::callbackGetAvgAndTotalAns(void* data, int argc, char** argv, char** azColName)
+{
+	std::pair<double, int>* temp = static_cast<std::pair<double, int>*>(data);
+	if (argc != 0)
+	{
+		temp->first = std::atof(argv[0]);
+		temp->second = int(std::atof((argv[1])));
+	}
+	return 0;
+}
+
+/*
+updates game statistics for a user in the database.
+in: the data of a game performed by the user.
+out: 
+*/
+void SqliteDatabase::submitGameStatistics(GameData gd, std::string username)
+{
+	double oldAvg;
+	double newAvg;
+	double avgToUpdate;
+	int totalAns;
+	int gameTotalAns;
+	std::pair<double, int> totalAndAvg;
+	char* errMessage[100];
+
+	//get previus number of answers and average.
+	std::string getStatisticsSQL = "select [average time], [total answers] from statistics WHERE USERNAME == \"" + username + "\";";
+	int res = sqlite3_exec(this->database, getStatisticsSQL.c_str(), callbackGetAvgAndTotalAns, &totalAndAvg, errMessage);
+	if (res != SQLITE_OK)
+	{
+		throw std::exception(*errMessage);
+	}
+
+	oldAvg = totalAndAvg.first;
+	totalAns = totalAndAvg.second;
+	oldAvg *= totalAns;
+
+	gameTotalAns = gd.correctAnswerCount + gd.wrongAnswerCount;
+	newAvg = gd.averangeAnswerTime;
+	newAvg *= gameTotalAns;
+
+	avgToUpdate = newAvg + oldAvg;
+	avgToUpdate /= (gameTotalAns + totalAns);
+
+	std::string sqlUpdateQuery = "UPDATE STATISTICS SET [average time] = " + std::to_string(avgToUpdate) + ", [correct answers] = [correct answers] + " + std::to_string(gd.correctAnswerCount) + ", [total answers] = [total answers] + " + std::to_string(gameTotalAns) + ", [player games] = [player games] + 1 WHERE username = \"" + username + "\"; ";
+	res = sqlite3_exec(this->database, sqlUpdateQuery.c_str(), nullptr, nullptr, errMessage);
+	if (res != SQLITE_OK)
+	{
+		throw std::exception(*errMessage);
+	}
 }

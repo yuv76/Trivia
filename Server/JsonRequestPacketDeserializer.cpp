@@ -134,3 +134,28 @@ CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(st
 
 	return info;
 }
+
+/*
+deserializes a submit answer request.
+in: the bytes vector buffer containing the submit answer message.
+out: SubmitAnswerRequest struct presenting the request.
+*/
+SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(std::vector<std::uint8_t> buffer)
+{
+	SubmitAnswerRequest info;
+	json jsonBuf;
+	int id = 0;
+
+	// remove the code and len from the vector.
+	buffer.erase(buffer.begin(), buffer.begin() + MSG_HEADER);
+	// convert the recieved bytes to a string.
+	std::string jsonStr(buffer.begin(), buffer.end());
+	//convert the string to json.
+	jsonBuf = json::parse(jsonStr);
+
+	//answerId
+	info.answerId = jsonBuf["answerId"];
+	info.answerTime = jsonBuf["ansTime"];
+
+	return info;
+}

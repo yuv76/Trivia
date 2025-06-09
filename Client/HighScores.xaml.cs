@@ -27,6 +27,11 @@ namespace Client
 
         public HighScores(double left, double top, double width, double height, WindowState windowstate)
         {
+            /*
+            high scores window C'tor.
+            in: the window's position (left, top, width, height, windowstate).
+            */
+
             InitializeComponent();
             Left = left;
             Top = top;
@@ -40,6 +45,12 @@ namespace Client
 
         private async void PutHighScores()
         {
+            /*
+            displays high scores from server in the window.
+            in: none.
+            out: none.
+            */
+
             List<string> recvdJson = await Communicator.topStatsAsync();
             if (recvdJson.Count > 0)
             {
@@ -92,6 +103,12 @@ namespace Client
 
         private void back_click(object sender, RoutedEventArgs e)
         {
+            /*
+            event for the back button click, returns user to statistics menu.
+            in: the sender, the event arguments.
+            out: none.
+            */
+
             statsMenu sigi = new statsMenu(Left, Top, Width, Height, WindowState);
             sigi.Show();
             _isClosedByX = false;
@@ -100,6 +117,12 @@ namespace Client
 
         protected override async void OnClosed(EventArgs e)
         {
+            /*
+            event handler for closing window, seperates client closing it from closing it to move to another window.
+            in: the sender (Button), the event arguments.
+            out: none.
+            */
+
             if (_isClosedByX)
             {
                 int ok = await Communicator.signoutAsync();
@@ -108,7 +131,12 @@ namespace Client
 
         private void PutName()
         {
-            string temp = "hello " + Communicator.getName();
+            /*
+            displays connected user's username in the name textBlock.
+            in&out: none.
+            */
+
+            string temp = "Hello " + Communicator.getName();
             name.Text = temp;
         }
     }
